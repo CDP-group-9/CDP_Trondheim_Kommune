@@ -1,0 +1,124 @@
+databases:
+  - name: CDP_Trondheim_Kommune-postgres
+    databaseName: CDP_Trondheim_Kommune
+    plan: free
+    user: CDP_Trondheim_Kommune
+
+services:
+  - type: keyvalue
+    name: CDP_Trondheim_Kommune-redis
+    plan: free
+    ipAllowList: [] # only allow internal connections
+
+  - type: web
+    name: CDP_Trondheim_Kommune
+    plan: free
+    runtime: python
+    buildCommand: "./render_build.sh"
+    startCommand: "poetry run gunicorn CDP_Trondheim_Kommune.wsgi:application --chdir backend --limit-request-line 8188 --log-file -"
+    envVars:
+      - key: ENABLE_DJANGO_COLLECTSTATIC
+        value: 1
+      - key: AUTO_MIGRATE
+        value: 1
+      - key: DATABASE_URL
+        fromDatabase:
+          name: CDP_Trondheim_Kommune-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: CDP_Trondheim_Kommune-redis
+          property: connectionString
+      - key: SECRET_KEY
+        sync: false
+      - fromGroup: python-services
+      - fromGroup: integrations-credentials
+
+  # As there aren't free plans for Workers in Render, the configuration for
+  # celery workers/beat will be commented by default
+  #
+  # - type: worker
+  #   name: worker-default
+  #   runtime: python
+  #   env: python
+  #   buildCommand: poetry install
+  #   startCommand: "poetry run celery --workdir backend --app=CDP_Trondheim_Kommune worker --loglevel=info --max-memory-per-child=$WORKER_MAX_MEMORY  --concurrency=$WORKER_CONCURRENCY"
+  #   envVars:
+  #     - key: REMAP_SIGTERM
+  #       value: SIGQUIT
+  #     - key: CELERY_BROKER_POOL_LIMIT
+  #       value: 1
+  #     - key: CELERY_BROKER_CONNECTION_TIMEOUT
+  #       value: 30.0
+  #     - key: CELERY_REDIS_MAX_CONNECTIONS
+  #       value: null
+  #     - key: CELERY_TASK_ACKS_ON_FAILURE_OR_TIMEOUT
+  #       value: true
+  #     - key: CELERY_TASK_REJECT_ON_WORKER_LOST
+  #       value: false
+  #     - key: CELERY_WORKER_PREFETCH_MULTIPLIER
+  #       value: 1
+  #     - key: CELERY_WORKER_CONCURRENCY
+  #       value: null
+  #     - key: CELERY_WORKER_MAX_TASKS_PER_CHILD
+  #       value: 1000
+  #     - key: CELERY_WORKER_SEND_TASK_EVENTS
+  #       value: true
+  #     - key: CELERY_EVENT_QUEUE_EXPIRES
+  #       value: 60.0
+  #     - key: CELERY_EVENT_QUEUE_TTL
+  #       value: 5.0
+  #     - key: WORKER_MAX_MEMORY
+  #       sync: false
+  #     - key: WORKER_CONCURRENCY
+  #       sync: false
+  #     - key: DATABASE_URL
+  #       fromDatabase:
+  #         name: CDP_Trondheim_Kommune-postgres
+  #         property: connectionString
+  #     - key: REDIS_URL
+  #       fromService:
+  #         type: redis
+  #         name: CDP_Trondheim_Kommune-redis
+  #         property: connectionString
+  #     - fromGroup: python-services
+  #     - fromGroup: integrations-credentials
+  # - type: worker
+  #   name: beat
+  #   runtime: python
+  #   env: python
+  #   buildCommand: poetry install
+  #   startCommand: "poetry run celery --workdir backend --app=CDP_Trondheim_Kommune beat --loglevel=info"
+  #   envVars:
+  #     - key: REMAP_SIGTERM
+  #       value: SIGQUIT
+  #     - key: DATABASE_URL
+  #       fromDatabase:
+  #         name: CDP_Trondheim_Kommune-postgres
+  #         property: connectionString
+  #     - key: REDIS_URL
+  #       fromService:
+  #         type: redis
+  #         name: CDP_Trondheim_Kommune-redis
+  #         property: connectionString
+  #     - fromGroup: python-services
+  #     - fromGroup: integrations-credentials
+
+envVarGroups:
+  - name: python-services
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: POETRY_VERSION
+        value: 2.0.1
+      - key: DJANGO_SETTINGS_MODULE
+        value: CDP_Trondheim_Kommune.settings.production
+      - key: ALLOWED_HOSTS
+        value: '*'
+  - name: integrations-credentials
+    envVars:
+      - key: SENDGRID_USERNAME
+        value: apikey
+      - key: SENDGRID_PASSWORD
+        value: placeholder-value
