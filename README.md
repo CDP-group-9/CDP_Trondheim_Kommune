@@ -93,27 +93,9 @@ Also, includes a Render.com `render.yaml` and a working Django `production.py` s
 -   `whitenoise` and `brotlipy` for serving static assets
 
 ## Project bootstrap [![main](https://github.com/vintasoftware/django-react-boilerplate/actions/workflows/main.yml/badge.svg)](https://github.com/vintasoftware/django-react-boilerplate/actions/workflows/main.yml) [![Known Vulnerabilities](https://snyk.io/test/github/vintasoftware/django-react-boilerplate/badge.svg)](https://snyk.io/test/github/vintasoftware/django-react-boilerplate)
-
--   [ ] Make sure you have Python 3.12 installed
+ 
+- [ ] Make sure you have Python 3.12 installed
 -   [ ] Install Django with `pip install django`, to have the `django-admin` command available
--   [ ] Open the command line and go to the directory you want to start your project in
--   [ ] Start your project using (replace `project_name` with your project name and remove the curly braces):
-    ```
-    django-admin startproject CDP_Trondheim_Kommune --extension py,json,yml,yaml,toml --name Dockerfile,README.md,.env.example,.gitignore,Makefile --template=https://github.com/vintasoftware/django-react-boilerplate/archive/refs/heads/main.zip
-    ```
-    Alternatively, you may start the project in the current directory by placing a `.` right after the project name, using the following command:
-    ```
-    django-admin startproject CDP_Trondheim_Kommune . --extension py,json,yml,yaml,toml --name Dockerfile,README.md,.env.example,.gitignore,Makefile --template=https://github.com/vintasoftware/django-react-boilerplate/archive/refs/heads/main.zip
-    ```
-In the next steps, always remember to replace CDP_Trondheim_Kommune with your project's name (in case it isn't yet):
--   [ ] Above: don't forget the `--extension` and `--name` params!
--   [ ] Go into project's root directory: `cd CDP_Trondheim_Kommune`
--   [ ] Change the first line of README to the name of the project
--   [ ] Add an email address to the `ADMINS` settings variable in `CDP_Trondheim_Kommune/backend/CDP_Trondheim_Kommune/settings/base.py`
--   [ ] Change the `SERVER_EMAIL` to the email address used to send e-mails in `CDP_Trondheim_Kommune/backend/CDP_Trondheim_Kommune/settings/production.py`
-
-After completing ALL of the above, remove this `Project bootstrap` section from the project README. Then follow `Running` below.
-
 ## Running
 
 ### Tools
