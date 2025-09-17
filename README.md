@@ -93,12 +93,15 @@ Also, includes a Render.com `render.yaml` and a working Django `production.py` s
 -   `whitenoise` and `brotlipy` for serving static assets
 
 ## Project bootstrap [![main](https://github.com/vintasoftware/django-react-boilerplate/actions/workflows/main.yml/badge.svg)](https://github.com/vintasoftware/django-react-boilerplate/actions/workflows/main.yml) [![Known Vulnerabilities](https://snyk.io/test/github/vintasoftware/django-react-boilerplate/badge.svg)](https://snyk.io/test/github/vintasoftware/django-react-boilerplate)
- 
-- [ ] Make sure you have Python 3.12 installed
--   [ ] Install Django with `pip install django`, to have the `django-admin` command available
+### Prerequisites
+- Make sure you have Python 3.12 installed
+- Install Django with `pip install django`, to have the `django-admin` command available
+- Poetry (dependency manager for Python): follow [these instructions](https://python-poetry.org/docs/#installing-with-pipx)
+
 ## Running
 
-### Tools
+### Toolspython3 -m venv venv
+
 
 -   Setup [editorconfig](http://editorconfig.org/), [ruff](https://github.com/astral-sh/ruff) and [ESLint](http://eslint.org/) in the text editor you will use to develop.
 
@@ -110,7 +113,40 @@ Also, includes a Render.com `render.yaml` and a working Django `production.py` s
     -   Create a git-untracked `.env.example` file:
         `cp backend/.env.example backend/.env`
 
-### If you are using Docker:
+#### One-time per developer machine
+- Install Docker Desktop.
+- First-time project setup (build images, create named volumes, install deps into images):
+```bash
+  make docker_setup 
+```
+_This is local to each machine (images/volumes aren’t shared)._
+
+#### Every time you pull changes (per dev machine)
+- Apply DB migrations inside containers:
+  ```bash
+    make docker_migrate 
+  ```
+- If dependencies changed (lockfiles or Dockerfiles changed), rebuild/update:
+  ```bash
+  make docker_update_dependencies
+  ```
+  
+#### Daily dev loop
+1. Start the stack:
+    ```bash
+      make docker_up
+    ```
+2. View logs as needed:
+    ```bash
+      make docker_logs backend
+      make docker_logs frontend
+    ```
+3. Stop when done:
+    ```bash
+      make docker_down
+    ```
+
+### If you are using Docker
 
 -   Open the `backend/.env` file on a text editor and uncomment the line `DATABASE_URL=postgres://CDP_Trondheim_Kommune:password@db:5432/CDP_Trondheim_Kommune`
 -   Open a new command line window and go to the project's directory
