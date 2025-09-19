@@ -230,6 +230,23 @@ _This is local to each machine (images/volumes aren’t shared)._
     -   For non-Docker users, please have a look [here](https://github.com/mailhog/MailHog#installation) for instructions on how to setup Mailhog on specific environments
         > The project expects Mailhog SMTP server to be running on port 1025, you may alter that by changing `EMAIL_PORT` on settings
 
+### Poetry
+In order to use the enviroment, the python dependency manager 'poetry' must be installed.
+For Ubuntu/Linux:
+`sudo apt install python3-poetry`
+
+With Homebrew:
+`brew install poetry`
+
+On Windows, one can use pipx:
+```shell
+python -m pip install --user pipx
+python -m pipx ensurepath
+pipx install poetry
+```
+
+In order to add the dependencies:
+`poetry update`
 ### Testing
 
 `make test`
