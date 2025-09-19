@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import cookie from "cookie";
+import { parse, serialize } from "cookie";
 
 import { OpenAPI } from "./api";
 import Home from "./pages/Home";
