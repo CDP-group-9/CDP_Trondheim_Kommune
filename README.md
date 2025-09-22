@@ -96,7 +96,7 @@ Also, includes a Render.com `render.yaml` and a working Django `production.py` s
 ### Prerequisites
 - Make sure you have Python 3.12 installed
 - Install Django with `pip install django`, to have the `django-admin` command available
-- Poetry (dependency manager for Python): follow [these instructions](https://python-poetry.org/docs/#installing-with-pipx)
+- Poetry (dependency manager for Python): follow [these instructions](https://python-poetry.org/docs/#installing-with-pipx) or see [simplified instructions below](#poetry)
 
 ## Running
 
@@ -146,7 +146,7 @@ _This is local to each machine (images/volumes aren’t shared)._
       make docker_down
     ```
 
-### If you are using Docker
+### Setup with Docker
 
 -   Open the `backend/.env` file on a text editor and uncomment the line `DATABASE_URL=postgres://CDP_Trondheim_Kommune:password@db:5432/CDP_Trondheim_Kommune`
 -   Open a new command line window and go to the project's directory
@@ -176,59 +176,6 @@ _This is local to each machine (images/volumes aren’t shared)._
     -   To add a new **backend** dependency, run `docker compose run --rm backend bash` to open an interactive shell and then run `poetry add {dependency}` to add the dependency. If the dependency should be only available for development user append `-G dev` to the command.
     -   After updating the desired file(s), run `make docker_update_dependencies` to update the containers with the new dependencies
         > The above command will stop and re-build the containers in order to make the new dependencies effective
-
-### If you are not using Docker:
-
-#### Setup the backend app
-
--   Open the `backend/.env` file on a text editor and do one of the following:
-    -   If you wish to use SQLite locally, uncomment the line `DATABASE_URL=sqlite:///db.sqlite3`
-    -   If you wish to use PostgreSQL locally, uncomment and edit the line `DATABASE_URL=postgres://CDP_Trondheim_Kommune:password@db:5432/CDP_Trondheim_Kommune` in order to make it correctly point to your database URL
-        -   The url format is the following: `postgres://USER:PASSWORD@HOST:PORT/NAME`
-    -   If you wish to use another database engine locally, add a new `DATABASE_URL` setting for the database you wish to use
-        -   Please refer to [dj-database-url](https://github.com/jazzband/dj-database-url#url-schema) on how to configure `DATABASE_URL` for commonly used engines
--   Open a new command line window and go to the project's directory
--   Run `poetry install`
-
-#### Run the backend app
-
--   Go to the `backend` directory
--   Create the migrations for `users` app:
-    `poetry run python manage.py makemigrations`
--   Run the migrations:
-    `poetry run python manage.py migrate`
--   Generate the OpenAPI schema:
-    `poetry run python manage.py spectacular --color --file schema.yml`
--   Run the project:
-    `poetry run python manage.py runserver`
-
-#### Setup and run the frontend app
-
--   Open a new command line window and go to the project's directory
--   `npm install`
--   `npm run openapi-ts`
-    -   This is used to generate the TypeScript client API code from the backend OpenAPI schema
--   `npm run dev`
-    -   This is used to serve the frontend assets to be consumed by [django-webpack-loader](https://github.com/django-webpack/django-webpack-loader) and not to run the React application as usual, so don't worry if you try to check what's running on port 3000 and see an error on your browser
--   Open a browser and go to `http://localhost:8000` to see the project running
-
-#### Setup Celery
-
--   `poetry run celery --app=CDP_Trondheim_Kommune worker --loglevel=info`
-
-#### Setup Redis
-
--   Ensure that Redis is already installed on your system. Once confirmed, run `redis-server --port 6379` to start the Redis server.
--   If you wish to use Redis for Celery, you need to set the `CELERY_BROKER_URL` environment variable in the `backend/.env` file to `redis://localhost:6379/0`.
-    -   The `/0` at the end of the URL specifies the database number on the Redis server. Redis uses a zero-based numbering system for databases, so `0` is the first database. If you don't specify a database number, Redis will use the first database by default.
-    -   Note: Prefer RabbitMQ over Redis for Broker, mainly because RabbitMQ doesn't need visibility timeout. See [Recommended Celery Django settings for reliability](https://gist.github.com/fjsj/da41321ac96cf28a96235cb20e7236f6).
-
-#### Mailhog
-
--   For development, we use Mailhog to test our e-mail workflows, since it allows us to inspect the messages to validate they're correctly built
-    -   Docker users already have it setup and running once they start the project
-    -   For non-Docker users, please have a look [here](https://github.com/mailhog/MailHog#installation) for instructions on how to setup Mailhog on specific environments
-        > The project expects Mailhog SMTP server to be running on port 1025, you may alter that by changing `EMAIL_PORT` on settings
 
 ### Poetry
 In order to use the enviroment, the python dependency manager 'poetry' must be installed.
