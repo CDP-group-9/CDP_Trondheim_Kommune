@@ -77,7 +77,7 @@ In order to use the dev environment, the python dependency manager `poetry` must
     node -v
     npm -v
     ```
-  - Go to `/frontend`and run
+  - Make sure you are at root level and run
     ```
     npm install
     ```
@@ -150,7 +150,7 @@ For VSCode or other IDE: Install the Extensions for the following;
     ```
     make docker_frontend_update_api
     ```
-5. If `package.json` is changed: Go to `/frontend`and re-run
+5. If `package.json` is changed: Go to root level and re-run
     ```
     npm install
     ```
