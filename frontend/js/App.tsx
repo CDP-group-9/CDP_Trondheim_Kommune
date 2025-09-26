@@ -3,6 +3,7 @@ import { parse, serialize } from "cookie";
 
 import { OpenAPI } from "./api";
 import Home from "./pages/Home";
+import "../css/globals.css"
 
 OpenAPI.interceptors.request.use((request) => {
   const { csrftoken } = cookie.parse(document.cookie);

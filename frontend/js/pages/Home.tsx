@@ -6,7 +6,6 @@ import { Button } from "../components/ui/button";
 import { Checkbox } from "../components/ui/checkbox";
 import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar";
 import { AppSidebar } from "../components/ui/app-sidebar";
-import "../../css/globals.css";
 
 const Home = () => {
   const [showBugComponent, setShowBugComponent] = useState(false);
