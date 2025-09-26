@@ -43,18 +43,19 @@ This Project is setup using Django and React frameworks. If you're a Developer, 
 
 1. Create a git-untracked `local.py` settings file by copying the `local.py.example` file:
     ```
-    backend/CDP_Trondheim_Kommune/settings/local.py.example backend/CDP_Trondheim_Kommune/settings/local.py
+    backend/CDP_Trondheim_Kommune/settings/local.py.example
+    backend/CDP_Trondheim_Kommune/settings/local.py
     ```
 2. Create a git-untracked `.env` file by copying the `.env.example` file:
     ```
-    backend/.env.example backend/.env.example
-    backend/.env.example backend/.env
+    backend/.env.example 
+    backend/.env
     ```
-3. Ensure you have docker desktop installed and running on your computer and "WHATEVERISREQUIREDFORMAKEFILE". 
+3. Ensure you have `docker desktop` installed and running on your computer and "WHATEVERISREQUIREDFORMAKEFILE". 
 
     (If you don't have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](Makefile))
 
-4. Open the `backend/.env` file you created and uncomment the line 
+4. Open the `backend/.env` file you created and <u>uncomment</u> the line 
 
     ```
     DATABASE_URL=postgres://CDP_Trondheim_Kommune:password@db:5432/CDP_Trondheim_Kommune
@@ -76,7 +77,7 @@ This Project is setup using Django and React frameworks. If you're a Developer, 
     	```
       make docker_up
       ```
-	- Access `http://localhost:8000` on your browser and the project should be running there
+	- Access `http://localhost:8000` on your browser and the project should be running there. If it doesn't, try with IP `127.0.0.1`
 
 	- To stop the project, run:
     	```
@@ -92,7 +93,6 @@ Links to:
 - [Detailed setup for Development](docs/dev.md)
 - [Detailed commands for dev testing, dependencies, GitHub actions ++](docs/assorted.md)
 - [Details of repository and techstack](docs/techStack.md)
-- 
 
 ## License and contact info
 
