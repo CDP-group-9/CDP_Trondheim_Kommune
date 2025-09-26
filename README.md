@@ -39,7 +39,7 @@ If you only want to run the application:
 
 ## Quick installation
 
-This Project is setup using Django and React frameworks. If you're a Developer, follow the instructions [here] instead. If you only want to quickly run the project application for the first time, follow the instructions below:
+This Project is setup using Django and React frameworks. If you're a Developer, follow the instructions [here](docs/dev.md) instead. If you only want to quickly run the project application for the first time, follow the instructions below:
 
 1. Create a git-untracked `local.py` settings file by copying the `local.py.example` file:
     ```
