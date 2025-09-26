@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 
 import DjangoImgSrc from "../../assets/images/django-logo-negative.png";
 import { RestService } from "../api";
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "../components/ui/button"
+import { Checkbox } from "../components/ui/checkbox"
 
 const Home = () => {
   const [showBugComponent, setShowBugComponent] = useState(false);

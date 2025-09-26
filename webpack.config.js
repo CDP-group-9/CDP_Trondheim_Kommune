@@ -74,13 +74,13 @@ module.exports = (env, argv) => {
         filename: "webpack-stats.json",
       }),
     ].filter(Boolean),
-    resolve: {
-      modules: [nodeModulesDir, path.resolve(__dirname, "frontend/js/")],
-      extensions: [".js", ".jsx", ".ts", ".tsx"],
-      alias: {
-        "@": path.resolve(__dirname, "frontend/@"),
+      resolve: {
+        alias: {
+          "@": path.resolve(__dirname, "frontend"), // or "frontend/js" depending on how you want it
+        },
+        modules: [nodeModulesDir, path.resolve(__dirname, "frontend/js/")],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
       },
-    },
     optimization: {
       minimize: !isDev,
       splitChunks: {

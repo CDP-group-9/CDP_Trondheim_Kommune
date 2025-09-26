@@ -1,13 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "frontend",
     "outDir": "build",
     "module": "esnext",
     "target": "ES2021",
-
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./frontend/*"]
-    },
     "allowJs": true,
     "baseUrl": "./",
     "esModuleInterop": true,
