@@ -14,8 +14,8 @@
     "components": "js/components",
     "utils": "js/lib/utils",
     "ui": "js/components/ui",
-    "lib": "@/lib",
-    "hooks": "@/hooks"
+    "lib": "js/lib",
+    "hooks": "js/hooks"
   },
   "iconLibrary": "lucide"
 }

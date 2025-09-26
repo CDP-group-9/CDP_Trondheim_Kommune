@@ -77,6 +77,8 @@ module.exports = (env, argv) => {
       resolve: {
         alias: {
           "js/lib/utils": path.resolve(__dirname, "frontend/js/lib/utils"),
+          "js/hooks": path.resolve(__dirname, "frontend/js/hooks"),
+          "js/components/ui": path.resolve(__dirname, "frontend/js/components/ui"),
           "./": path.resolve(__dirname, "frontend"), // or "frontend/js" depending on how you want it
         },
         modules: [nodeModulesDir, path.resolve(__dirname, "frontend/js/")],

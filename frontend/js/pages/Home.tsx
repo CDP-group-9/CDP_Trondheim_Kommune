@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 
 import DjangoImgSrc from "../../assets/images/django-logo-negative.png";
 import { RestService } from "../api";
-import { Button } from "../components/ui/button"
-import { Checkbox } from "../components/ui/checkbox"
-import "../../css/globals.css"
+import { Button } from "../components/ui/button";
+import { Checkbox } from "../components/ui/checkbox";
+import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar";
+import { AppSidebar } from "../components/ui/app-sidebar";
+import "../../css/globals.css";
 
 const Home = () => {
   const [showBugComponent, setShowBugComponent] = useState(false);
@@ -20,33 +22,41 @@ const Home = () => {
 
   return (
     <>
-      <h2 className="heading-2">Static assets</h2>
-      {<Button>Test!</Button>}
-      <Checkbox />
-      <div id="django-background">
-        If you are seeing the green Django logo on a white background and this
-        text color is #092e20, frontend static files serving is working:
-      </div>
-      <div id="django-logo-wrapper">
-        <div>
-          Below this text, you should see an img tag with the white Django logo
-          on a green background:
-        </div>
-        <img alt="Django Negative Logo" src={DjangoImgSrc} />
-      </div>
-      <h2 className="heading-2">Rest API</h2>
-      <p className="paragraph">{restCheck?.message}</p>
-      <button
-        className="btn"
-        type="button"
-        onClick={() => setShowBugComponent(true)}
-      >
-        Click to test if Sentry is capturing frontend errors! (Should only work
-        in Production)
-      </button>
-      {/* NOTE: The next line intentionally contains an error for testing frontend errors in Sentry. */}
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      {showBugComponent && (showBugComponent as any).field.notexist}
+      <SidebarProvider>
+        <AppSidebar />
+        <main>
+          <SidebarTrigger />
+          {/* Main content goes here */}
+          <h2 className="heading-2">Static assets</h2>
+          {<Button>Test!</Button>}
+          <Checkbox />
+          <div id="django-background">
+            If you are seeing the green Django logo on a white background and
+            this text color is #092e20, frontend static files serving is
+            working:
+          </div>
+          <div id="django-logo-wrapper">
+            <div>
+              Below this text, you should see an img tag with the white Django
+              logo on a green background:
+            </div>
+            <img alt="Django Negative Logo" src={DjangoImgSrc} />
+          </div>
+          <h2 className="heading-2">Rest API</h2>
+          <p className="paragraph">{restCheck?.message}</p>
+          <button
+            className="btn"
+            type="button"
+            onClick={() => setShowBugComponent(true)}
+          >
+            Click to test if Sentry is capturing frontend errors! (Should only
+            work in Production)
+          </button>
+          {/* NOTE: The next line intentionally contains an error for testing frontend errors in Sentry. */}
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {showBugComponent && (showBugComponent as any).field.notexist}
+        </main>
+      </SidebarProvider>
     </>
   );
 };
