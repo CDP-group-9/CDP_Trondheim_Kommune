@@ -89,7 +89,7 @@ This Project is setup using Django and React frameworks. If you're a Developer, 
 
 ## Links to detailed docs
 Links to: 
-- Detailed setup for Development
+- [Detailed setup for Development](docs/dev.md)
 - Detailed commands for dev testing, dependencies, GitHub actions, 
 - Details of repository and techstack
 - 
