@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "frontend",
+    // "baseUrl": "./frontend",
     "outDir": "build",
     "module": "esnext",
     "target": "ES2021",
@@ -10,7 +10,8 @@
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "noEmit": true,
-    "paths": { "*": ["./frontend/*", "./frontend/js/*"] },
+    "paths": { "*": ["./frontend/*", "./frontend/js/*"], 
+    "js/lib/utils": ["frontend/js/lib/utils"] },
     "skipLibCheck": true,
     "strict": true,
     "types": ["node", "jest", "@testing-library/jest-dom"]

@@ -4,6 +4,7 @@ import DjangoImgSrc from "../../assets/images/django-logo-negative.png";
 import { RestService } from "../api";
 import { Button } from "../components/ui/button"
 import { Checkbox } from "../components/ui/checkbox"
+import "../../css/globals.css"
 
 const Home = () => {
   const [showBugComponent, setShowBugComponent] = useState(false);
@@ -20,7 +21,7 @@ const Home = () => {
   return (
     <>
       <h2 className="heading-2">Static assets</h2>
-      {<Button variant="outline">Test!</Button>}
+      {<Button>Test!</Button>}
       <Checkbox />
       <div id="django-background">
         If you are seeing the green Django logo on a white background and this
