@@ -206,3 +206,6 @@ type: feat, fix, bug
 issuenumber: The *githubnumber* of the connected issue
 
 message: Short description of changes
+
+## Branch naming
+### Generate branch from github issue, remove the first number and -
