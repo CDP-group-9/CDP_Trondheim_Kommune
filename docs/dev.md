@@ -118,6 +118,11 @@ For VSCode or other IDE: Install the Extensions for the following;
       ```
       make docker_makemigrations
       ```
+      If you wish to do migration in other modules, it is recommended to run:
+      ```
+      docker compose run --rm backend python manage.py makemigrations <module_name>
+      ```
+      This is because Django has a well documented problem where it may not correctly identify all the modules needed for migration.
   - Run the migrations:
       ```
       make docker_migrate
