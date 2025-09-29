@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
+    // "baseUrl": "./frontend",
     "outDir": "build",
     "module": "esnext",
     "target": "ES2021",
-
     "allowJs": true,
     "baseUrl": "./",
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "noEmit": true,
-    "paths": { "*": ["./frontend/*", "./frontend/js/*"] },
+    "paths": { "*": ["./frontend/*", "./frontend/js/*"], 
+    "js/hooks/*": ["frontend/js/hooks/*"],
+    "js/components/ui/*": ["frontend/js/components/ui/*"],
+    "js/lib/utils": ["frontend/js/lib/utils"] },
     "skipLibCheck": true,
     "strict": true,
     "types": ["node", "jest", "@testing-library/jest-dom"]
