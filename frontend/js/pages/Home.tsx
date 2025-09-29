@@ -11,6 +11,7 @@ const Home = () => {
   const [showBugComponent, setShowBugComponent] = useState(false);
   const [restCheck, setRestCheck] =
     useState<Awaited<ReturnType<typeof RestService.restRestCheckRetrieve>>>();
+  const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
     async function onFetchRestCheck() {
@@ -18,6 +19,42 @@ const Home = () => {
     }
     onFetchRestCheck();
   }, []);
+
+  const getCookie = (name: string): string | null => {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  };
+
+  const handleClick = async () => {
+    try {
+      const csrftoken = getCookie("csrftoken");
+      const response = await fetch("http://localhost:8000/increment/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrftoken || "",
+        },
+      });
+      const data: { count?: number; error?: string } = await response.json();
+      if (response.ok && data.count !== undefined) {
+        setCount(data.count);
+      } else {
+        console.error(data.error || "Unknown error");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <>
@@ -27,7 +64,8 @@ const Home = () => {
           <SidebarTrigger />
           {/* Main content goes here */}
           <h2 className="heading-2">Static assets</h2>
-          {<Button>Test!</Button>}
+          {<Button onClick={handleClick}>Test!</Button>}
+          {count > 0 && <p>Button clicked {count} times</p>}
           <Checkbox />
           <div id="django-background">
             If you are seeing the green Django logo on a white background and
