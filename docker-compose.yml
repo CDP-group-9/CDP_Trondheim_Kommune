@@ -1,0 +1,68 @@
+services:
+  db:
+    image: "postgres:alpine"
+    environment:
+      - POSTGRES_USER=CDP_Trondheim_Kommune
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=CDP_Trondheim_Kommune
+    ports:
+      - "5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data:delegated
+
+  broker:
+    image: "rabbitmq:alpine"
+
+  result:
+    image: "redis:alpine"
+    ports:
+    - "6379:6379"
+
+  frontend:
+    build:
+      dockerfile: frontend/Dockerfile
+      context: .
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+
+  backend:
+    build:
+      dockerfile: backend/Dockerfile
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/home/user/app/
+    env_file: backend/.env
+    depends_on:
+      - db
+      - broker
+      - result
+      - frontend
+
+  celery:
+    build:
+      dockerfile: backend/Dockerfile
+      context: .
+    command: celery --app=CDP_Trondheim_Kommune worker --loglevel=info
+    volumes:
+      - ./:/home/user/app/
+    env_file: backend/.env
+    depends_on:
+      - db
+      - broker
+      - result
+
+  mailhog: # service for faking a SMTP server
+    image: mailhog/mailhog
+    ports:
+      - '1025:1025' # smtp server
+      - '8025:8025' # web ui
+
+volumes:
+  dbdata:
+    name: CDP_Trondheim_Kommune_dbdata
+    external: true
