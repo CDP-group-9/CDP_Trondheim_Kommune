@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { Check, Clock, DockIcon, Info, Plus, } from "lucide-react"
 
 import {
   Sidebar,
@@ -6,6 +6,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -14,41 +15,42 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Ny samtale",
     url: "#",
-    icon: Home,
+    icon: Plus,
   },
   {
-    title: "Inbox",
+    title: "Om personvern",
     url: "#",
-    icon: Inbox,
+    icon: Info,
   },
   {
-    title: "Calendar",
+    title: "Sjekkliste",
     url: "#",
-    icon: Calendar,
+    icon: Check,
   },
   {
-    title: "Search",
+    title: "Eksempler",
     url: "#",
-    icon: Search,
+    icon: DockIcon,
   },
   {
-    title: "Settings",
+    title: "Tidligere samtaler",
     url: "#",
-    icon: Settings,
+    icon: Clock,
   },
 ]
 
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
+      <SidebarHeader>
+        <SidebarGroupLabel style={{ fontSize: '20px', fontWeight: '600' }}>DASQ</SidebarGroupLabel>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu> 
+                {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
@@ -58,10 +60,11 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </SidebarHeader>
     </Sidebar>
   )
 }

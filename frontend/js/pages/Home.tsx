@@ -6,6 +6,7 @@ import { Button } from "../components/ui/button";
 import { Checkbox } from "../components/ui/checkbox";
 import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar";
 import { AppSidebar } from "../components/ui/app-sidebar";
+import { Textarea } from "../components/ui/textarea"
 
 const Home = () => {
   const [showBugComponent, setShowBugComponent] = useState(false);
@@ -47,7 +48,7 @@ const Home = () => {
         <main>
           <SidebarTrigger />
           {/* Main content goes here */}
-          <h2 className="heading-2">Static assets</h2>
+          {/* <h2 className="heading-2">Static assets</h2>
           {<Button onClick={handleClick}>Test!</Button>}
           {count > 0 && <p>Button clicked {count} times</p>}
           <Checkbox />
@@ -72,7 +73,10 @@ const Home = () => {
           >
             Click to test if Sentry is capturing frontend errors! (Should only
             work in Production)
-          </button>
+          </button> */}
+          <div className="fixed bottom-20 left-120 right-56">
+            <Textarea placeholder="Skriv noe her..." />
+          </div>
           {/* NOTE: The next line intentionally contains an error for testing frontend errors in Sentry. */}
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {showBugComponent && (showBugComponent as any).field.notexist}
