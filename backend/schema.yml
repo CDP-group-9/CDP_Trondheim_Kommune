@@ -4,6 +4,31 @@ info:
   version: 0.1.0
   description: A Django project boilerplate with Vinta's best practices
 paths:
+  /api/counter/increment/:
+    post:
+      operationId: counter_increment_create
+      tags:
+      - counter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Counter'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Counter'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Counter'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Counter'
+          description: ''
   /api/rest/rest-check/:
     get:
       operationId: rest_rest_check_retrieve
@@ -181,6 +206,18 @@ paths:
           description: No response body
 components:
   schemas:
+    Counter:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        value:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - id
     Message:
       type: object
       properties:
