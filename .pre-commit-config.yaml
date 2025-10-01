@@ -39,6 +39,7 @@ repos:
         files: \.(js|jsx|ts|tsx)$
         exclude: >
           (?x)^(
+            frontend/js/components/ui/.*|
             .+\.config\.js|
             .+\.setup\.js|
             \.eslintrc\.js
