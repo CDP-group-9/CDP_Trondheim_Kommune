@@ -4,14 +4,18 @@ import { Textarea } from "../components/ui/textarea";
 
 const Home = () => {
   return (
-    <div className="p-6">
+    <div className="p-6 h-full flex flex-col">
       <h1 className="text-2xl font-bold mb-4">Velkommen til DASQ</h1>
-      <div className="fixed top-70 left-120 right-56 mb-6">
-        <FourButtons />
-      </div>
-      <div className="grid gap-2 fixed bottom-20 left-120 right-56">
-        <Textarea placeholder="Skriv noe her..." />
-        <Button>Send</Button>
+
+      <div className="flex flex-col h-full items-center justify-center">
+        <div className="mb-6 max-w-lg mx-auto">
+          <FourButtons />
+        </div>
+
+        <div className="grid gap-2 max-w-lg w-full mx-auto">
+          <Textarea placeholder="Skriv noe her..." />
+          <Button>Send</Button>
+        </div>
       </div>
     </div>
   );

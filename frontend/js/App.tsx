@@ -7,6 +7,7 @@ import { AppSidebar } from "./components/ui/app-sidebar";
 import { SidebarProvider } from "./components/ui/sidebar";
 import { Checklist, Examples, History, Home, Privacy } from "./routes";
 import "../css/globals.css";
+import Footer from "./components/ui/footer";
 
 OpenAPI.interceptors.request.use((request) => {
   const { csrftoken } = parse(document.cookie);
@@ -22,15 +23,18 @@ const App = () => (
       <SidebarProvider>
         <div className="flex min-h-screen">
           <AppSidebar />
-          <main className="flex-1">
-            <Routes>
-              <Route element={<Home />} path="/" />
-              <Route element={<Privacy />} path="/privacy" />
-              <Route element={<Checklist />} path="/checklist" />
-              <Route element={<Examples />} path="/examples" />
-              <Route element={<History />} path="/history" />
-            </Routes>
-          </main>
+          <div className="flex flex-col flex-grow w-full">
+            <main className="flex-1">
+              <Routes>
+                <Route element={<Home />} path="/" />
+                <Route element={<Privacy />} path="/privacy" />
+                <Route element={<Checklist />} path="/checklist" />
+                <Route element={<Examples />} path="/examples" />
+                <Route element={<History />} path="/history" />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
         </div>
       </SidebarProvider>
     </BrowserRouter>
