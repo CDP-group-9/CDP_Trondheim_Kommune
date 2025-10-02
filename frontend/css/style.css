@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 /* Page container */
-.container {
+/* .container {
   @apply max-w-5xl mx-auto px-4;
-}
+} */
 
 /* Inline code */
 .inline-code {

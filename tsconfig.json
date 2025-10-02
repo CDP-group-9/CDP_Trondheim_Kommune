@@ -11,9 +11,10 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": { "*": ["./frontend/*", "./frontend/js/*"], 
-    "js/hooks/*": ["frontend/js/hooks/*"],
-    "js/components/ui/*": ["frontend/js/components/ui/*"],
-    "js/lib/utils": ["frontend/js/lib/utils"] },
+      "assets/*": ["frontend/assets/*"],
+      "js/hooks/*": ["frontend/js/hooks/*"],
+      "js/components/ui/*": ["frontend/js/components/ui/*"],
+      "js/lib/utils/*": ["frontend/js/lib/utils/*"] },
     "skipLibCheck": true,
     "strict": true,
     "types": ["node", "jest", "@testing-library/jest-dom"]
