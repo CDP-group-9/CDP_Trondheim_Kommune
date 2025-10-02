@@ -7,24 +7,18 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .serializers import MessageSerializer
+from .serializers import MessageSerializer, CounterSerializer
 from .models import Counter
-from django.http import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
 
-@ensure_csrf_cookie
-def get_csrf_token(request):
-    return JsonResponse({"detail": "CSRF cookie set"})
-
-def increment_counter(request):
-    if request.method == "POST":
+class CounterViewSet(viewsets.ViewSet):
+    serializer_class = CounterSerializer
+    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
+    def increment(self, request):
         counter, created = Counter.objects.get_or_create(id=1)
         counter.value += 1
         counter.save()
-        return JsonResponse({"count": counter.value})
-    else:
-        return JsonResponse({"error": "POST request required"}, status=400)
-
+        return Response({"count": counter.value}, status=status.HTTP_200_OK)
+    
 class IndexView(generic.TemplateView):
     template_name = "common/index.html"
 

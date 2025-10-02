@@ -20,30 +20,13 @@ const Home = () => {
     onFetchRestCheck();
   }, []);
 
-  const getCookie = (name: string): string | null => {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === name + "=") {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  };
 
   const handleClick = async () => {
     try {
-      const csrftoken = getCookie("csrftoken");
-      const response = await fetch("http://localhost:8000/increment/", {
+      const response = await fetch("http://localhost:8000/api/counter/increment/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          //"Accept": "application/json",
-          "X-CSRFToken": csrftoken || "",
         },
       });
       const data: { count?: number; error?: string } = await response.json();
