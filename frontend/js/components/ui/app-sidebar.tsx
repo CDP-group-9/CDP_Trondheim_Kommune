@@ -1,4 +1,5 @@
-import { Check, Clock, DockIcon, Info, Plus, } from "lucide-react"
+import { Check, Clock, DockIcon, Info, Plus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import {
   Sidebar,
@@ -10,61 +11,63 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./sidebar"
+} from "./sidebar";
 
 // Menu items.
 const items = [
   {
     title: "Ny samtale",
-    url: "#",
+    url: "/",
     icon: Plus,
   },
   {
     title: "Om personvern",
-    url: "#",
+    url: "/privacy",
     icon: Info,
   },
   {
     title: "Sjekkliste",
-    url: "#",
+    url: "/checklist",
     icon: Check,
   },
   {
     title: "Eksempler",
-    url: "#",
+    url: "/examples",
     icon: DockIcon,
   },
   {
     title: "Tidligere samtaler",
-    url: "#",
+    url: "/history",
     icon: Clock,
   },
-]
+];
 
 export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <SidebarGroupLabel style={{ fontSize: '20px', fontWeight: '600' }}>DASQ</SidebarGroupLabel>
+        <SidebarGroupLabel style={{ fontSize: "20px", fontWeight: "600" }}>
+          DASQ
+        </SidebarGroupLabel>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarMenu> 
+              <SidebarMenu>
                 {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link to={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
       </SidebarHeader>
     </Sidebar>
-  )
+  );
 }
