@@ -1,21 +1,34 @@
+import {
+  PersonalDataSection,
+  SensitiveDataSection,
+  LegalBasisSection,
+  DataSubjectRightsSection,
+  KeyPrinciplesSection,
+  ContactInfoSection,
+} from "../components/ui/privacy-sections";
+
 const Privacy = () => {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Om personvern</h1>
-      <div className="prose max-w-none">
-        <p>
-          Her finner du informasjon om hvordan vi behandler personopplysninger.
-        </p>
-        <h2 className="text-xl font-semibold mt-6 mb-3">Databehandling</h2>
-        <p>
-          Vi behandler personopplysninger i henhold til gjeldende
-          personvernlovgivning.
-        </p>
-        <h2 className="text-xl font-semibold mt-6 mb-3">Dine rettigheter</h2>
-        <p>
-          Du har rett til å få innsyn i, rette, slette og begrense behandlingen
-          av dine personopplysninger.
-        </p>
+    <div className="flex-1 overflow-y-auto px-6 py-4">
+      <div className="max-w-4xl mx-auto">
+        <header className="mb-8">
+          <h1 className="text-3xl font-medium mb-4">
+            Generell informasjon om personopplysninger
+          </h1>
+          <p className="text-muted-foreground max-w-3xl">
+            Grunnleggende informasjon om personopplysninger og personvern som er
+            relevant for alle ansatte i Trondheim Kommune.
+          </p>
+        </header>
+
+        <div className="space-y-8">
+          <PersonalDataSection />
+          <SensitiveDataSection />
+          <LegalBasisSection />
+          <DataSubjectRightsSection />
+          <KeyPrinciplesSection />
+          <ContactInfoSection />
+        </div>
       </div>
     </div>
   );

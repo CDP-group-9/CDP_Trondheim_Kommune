@@ -47,7 +47,12 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <SidebarGroupLabel style={{ fontSize: "20px", fontWeight: "600" }}>
-          DASQ
+          <a
+            className="font-medium text-gray-900 hover:text-gray-900/75 transition-colors cursor-pointer rounded-md px-1 py-1"
+            href="/"
+          >
+            DASQ
+          </a>
         </SidebarGroupLabel>
         <SidebarContent>
           <SidebarGroup>
