@@ -2,13 +2,15 @@ import * as Sentry from "@sentry/react";
 import { parse } from "cookie";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import trondheimLogo from "../assets/images/tk-logo-co.png";
+
 import { OpenAPI } from "./api";
 import { AppSidebar } from "./components/ui/app-sidebar";
+import Footer from "./components/ui/footer";
 import { SidebarProvider } from "./components/ui/sidebar";
 import { Checklist, Examples, History, Home, Privacy } from "./routes";
+
 import "../css/globals.css";
-import trondheimLogo from "../assets/images/tk-logo-co.png";
-import Footer from "./components/ui/footer";
 
 OpenAPI.interceptors.request.use((request) => {
   const { csrftoken } = parse(document.cookie);
@@ -23,16 +25,16 @@ const App = () => (
     <header className="bg-card px-4 py-3 flex items-center justify-between">
       <div className="flex items-center gap-4 ml-auto">
         <a
-          href="https://www.trondheim.kommune.no/"
-          target="_blank"
-          className="rounded-md cursor-pointer"
           aria-label="Gå til Trondheim Kommune sin hjemmeside (åpner i ny fane)"
+          className="rounded-md cursor-pointer"
+          href="https://www.trondheim.kommune.no/"
+          rel="noreferrer"
+          target="_blank"
         >
           <img
-            src={trondheimLogo}
             alt="Trondheim Kommune logo"
             className="h-8 object-contain hover:opacity-80 transition-opacity"
-            role="img"
+            src={trondheimLogo}
           />
         </a>
       </div>
