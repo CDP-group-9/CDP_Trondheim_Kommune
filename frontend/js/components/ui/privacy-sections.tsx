@@ -80,51 +80,6 @@ export const SensitiveDataSection = () => (
   </section>
 );
 
-export const LegalBasisSection = () => (
-  <section className="bg-card border border-border rounded-lg p-6">
-    <h2 className="text-xl font-medium mb-4 flex items-center gap-2">
-      ⚖️ Rettslig grunnlag for behandling
-    </h2>
-    <div className="space-y-4">
-      <p>
-        All behandling av personopplysninger må ha et rettslig grunnlag. For
-        offentlige virksomheter er de mest relevante:
-      </p>
-
-      <div className="grid gap-4">
-        <div className="border border-border rounded-lg p-4">
-          <h3 className="font-medium text-primary mb-2">
-            Art. 6(1)(e) - Utøvelse av offentlig myndighet
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            For behandling som er nødvendig for å utføre kommunens oppgaver som
-            offentlig myndighet.
-          </p>
-        </div>
-
-        <div className="border border-border rounded-lg p-4">
-          <h3 className="font-medium text-primary mb-2">
-            Art. 6(1)(c) - Rettslig forpliktelse
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            Når kommunen er pålagt av lov å behandle personopplysningene.
-          </p>
-        </div>
-
-        <div className="border border-border rounded-lg p-4">
-          <h3 className="font-medium text-primary mb-2">
-            Art. 6(1)(b) - Kontrakt
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            For behandling som er nødvendig for å oppfylle en kontrakt med den
-            registrerte.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
 export const DataSubjectRightsSection = () => (
   <section className="bg-card border border-border rounded-lg p-6">
     <h2 className="text-xl font-medium mb-4 flex items-center gap-2">

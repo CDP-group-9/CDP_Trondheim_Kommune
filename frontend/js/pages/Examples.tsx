@@ -15,14 +15,14 @@ const final = "Absolutt! Jeg kan hjelpe deg med å utforme en korrekt forespørs
 
 const Examples = () => {
   return (
-    <div className="flex justify-center pl-100 pt-20">
-      <div className="flex flex-col max-w-3xl">
-        <div>
+    <div className="flex justify-center py-4 mb-4">
+      <div className="flex flex-col max-w-4xl space-y-6">
+        <div className="text-center space-y-4">
           <h1 className="text-3xl font-medium">Eksempelsamtale</h1>
-          <p1 className="text-muted-foreground max-w-2xl mx-auto" >
+          <p className="text-muted-foreground max-w-2xl mx-auto" >
             Se hvordan datapersonvernsassistenten håndterer komplekse forespørsler med juridisk veiledning
             og referanser til relevant lovverk.
-          </p1>
+          </p>
         </div>
         <div className="border border-1 border-[#d5d8de] rounded-lg flex flex-col items-center gap-5 pt-10 pb-10">
           <ChatBox type="user" message={text1} />

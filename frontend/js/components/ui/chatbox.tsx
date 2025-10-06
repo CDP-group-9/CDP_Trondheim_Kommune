@@ -9,7 +9,7 @@ interface ChatBoxProps {
 const ChatBox = ({ type, message }: ChatBoxProps) => {
   return (
     <div
-      className={`flex gap-3 ${type === "user" ? "justify-end" : "justify-start"}`}
+      className={`flex gap-3 px-3 ${type === "user" ? "justify-end" : "justify-start"}`}
     >
       {type === "user" ? (
         <>
