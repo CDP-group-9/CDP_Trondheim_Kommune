@@ -76,6 +76,7 @@ module.exports = (env, argv) => {
     ].filter(Boolean),
       resolve: {
         alias: {
+          "assets": path.resolve(__dirname, "frontend/assets/"),
           "js/lib/utils": path.resolve(__dirname, "frontend/js/lib/utils"),
           "js/hooks": path.resolve(__dirname, "frontend/js/hooks"),
           "js/components/ui": path.resolve(__dirname, "frontend/js/components/ui"),

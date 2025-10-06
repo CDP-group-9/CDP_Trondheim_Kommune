@@ -19,6 +19,25 @@ import type {
   UsersDestroyResponse,
 } from "./types.gen";
 
+export class CounterService {
+  /**
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns Counter
+   * @throws ApiError
+   */
+  public static counterIncrementCreate(
+    data: CounterIncrementCreateData = {},
+  ): CancelablePromise<CounterIncrementCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/counter/increment/",
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+}
+
 export class RestService {
   /**
    * Check REST API

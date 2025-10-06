@@ -1,23 +1,9 @@
 @import "tailwindcss";
 
-/* Django background */
-#django-background {
-  @apply text-[#092e20] text-[11pt] bg-no-repeat bg-[auto_200px] bg-center h-[300px] bg-[url('../assets/images/django-logo-positive.png')];
-}
-
-/* Logo wrapper */
-#django-logo-wrapper {
-  @apply text-[#092e20] mb-4;
-}
-
-#django-logo-wrapper > img {
-  @apply w-[100px];
-}
-
 /* Page container */
-.container {
+/* .container {
   @apply max-w-5xl mx-auto px-4;
-}
+} */
 
 /* Inline code */
 .inline-code {
