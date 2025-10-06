@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { OpenAPI } from "./api";
 import { AppSidebar } from "./components/ui/app-sidebar";
 import { SidebarProvider } from "./components/ui/sidebar";
-import { Checklist, Examples, History, Home, Privacy } from "./routes";
+import { Checklist, Examples, Home, Privacy } from "./routes";
 import "../css/globals.css";
 import trondheimLogo from "../assets/images/tk-logo-co.png";
 import Footer from "./components/ui/footer";
@@ -48,7 +48,6 @@ const App = () => (
                 <Route element={<Privacy />} path="/privacy" />
                 <Route element={<Checklist />} path="/checklist" />
                 <Route element={<Examples />} path="/examples" />
-                <Route element={<History />} path="/history" />
               </Routes>
             </main>
             <Footer />

@@ -1,4 +1,4 @@
-import { Check, Clock, DockIcon, Info, Plus } from "lucide-react";
+import { Check, History, DockIcon, Info, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import {
@@ -35,11 +35,6 @@ const items = [
     url: "/examples",
     icon: DockIcon,
   },
-  {
-    title: "Tidligere samtaler",
-    url: "/history",
-    icon: Clock,
-  },
 ];
 
 export function AppSidebar() {
@@ -68,6 +63,10 @@ export function AppSidebar() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
+                <SidebarGroupLabel className="gap-2 mt-4 mb-2">
+                  <History />
+                  <span> Tidligere samtaler</span>
+                </SidebarGroupLabel>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
