@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.generic import TemplateView
 
 import django_js_reverse.views
 from common.routes import routes as common_routes
@@ -35,5 +36,14 @@ urlpatterns = [
         "api/schema/redoc/",
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
+    ),
+]
+
+# React SPA fallback route
+urlpatterns += [
+    re_path(
+        r"^(?!api/|admin/|static/|media/).*$",
+        TemplateView.as_view(template_name="common/index.html"),
+        name="react-entry",
     ),
 ]
