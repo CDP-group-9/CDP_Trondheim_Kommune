@@ -16,12 +16,8 @@
    Fonts: PT Sans (default UI/Body/Headings) and PT Serif (editorial)
    ------------------------------------------------------------------ */
 
-
-
-
 :root {
-  /* ---------- 2) Brand color tokens (from handbook) ---------- */
-  /* Core palette */
+  /* Color palette */
   --brand-yellow: #ffed00;
   --brand-orange: #f28b00;
   --brand-red:    #e41f1a;
@@ -66,7 +62,8 @@
   --font-serif: "PT Serif", ui-serif, Georgia, Cambria, "Times New Roman", serif;
 }
 
-/* Dark mode (only change what’s necessary for contrast) */
+/*  Dark mode (only change what’s necessary for contrast) */
+/* Valid because 50% darker/brighter version of color palette is allow */
 .dark {
   --background: #121417;
   --foreground: #f5f7fa;
@@ -89,7 +86,7 @@
   --ring: var(--brand-cyan);
 }
 
-/* ---------- 3) Tailwind v4 @theme mappings ---------- */
+/* === Tailwind v4 @theme mappings === */
 @theme inline {
   /* Semantic roles map to CSS vars used by shadcn */
   --color-background: var(--background);
@@ -112,7 +109,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Expose the brand palette as utilities (e.g., text-brand-blue) */
+  /* Expose the brand palette as utilities */
   --color-brand-yellow: var(--brand-yellow);
   --color-brand-orange: var(--brand-orange);
   --color-brand-red:    var(--brand-red);
@@ -125,7 +122,7 @@
   --color-brand-gray:   var(--brand-gray);
 }
 
-/* ---------- 4) Base + Typography from handbook ---------- */
+/* ---------- Base + Typography from handbook ---------- */
 @layer base {
   html { font-size: 100%; } /* 16px */
   body { @apply bg-background text-foreground antialiased; font-family: var(--font-sans); }
