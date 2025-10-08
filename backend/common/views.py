@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from django.views import generic
 
 from drf_spectacular.utils import OpenApiExample, extend_schema
@@ -7,18 +6,21 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .serializers import MessageSerializer, CounterSerializer
 from .models import Counter
+from .serializers import CounterSerializer, MessageSerializer
+
 
 class CounterViewSet(viewsets.ViewSet):
     serializer_class = CounterSerializer
+
     @action(detail=False, methods=["post"], permission_classes=[AllowAny])
     def increment(self, request):
         counter, created = Counter.objects.get_or_create(id=1)
         counter.value += 1
         counter.save()
         return Response({"count": counter.value}, status=status.HTTP_200_OK)
-    
+
+
 class IndexView(generic.TemplateView):
     template_name = "common/index.html"
 

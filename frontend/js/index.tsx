@@ -7,8 +7,8 @@ import "../css/trk-theme.css";
 import "../css/style.css";
 
 Sentry.init({
-	dsn: window.SENTRY_DSN,
-	release: window.COMMIT_SHA,
+  dsn: window.SENTRY_DSN,
+  release: window.COMMIT_SHA,
 });
 
 const root = createRoot(document.getElementById("react-app") as HTMLElement);

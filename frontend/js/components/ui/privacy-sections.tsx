@@ -1,7 +1,10 @@
 export const PersonalDataSection = () => (
   <section className="bg-card border border-border rounded-lg p-6">
     <h2 className="text-xl font-medium mb-4 flex items-center gap-2">
-      🔍 Hva er personopplysninger?
+      <span aria-label="Magnifying glass" role="img">
+        🔍
+      </span>{" "}
+      Hva er personopplysninger?
     </h2>
     <div className="space-y-4">
       <p>
@@ -43,7 +46,10 @@ export const PersonalDataSection = () => (
 export const SensitiveDataSection = () => (
   <section className="bg-card border border-border rounded-lg p-6">
     <h2 className="text-xl font-medium mb-4 flex items-center gap-2">
-      ⚠️ Særlige kategorier personopplysninger
+      <span aria-label="Warning triangle" role="img">
+        ⚠️
+      </span>{" "}
+      Særlige kategorier personopplysninger
     </h2>
     <div className="space-y-4">
       <p>
@@ -83,7 +89,10 @@ export const SensitiveDataSection = () => (
 export const DataSubjectRightsSection = () => (
   <section className="bg-card border border-border rounded-lg p-6">
     <h2 className="text-xl font-medium mb-4 flex items-center gap-2">
-      🛡️ De registrertes rettigheter
+      <span aria-label="Shield" role="img">
+        🛡️
+      </span>{" "}
+      De registrertes rettigheter
     </h2>
     <div className="space-y-4">
       <p>
@@ -93,7 +102,9 @@ export const DataSubjectRightsSection = () => (
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-3">
           <div className="flex items-start gap-3">
-            <span className="text-primary">📋</span>
+            <span aria-label="Clipboard" className="text-primary" role="img">
+              📋
+            </span>
             <div>
               <h3 className="font-medium">Rett til informasjon</h3>
               <p className="text-sm text-muted-foreground">
@@ -103,7 +114,9 @@ export const DataSubjectRightsSection = () => (
           </div>
 
           <div className="flex items-start gap-3">
-            <span className="text-primary">👁️</span>
+            <span aria-label="Eye" className="text-primary" role="img">
+              👁️
+            </span>
             <div>
               <h3 className="font-medium">Rett til innsyn</h3>
               <p className="text-sm text-muted-foreground">
@@ -113,7 +126,9 @@ export const DataSubjectRightsSection = () => (
           </div>
 
           <div className="flex items-start gap-3">
-            <span className="text-primary">✏️</span>
+            <span aria-label="Pencil" className="text-primary" role="img">
+              ✏️
+            </span>
             <div>
               <h3 className="font-medium">Rett til retting</h3>
               <p className="text-sm text-muted-foreground">
@@ -123,7 +138,9 @@ export const DataSubjectRightsSection = () => (
           </div>
 
           <div className="flex items-start gap-3">
-            <span className="text-primary">🗑️</span>
+            <span aria-label="Trash bin" className="text-primary" role="img">
+              🗑️
+            </span>
             <div>
               <h3 className="font-medium">Rett til sletting</h3>
               <p className="text-sm text-muted-foreground">
@@ -135,7 +152,9 @@ export const DataSubjectRightsSection = () => (
 
         <div className="space-y-3">
           <div className="flex items-start gap-3">
-            <span className="text-primary">⏸️</span>
+            <span aria-label="Pause symbol" className="text-primary" role="img">
+              ⏸️
+            </span>
             <div>
               <h3 className="font-medium">Rett til begrensning</h3>
               <p className="text-sm text-muted-foreground">
@@ -145,7 +164,13 @@ export const DataSubjectRightsSection = () => (
           </div>
 
           <div className="flex items-start gap-3">
-            <span className="text-primary">📤</span>
+            <span
+              aria-label="Upload symbol"
+              className="text-primary"
+              role="img"
+            >
+              📤
+            </span>
             <div>
               <h3 className="font-medium">Rett til dataportabilitet</h3>
               <p className="text-sm text-muted-foreground">
@@ -155,7 +180,13 @@ export const DataSubjectRightsSection = () => (
           </div>
 
           <div className="flex items-start gap-3">
-            <span className="text-primary">🚫</span>
+            <span
+              aria-label="Prohibited symbol"
+              className="text-primary"
+              role="img"
+            >
+              🚫
+            </span>
             <div>
               <h3 className="font-medium">Rett til motsette seg</h3>
               <p className="text-sm text-muted-foreground">
@@ -165,7 +196,9 @@ export const DataSubjectRightsSection = () => (
           </div>
 
           <div className="flex items-start gap-3">
-            <span className="text-primary">🤖</span>
+            <span aria-label="Robot" className="text-primary" role="img">
+              🤖
+            </span>
             <div>
               <h3 className="font-medium">
                 Rettigheter ved automatiserte avgjørelser
@@ -184,83 +217,43 @@ export const DataSubjectRightsSection = () => (
 export const KeyPrinciplesSection = () => (
   <section className="bg-card border border-border rounded-lg p-6">
     <h2 className="text-xl font-medium mb-4 flex items-center gap-2">
-      📊 Grunnprinsipper for personvernbehandling
+      <span aria-label="Bar chart" role="img">
+        📊
+      </span>{" "}
+      Grunnprinsipper for personvernbehandling
     </h2>
     <div className="space-y-4">
       <p>GDPR bygger på syv grunnprinsipper som alltid må følges:</p>
 
       <div className="grid gap-3">
-        <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-          <span className="text-lg">1️⃣</span>
-          <div>
-            <h3 className="font-medium">Lovlighet, rettferdighet og gjennomsiktig</h3>
-            <p className="text-sm text-muted-foreground">
-              Behandling må ha rettslig grunnlag og være åpen for den
-              registrerte
-            </p>
+        {[
+          "Lovlighet, rettferdighet og gjennomsiktig",
+          "Formålsbegrensning",
+          "Dataminimering",
+          "Riktighet",
+          "Lagringsbegrensning",
+          "Integritet og konfidensialitet",
+          "Ansvarlighet",
+        ].map((title, index) => (
+          <div
+            key={index}
+            className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg"
+          >
+            <span
+              aria-label={`Principle ${index + 1}`}
+              className="text-lg"
+              role="img"
+            >
+              {`${index + 1}️⃣`}
+            </span>
+            <div>
+              <h3 className="font-medium">{title}</h3>
+              <p className="text-sm text-muted-foreground">
+                {/* Add real descriptions if needed here */}
+              </p>
+            </div>
           </div>
-        </div>
-
-        <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-          <span className="text-lg">2️⃣</span>
-          <div>
-            <h3 className="font-medium">Formålsbegrensning</h3>
-            <p className="text-sm text-muted-foreground">
-              Data kan kun brukes til spesifikke, uttrykkelige og legitime
-              formål
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-          <span className="text-lg">3️⃣</span>
-          <div>
-            <h3 className="font-medium">Dataminimering</h3>
-            <p className="text-sm text-muted-foreground">
-              Kun samle og behandle data som er nødvendig for formålet
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-          <span className="text-lg">4️⃣</span>
-          <div>
-            <h3 className="font-medium">Riktighet</h3>
-            <p className="text-sm text-muted-foreground">
-              Data må være korrekte og oppdaterte
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-          <span className="text-lg">5️⃣</span>
-          <div>
-            <h3 className="font-medium">Lagringsbegrensning</h3>
-            <p className="text-sm text-muted-foreground">
-              Data skal ikke lagres lenger enn nødvendig
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-          <span className="text-lg">6️⃣</span>
-          <div>
-            <h3 className="font-medium">Integritet og konfidensialitet</h3>
-            <p className="text-sm text-muted-foreground">
-              Sikre data mot uautorisert tilgang og tap
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
-          <span className="text-lg">7️⃣</span>
-          <div>
-            <h3 className="font-medium">Ansvarlighet</h3>
-            <p className="text-sm text-muted-foreground">
-              Kunne dokumentere at alle prinsipper følges
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   </section>
@@ -269,7 +262,10 @@ export const KeyPrinciplesSection = () => (
 export const ContactInfoSection = () => (
   <section className="bg-primary/5 border border-primary/20 rounded-lg p-6">
     <h2 className="text-xl font-medium mb-4 flex items-center gap-2">
-      📞 Trenger du mer hjelp?
+      <span aria-label="Phone" role="img">
+        📞
+      </span>{" "}
+      Trenger du mer hjelp?
     </h2>
     <div className="space-y-3">
       <p>
