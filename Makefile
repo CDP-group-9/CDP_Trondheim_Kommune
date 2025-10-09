@@ -22,11 +22,11 @@ docker_setup:
 	docker compose run --rm frontend npm install
 	docker compose run --rm frontend npm run openapi-ts
 
-# Omit $(ARG) when running the script manually, or replace with specific test target
+# Omit $(ARG) when running the command manually, or replace with specific test target
 docker_test:
 	docker compose run --rm backend python manage.py test $(ARG) --parallel --keepdb
 
-# Omit $(ARG) when running the script manually, or replace with specific test target
+# Omit $(ARG) when running the command manually, or replace with specific test target
 docker_test_reset:
 	docker compose run --rm backend python manage.py test $(ARG) --parallel
 
