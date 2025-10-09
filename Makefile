@@ -44,6 +44,7 @@ docker_update_dependencies:
 docker_down:
 	docker compose down
 
+# Omit $(ARG) when running the command manually, or replace with specific service name
 docker_logs:
 	docker compose logs -f $(ARG)
 
