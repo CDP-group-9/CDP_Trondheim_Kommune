@@ -1,9 +1,16 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require("path");
 
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  extends: ["vinta/recommended-typescript"],
+  plugins: ["prettier", "@typescript-eslint", "react"],
+  extends: [
+    "vinta/recommended-typescript",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+  ],
   rules: {
     "import/extensions": [
       "error",
@@ -15,6 +22,8 @@ module.exports = {
         tsx: "never",
       },
     ],
+    "prettier/prettier": "warn",
+    "react/react-in-jsx-scope": "off",
   },
   env: {
     browser: true,
@@ -46,6 +55,13 @@ module.exports = {
     },
   },
   overrides: [
+    {
+      files: ["*.ts", "*.tsx"],
+      rules: {
+        "react/prop-types": "off", // Disable prop-types rule for TS files
+        "jsx-a11y/label-has-associated-control": "off",
+      },
+    },
     {
       files: ["openapi-ts.config.ts"],
       rules: {
