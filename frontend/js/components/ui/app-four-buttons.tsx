@@ -7,20 +7,23 @@ const actions = [
   { title: "Gi meg en sjekkliste for personvernvurdering.", url: "#" },
 ];
 
-export function FourButtons() {
+interface FourButtonsProps {
+  submitPromptFunction(input: string): void;
+}
+
+export function FourButtons({ submitPromptFunction }: FourButtonsProps) {
   return (
     <div className="grid grid-cols-2 gap-4">
       {actions.map((action) => (
         <Button
           key={action.title}
           asChild
-          className="w-full min-h-[2rem] p-4 whitespace-normal text-left"
+          className="w-full min-h-[2rem] p-4 whitespace-normal text-left cursor-pointer"
           size="lg"
           variant="outline"
+          onClick={() => submitPromptFunction(action.title)}
         >
-          <a className="block w-full h-full" href={action.url}>
-            {action.title}
-          </a>
+          <span className="block w-full h-full">{action.title}</span>
         </Button>
       ))}
     </div>
