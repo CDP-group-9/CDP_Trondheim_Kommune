@@ -14,8 +14,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             client = GeminiAPIClient()
-            client.test_connection()
+            response = client.simple_request()
             self.stdout.write(self.style.SUCCESS("✅ Gemini API call succeeded!"))
-        except Exception as e:
-            self.stdout.write(self.style.ERROR("❌ Gemini API call failed: %s", e))
+            self.stdout.write(response)
+        except Exception:
+            self.stdout.write(self.style.ERROR("❌ Gemini API call failed"))
             raise

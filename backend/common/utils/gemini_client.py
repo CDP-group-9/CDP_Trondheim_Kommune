@@ -1,4 +1,5 @@
 import logging
+import time
 
 from django.conf import settings
 
@@ -51,3 +52,35 @@ class GeminiAPIClient:
         except Exception as e:
             logger.error("Failed to connect to Gemini API: %s", e)
             raise
+
+    def simple_request(self) -> str:
+        """
+        Makes a simple request to the Gemini API with the given model and prompt.
+
+        Args:
+            model (str): The model to use for the request.
+            prompt (str): The prompt to send to the model.
+
+        Returns:
+            str: The response from the model.
+        """
+
+        max_retries = 2
+        backoff = 2  # seconds between retries
+
+        for attempt in range(1, max_retries + 1):
+            try:
+                response = self.client.models.generate_content(
+                    model="gemini-2.5-flash",
+                    contents="Explain how AI works in a few words",
+                )
+                return response.text
+
+            except Exception as e:
+                logger.warning(
+                    f"Attempt {attempt}/{max_retries}: Request failed ({e}). Retrying in {backoff}s..."
+                )
+                time.sleep(backoff)
+                backoff *= 2  # exponential backoff
+
+        raise TimeoutError(f"Gemini API request failed after {max_retries} retries.")
