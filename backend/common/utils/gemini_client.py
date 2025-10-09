@@ -74,6 +74,7 @@ class GeminiAPIClient:
                     model="gemini-2.5-flash",
                     contents="Explain how AI works in a few words",
                 )
+                logger.info("Gemini API request succeeded\n %s", response.text)
                 return response.text
 
             except Exception as e:
