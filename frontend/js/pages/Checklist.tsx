@@ -1,9 +1,6 @@
-import ProgressBarUpdated from "js/components/ui/progressbar-updated";
-
 const Checklist = () => {
   return (
     <div className="p-6">
-      <ProgressBarUpdated />
       <h1 className="text-2xl font-bold mb-4">Sjekkliste</h1>
       <div className="space-y-4">
         <div className="flex items-center space-x-3">
