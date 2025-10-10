@@ -2,11 +2,13 @@
 
 ### Testing
 
-`make test`
+For detailed testing setup, configuration, and usage instructions, see the [Testing section in dev.md](dev.md#testing).
 
-Will run django tests using `--keepdb` and `--parallel`. You may pass a path to the desired test module in the make command. E.g.:
+Quick reference:
 
-`make test someapp.tests.test_views`
+- `make test` - Run Django tests using `--keepdb` and `--parallel`
+- `make docker_test` - Run tests with Docker
+- You may pass a path to the desired test module: `make test someapp.tests.test_views`
 
 ### Adding new pypi libs
 
@@ -22,6 +24,7 @@ The API documentation pages are accessible at `http://localhost:8000/api/schema/
 > Anytime a view is created, updated, or removed, the schema must be updated to reflect the changes. Failing to do so can lead to outdated client code or documentation.
 >
 > To update the schema, run:
+>
 > - If you are using Docker: `make docker_backend_update_schema`
 > - If you are not using Docker: `poetry run python manage.py spectacular --color --file schema.yml`
 
@@ -31,6 +34,7 @@ We use the [`openapi-ts`](https://heyapi.vercel.app/openapi-ts/get-started.html)
 > Anytime the API schema is updated, the client code must be regenerated to reflect the changes. Failing to do so can lead to type errors in the client code.
 >
 > To update the client code, run:
+>
 > - If you are using Docker: `make docker_frontend_update_api`
 > - If you are not using Docker: `npm run openapi-ts`
 
@@ -62,7 +66,7 @@ After setting up the project, you can init a repository and push it on GitHub. I
 
 If you are in a private repository, access the following link replacing `$YOUR_REPOSITORY_URL$` with your repository link.
 
--   `https://render.com/deploy?repo=$YOUR_REPOSITORY_URL$`
+- `https://render.com/deploy?repo=$YOUR_REPOSITORY_URL$`
 
 Keep reading to learn how to configure the prompted environment variables.
 
@@ -131,27 +135,27 @@ The `render_build.sh` script has a step to push Javascript source maps to Sentry
 
 The environment variables that need to be set are:
 
--   `SENTRY_ORG` - Name of the Sentry Organization that owns your Sentry Project.
--   `SENTRY_PROJECT_NAME` - Name of the Sentry Project.
--   `SENTRY_API_KEY` - Sentry API key that needs to be generated on Sentry. [You can find or create authentication tokens within Sentry](https://sentry.io/api/).
+- `SENTRY_ORG` - Name of the Sentry Organization that owns your Sentry Project.
+- `SENTRY_PROJECT_NAME` - Name of the Sentry Project.
+- `SENTRY_API_KEY` - Sentry API key that needs to be generated on Sentry. [You can find or create authentication tokens within Sentry](https://sentry.io/api/).
 
 After enabling dyno metadata and setting the environment variables, your next Render.com Deploys will create a release on Sentry where the release name is the commit SHA, and it will push the source maps to it.
 
 ## Linting
 
--   At pre-commit time (see below)
--   Manually with `poetry run ruff` and `npm run lint` on project root.
--   During development with an editor compatible with ruff and ESLint.
+- At pre-commit time (see below)
+- Manually with `poetry run ruff` and `npm run lint` on project root.
+- During development with an editor compatible with ruff and ESLint.
 
 ## Pre-commit hooks
 
 ### If you are using Docker:
 
--   Not supported yet. Please feel free to contribute!
+- Not supported yet. Please feel free to contribute!
 
 ### If you are not using Docker:
 
--   On project root, run `poetry run pre-commit install` to enable the hook into your git repo. The hook will run automatically for each commit.
+- On project root, run `poetry run pre-commit install` to enable the hook into your git repo. The hook will run automatically for each commit.
 
 ## Opinionated Settings
 
@@ -173,6 +177,7 @@ Some settings defaults were decided based on Vinta's experiences. Here's the rat
 Django-CSP helps implementing Content Security Policy (CSP) in Django projects to mitigate cross-site scripting (XSS) attacks by declaring which dynamic resources are allowed to load.
 
 In this project, we have defined several CSP settings that define the sources from which different types of resources can be loaded. If you need to load external images, fonts, or other resources, you will need to add the sources to the corresponding CSP settings. For example:
+
 - To load scripts from an external source, such as https://browser.sentry-cdn.com, you would add this source to `CSP_SCRIPT_SRC`.
 - To load images from an external source, such as https://example.com, you would add this source to `CSP_IMG_SRC`.
 
