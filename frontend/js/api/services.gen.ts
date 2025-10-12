@@ -4,33 +4,47 @@ import type { CancelablePromise } from "./core/CancelablePromise";
 import { OpenAPI } from "./core/OpenAPI";
 import { request as __request } from "./core/request";
 import type {
-  CounterIncrementCreateData,
-  CounterIncrementCreateResponse,
-  RestRestCheckRetrieveResponse,
-  UsersListData,
-  UsersListResponse,
-  UsersCreateData,
-  UsersCreateResponse,
-  UsersRetrieveData,
-  UsersRetrieveResponse,
-  UsersUpdateData,
-  UsersUpdateResponse,
-  UsersPartialUpdateData,
-  UsersPartialUpdateResponse,
-  UsersDestroyData,
-  UsersDestroyResponse,
+  ApiCounterIncrementCreateData,
+  ApiCounterIncrementCreateResponse,
+  ApiRestRestCheckRetrieveResponse,
+  ApiTestResponseListData,
+  ApiTestResponseListResponse,
+  ApiTestResponseCreateData,
+  ApiTestResponseCreateResponse,
+  ApiTestResponseRetrieveData,
+  ApiTestResponseRetrieveResponse,
+  ApiTestResponseUpdateData,
+  ApiTestResponseUpdateResponse,
+  ApiTestResponsePartialUpdateData,
+  ApiTestResponsePartialUpdateResponse,
+  ApiTestResponseDestroyData,
+  ApiTestResponseDestroyResponse,
+  ApiTestResponseFetchByKeywordCreateData,
+  ApiTestResponseFetchByKeywordCreateResponse,
+  ApiUsersListData,
+  ApiUsersListResponse,
+  ApiUsersCreateData,
+  ApiUsersCreateResponse,
+  ApiUsersRetrieveData,
+  ApiUsersRetrieveResponse,
+  ApiUsersUpdateData,
+  ApiUsersUpdateResponse,
+  ApiUsersPartialUpdateData,
+  ApiUsersPartialUpdateResponse,
+  ApiUsersDestroyData,
+  ApiUsersDestroyResponse,
 } from "./types.gen";
 
-export class CounterService {
+export class ApiService {
   /**
    * @param data The data for the request.
    * @param data.requestBody
    * @returns Counter
    * @throws ApiError
    */
-  public static counterIncrementCreate(
-    data: CounterIncrementCreateData = {},
-  ): CancelablePromise<CounterIncrementCreateResponse> {
+  public static apiCounterIncrementCreate(
+    data: ApiCounterIncrementCreateData = {},
+  ): CancelablePromise<ApiCounterIncrementCreateResponse> {
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/counter/increment/",
@@ -38,24 +52,152 @@ export class CounterService {
       mediaType: "application/json",
     });
   }
-}
 
-export class RestService {
   /**
    * Check REST API
    * This endpoint checks if the REST API is working.
    * @returns Message
    * @throws ApiError
    */
-  public static restRestCheckRetrieve(): CancelablePromise<RestRestCheckRetrieveResponse> {
+  public static apiRestRestCheckRetrieve(): CancelablePromise<ApiRestRestCheckRetrieveResponse> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/rest/rest-check/",
     });
   }
-}
 
-export class UsersService {
+  /**
+   * @param data The data for the request.
+   * @param data.limit Number of results to return per page.
+   * @param data.offset The initial index from which to return the results.
+   * @returns PaginatedMockResponseList
+   * @throws ApiError
+   */
+  public static apiTestResponseList(
+    data: ApiTestResponseListData = {},
+  ): CancelablePromise<ApiTestResponseListResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/test-response/",
+      query: {
+        limit: data.limit,
+        offset: data.offset,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static apiTestResponseCreate(
+    data: ApiTestResponseCreateData,
+  ): CancelablePromise<ApiTestResponseCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/test-response/",
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this mock response.
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static apiTestResponseRetrieve(
+    data: ApiTestResponseRetrieveData,
+  ): CancelablePromise<ApiTestResponseRetrieveResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/test-response/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this mock response.
+   * @param data.requestBody
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static apiTestResponseUpdate(
+    data: ApiTestResponseUpdateData,
+  ): CancelablePromise<ApiTestResponseUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/test-response/{id}/",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this mock response.
+   * @param data.requestBody
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static apiTestResponsePartialUpdate(
+    data: ApiTestResponsePartialUpdateData,
+  ): CancelablePromise<ApiTestResponsePartialUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PATCH",
+      url: "/api/test-response/{id}/",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this mock response.
+   * @returns void No response body
+   * @throws ApiError
+   */
+  public static apiTestResponseDestroy(
+    data: ApiTestResponseDestroyData,
+  ): CancelablePromise<ApiTestResponseDestroyResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/test-response/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static apiTestResponseFetchByKeywordCreate(
+    data: ApiTestResponseFetchByKeywordCreateData,
+  ): CancelablePromise<ApiTestResponseFetchByKeywordCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/test-response/fetch_by_keyword/",
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
   /**
    * @param data The data for the request.
    * @param data.limit Number of results to return per page.
@@ -63,9 +205,9 @@ export class UsersService {
    * @returns PaginatedUserList
    * @throws ApiError
    */
-  public static usersList(
-    data: UsersListData = {},
-  ): CancelablePromise<UsersListResponse> {
+  public static apiUsersList(
+    data: ApiUsersListData = {},
+  ): CancelablePromise<ApiUsersListResponse> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/users/",
@@ -82,9 +224,9 @@ export class UsersService {
    * @returns User
    * @throws ApiError
    */
-  public static usersCreate(
-    data: UsersCreateData,
-  ): CancelablePromise<UsersCreateResponse> {
+  public static apiUsersCreate(
+    data: ApiUsersCreateData,
+  ): CancelablePromise<ApiUsersCreateResponse> {
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/users/",
@@ -99,9 +241,9 @@ export class UsersService {
    * @returns User
    * @throws ApiError
    */
-  public static usersRetrieve(
-    data: UsersRetrieveData,
-  ): CancelablePromise<UsersRetrieveResponse> {
+  public static apiUsersRetrieve(
+    data: ApiUsersRetrieveData,
+  ): CancelablePromise<ApiUsersRetrieveResponse> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/users/{id}/",
@@ -118,9 +260,9 @@ export class UsersService {
    * @returns User
    * @throws ApiError
    */
-  public static usersUpdate(
-    data: UsersUpdateData,
-  ): CancelablePromise<UsersUpdateResponse> {
+  public static apiUsersUpdate(
+    data: ApiUsersUpdateData,
+  ): CancelablePromise<ApiUsersUpdateResponse> {
     return __request(OpenAPI, {
       method: "PUT",
       url: "/api/users/{id}/",
@@ -139,9 +281,9 @@ export class UsersService {
    * @returns User
    * @throws ApiError
    */
-  public static usersPartialUpdate(
-    data: UsersPartialUpdateData,
-  ): CancelablePromise<UsersPartialUpdateResponse> {
+  public static apiUsersPartialUpdate(
+    data: ApiUsersPartialUpdateData,
+  ): CancelablePromise<ApiUsersPartialUpdateResponse> {
     return __request(OpenAPI, {
       method: "PATCH",
       url: "/api/users/{id}/",
@@ -159,9 +301,9 @@ export class UsersService {
    * @returns void No response body
    * @throws ApiError
    */
-  public static usersDestroy(
-    data: UsersDestroyData,
-  ): CancelablePromise<UsersDestroyResponse> {
+  public static apiUsersDestroy(
+    data: ApiUsersDestroyData,
+  ): CancelablePromise<ApiUsersDestroyResponse> {
     return __request(OpenAPI, {
       method: "DELETE",
       url: "/api/users/{id}/",

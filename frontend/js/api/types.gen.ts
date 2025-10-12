@@ -9,11 +9,28 @@ export type Message = {
   message: string;
 };
 
+export type MockResponse = {
+  readonly id: number;
+  response: string;
+};
+
+export type PaginatedMockResponseList = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: Array<MockResponse>;
+};
+
 export type PaginatedUserList = {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: Array<User>;
+};
+
+export type PatchedMockResponse = {
+  readonly id?: number;
+  response?: string;
 };
 
 export type PatchedUser = {
@@ -56,15 +73,15 @@ export type User = {
   last_login?: string | null;
 };
 
-export type CounterIncrementCreateData = {
+export type ApiCounterIncrementCreateData = {
   requestBody?: Counter;
 };
 
-export type CounterIncrementCreateResponse = Counter;
+export type ApiCounterIncrementCreateResponse = Counter;
 
-export type RestRestCheckRetrieveResponse = Message;
+export type ApiRestRestCheckRetrieveResponse = Message;
 
-export type UsersListData = {
+export type ApiTestResponseListData = {
   /**
    * Number of results to return per page.
    */
@@ -75,24 +92,87 @@ export type UsersListData = {
   offset?: number;
 };
 
-export type UsersListResponse = PaginatedUserList;
+export type ApiTestResponseListResponse = PaginatedMockResponseList;
 
-export type UsersCreateData = {
+export type ApiTestResponseCreateData = {
+  requestBody: MockResponse;
+};
+
+export type ApiTestResponseCreateResponse = MockResponse;
+
+export type ApiTestResponseRetrieveData = {
+  /**
+   * A unique integer value identifying this mock response.
+   */
+  id: number;
+};
+
+export type ApiTestResponseRetrieveResponse = MockResponse;
+
+export type ApiTestResponseUpdateData = {
+  /**
+   * A unique integer value identifying this mock response.
+   */
+  id: number;
+  requestBody: MockResponse;
+};
+
+export type ApiTestResponseUpdateResponse = MockResponse;
+
+export type ApiTestResponsePartialUpdateData = {
+  /**
+   * A unique integer value identifying this mock response.
+   */
+  id: number;
+  requestBody?: PatchedMockResponse;
+};
+
+export type ApiTestResponsePartialUpdateResponse = MockResponse;
+
+export type ApiTestResponseDestroyData = {
+  /**
+   * A unique integer value identifying this mock response.
+   */
+  id: number;
+};
+
+export type ApiTestResponseDestroyResponse = void;
+
+export type ApiTestResponseFetchByKeywordCreateData = {
+  requestBody: MockResponse;
+};
+
+export type ApiTestResponseFetchByKeywordCreateResponse = MockResponse;
+
+export type ApiUsersListData = {
+  /**
+   * Number of results to return per page.
+   */
+  limit?: number;
+  /**
+   * The initial index from which to return the results.
+   */
+  offset?: number;
+};
+
+export type ApiUsersListResponse = PaginatedUserList;
+
+export type ApiUsersCreateData = {
   requestBody: User;
 };
 
-export type UsersCreateResponse = User;
+export type ApiUsersCreateResponse = User;
 
-export type UsersRetrieveData = {
+export type ApiUsersRetrieveData = {
   /**
    * A unique integer value identifying this user.
    */
   id: number;
 };
 
-export type UsersRetrieveResponse = User;
+export type ApiUsersRetrieveResponse = User;
 
-export type UsersUpdateData = {
+export type ApiUsersUpdateData = {
   /**
    * A unique integer value identifying this user.
    */
@@ -100,9 +180,9 @@ export type UsersUpdateData = {
   requestBody: User;
 };
 
-export type UsersUpdateResponse = User;
+export type ApiUsersUpdateResponse = User;
 
-export type UsersPartialUpdateData = {
+export type ApiUsersPartialUpdateData = {
   /**
    * A unique integer value identifying this user.
    */
@@ -110,21 +190,21 @@ export type UsersPartialUpdateData = {
   requestBody?: PatchedUser;
 };
 
-export type UsersPartialUpdateResponse = User;
+export type ApiUsersPartialUpdateResponse = User;
 
-export type UsersDestroyData = {
+export type ApiUsersDestroyData = {
   /**
    * A unique integer value identifying this user.
    */
   id: number;
 };
 
-export type UsersDestroyResponse = void;
+export type ApiUsersDestroyResponse = void;
 
 export type $OpenApiTs = {
   "/api/counter/increment/": {
     post: {
-      req: CounterIncrementCreateData;
+      req: ApiCounterIncrementCreateData;
       res: {
         200: Counter;
       };
@@ -137,15 +217,66 @@ export type $OpenApiTs = {
       };
     };
   };
+  "/api/test-response/": {
+    get: {
+      req: ApiTestResponseListData;
+      res: {
+        200: PaginatedMockResponseList;
+      };
+    };
+    post: {
+      req: ApiTestResponseCreateData;
+      res: {
+        201: MockResponse;
+      };
+    };
+  };
+  "/api/test-response/{id}/": {
+    get: {
+      req: ApiTestResponseRetrieveData;
+      res: {
+        200: MockResponse;
+      };
+    };
+    put: {
+      req: ApiTestResponseUpdateData;
+      res: {
+        200: MockResponse;
+      };
+    };
+    patch: {
+      req: ApiTestResponsePartialUpdateData;
+      res: {
+        200: MockResponse;
+      };
+    };
+    delete: {
+      req: ApiTestResponseDestroyData;
+      res: {
+        /**
+         * No response body
+         */
+        204: void;
+      };
+    };
+  };
+  "/api/test-response/fetch_by_keyword/": {
+    post: {
+      req: ApiTestResponseFetchByKeywordCreateData;
+      res: {
+        200: MockResponse;
+      };
+    };
+  };
   "/api/users/": {
     get: {
-      req: UsersListData;
+      req: ApiUsersListData;
       res: {
         200: PaginatedUserList;
       };
     };
     post: {
-      req: UsersCreateData;
+      req: ApiUsersCreateData;
       res: {
         201: User;
       };
@@ -153,25 +284,25 @@ export type $OpenApiTs = {
   };
   "/api/users/{id}/": {
     get: {
-      req: UsersRetrieveData;
+      req: ApiUsersRetrieveData;
       res: {
         200: User;
       };
     };
     put: {
-      req: UsersUpdateData;
+      req: ApiUsersUpdateData;
       res: {
         200: User;
       };
     };
     patch: {
-      req: UsersPartialUpdateData;
+      req: ApiUsersPartialUpdateData;
       res: {
         200: User;
       };
     };
     delete: {
-      req: UsersDestroyData;
+      req: ApiUsersDestroyData;
       res: {
         /**
          * No response body

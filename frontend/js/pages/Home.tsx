@@ -9,6 +9,13 @@ const Home = () => {
   const [count, setCount] = useState<number | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  function getCookie(name: string) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()!.split(";").shift();
+    return "";
+  }
+
   async function handleChatSubmit(input: string) {
     try {
       const response = await fetch(
@@ -17,7 +24,9 @@ const Home = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "X-CSRFTOKEN": getCookie("csrftoken") || "",
           },
+          credentials: "include",
         },
       );
       const data: { count?: number; error?: string } = await response.json();
