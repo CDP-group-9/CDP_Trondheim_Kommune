@@ -5,10 +5,12 @@ import {
   KeyPrinciplesSection,
   ContactInfoSection,
 } from "../components/ui/privacy-sections";
+import ProgressBarUpdated from "../components/ui/progressbar-updated";
 
 const Privacy = () => {
   return (
     <div className="flex justify-center mb-4">
+      <ProgressBarUpdated />
       <div className="flex-1 space-y-6 max-w-4xl px-6 py-4">
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-medium mb-4">
