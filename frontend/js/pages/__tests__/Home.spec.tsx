@@ -1,38 +1,56 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 
-import { RestService } from "../../api";
 import Home from "../Home";
 
-jest.mock("../../api", () => ({
-  RestService: {
-    restRestCheckRetrieve: jest.fn(),
-  },
-}));
-
 describe("Home", () => {
-  beforeEach(() => {
-    (RestService.restRestCheckRetrieve as jest.Mock).mockResolvedValue({
-      message: "Test Result",
+  test("renders the main UI elements", () => {
+    render(<Home />);
+
+    expect(screen.getByPlaceholderText("Skriv noe her...")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Send" })).toBeInTheDocument();
+    expect(
+      screen.getByText("Hjelp meg med å starte en DPIA for et nytt prosjekt."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Hvordan skal jeg anonymisere personvernopplysninger?"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Hvilke GDPR-krav gjelder for datainnsamling?"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Gi meg en sjekkliste for personvernvurdering."),
+    ).toBeInTheDocument();
+  });
+
+  test("renders four action buttons as links", () => {
+    render(<Home />);
+
+    const buttons = screen.getAllByRole("link");
+    expect(buttons).toHaveLength(4);
+
+    buttons.forEach((button) => {
+      expect(button).toHaveAttribute("href", "#");
     });
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test("renders static assets and rest API data", async () => {
+  test("textarea is interactive", async () => {
+    const user = userEvent.setup();
     render(<Home />);
 
-    expect(screen.getByText("Static assets")).toBeInTheDocument();
-    expect(screen.getByText("Rest API")).toBeInTheDocument();
-    expect(await screen.findByText("Test Result")).toBeInTheDocument();
+    const textarea = screen.getByPlaceholderText("Skriv noe her...");
+
+    await user.type(textarea, "Test input");
+    expect(textarea).toHaveValue("Test input");
   });
 
-  test("calls restRestCheckRetrieve on mount", async () => {
+  test("send button is clickable", async () => {
+    const user = userEvent.setup();
     render(<Home />);
 
-    await waitFor(() => {
-      expect(RestService.restRestCheckRetrieve).toHaveBeenCalledWith();
-    });
+    const sendButton = screen.getByRole("button", { name: "Send" });
+
+    await user.click(sendButton);
+    expect(sendButton).toBeInTheDocument();
   });
 });

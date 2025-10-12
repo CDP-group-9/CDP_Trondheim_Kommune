@@ -22,11 +22,17 @@ docker_setup:
 	docker compose run --rm frontend npm install
 	docker compose run --rm frontend npm run openapi-ts
 
+# Omit $(ARG) when running the command manually, or replace with specific test target
 docker_test:
 	docker compose run --rm backend python manage.py test $(ARG) --parallel --keepdb
 
+# Omit $(ARG) when running the command manually, or replace with specific test target
 docker_test_reset:
 	docker compose run --rm backend python manage.py test $(ARG) --parallel
+
+docker_test_coverage:
+	docker compose run --rm backend coverage run --source='.' manage.py test --parallel --keepdb
+	docker compose run --rm backend coverage report
 
 docker_up:
 	docker compose up -d
@@ -38,6 +44,7 @@ docker_update_dependencies:
 docker_down:
 	docker compose down
 
+# Omit $(ARG) when running the command manually, or replace with specific service name
 docker_logs:
 	docker compose logs -f $(ARG)
 
