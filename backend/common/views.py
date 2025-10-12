@@ -1,4 +1,3 @@
-from django.apps import apps
 from django.views import generic
 
 from drf_spectacular.utils import OpenApiExample, extend_schema
@@ -68,17 +67,14 @@ class MockResponseViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["post"], permission_classes=[AllowAny])
     def fetch_by_keyword(self, request):
         input_text = request.data.get("input", "")
+        print(f"Received input: {input_text}")
+
         if "dpia" in input_text.lower():
             mock = MockResponse.objects.filter(response__icontains="dpia").first()
         elif "anonymisere" in input_text.lower():
             mock = MockResponse.objects.filter(response__icontains="anonymisere").first()
         else:
-            # print tables in the DB
-
-            models = apps.get_models()
-            model_names = [model.__name__ for model in models]
-            print("Available models:", model_names)
-            return Response({"message": "Don't ask me that."}, status=status.HTTP_200_OK)
+            return Response({"response": "DASQ."}, status=status.HTTP_200_OK)
 
         if mock:
             serializer = self.get_serializer(mock)

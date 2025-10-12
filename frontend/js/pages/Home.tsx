@@ -6,8 +6,8 @@ import { Textarea } from "../components/ui/textarea";
 
 const Home = () => {
   const [text, setText] = useState<string | null>(null);
-  const [count, setCount] = useState<number | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [inputValue, setInputValue] = useState<string>("");
 
   function getCookie(name: string) {
     const value = `; ${document.cookie}`;
@@ -19,7 +19,7 @@ const Home = () => {
   async function handleChatSubmit(input: string) {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/counter/increment/",
+        "http://localhost:8000/api/test-response/fetch_by_keyword/",
         {
           method: "POST",
           headers: {
@@ -27,12 +27,12 @@ const Home = () => {
             "X-CSRFTOKEN": getCookie("csrftoken") || "",
           },
           credentials: "include",
+          body: JSON.stringify({ input }),
         },
       );
-      const data: { count?: number; error?: string } = await response.json();
-      if (response.ok && data.count !== undefined) {
-        setText(input);
-        setCount(data.count);
+      const data: { response?: string; error?: string } = await response.json();
+      if (response.ok && data.response !== undefined) {
+        setText(data.response);
       } else {
         setErrorMsg(data.error || "Unknown error");
       }
@@ -47,25 +47,23 @@ const Home = () => {
         <div className="mb-6 max-w-lg mx-auto">
           <FourButtons submitPromptFunction={handleChatSubmit} />
         </div>
+        {text && (
+          <div className="p-4 border rounded bg-gray-50">
+            <p className="whitespace-pre-wrap">{text}</p>
+          </div>
+        )}
+        {errorMsg && <div className="text-red-600 p-2">{errorMsg}</div>}
         <div className="grid gap-2 max-w-lg w-full mx-auto">
-          <Textarea id="user-input" placeholder="Skriv noe her..." />
-          {text && count && (
-            <div className="p-4 border rounded bg-gray-50">
-              <p className="whitespace-pre-wrap">
-                {text}
-                {count}
-              </p>
-            </div>
-          )}
-          {errorMsg && <div className="text-red-600 p-2">{errorMsg}</div>}
+          <Textarea
+            id="user-input"
+            placeholder="Skriv noe her..."
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
           <Button
             className="cursor-pointer"
-            onClick={() =>
-              handleChatSubmit(
-                (document.getElementById("user-input") as HTMLTextAreaElement)
-                  .value,
-              )
-            }
+            disabled={!inputValue.trim()}
+            onClick={() => handleChatSubmit(inputValue)}
           >
             Send
           </Button>
