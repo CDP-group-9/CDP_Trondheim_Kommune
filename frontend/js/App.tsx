@@ -50,9 +50,9 @@ const App = () => (
             <main className="flex-1">
               <Routes>
                 <Route element={<Home />} path="/" />
-                <Route element={<Privacy />} path="/privacy" />
-                <Route element={<Checklist />} path="/checklist" />
-                <Route element={<Examples />} path="/examples" />
+                <Route element={<Privacy />} path="/personvern" />
+                <Route element={<Checklist />} path="/sjekkliste" />
+                <Route element={<Examples />} path="/eksempel" />
               </Routes>
             </main>
             <Footer />

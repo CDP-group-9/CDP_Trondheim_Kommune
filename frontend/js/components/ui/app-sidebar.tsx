@@ -23,17 +23,17 @@ const items = [
   },
   {
     title: "Om personvern",
-    url: "/privacy",
+    url: "/personvern",
     icon: Info,
   },
   {
     title: "Sjekkliste",
-    url: "/checklist",
+    url: "/sjekkliste",
     icon: Check,
   },
   {
     title: "Eksempler",
-    url: "/examples",
+    url: "/eksempel",
     icon: DockIcon,
   },
 ];
