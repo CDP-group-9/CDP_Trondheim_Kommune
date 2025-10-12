@@ -5,12 +5,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import trondheimLogo from "../assets/images/tk-logo-co.png";
 
 import { OpenAPI } from "./api";
+import { DynamicBreadcrumb } from "./components/ui/app-breadcrumb";
 import { AppSidebar } from "./components/ui/app-sidebar";
 import Footer from "./components/ui/footer";
 import { SidebarProvider } from "./components/ui/sidebar";
 import { Checklist, Examples, Home, Privacy } from "./routes";
 import "../css/globals.css";
-import { DynamicBreadcrumb } from "./components/ui/app-breadcrumb";
 
 OpenAPI.interceptors.request.use((request) => {
   const { csrftoken } = parse(document.cookie);

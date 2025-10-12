@@ -1,8 +1,8 @@
 import { Check, History, DockIcon, Info, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
-import { SidebarTrigger } from "./sidebar";
 
 import {
+  SidebarTrigger,
   Sidebar,
   SidebarContent,
   SidebarGroup,
@@ -42,7 +42,10 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarGroupLabel className="mt-3" style={{ fontSize: "20px", fontWeight: "600" }}>
+        <SidebarGroupLabel
+          className="mt-3"
+          style={{ fontSize: "20px", fontWeight: "600" }}
+        >
           <a
             className="font-medium text-gray-900 hover:text-gray-900/75 transition-colors cursor-pointer rounded-md px-1 py-1"
             href="/"

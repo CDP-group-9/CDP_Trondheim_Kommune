@@ -1,6 +1,7 @@
-import * as React from "react"
-import { Link, useLocation } from "react-router-dom"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight } from "lucide-react";
+import * as React from "react";
+import { Link, useLocation } from "react-router-dom";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,15 +9,15 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "js/components/ui/breadcrumb"
+} from "js/components/ui/breadcrumb";
 
 interface DynamicBreadcrumbProps {
-  className?: string
+  className?: string;
 }
 
 export function DynamicBreadcrumb({ className }: DynamicBreadcrumbProps) {
-  const location = useLocation()
-  const pathParts = location.pathname.split("/").filter(Boolean)
+  const location = useLocation();
+  const pathParts = location.pathname.split("/").filter(Boolean);
 
   return (
     <Breadcrumb className="mb-6">
@@ -28,8 +29,8 @@ export function DynamicBreadcrumb({ className }: DynamicBreadcrumbProps) {
         </BreadcrumbItem>
 
         {pathParts.map((part, index) => {
-          const path = "/" + pathParts.slice(0, index + 1).join("/")
-          const isLast = index === pathParts.length - 1
+          const path = `/${pathParts.slice(0, index + 1).join("/")}`;
+          const isLast = index === pathParts.length - 1;
 
           return (
             <React.Fragment key={path}>
@@ -50,9 +51,9 @@ export function DynamicBreadcrumb({ className }: DynamicBreadcrumbProps) {
                 )}
               </BreadcrumbItem>
             </React.Fragment>
-          )
+          );
         })}
       </BreadcrumbList>
     </Breadcrumb>
-  )
+  );
 }

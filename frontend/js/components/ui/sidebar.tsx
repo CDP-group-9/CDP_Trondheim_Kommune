@@ -2,9 +2,8 @@
 
 import { Slot } from "@radix-ui/react-slot";
 import { cva, VariantProps } from "class-variance-authority";
-import { PanelLeftIcon } from "lucide-react";
+import { PanelLeftIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "js/components/ui/button";
 import { Input } from "js/components/ui/input";
@@ -263,7 +262,10 @@ function SidebarTrigger({
 
   return (
     <Button
-      className={cn("flex items-center justify-start px-1.5 py-2 w-auto", className)}
+      className={cn(
+        "flex items-center justify-start px-1.5 py-2 w-auto",
+        className,
+      )}
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
       size="icon"
@@ -274,7 +276,11 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      {state === "collapsed" ? <ChevronRight className="!w-5 !h-5" /> : <ChevronLeft className="!w-5 !h-5" />}
+      {state === "collapsed" ? (
+        <ChevronRight className="!w-5 !h-5" />
+      ) : (
+        <ChevronLeft className="!w-5 !h-5" />
+      )}
       <span>{state === "collapsed" ? "" : "Skjul"}</span>
     </Button>
   );
