@@ -22,7 +22,7 @@ OpenAPI.interceptors.request.use((request) => {
 
 const App = () => (
   <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>}>
-    <header className="bg-card px-4 py-3 flex items-center justify-between">
+    <header className="bg-card px-4 py-5 flex items-center justify-between">
       <div className="flex items-center gap-4 ml-auto">
         <a
           aria-label="Gå til Trondheim Kommune sin hjemmeside (åpner i ny fane)"

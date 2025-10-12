@@ -42,7 +42,7 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarGroupLabel style={{ fontSize: "20px", fontWeight: "600" }}>
+        <SidebarGroupLabel className="mt-3" style={{ fontSize: "20px", fontWeight: "600" }}>
           <a
             className="font-medium text-gray-900 hover:text-gray-900/75 transition-colors cursor-pointer rounded-md px-1 py-1"
             href="/"
