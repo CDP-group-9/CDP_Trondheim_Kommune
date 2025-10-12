@@ -1,5 +1,6 @@
 import { Check, History, DockIcon, Info, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SidebarTrigger } from "./sidebar";
 
 import {
   Sidebar,
@@ -39,7 +40,7 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarGroupLabel style={{ fontSize: "20px", fontWeight: "600" }}>
           <a
@@ -49,6 +50,7 @@ export function AppSidebar() {
             DASQ
           </a>
         </SidebarGroupLabel>
+        <SidebarTrigger className="ml-2 mr-2 mt-2 mb-1 hover:bg-muted transition" />
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>

@@ -10,6 +10,7 @@ import Footer from "./components/ui/footer";
 import { SidebarProvider } from "./components/ui/sidebar";
 import { Checklist, Examples, Home, Privacy } from "./routes";
 import "../css/globals.css";
+import { DynamicBreadcrumb } from "./components/ui/app-breadcrumb";
 
 OpenAPI.interceptors.request.use((request) => {
   const { csrftoken } = parse(document.cookie);
@@ -43,6 +44,9 @@ const App = () => (
         <div className="flex min-h-screen">
           <AppSidebar />
           <div className="flex flex-col flex-grow w-full">
+            <div className="pl-6 mb-1">
+              <DynamicBreadcrumb />
+            </div>
             <main className="flex-1">
               <Routes>
                 <Route element={<Home />} path="/" />
