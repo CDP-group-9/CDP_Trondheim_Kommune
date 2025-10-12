@@ -20,6 +20,8 @@ const ProgressBarUpdated = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (progress === 0) return null;
+
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-transparent">
       <Progress className="h-2 w-full rounded-none" value={progress} />
