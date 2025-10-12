@@ -284,5 +284,5 @@ class GeminiAPIClient:
             logger.error("Failed to send async chat message to Gemini API: %s", e)
             raise
 
-
-
+# Runs ONCE when the django server process loads this module
+GEMINI_CHAT_SERVICE = GeminiAPIClient()
