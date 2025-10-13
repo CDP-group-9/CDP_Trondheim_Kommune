@@ -1,9 +1,12 @@
 import {
   Context,
   Data,
+  InvolvedParties,
   Legal,
   // ProgressBar,
   ReceiveOrShareData,
+  RiskAndConcern,
+  Tech,
 } from "js/components/ui/checklist-sections";
 
 const Checklist = () => {
@@ -32,6 +35,9 @@ const Checklist = () => {
         <Context />
         <Data />
         <Legal />
+        <InvolvedParties />
+        <Tech />
+        <RiskAndConcern />
       </div>
     </div>
   );
