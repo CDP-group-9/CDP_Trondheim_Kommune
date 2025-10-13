@@ -34,15 +34,28 @@ class GeminiAPIClient:
             )
 
         self.timeout = timeout
+        self.client = None
+        self.async_client = None
 
-        # Initialize the Gemini client
-        self.client = genai.Client(
-            api_key=self.api_key, http_options=types.HttpOptions(timeout=10000)
-        )
+        # # Initialize the Gemini client
+        # self.client = genai.Client(
+        #     api_key=self.api_key, http_options=types.HttpOptions(timeout=10000)
+        # )
 
-        self.async_client = self.client.aio
+        # self.async_client = self.client.aio
         self.standard_model = "gemini-2.5-flash"
         self.system_instructions = "You are a law assistant. Answer the questions based on Norwegian law and as concise as possible. If given additional context that are laws, refer to them when relevant. No more than 50 words. Answer in Norwegian."
+
+    def start_client(self) -> None:
+        if self.client is None:
+            # Initialize the Gemini client
+            self.client = genai.Client(
+                api_key=self.api_key, http_options=types.HttpOptions(timeout=10000)
+            )
+        if self.async_client is None:
+            self.async_client = self.client.aio
+
+
 
     def test_connection(self) -> bool:
         """
@@ -53,6 +66,7 @@ class GeminiAPIClient:
         """
         try:
             # Example of a simple request to test the connection
+            self.start_client()
             self.client.models.list()
             logger.info("Successfully connected to Gemini API.")
             return True
@@ -77,6 +91,7 @@ class GeminiAPIClient:
 
         for attempt in range(1, max_retries + 1):
             try:
+                self.start_client()
                 response = self.client.models.generate_content(
                     model="gemini-2.5-flash",
                     contents="Explain how AI works in a few words",
@@ -101,6 +116,7 @@ class GeminiAPIClient:
             list: A list of available models.
         """
         try:
+            self.start_client()
             models = self.client.models.list()
             model_names = [model.name for model in models]
             # logger.info("Fetched models: %s", model_names)
@@ -120,6 +136,7 @@ class GeminiAPIClient:
             dict: A dictionary containing model details.
         """
         try:
+            self.start_client()
             model = self.client.models.get(model_name)
             model_details = {
                 "name": model.name,
@@ -143,6 +160,7 @@ class GeminiAPIClient:
             list[str]: A list of responses from the model.
         """
         try:
+            self.start_client()
             chat = self.client.chats.create(model=model_name)
             history = []
 
@@ -172,6 +190,7 @@ class GeminiAPIClient:
             chat object: A chat session object.
         """
         try:
+            self.start_client()
             self.chat = self.client.chats.create(model=model_name)
             return self.chat
         except Exception as e:
@@ -192,6 +211,7 @@ class GeminiAPIClient:
             raise ValueError("No active chat session. Please start a new chat first.")
 
         try:
+            self.start_client()
             response = self.chat.send_message(message=message)
             return response.text
         except Exception as e:
@@ -209,6 +229,7 @@ class GeminiAPIClient:
             list[str]: A list of responses from the model.
         """
         try:
+            self.start_client()
             chat = self.async_client.chats.create(model=model_name)
             history = []
 
@@ -267,6 +288,7 @@ class GeminiAPIClient:
         user_parts.append(Part(text=f"USER QUESTION: {prompt}"))
 
         try:
+            self.start_client()
             async_chat_session = self.async_client.chats.create(
                 model=model_name,
                 history=current_history,
