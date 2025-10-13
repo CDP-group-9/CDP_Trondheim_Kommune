@@ -1,20 +1,37 @@
+import {
+  Context,
+  Data,
+  Legal,
+  // ProgressBar,
+  ReceiveOrShareData,
+} from "js/components/ui/checklist-sections";
+
 const Checklist = () => {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Sjekkliste</h1>
-      <div className="space-y-4">
-        <div className="flex items-center space-x-3">
-          <input className="w-4 h-4" id="checkbox-task-1" type="checkbox" />
-          <label htmlFor="checkbox-task-1">Fullført oppgave 1</label>
+    <div>
+      <div className="flex justify-start mb-4 border-b border-black shadow">
+        <div className="flex-1 space-y-6 max-w-4xl px-6 py-4">
+          <div className="text-left space-y-4">
+            <h1 className="text-3xl font-medium mb-1">Personvernsjekkliste</h1>
+            <p className="text-muted-foreground text-left max-w-2xl">
+              Systematisk gjennomgang av alle personvernkrav for ditt prosjekt
+            </p>
+          </div>
         </div>
-        <div className="flex items-center space-x-3">
-          <input className="w-4 h-4" id="checkbox-task-2" type="checkbox" />
-          <label htmlFor="checkbox-task-2">Fullført oppgave 2</label>
+      </div>
+      <div className="space-y-6 p-4">
+        <ReceiveOrShareData />
+        {/* <ProgressBar /> */}
+        <div className="flex justify-center">
+          <p className="text-center text-muted-foreground max-w-2xl">
+            Fyll ut informasjonen nedenfor for å gi AI-assistenten best mulig
+            grunnlag for å hjelpe deg med personvernvurdering, DPIA og juridisk
+            veiledning.
+          </p>
         </div>
-        <div className="flex items-center space-x-3">
-          <input className="w-4 h-4" id="checkbox-task-3" type="checkbox" />
-          <label htmlFor="checkbox-task-3">Fullført oppgave 3</label>
-        </div>
+        <Context />
+        <Data />
+        <Legal />
       </div>
     </div>
   );
