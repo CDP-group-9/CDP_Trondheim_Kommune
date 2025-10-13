@@ -10,7 +10,6 @@ import { AppSidebar } from "./components/ui/app-sidebar";
 import Footer from "./components/ui/footer";
 import { SidebarProvider } from "./components/ui/sidebar";
 import { Checklist, Examples, Home, Privacy } from "./routes";
-import "../css/globals.css";
 
 OpenAPI.interceptors.request.use((request) => {
   const { csrftoken } = parse(document.cookie);
