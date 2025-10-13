@@ -273,8 +273,7 @@ export const ContactInfoSection = () => (
     </h2>
     <div className="space-y-3">
       <p>
-        Hvis du har spørsmål om personopplysninger eller personvern, kan du
-        kontakte:
+        Du kan også bruke denne AI-assistenten for å få veiledning om spesifikke personvernspørsmål eller ta kontakt med personvernombudet i Trondheim kommune.
       </p>
       <div className="space-y-2 text-sm">
         <p>
