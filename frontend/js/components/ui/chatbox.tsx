@@ -13,7 +13,7 @@ const ChatBox = ({ type, message }: ChatBoxProps) => {
     >
       {type === "user" ? (
         <>
-          <div className="max-w-2xl p-4 rounded-lg bg-[#002d52] text-white ml-12">
+          <div className="max-w-2xl p-4 rounded-lg bg-[#002d52] text-white ml-12 whitespace-pre-wrap">
             {message}
           </div>
           <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center flex-shrink-0">
@@ -29,7 +29,7 @@ const ChatBox = ({ type, message }: ChatBoxProps) => {
               src={tkAvatar}
             />
           </div>
-          <div className="max-w-2xl p-4 rounded-lg bg-muted mr-12">
+          <div className="max-w-2xl p-4 rounded-lg bg-muted mr-12 whitespace-pre-wrap">
             {message}
           </div>
         </>
