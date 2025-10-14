@@ -1,13 +1,10 @@
-import {
-  Context,
-  Data,
-  InvolvedParties,
-  Legal,
-  // ProgressBar,
-  ReceiveOrShareData,
-  RiskAndConcern,
-  Tech,
-} from "js/components/ui/checklist-sections";
+import { Context } from "js/components/ui/checklist/context";
+import { Data } from "js/components/ui/checklist/data";
+import { InvolvedParties } from "js/components/ui/checklist/involvedParties";
+import { Legal } from "js/components/ui/checklist/legal";
+import { ReceiveOrShareData } from "js/components/ui/checklist/receiveOrShareData";
+import { RiskAndConcern } from "js/components/ui/checklist/riskAndConcern";
+import { Tech } from "js/components/ui/checklist/tech";
 
 const Checklist = () => {
   return (
