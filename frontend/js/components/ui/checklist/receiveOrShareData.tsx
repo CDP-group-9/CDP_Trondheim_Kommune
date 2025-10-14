@@ -11,7 +11,7 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
   return (
     <section className="bg-primary/5 border border-primary/20 rounded-lg p-6 max-w-4xl mx-auto">
       <h2 className="text-xl font-medium mb-1 flex items-center gap-2">
-        <span aria-label="Flopp disk" role="img">
+        <span aria-label="Floppy disk icon" role="img">
           💾
         </span>
         Hva skal du gjøre med personopplysninger?
@@ -98,7 +98,7 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
             border: "1px solid #FFF085",
           }}
         >
-          <span aria-label="Warning" role="img">
+          <span aria-label="warning icon" role="img">
             ⚠️
           </span>{" "}
           Vennligst velg ett alternativ for å fortsette med sjekklisten

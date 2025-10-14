@@ -20,7 +20,7 @@ export const RiskAndConcern = () => {
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
       <h2 className="text-xl font-medium mb-1 flex items-center gap-2">
-        <span aria-label="advarsel" role="img">
+        <span aria-label="warning icon" role="img">
           🚨
         </span>
         Risikoer og Bekymringer

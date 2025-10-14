@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { Button } from "js/components/ui/button";
 import { Context } from "js/components/ui/checklist/context";
 import { Data } from "js/components/ui/checklist/data";
 import { InvolvedParties } from "js/components/ui/checklist/involvedParties";
@@ -46,6 +47,15 @@ const Checklist = () => {
             <InvolvedParties />
             <Tech />
             <RiskAndConcern />
+            <div className="flex justify-center space-x-4 pb-1">
+              <Button
+                className="bg-gray-200 text-gray-900 hover:bg-gray-300 cursor-pointer"
+                onClick={() => window.location.reload()}
+              >
+                Nullstill skjema
+              </Button>
+              <Button className="cursor-pointer">Generer veiledning</Button>
+            </div>
           </>
         )}
       </div>
