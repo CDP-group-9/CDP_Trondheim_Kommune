@@ -1,10 +1,11 @@
-import { useState } from "react";
+type Props = {
+  selected: "receive" | "share" | null;
+  onSelect: (key: "receive" | "share" | null) => void;
+};
 
-export const ReceiveOrShareData = () => {
-  const [selected, setSelected] = useState<"receive" | "share" | null>(null);
-
+export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
   const handleSelect = (key: "receive" | "share") => {
-    setSelected((prev) => (prev === key ? null : key));
+    onSelect(selected === key ? null : key);
   };
 
   return (

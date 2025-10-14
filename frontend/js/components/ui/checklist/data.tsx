@@ -3,7 +3,11 @@ import { useState } from "react";
 import { Input } from "../input";
 import { Textarea } from "../textarea";
 
-export const Data = () => {
+type Props = {
+  selectedOption: "receive" | "share";
+};
+
+export const Data = ({ selectedOption }: Props) => {
   const [recipient, setStatus] = useState("");
 
   const [selected, setSelected] = useState<string[]>([]);
@@ -139,180 +143,190 @@ export const Data = () => {
             ))}
           </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Hvor kommer dataene fra?
-          </label>
-          <div className="flex flex-col space-y-2">
-            {dataSources.map(({ value, label }) => (
-              <label
-                key={value}
-                className="inline-flex items-center space-x-2 cursor-pointer"
-              >
-                <input
-                  checked={selectedDataSource.includes(value)}
-                  className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
-                  type="checkbox"
-                  onChange={() => toggleDataSources(value)}
-                />
-                <span>{label}</span>
+
+        {selectedOption === "receive" && (
+          <>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Hvor kommer dataene fra?
               </label>
-            ))}
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Hvor mange personer er inkludert i dataen?
-          </label>
-          <Input
-            min={0}
-            placeholder="Oppgi svaret som et heltall"
-            step={1}
-            type="number"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Hvor lenge skal dataene oppbevares?
-          </label>
-          <Input
-            min={0}
-            placeholder="Oppgi svaret i antall år (bruk desimaltall om nødvendig)"
-            type="number"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Hvordan skal dataene samles inn?
-          </label>
-          <div className="flex flex-col space-y-2">
-            {collectionMethodTypes.map(({ value, label }) => (
-              <label
-                key={value}
-                className="inline-flex items-center space-x-2 cursor-pointer"
-              >
-                <input
-                  checked={selectedCollectionMethod.includes(value)}
-                  className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
-                  type="checkbox"
-                  onChange={() => toggleCollectionMethod(value)}
-                />
-                <span>{label}</span>
+              <div className="flex flex-col space-y-2">
+                {dataSources.map(({ value, label }) => (
+                  <label
+                    key={value}
+                    className="inline-flex items-center space-x-2 cursor-pointer"
+                  >
+                    <input
+                      checked={selectedDataSource.includes(value)}
+                      className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
+                      type="checkbox"
+                      onChange={() => toggleDataSources(value)}
+                    />
+                    <span>{label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Hvor mange personer er inkludert i dataen?
               </label>
-            ))}
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Hvem skal motta dataen?
-          </label>
-          <Input placeholder="F.eks. 'Helsedirektoratet', 'Annen kommune', 'Privat leverandør'..." />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Mottaker type:
-          </label>
-          <div className="space-y-2">
-            <label className="flex items-center gap-2">
-              <input
-                checked={recipient === "govtN"}
-                name="status"
-                type="radio"
-                value="govtN"
-                onChange={(e) => setStatus(e.target.value)}
+              <Input
+                min={0}
+                placeholder="Oppgi svaret som et heltall"
+                step={1}
+                type="number"
               />
-              Offentlig myndighet (Norge)
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                checked={recipient === "govtEU"}
-                name="status"
-                type="radio"
-                value="govtEU"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Offentlig myndighet (EU/EØS)
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                checked={recipient === "govt3rd"}
-                name="status"
-                type="radio"
-                value="govt3rd"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Offentlig myndighet (tredjeland)
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                checked={recipient === "privateN"}
-                name="status"
-                type="radio"
-                value="privateN"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Privat aktør (Norge)
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                checked={recipient === "privateEU"}
-                name="status"
-                type="radio"
-                value="privateEU"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Privat aktør (EU/EØS)
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                checked={recipient === "private3rd"}
-                name="status"
-                type="radio"
-                value="private3rd"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Privat aktør (tredjeland)
-            </label>
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Rettsgrunnlag for utlevering:
-          </label>
-          <Textarea placeholder="Angi lovhjemmel eller annet grunnlag for å dele dataene..." />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Hvor manger ganger skal data deles?
-          </label>
-          <Input
-            min={0}
-            placeholder="Oppgi som et heltall"
-            step={1}
-            type="number"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Hvordan skal dataene overføres?
-          </label>
-          <div className="flex flex-col space-y-2">
-            {datatransferMethods.map(({ value, label }) => (
-              <label
-                key={value}
-                className="inline-flex items-center space-x-2 cursor-pointer"
-              >
-                <input
-                  checked={selectedDataTransferMethods.includes(value)}
-                  className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
-                  type="checkbox"
-                  onChange={() => toggleTransfer(value)}
-                />
-                <span>{label}</span>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Hvor lenge skal dataene oppbevares?
               </label>
-            ))}
-          </div>
-        </div>
+              <Input
+                min={0}
+                placeholder="Oppgi svaret i antall år (bruk desimaltall om nødvendig)"
+                type="number"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Hvordan skal dataene samles inn?
+              </label>
+              <div className="flex flex-col space-y-2">
+                {collectionMethodTypes.map(({ value, label }) => (
+                  <label
+                    key={value}
+                    className="inline-flex items-center space-x-2 cursor-pointer"
+                  >
+                    <input
+                      checked={selectedCollectionMethod.includes(value)}
+                      className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
+                      type="checkbox"
+                      onChange={() => toggleCollectionMethod(value)}
+                    />
+                    <span>{label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {selectedOption === "share" && (
+          <>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Hvem skal motta dataen?
+              </label>
+              <Input placeholder="F.eks. 'Helsedirektoratet', 'Annen kommune', 'Privat leverandør'..." />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Mottaker type:
+              </label>
+              <div className="space-y-2">
+                <label className="flex items-center gap-2">
+                  <input
+                    checked={recipient === "govtN"}
+                    name="status"
+                    type="radio"
+                    value="govtN"
+                    onChange={(e) => setStatus(e.target.value)}
+                  />
+                  Offentlig myndighet (Norge)
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    checked={recipient === "govtEU"}
+                    name="status"
+                    type="radio"
+                    value="govtEU"
+                    onChange={(e) => setStatus(e.target.value)}
+                  />
+                  Offentlig myndighet (EU/EØS)
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    checked={recipient === "govt3rd"}
+                    name="status"
+                    type="radio"
+                    value="govt3rd"
+                    onChange={(e) => setStatus(e.target.value)}
+                  />
+                  Offentlig myndighet (tredjeland)
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    checked={recipient === "privateN"}
+                    name="status"
+                    type="radio"
+                    value="privateN"
+                    onChange={(e) => setStatus(e.target.value)}
+                  />
+                  Privat aktør (Norge)
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    checked={recipient === "privateEU"}
+                    name="status"
+                    type="radio"
+                    value="privateEU"
+                    onChange={(e) => setStatus(e.target.value)}
+                  />
+                  Privat aktør (EU/EØS)
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    checked={recipient === "private3rd"}
+                    name="status"
+                    type="radio"
+                    value="private3rd"
+                    onChange={(e) => setStatus(e.target.value)}
+                  />
+                  Privat aktør (tredjeland)
+                </label>
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Rettsgrunnlag for utlevering:
+              </label>
+              <Textarea placeholder="Angi lovhjemmel eller annet grunnlag for å dele dataene..." />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Hvor manger ganger skal data deles?
+              </label>
+              <Input
+                min={0}
+                placeholder="Oppgi som et heltall"
+                step={1}
+                type="number"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Hvordan skal dataene overføres?
+              </label>
+              <div className="flex flex-col space-y-2">
+                {datatransferMethods.map(({ value, label }) => (
+                  <label
+                    key={value}
+                    className="inline-flex items-center space-x-2 cursor-pointer"
+                  >
+                    <input
+                      checked={selectedDataTransferMethods.includes(value)}
+                      className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
+                      type="checkbox"
+                      onChange={() => toggleTransfer(value)}
+                    />
+                    <span>{label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

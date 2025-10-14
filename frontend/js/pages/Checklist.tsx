@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Context } from "js/components/ui/checklist/context";
 import { Data } from "js/components/ui/checklist/data";
 import { InvolvedParties } from "js/components/ui/checklist/involvedParties";
@@ -7,6 +9,10 @@ import { RiskAndConcern } from "js/components/ui/checklist/riskAndConcern";
 import { Tech } from "js/components/ui/checklist/tech";
 
 const Checklist = () => {
+  const [selectedOption, setSelectedOption] = useState<
+    "receive" | "share" | null
+  >(null);
+
   return (
     <div>
       <div className="flex justify-start mb-4 border-b border-black shadow">
@@ -20,21 +26,28 @@ const Checklist = () => {
         </div>
       </div>
       <div className="space-y-6 p-4">
-        <ReceiveOrShareData />
-        {/* <ProgressBar /> */}
-        <div className="flex justify-center">
-          <p className="text-center text-muted-foreground max-w-2xl">
-            Fyll ut informasjonen nedenfor for å gi AI-assistenten best mulig
-            grunnlag for å hjelpe deg med personvernvurdering, DPIA og juridisk
-            veiledning.
-          </p>
-        </div>
-        <Context />
-        <Data />
-        <Legal />
-        <InvolvedParties />
-        <Tech />
-        <RiskAndConcern />
+        <ReceiveOrShareData
+          selected={selectedOption}
+          onSelect={setSelectedOption}
+        />
+        {selectedOption && (
+          <>
+            {/* <ProgressBar /> hvis det er nøvendig kan dette lages */}
+            <div className="flex justify-center">
+              <p className="text-center text-muted-foreground max-w-2xl">
+                Fyll ut informasjonen nedenfor for å gi AI-assistenten best
+                mulig grunnlag for å hjelpe deg med personvernvurdering, DPIA og
+                juridisk veiledning.
+              </p>
+            </div>
+            <Context />
+            <Data selectedOption={selectedOption} />
+            <Legal />
+            <InvolvedParties />
+            <Tech />
+            <RiskAndConcern />
+          </>
+        )}
       </div>
     </div>
   );
