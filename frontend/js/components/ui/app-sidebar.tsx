@@ -2,6 +2,7 @@ import { Check, History, DockIcon, Info, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import {
+  SidebarTrigger,
   Sidebar,
   SidebarContent,
   SidebarGroup,
@@ -22,26 +23,29 @@ const items = [
   },
   {
     title: "Om personvern",
-    url: "/privacy",
+    url: "/personvern",
     icon: Info,
   },
   {
     title: "Sjekkliste",
-    url: "/checklist",
+    url: "/sjekkliste",
     icon: Check,
   },
   {
     title: "Eksempler",
-    url: "/examples",
+    url: "/eksempel",
     icon: DockIcon,
   },
 ];
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarGroupLabel style={{ fontSize: "20px", fontWeight: "600" }}>
+        <SidebarGroupLabel
+          className="mt-3"
+          style={{ fontSize: "20px", fontWeight: "600" }}
+        >
           <a
             className="font-medium text-gray-900 hover:text-gray-900/75 transition-colors cursor-pointer rounded-md px-1 py-1"
             href="/"
@@ -49,6 +53,7 @@ export function AppSidebar() {
             DASQ
           </a>
         </SidebarGroupLabel>
+        <SidebarTrigger className="ml-2 mr-2 mt-2 mb-1 hover:bg-muted transition" />
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
