@@ -1,5 +1,6 @@
-import { Switch } from "@radix-ui/react-switch";
 import { useState } from "react";
+
+import { Switch } from "js/components/ui/switch";
 
 import { Textarea } from "../textarea";
 

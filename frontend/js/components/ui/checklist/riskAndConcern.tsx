@@ -1,6 +1,7 @@
-import { Slider } from "@radix-ui/react-slider";
-import { Switch } from "@radix-ui/react-switch";
 import { useState } from "react";
+
+import { Slider } from "js/components/ui/slider";
+import { Switch } from "js/components/ui/switch";
 
 import { Textarea } from "../textarea";
 

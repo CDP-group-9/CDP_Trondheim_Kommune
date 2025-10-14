@@ -1,12 +1,13 @@
+import { useState } from "react";
+
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
-import { Switch } from "@radix-ui/react-switch";
-import { useState } from "react";
+} from "js/components/ui/select";
+import { Switch } from "js/components/ui/switch";
 
 export const InvolvedParties = () => {
   const [usesExternalProcessors, setUsesExternalProcessors] = useState(false);

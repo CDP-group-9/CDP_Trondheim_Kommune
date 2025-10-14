@@ -1,16 +1,10 @@
 import { useState } from "react";
 
 export const ReceiveOrShareData = () => {
-  const [selected, setSelected] = useState<{
-    receive: boolean;
-    share: boolean;
-  }>({
-    receive: false,
-    share: false,
-  });
+  const [selected, setSelected] = useState<"receive" | "share" | null>(null);
 
-  const toggleOption = (key: "receive" | "share") => {
-    setSelected((prev) => ({ ...prev, [key]: !prev[key] }));
+  const handleSelect = (key: "receive" | "share") => {
+    setSelected((prev) => (prev === key ? null : key));
   };
 
   return (
@@ -29,16 +23,16 @@ export const ReceiveOrShareData = () => {
         {/* Receive/Collect Data Card */}
         <button
           className={`flex flex-col items-start justify-start flex-1 border rounded-lg p-4 cursor-pointer transition text-left
-      ${selected.receive ? "border-primary bg-white shadow-sm" : "border-primary/20 bg-muted/10"}`}
+      ${selected === "receive" ? "border-primary bg-white shadow-sm" : "border-primary/20 bg-muted/10"}`}
           type="button"
-          onClick={() => toggleOption("receive")}
+          onClick={() => handleSelect("receive")}
         >
           <div className="flex items-start gap-3 self-start">
             <input
-              checked={selected.receive}
+              checked={selected === "receive"}
               className="mt-1"
+              readOnly
               type="checkbox"
-              onChange={() => toggleOption("receive")}
             />
             <div className="flex flex-col justify-start">
               <h3 className="font-medium flex items-center gap-1">
@@ -62,16 +56,16 @@ export const ReceiveOrShareData = () => {
         {/* Share/Transfer Data Card */}
         <button
           className={`flex flex-col items-start justify-start flex-1 border rounded-lg p-4 cursor-pointer transition text-left
-      ${selected.share ? "border-primary bg-white shadow-sm" : "border-primary/20 bg-muted/10"}`}
+      ${selected === "share" ? "border-primary bg-white shadow-sm" : "border-primary/20 bg-muted/10"}`}
           type="button"
-          onClick={() => toggleOption("share")}
+          onClick={() => handleSelect("share")}
         >
           <div className="flex items-start gap-3 self-start">
             <input
-              checked={selected.share}
+              checked={selected === "share"}
               className="mt-1"
+              readOnly
               type="checkbox"
-              onChange={() => toggleOption("share")}
             />
             <div className="flex flex-col justify-start">
               <h3 className="font-medium flex items-center gap-1">
@@ -94,7 +88,7 @@ export const ReceiveOrShareData = () => {
       </div>
 
       {/* Warning message if neither is selected */}
-      {!selected.receive && !selected.share && (
+      {!selected && (
         <div
           className="flex items-center gap-2 text-sm rounded px-4 py-2"
           style={{

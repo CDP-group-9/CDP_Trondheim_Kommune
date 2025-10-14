@@ -1,11 +1,12 @@
+import { useState } from "react";
+
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
-import { useState } from "react";
+} from "js/components/ui/select";
 
 import { Input } from "../input";
 import { Textarea } from "../textarea";
