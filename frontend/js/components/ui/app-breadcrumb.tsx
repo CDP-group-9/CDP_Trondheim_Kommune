@@ -20,7 +20,7 @@ export function DynamicBreadcrumb({ className }: DynamicBreadcrumbProps) {
   const pathParts = location.pathname.split("/").filter(Boolean);
 
   return (
-    <Breadcrumb className="mb-6">
+    <Breadcrumb className={`mb-6 ${className ?? ""}`}>
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>

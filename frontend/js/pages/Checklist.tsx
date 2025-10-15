@@ -1,23 +1,65 @@
+import { useState } from "react";
+
+import { Button } from "js/components/ui/button";
+import { Context } from "js/components/ui/checklist/context";
+import { Data } from "js/components/ui/checklist/data";
+import { InvolvedParties } from "js/components/ui/checklist/involvedParties";
+import { Legal } from "js/components/ui/checklist/legal";
+import { ReceiveOrShareData } from "js/components/ui/checklist/receiveOrShareData";
+import { RiskAndConcern } from "js/components/ui/checklist/riskAndConcern";
+import { Tech } from "js/components/ui/checklist/tech";
 import ProgressBarUpdated from "js/components/ui/progressbar-updated";
 
 const Checklist = () => {
+  const [selectedOption, setSelectedOption] = useState<
+    "receive" | "share" | null
+  >(null);
+
   return (
-    <div className="p-6">
+    <div>
       <ProgressBarUpdated />
-      <h1 className="text-2xl font-bold mb-4">Sjekkliste</h1>
-      <div className="space-y-4">
-        <div className="flex items-center space-x-3">
-          <input className="w-4 h-4" id="checkbox-task-1" type="checkbox" />
-          <label htmlFor="checkbox-task-1">Fullført oppgave 1</label>
+      <div className="flex justify-start mb-4 border-b border-black shadow-[0_4px_4px_-2px_rgba(0,0,0,0.2)]">
+        <div className="flex-1 space-y-6 max-w-4xl px-6 py-4">
+          <div className="text-left space-y-4">
+            <h1 className="text-3xl font-medium mb-1">Personvernsjekkliste</h1>
+            <p className="text-muted-foreground text-left max-w-2xl">
+              Systematisk gjennomgang av alle personvernkrav for ditt prosjekt
+            </p>
+          </div>
         </div>
-        <div className="flex items-center space-x-3">
-          <input className="w-4 h-4" id="checkbox-task-2" type="checkbox" />
-          <label htmlFor="checkbox-task-2">Fullført oppgave 2</label>
-        </div>
-        <div className="flex items-center space-x-3">
-          <input className="w-4 h-4" id="checkbox-task-3" type="checkbox" />
-          <label htmlFor="checkbox-task-3">Fullført oppgave 3</label>
-        </div>
+      </div>
+      <div className="space-y-6 p-4">
+        <ReceiveOrShareData
+          selected={selectedOption}
+          onSelect={setSelectedOption}
+        />
+        {selectedOption && (
+          <>
+            {/* <ProgressBar /> hvis det er nøvendig kan dette lages */}
+            <div className="flex justify-center">
+              <p className="text-center text-muted-foreground max-w-2xl">
+                Fyll ut informasjonen nedenfor for å gi AI-assistenten best
+                mulig grunnlag for å hjelpe deg med personvernvurdering, DPIA og
+                juridisk veiledning.
+              </p>
+            </div>
+            <Context />
+            <Data selectedOption={selectedOption} />
+            <Legal />
+            <InvolvedParties />
+            <Tech />
+            <RiskAndConcern />
+            <div className="flex justify-center space-x-4 pb-1">
+              <Button
+                className="bg-gray-200 text-gray-900 hover:bg-gray-300 cursor-pointer"
+                onClick={() => window.location.reload()}
+              >
+                Nullstill skjema
+              </Button>
+              <Button className="cursor-pointer">Generer veiledning</Button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
