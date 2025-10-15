@@ -1,20 +1,8 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-/* Trondheim Kommune – Tailwind/Shadcn single‑source theme
-   ------------------------------------------------------------------
-   Apply this file BEFORE your current globals.css (temporarily). Once
-   verified, you can merge it into globals.css and remove duplicates.
-
-   This file defines:
-   1) Brand tokens (colors, fonts, radii) as CSS variables
-   2) Tailwind v4 @theme mappings so you can use utilities like
-      text-brand-blue, bg-primary, etc.
-   3) Base typography (h1–h4, body) from the handbook
-   4) Helpful utilities for logo placement and link styles
-
-   Fonts: PT Sans (default UI/Body/Headings) and PT Serif (editorial)
-   ------------------------------------------------------------------ */
+@custom-variant dark (&:is(.dark *));
 
 :root {
   /* Color palette */
@@ -23,7 +11,7 @@
   --brand-red:    #e41f1a;
   --brand-purple: #a91c8e;
   --brand-pink:   #e6007e;
-  --brand-blue:   #005aa7; /* primary */
+  --brand-blue:   #005aa7; /* Trondheim Kommune Blue */
   --brand-cyan:   #009bdf;
   --brand-green:  #00953b;
   --brand-lime:   #c3d600;
@@ -31,7 +19,6 @@
   --brand-black:  #000000;
   --brand-white:  #ffffff;
 
-  /* Derived roles (for shadcn + global UI) */
   --background: var(--brand-white);
   --foreground: #111111;
   --card: var(--brand-white);
@@ -40,11 +27,11 @@
   --popover-foreground: #111111;
   --primary: var(--brand-blue);
   --primary-foreground: var(--brand-white);
-  --secondary: #f5f7fa; /* neutral surface */
+  --secondary: #f5f7fa; 
   --secondary-foreground: #1a1a1a;
   --muted: #f3f4f6; /* neutral */
   --muted-foreground: #586072; /* subtle text */
-  --accent: var(--brand-cyan);
+  --accent: var(--brand-blue);
   --accent-foreground: var(--brand-white);
   --destructive: var(--brand-red);
   --destructive-foreground: var(--brand-white);
@@ -55,11 +42,21 @@
   /* Radii */
   --radius: 10px; /* 0.625rem → matches existing look */
 
-  /* Typography families */
+  /* Typography */
   --font-sans: "PT Sans", ui-sans-serif, system-ui, -apple-system,
                 Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans",
                 "Liberation Sans", sans-serif;
   --font-serif: "PT Serif", ui-serif, Georgia, Cambria, "Times New Roman", serif;
+
+  /* Sidebar tokens */
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 }
 
 /*  Dark mode (only change what’s necessary for contrast) */
@@ -84,6 +81,16 @@
   --border: #2a313a;
   --input: #2a313a;
   --ring: var(--brand-cyan);
+
+  /* Sidebar tokens */
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 }
 
 /* === Tailwind v4 @theme mappings === */
@@ -108,6 +115,16 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Sidebar roles */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 
   /* Expose the brand palette as utilities */
   --color-brand-yellow: var(--brand-yellow);
@@ -174,7 +191,7 @@
 /* ---------- 6) Shadcn component variables (already used by components) ---------- */
 @layer base {
   * { @apply border-border outline-ring/50; }
-  .btn-primary { @apply bg-primary text-primary-foreground hover:bg-primary/90; }
+  .btn-primary { @apply bg-primary text-secondary-foreground hover:bg-primary/90; }
   .btn-secondary { @apply bg-secondary text-secondary-foreground hover:bg-secondary/80; }
   .btn-destructive { @apply bg-destructive text-destructive-foreground hover:bg-destructive/90; }
   .card { @apply bg-card text-card-foreground border border-border rounded-lg; }

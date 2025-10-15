@@ -1,4 +1,5 @@
 import { ChatBox } from "js/components/ui/chatbox";
+import ProgressBarUpdated from "js/components/ui/progressbar-updated";
 
 /*
 TODO: move to backend
@@ -21,6 +22,7 @@ const final =
 const Examples = () => {
   return (
     <div className="flex justify-center py-4 mb-4">
+      <ProgressBarUpdated />
       <div className="flex flex-col max-w-4xl space-y-6">
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-medium">Eksempelsamtale</h1>

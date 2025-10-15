@@ -2,7 +2,7 @@
 
 import { Slot } from "@radix-ui/react-slot";
 import { cva, VariantProps } from "class-variance-authority";
-import { PanelLeftIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "js/components/ui/button";
@@ -29,7 +29,7 @@ const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
-const SIDEBAR_WIDTH_ICON = "3rem";
+const SIDEBAR_WIDTH_ICON = "4rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
 type SidebarContextProps = {
@@ -258,11 +258,14 @@ function SidebarTrigger({
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, state } = useSidebar();
 
   return (
     <Button
-      className={cn("size-7", className)}
+      className={cn(
+        "flex items-center justify-start px-1.5 py-2 w-auto",
+        className,
+      )}
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
       size="icon"
@@ -273,8 +276,12 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon />
-      <span className="sr-only">Toggle Sidebar</span>
+      {state === "collapsed" ? (
+        <ChevronRight className="!w-5 !h-5" />
+      ) : (
+        <ChevronLeft className="!w-5 !h-5" />
+      )}
+      <span>{state === "collapsed" ? "" : "Skjul"}</span>
     </Button>
   );
 }

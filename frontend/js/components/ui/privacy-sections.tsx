@@ -1,3 +1,7 @@
+import { ExternalLink } from "lucide-react";
+
+import { Button } from "./button";
+
 export const PersonalDataSection = () => (
   <section className="bg-card border border-border rounded-lg p-6">
     <h2 className="text-xl font-medium mb-4 flex items-center gap-2">
@@ -269,8 +273,9 @@ export const ContactInfoSection = () => (
     </h2>
     <div className="space-y-3">
       <p>
-        Hvis du har spørsmål om personopplysninger eller personvern, kan du
-        kontakte:
+        Du kan også bruke denne AI-assistenten for å få veiledning om spesifikke
+        personvernspørsmål eller ta kontakt med personvernombudet i Trondheim
+        kommune.
       </p>
       <div className="space-y-2 text-sm">
         <p>
@@ -278,6 +283,18 @@ export const ContactInfoSection = () => (
         </p>
         <p>E-post: personvernombud@trondheim.kommune.no</p>
         <p>Telefon: 73 83 00 00</p>
+        <div className="flex items-center">
+          <p>Lov om personvern</p>
+          <a
+            href="https://lovdata.no/dokument/NL/lov/2018-06-15-38"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Button className="h-auto p-1" size="sm" variant="ghost">
+              <ExternalLink size={14} />
+            </Button>
+          </a>
+        </div>
       </div>
       <p className="text-sm text-muted-foreground">
         Du kan også bruke denne AI-assistenten for å få veiledning om spesifikke
