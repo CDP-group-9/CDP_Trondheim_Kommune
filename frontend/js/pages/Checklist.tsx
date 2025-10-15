@@ -8,6 +8,7 @@ import { Legal } from "js/components/ui/checklist/legal";
 import { ReceiveOrShareData } from "js/components/ui/checklist/receiveOrShareData";
 import { RiskAndConcern } from "js/components/ui/checklist/riskAndConcern";
 import { Tech } from "js/components/ui/checklist/tech";
+import ProgressBarUpdated from "js/components/ui/progressbar-updated";
 
 const Checklist = () => {
   const [selectedOption, setSelectedOption] = useState<
@@ -16,7 +17,8 @@ const Checklist = () => {
 
   return (
     <div>
-      <div className="flex justify-start mb-4 border-b border-black shadow">
+      <ProgressBarUpdated />
+      <div className="flex justify-start mb-4 border-b border-black shadow-[0_4px_4px_-2px_rgba(0,0,0,0.2)]">
         <div className="flex-1 space-y-6 max-w-4xl px-6 py-4">
           <div className="text-left space-y-4">
             <h1 className="text-3xl font-medium mb-1">Personvernsjekkliste</h1>
