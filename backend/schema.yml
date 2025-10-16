@@ -17,6 +17,21 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ChatRequest'
+            examples:
+              ChatRequestExample:
+                value:
+                  prompt: Hva er hovedprinsippene i norsk personvernslovgivning?
+                  history:
+                  - role: user
+                    parts:
+                    - text: Forrige spørsmål
+                  - role: model
+                    parts:
+                    - text: Forrige svar
+                  context_text: Valgfri kontekst for RAG
+                  system_instructions: Svar som en juridisk ekspert
+                  model_name: gemini-2.5-flash
+                summary: Chat Request Example
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/ChatRequest'

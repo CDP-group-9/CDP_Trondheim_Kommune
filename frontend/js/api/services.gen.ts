@@ -4,6 +4,8 @@ import type { CancelablePromise } from "./core/CancelablePromise";
 import { OpenAPI } from "./core/OpenAPI";
 import { request as __request } from "./core/request";
 import type {
+  ChatChatCreateData,
+  ChatChatCreateResponse,
   CounterIncrementCreateData,
   CounterIncrementCreateResponse,
   RestRestCheckRetrieveResponse,
@@ -20,6 +22,27 @@ import type {
   UsersDestroyData,
   UsersDestroyResponse,
 } from "./types.gen";
+
+export class ChatService {
+  /**
+   * Gemini Chat Conversation Turn
+   * Sends a new message and previous history to Gemini, returning the model's response and the updated history.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns ChatResponse
+   * @throws ApiError
+   */
+  public static chatChatCreate(
+    data: ChatChatCreateData,
+  ): CancelablePromise<ChatChatCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/chat/chat/",
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+}
 
 export class CounterService {
   /**
