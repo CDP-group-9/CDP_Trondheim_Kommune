@@ -9,6 +9,8 @@ import {
 } from "js/components/ui/select";
 import { Switch } from "js/components/ui/switch";
 
+import { Textarea } from "../textarea";
+
 export const InvolvedParties = () => {
   const [usesExternalProcessors, setUsesExternalProcessors] = useState(false);
   const [sharesWithOthers, setSharesWithOthers] = useState(false);
@@ -84,6 +86,15 @@ export const InvolvedParties = () => {
           </div>
         </div>
 
+        {usesExternalProcessors && (
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Eksterne leverandører/databehandlere:
+            </label>
+            <Textarea placeholder="Liste over eksterne som behandler data på kommunens vegne..." />
+          </div>
+        )}
+
         {/* Employee Access */}
         <div>
           <label className="block text-sm font-medium mb-2">
@@ -116,6 +127,15 @@ export const InvolvedParties = () => {
             <span>{sharesWithOthers ? "Ja" : "Nei"}</span>
           </div>
         </div>
+
+        {sharesWithOthers && (
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Hvem deles det data med?
+            </label>
+            <Textarea placeholder="F.eks. andre kommuner, statlige etater, private aktører..." />
+          </div>
+        )}
       </div>
     </section>
   );

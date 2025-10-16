@@ -125,6 +125,15 @@ export const RiskAndConcern = () => {
           </div>
         </div>
 
+        {employeeConcern && (
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Beskriv bekymringene:
+            </label>
+            <Textarea placeholder="Innspill eller bekymringer som er reist..." />
+          </div>
+        )}
+
         {/* Regulatory concern */}
         <div>
           <label className="block text-sm font-medium mb-2">

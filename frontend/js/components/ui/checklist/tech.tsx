@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { Switch } from "js/components/ui/switch";
 
+import { Textarea } from "../textarea";
+
 export const Tech = () => {
   const [storage, setStorage] = useState("");
   const [security, setSecurity] = useState<string[]>([]);
@@ -109,6 +111,15 @@ export const Tech = () => {
           </div>
         </div>
 
+        {integrations && (
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Hvilke systemer?
+            </label>
+            <Textarea placeholder="Beskriv hvilke systemer som skal kommunisere sammen..." />
+          </div>
+        )}
+
         {/* Automated decisions */}
         <div>
           <label className="block text-sm font-medium mb-2">
@@ -123,6 +134,15 @@ export const Tech = () => {
             <span>{automated ? "Ja" : "Nei"}</span>
           </div>
         </div>
+
+        {automated && (
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Beskriv automatiserte beslutninger?
+            </label>
+            <Textarea placeholder="F.eks. algoritmer for tildeling, scoring, profiling..." />
+          </div>
+        )}
       </div>
     </section>
   );
