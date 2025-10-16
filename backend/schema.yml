@@ -4,6 +4,60 @@ info:
   version: 0.1.0
   description: A Django project boilerplate with Vinta's best practices
 paths:
+  /api/chat/chat/:
+    post:
+      operationId: chat_chat_create
+      description: Sends a new message and previous history to Gemini, returning the
+        model's response and the updated history.
+      summary: Gemini Chat Conversation Turn
+      tags:
+      - chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+            examples:
+              ChatRequestExample:
+                value:
+                  prompt: Hva er hovedprinsippene i norsk personvernslovgivning?
+                  history:
+                  - role: user
+                    parts:
+                    - text: Forrige spørsmål
+                  - role: model
+                    parts:
+                    - text: Forrige svar
+                  context_text: Valgfri kontekst for RAG
+                  system_instructions: Svar som en juridisk ekspert
+                  model_name: gemini-2.5-flash
+                summary: Chat Request Example
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+          description: ''
   /api/counter/increment/:
     post:
       operationId: counter_increment_create
@@ -207,6 +261,54 @@ paths:
           description: No response body
 components:
   schemas:
+    ChatRequest:
+      type: object
+      description: Defines the expected input structure for the chat API.
+      properties:
+        prompt:
+          type: string
+          description: The user's new message to the model.
+          maxLength: 2000
+        history:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          description: The full conversation history as a list of Content dictionaries.
+        context_text:
+          type: string
+          nullable: true
+          description: Optional context (e.g., RAG snippets) to augment the prompt.
+          maxLength: 5000
+        system_instructions:
+          type: string
+          nullable: true
+          description: Optional instructions to guide the model's persona.
+          maxLength: 1000
+        model_name:
+          type: string
+          default: gemini-2.5-flash
+          description: The Gemini model to use for generation.
+          maxLength: 50
+      required:
+      - prompt
+    ChatResponse:
+      type: object
+      description: Defines the expected output structure from the chat API.
+      properties:
+        response:
+          type: string
+          description: The model's generated text response.
+        history:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          description: The full, updated conversation history (including the latest
+            turn).
+      required:
+      - history
+      - response
     Counter:
       type: object
       properties:
