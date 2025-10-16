@@ -151,6 +151,28 @@ class ChatViewSet(viewsets.ViewSet):
                 "properties": {"error": {"type": "string"}},
             },
         },
+        examples=[
+            OpenApiExample(
+                "Chat Request Example",
+                value={
+                    "prompt": "Hva er hovedprinsippene i norsk personvernslovgivning?",
+                    "history": [
+                        {
+                            "role": "user",
+                            "parts": [{"text": "Forrige spørsmål"}]
+                        },
+                        {
+                            "role": "model",
+                            "parts": [{"text": "Forrige svar"}]
+                        }
+                    ],
+                    "context_text": "Valgfri kontekst for RAG",
+                    "system_instructions": "Svar som en juridisk ekspert",
+                    "model_name": "gemini-2.5-flash"
+                },
+                request_only=True,
+            )
+        ],
     )
     @action(
         detail=False,
