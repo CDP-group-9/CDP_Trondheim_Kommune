@@ -88,6 +88,49 @@ export const $Message = {
   required: ["message"],
 } as const;
 
+export const $MockResponse = {
+  type: "object",
+  properties: {
+    id: {
+      type: "integer",
+      readOnly: true,
+    },
+    response: {
+      type: "string",
+    },
+  },
+  required: ["id", "response"],
+} as const;
+
+export const $PaginatedMockResponseList = {
+  type: "object",
+  required: ["count", "results"],
+  properties: {
+    count: {
+      type: "integer",
+      example: 123,
+    },
+    next: {
+      type: "string",
+      nullable: true,
+      format: "uri",
+      example: "http://api.example.org/accounts/?offset=400&limit=100",
+    },
+    previous: {
+      type: "string",
+      nullable: true,
+      format: "uri",
+      example: "http://api.example.org/accounts/?offset=200&limit=100",
+    },
+    results: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/MockResponse",
+      },
+    },
+  },
+} as const;
+
 export const $PaginatedUserList = {
   type: "object",
   required: ["count", "results"],
@@ -113,6 +156,19 @@ export const $PaginatedUserList = {
       items: {
         $ref: "#/components/schemas/User",
       },
+    },
+  },
+} as const;
+
+export const $PatchedMockResponse = {
+  type: "object",
+  properties: {
+    id: {
+      type: "integer",
+      readOnly: true,
+    },
+    response: {
+      type: "string",
     },
   },
 } as const;
