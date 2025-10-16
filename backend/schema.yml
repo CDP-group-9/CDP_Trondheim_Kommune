@@ -45,9 +45,9 @@ paths:
           description: ''
   /api/counter/increment/:
     post:
-      operationId: api_counter_increment_create
+      operationId: counter_increment_create
       tags:
-      - api
+      - counter
       requestBody:
         content:
           application/json:
@@ -71,11 +71,11 @@ paths:
           description: ''
   /api/rest/rest-check/:
     get:
-      operationId: api_rest_rest_check_retrieve
+      operationId: rest_rest_check_retrieve
       description: This endpoint checks if the REST API is working.
       summary: Check REST API
       tags:
-      - api
+      - rest
       security:
       - cookieAuth: []
       - {}
@@ -94,7 +94,7 @@ paths:
           description: ''
   /api/test-response/:
     get:
-      operationId: api_test_response_list
+      operationId: test_response_list
       parameters:
       - name: limit
         required: false
@@ -109,7 +109,7 @@ paths:
         schema:
           type: integer
       tags:
-      - api
+      - test-response
       security:
       - cookieAuth: []
       responses:
@@ -120,9 +120,9 @@ paths:
                 $ref: '#/components/schemas/PaginatedMockResponseList'
           description: ''
     post:
-      operationId: api_test_response_create
+      operationId: test_response_create
       tags:
-      - api
+      - test-response
       requestBody:
         content:
           application/json:
@@ -146,7 +146,7 @@ paths:
           description: ''
   /api/test-response/{id}/:
     get:
-      operationId: api_test_response_retrieve
+      operationId: test_response_retrieve
       parameters:
       - in: path
         name: id
@@ -155,7 +155,7 @@ paths:
         description: A unique integer value identifying this mock response.
         required: true
       tags:
-      - api
+      - test-response
       security:
       - cookieAuth: []
       responses:
@@ -166,7 +166,7 @@ paths:
                 $ref: '#/components/schemas/MockResponse'
           description: ''
     put:
-      operationId: api_test_response_update
+      operationId: test_response_update
       parameters:
       - in: path
         name: id
@@ -175,7 +175,7 @@ paths:
         description: A unique integer value identifying this mock response.
         required: true
       tags:
-      - api
+      - test-response
       requestBody:
         content:
           application/json:
@@ -198,7 +198,7 @@ paths:
                 $ref: '#/components/schemas/MockResponse'
           description: ''
     patch:
-      operationId: api_test_response_partial_update
+      operationId: test_response_partial_update
       parameters:
       - in: path
         name: id
@@ -207,7 +207,7 @@ paths:
         description: A unique integer value identifying this mock response.
         required: true
       tags:
-      - api
+      - test-response
       requestBody:
         content:
           application/json:
@@ -229,7 +229,7 @@ paths:
                 $ref: '#/components/schemas/MockResponse'
           description: ''
     delete:
-      operationId: api_test_response_destroy
+      operationId: test_response_destroy
       parameters:
       - in: path
         name: id
@@ -238,7 +238,7 @@ paths:
         description: A unique integer value identifying this mock response.
         required: true
       tags:
-      - api
+      - test-response
       security:
       - cookieAuth: []
       responses:
@@ -246,9 +246,9 @@ paths:
           description: No response body
   /api/test-response/fetch_by_keyword/:
     post:
-      operationId: api_test_response_fetch_by_keyword_create
+      operationId: test_response_fetch_by_keyword_create
       tags:
-      - api
+      - test-response
       requestBody:
         content:
           application/json:
@@ -273,7 +273,7 @@ paths:
           description: ''
   /api/users/:
     get:
-      operationId: api_users_list
+      operationId: users_list
       parameters:
       - name: limit
         required: false
@@ -288,7 +288,7 @@ paths:
         schema:
           type: integer
       tags:
-      - api
+      - users
       security:
       - cookieAuth: []
       responses:
@@ -299,9 +299,9 @@ paths:
                 $ref: '#/components/schemas/PaginatedUserList'
           description: ''
     post:
-      operationId: api_users_create
+      operationId: users_create
       tags:
-      - api
+      - users
       requestBody:
         content:
           application/json:
@@ -325,7 +325,7 @@ paths:
           description: ''
   /api/users/{id}/:
     get:
-      operationId: api_users_retrieve
+      operationId: users_retrieve
       parameters:
       - in: path
         name: id
@@ -334,7 +334,7 @@ paths:
         description: A unique integer value identifying this user.
         required: true
       tags:
-      - api
+      - users
       security:
       - cookieAuth: []
       responses:
@@ -345,7 +345,7 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     put:
-      operationId: api_users_update
+      operationId: users_update
       parameters:
       - in: path
         name: id
@@ -354,7 +354,7 @@ paths:
         description: A unique integer value identifying this user.
         required: true
       tags:
-      - api
+      - users
       requestBody:
         content:
           application/json:
@@ -377,7 +377,7 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     patch:
-      operationId: api_users_partial_update
+      operationId: users_partial_update
       parameters:
       - in: path
         name: id
@@ -386,7 +386,7 @@ paths:
         description: A unique integer value identifying this user.
         required: true
       tags:
-      - api
+      - users
       requestBody:
         content:
           application/json:
@@ -408,7 +408,7 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     delete:
-      operationId: api_users_destroy
+      operationId: users_destroy
       parameters:
       - in: path
         name: id
@@ -417,7 +417,7 @@ paths:
         description: A unique integer value identifying this user.
         required: true
       tags:
-      - api
+      - users
       security:
       - cookieAuth: []
       responses:
