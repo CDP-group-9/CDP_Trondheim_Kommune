@@ -15,6 +15,7 @@ module.exports = {
     "frontend/js/constants/*",
     "frontend/js/tests/*",
     "frontend/js/components/ui/*",
+    "frontend/js/api/*",
   ],
   coverageThreshold: {
     global: {
