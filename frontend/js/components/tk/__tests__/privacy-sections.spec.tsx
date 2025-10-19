@@ -4,9 +4,10 @@ import {
   PersonalDataSection,
   SensitiveDataSection,
   DataSubjectRightsSection,
+  KeyPrinciplesSection,
+  ContactInfoSection,
 } from "../privacy-sections";
 
-// Mock lucide-react icons
 jest.mock("lucide-react", () => ({
   ExternalLink: () => <div>ExternalLink</div>,
 }));
@@ -92,6 +93,71 @@ describe("Privacy Sections", () => {
       expect(
         screen.getByText(/Personer har flere rettigheter/i),
       ).toBeInTheDocument();
+    });
+  });
+
+  describe("KeyPrinciplesSection", () => {
+    test("renders section heading", () => {
+      render(<KeyPrinciplesSection />);
+
+      expect(
+        screen.getByText("Grunnprinsipper for personvernbehandling"),
+      ).toBeInTheDocument();
+    });
+
+    test("displays all seven GDPR principles", () => {
+      render(<KeyPrinciplesSection />);
+
+      expect(
+        screen.getByText("Lovlighet, rettferdighet og gjennomsiktig"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Formålsbegrensning")).toBeInTheDocument();
+      expect(screen.getByText("Dataminimering")).toBeInTheDocument();
+      expect(screen.getByText("Riktighet")).toBeInTheDocument();
+      expect(screen.getByText("Lagringsbegrensning")).toBeInTheDocument();
+      expect(
+        screen.getByText("Integritet og konfidensialitet"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Ansvarlighet")).toBeInTheDocument();
+    });
+
+    test("displays GDPR principles description", () => {
+      render(<KeyPrinciplesSection />);
+
+      expect(
+        screen.getByText(/GDPR bygger på syv grunnprinsipper/i),
+      ).toBeInTheDocument();
+    });
+  });
+
+  describe("ContactInfoSection", () => {
+    test("renders section heading", () => {
+      render(<ContactInfoSection />);
+
+      expect(screen.getByText("Trenger du mer hjelp?")).toBeInTheDocument();
+    });
+
+    test("displays personvernombud information", () => {
+      render(<ContactInfoSection />);
+
+      expect(
+        screen.getByText("Personvernombud Trondheim Kommune"),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("E-post: personvernombud@trondheim.kommune.no"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Telefon: 73 83 00 00")).toBeInTheDocument();
+    });
+
+    test("displays link to privacy law", () => {
+      render(<ContactInfoSection />);
+
+      expect(screen.getByText("Lov om personvern")).toBeInTheDocument();
+      const link = screen.getByRole("link");
+      expect(link).toHaveAttribute(
+        "href",
+        "https://lovdata.no/dokument/NL/lov/2018-06-15-38",
+      );
     });
   });
 });

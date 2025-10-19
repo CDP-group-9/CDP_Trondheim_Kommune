@@ -43,8 +43,16 @@ jest.mock("js/components/ui/switch", () => ({
 }));
 
 jest.mock("../../ui/textarea", () => ({
-  Textarea: ({ placeholder }: { placeholder?: string }) => (
-    <textarea placeholder={placeholder} />
+  Textarea: ({
+    placeholder,
+    value,
+    onChange,
+  }: {
+    placeholder?: string;
+    value?: string;
+    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  }) => (
+    <textarea placeholder={placeholder} value={value} onChange={onChange} />
   ),
 }));
 
@@ -133,5 +141,33 @@ describe("RiskAndConcern", () => {
     expect(
       screen.getByPlaceholderText("Innspill eller bekymringer som er reist..."),
     ).toBeInTheDocument();
+  });
+
+  test("can change all slider values to different levels", () => {
+    render(<RiskAndConcern />);
+
+    const sliders = screen.getAllByTestId("slider");
+
+    fireEvent.change(sliders[1], { target: { value: "2" } });
+    expect(screen.getByText("Lav (2)")).toBeInTheDocument();
+
+    fireEvent.change(sliders[2], { target: { value: "4" } });
+    expect(screen.getByText("Høy (4)")).toBeInTheDocument();
+
+    fireEvent.change(sliders[3], { target: { value: "5" } });
+    expect(screen.getByText("Svært høy (5)")).toBeInTheDocument();
+  });
+
+  test("handles regulatory concern textarea input", () => {
+    render(<RiskAndConcern />);
+
+    const textarea = screen.getByPlaceholderText(
+      "Områder hvor dere er usikre på lovlighet...",
+    );
+    fireEvent.change(textarea, {
+      target: { value: "Usikker på riktig lagringsfrist" },
+    });
+
+    expect(textarea).toHaveValue("Usikker på riktig lagringsfrist");
   });
 });

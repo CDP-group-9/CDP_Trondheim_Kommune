@@ -151,4 +151,22 @@ describe("Legal", () => {
     expect(consentCheckbox.checked).toBe(true);
     expect(healthcareCheckbox.checked).toBe(true);
   });
+
+  test("allows deselecting sensitive data reasons", () => {
+    render(<Legal />);
+
+    const switchElement = screen.getByTestId("switch");
+    fireEvent.click(switchElement);
+
+    const consentCheckbox = screen
+      .getByText("Uttrykkelig samtykke (art. 9(2)(a))")
+      .closest("label")
+      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+
+    fireEvent.click(consentCheckbox);
+    expect(consentCheckbox.checked).toBe(true);
+
+    fireEvent.click(consentCheckbox);
+    expect(consentCheckbox.checked).toBe(false);
+  });
 });

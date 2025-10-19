@@ -186,4 +186,19 @@ describe("Tech", () => {
       ),
     ).toBeInTheDocument();
   });
+
+  test("allows deselecting security measures", () => {
+    render(<Tech />);
+
+    const tlsCheckbox = screen
+      .getByText("Kryptering under overføring (TLS/SSL)")
+      .closest("label")
+      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+
+    fireEvent.click(tlsCheckbox);
+    expect(tlsCheckbox.checked).toBe(true);
+
+    fireEvent.click(tlsCheckbox);
+    expect(tlsCheckbox.checked).toBe(false);
+  });
 });

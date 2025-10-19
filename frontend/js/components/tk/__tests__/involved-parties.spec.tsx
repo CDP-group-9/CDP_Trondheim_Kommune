@@ -132,4 +132,40 @@ describe("InvolvedParties", () => {
       screen.getByText("Deles data med andre organisasjoner?"),
     ).toBeInTheDocument();
   });
+
+  test("allows deselecting registered groups", () => {
+    render(<InvolvedParties />);
+
+    const childrenCheckbox = screen
+      .getByText("Barn (under 16 år)")
+      .closest("label")
+      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+
+    fireEvent.click(childrenCheckbox);
+    expect(childrenCheckbox.checked).toBe(true);
+
+    fireEvent.click(childrenCheckbox);
+    expect(childrenCheckbox.checked).toBe(false);
+  });
+
+  test("shows data sharing textarea when switch is enabled", () => {
+    render(<InvolvedParties />);
+
+    const switches = screen.getAllByTestId("switch");
+    const dataShareSwitch = switches[1];
+
+    expect(
+      screen.queryByPlaceholderText(
+        "F.eks. andre kommuner, statlige etater, private aktører...",
+      ),
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(dataShareSwitch);
+
+    expect(
+      screen.getByPlaceholderText(
+        "F.eks. andre kommuner, statlige etater, private aktører...",
+      ),
+    ).toBeInTheDocument();
+  });
 });
