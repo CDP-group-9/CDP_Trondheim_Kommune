@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 import { Switch } from "js/components/ui/switch";
-
-import { Textarea } from "../textarea";
+import { Textarea } from "js/components/ui/textarea";
 
 export const Tech = () => {
   const [storage, setStorage] = useState("");
