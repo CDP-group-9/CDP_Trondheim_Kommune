@@ -7,6 +7,33 @@ import { Textarea } from "../../ui/textarea";
 export const Legal = () => {
   const [legalBasis, setLegalBasis] = useState("");
   const [handlesSensitiveData, setHandlesSensitiveData] = useState(false);
+  const [selectedSensitiveDataReason, setSelectedSensitiveDataReason] =
+    useState<string[]>([]);
+
+  const sensitiveDataReasons = [
+    {
+      value: "consent",
+      label: "Uttrykkelig samtykke (art. 9(2)(a))",
+    },
+    {
+      value: "healthcare",
+      label: "Helsehjelp og forebygging (art. 9(2)(h))",
+    },
+    {
+      value: "public_health",
+      label: "Samfunnsinteresser i folkehelsearbeid (art. 9(2)(i))",
+    },
+    {
+      value: "public_insterest",
+      label: "Viktig samfunnsinteresse (art. 9(2)(g))",
+    },
+  ];
+
+  const toggleSensitive = (value: string) => {
+    setSelectedSensitiveDataReason((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
+    );
+  };
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
@@ -83,6 +110,31 @@ export const Legal = () => {
             <span>{handlesSensitiveData ? "Ja" : "Nei"}</span>
           </div>
         </div>
+
+        {handlesSensitiveData && (
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Rettsgrunnlag for sensitive opplysninger (GDPR art. 9)
+            </label>
+            <div className="flex flex-col space-y-2">
+              {sensitiveDataReasons.map(({ value, label }) => (
+                <label
+                  key={value}
+                  className="inline-flex items-center space-x-2 cursor-pointer"
+                >
+                  <input
+                    checked={selectedSensitiveDataReason.includes(value)}
+                    className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
+                    type="checkbox"
+                    onChange={() => toggleSensitive(value)}
+                  />
+                  <span>{label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div>
           <label className="block text-sm font-medium mb-2">
             Lovpålagte oppgaver eller krav?
