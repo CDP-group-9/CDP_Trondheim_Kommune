@@ -1,5 +1,5 @@
-import { ChatBox } from "js/components/tk/chatbox";
-import ProgressBarUpdated from "js/components/tk/progressbar-updated";
+import { ChatBox } from "../components/tk/chatbox";
+import ProgressBarUpdated from "../components/tk/progressbar-updated";
 
 /*
 TODO: move to backend
