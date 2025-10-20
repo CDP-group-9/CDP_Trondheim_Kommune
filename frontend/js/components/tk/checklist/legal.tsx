@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Switch } from "js/components/ui/switch";
 
-import { Textarea } from "../textarea";
+import { Textarea } from "../../ui/textarea";
 
 export const Legal = () => {
   const [legalBasis, setLegalBasis] = useState("");
