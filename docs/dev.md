@@ -214,6 +214,12 @@ For VSCode or other IDE: Install the Extensions for the following;
      ```
      The above command will stop and re-build the containers in order to make the new dependencies effective
 
+## Adding to the database
+
+In order to manually add data to the database, one must be logged in as an admin user. An admin user can be created with: `docker compose exec backend python manage.py createsuperuser`. After an admin user is created, log in to Djangos user interface.
+
+After this is completed, go to `localhost:8000/api/schema/swagger-ui/#`. Under `test-response`, make sure to select the POST alternative. Select the `Try it out`button and edit the response string. Clicking the `Execute` button adds the new string to the database.
+
 ## Testing
 
 ### Frontend:
