@@ -107,6 +107,185 @@ paths:
                       this, the REST API is working!
                   summary: Successful Response
           description: ''
+  /api/test-response/:
+    get:
+      operationId: test_response_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - test-response
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMockResponseList'
+          description: ''
+    post:
+      operationId: test_response_create
+      tags:
+      - test-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MockResponse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MockResponse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MockResponse'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockResponse'
+          description: ''
+  /api/test-response/{id}/:
+    get:
+      operationId: test_response_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mock response.
+        required: true
+      tags:
+      - test-response
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockResponse'
+          description: ''
+    put:
+      operationId: test_response_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mock response.
+        required: true
+      tags:
+      - test-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MockResponse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MockResponse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MockResponse'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockResponse'
+          description: ''
+    patch:
+      operationId: test_response_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mock response.
+        required: true
+      tags:
+      - test-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMockResponse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMockResponse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMockResponse'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockResponse'
+          description: ''
+    delete:
+      operationId: test_response_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mock response.
+        required: true
+      tags:
+      - test-response
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/test-response/fetch_by_keyword/:
+    post:
+      operationId: test_response_fetch_by_keyword_create
+      tags:
+      - test-response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MockResponse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MockResponse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MockResponse'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MockResponse'
+          description: ''
   /api/users/:
     get:
       operationId: users_list
@@ -328,6 +507,40 @@ components:
           type: string
       required:
       - message
+    MockResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        response:
+          type: string
+      required:
+      - id
+      - response
+    PaginatedMockResponseList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MockResponse'
     PaginatedUserList:
       type: object
       required:
@@ -351,6 +564,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
+    PatchedMockResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        response:
+          type: string
     PatchedUser:
       type: object
       properties:

@@ -1,13 +1,11 @@
 import logging
 import time
-from typing import Optional
 
 from django.conf import settings
 
 from google import genai
 from google.genai import types
-from google.genai.client import AsyncClient
-from google.genai.types import Content, Part, GenerateContentConfig
+from google.genai.types import Content, GenerateContentConfig, Part
 
 
 logger = logging.getLogger(__name__)
@@ -304,6 +302,62 @@ class GeminiAPIClient:
             return response.text, updated_history
         except Exception as e:
             logger.error("Failed to send async chat message to Gemini API: %s", e)
+            raise
+
+    def send_chat_message_sync(
+        self,
+        prompt: str,
+        current_history: list[Content],
+        system_instruction: str | None = None,
+        model_name: str = "gemini-2.5-flash",
+        context_text: str | None = None,
+    ) -> tuple[str, list[Content]]:
+        """
+        Sends a message to the Gemini API synchronously and returns the response.
+
+        Args:
+            system_instruction (str): Optional system instruction to guide the model's behavior.
+            prompt (str): The user's prompt or question.
+            current_history (list[Content]): The current chat history as a list of Content objects.
+            model_name (str): The name of the model to use for the chat.
+            context_text (str): Optional context text to include with the prompt.
+
+        Returns:
+            tuple[str, list[Content]]: The response and the updated chat history including the model's response.
+        """
+
+        if system_instruction is None:
+            system_instruction = self.system_instructions
+
+        config = None
+        if system_instruction:
+            config = GenerateContentConfig(system_instruction=system_instruction)
+
+        user_parts = []
+
+        if context_text:
+            # Add the context first
+            user_parts.append(
+                Part(text=f"CONTEXT: The following text provides relevant information:\n\n---\n{context_text}\n---")
+            )
+
+        # Add the actual user prompt
+        user_parts.append(Part(text=f"USER QUESTION: {prompt}"))
+
+        try:
+            self.start_client()
+            chat_session = self.client.chats.create(
+                model=model_name,
+                history=current_history,
+                config=config,
+            )
+            response = chat_session.send_message(user_parts)
+
+            updated_history = chat_session.get_history()
+
+            return response.text, updated_history
+        except Exception as e:
+            logger.error("Failed to send sync chat message to Gemini API: %s", e)
             raise
 
 # Runs ONCE when the django server process loads this module

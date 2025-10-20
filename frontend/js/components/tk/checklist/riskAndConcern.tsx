@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Slider } from "js/components/ui/slider";
 import { Switch } from "js/components/ui/switch";
 
-import { Textarea } from "../textarea";
+import { Textarea } from "../../ui/textarea";
 
 export const RiskAndConcern = () => {
   const [privacyRisk, setPrivacyRisk] = useState(1);
@@ -124,6 +124,15 @@ export const RiskAndConcern = () => {
             <span>{employeeConcern ? "Ja" : "Nei"}</span>
           </div>
         </div>
+
+        {employeeConcern && (
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Beskriv bekymringene:
+            </label>
+            <Textarea placeholder="Innspill eller bekymringer som er reist..." />
+          </div>
+        )}
 
         {/* Regulatory concern */}
         <div>

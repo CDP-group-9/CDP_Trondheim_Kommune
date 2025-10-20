@@ -12,7 +12,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./sidebar";
+} from "../ui/sidebar";
 
 // Menu items.
 const items = [

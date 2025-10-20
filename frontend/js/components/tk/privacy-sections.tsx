@@ -1,6 +1,6 @@
 import { ExternalLink } from "lucide-react";
 
-import { Button } from "./button";
+import { Button } from "../ui/button";
 
 export const PersonalDataSection = () => (
   <section className="bg-card border border-border rounded-lg p-6">
@@ -240,7 +240,7 @@ export const KeyPrinciplesSection = () => (
           "Ansvarlighet",
         ].map((title, index) => (
           <div
-            key={index}
+            key={title}
             className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg"
           >
             <span

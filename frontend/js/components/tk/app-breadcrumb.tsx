@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import { House, ChevronRight } from "lucide-react";
 import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -20,11 +20,16 @@ export function DynamicBreadcrumb({ className }: DynamicBreadcrumbProps) {
   const pathParts = location.pathname.split("/").filter(Boolean);
 
   return (
-    <Breadcrumb className={`mb-6 ${className ?? ""}`}>
+    <Breadcrumb className={`mb-2 ${className ?? ""}`}>
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link to="/">Home</Link>
+            <Link to="/">
+              <span className="flex items-center gap-1">
+                <House className="h-4 w-4" />
+                <span className="text-sm">Home</span>
+              </span>
+            </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
 

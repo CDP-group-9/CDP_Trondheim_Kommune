@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { Input } from "../input";
-import { Textarea } from "../textarea";
+import { Input } from "../../ui/input";
+import { Textarea } from "../../ui/textarea";
 
 type Props = {
   selectedOption: "receive" | "share";

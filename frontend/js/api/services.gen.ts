@@ -9,6 +9,20 @@ import type {
   CounterIncrementCreateData,
   CounterIncrementCreateResponse,
   RestRestCheckRetrieveResponse,
+  TestResponseListData,
+  TestResponseListResponse,
+  TestResponseCreateData,
+  TestResponseCreateResponse,
+  TestResponseRetrieveData,
+  TestResponseRetrieveResponse,
+  TestResponseUpdateData,
+  TestResponseUpdateResponse,
+  TestResponsePartialUpdateData,
+  TestResponsePartialUpdateResponse,
+  TestResponseDestroyData,
+  TestResponseDestroyResponse,
+  TestResponseFetchByKeywordCreateData,
+  TestResponseFetchByKeywordCreateResponse,
   UsersListData,
   UsersListResponse,
   UsersCreateData,
@@ -74,6 +88,140 @@ export class RestService {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/rest/rest-check/",
+    });
+  }
+}
+
+export class TestResponseService {
+  /**
+   * @param data The data for the request.
+   * @param data.limit Number of results to return per page.
+   * @param data.offset The initial index from which to return the results.
+   * @returns PaginatedMockResponseList
+   * @throws ApiError
+   */
+  public static testResponseList(
+    data: TestResponseListData = {},
+  ): CancelablePromise<TestResponseListResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/test-response/",
+      query: {
+        limit: data.limit,
+        offset: data.offset,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static testResponseCreate(
+    data: TestResponseCreateData,
+  ): CancelablePromise<TestResponseCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/test-response/",
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this mock response.
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static testResponseRetrieve(
+    data: TestResponseRetrieveData,
+  ): CancelablePromise<TestResponseRetrieveResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/test-response/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this mock response.
+   * @param data.requestBody
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static testResponseUpdate(
+    data: TestResponseUpdateData,
+  ): CancelablePromise<TestResponseUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/test-response/{id}/",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this mock response.
+   * @param data.requestBody
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static testResponsePartialUpdate(
+    data: TestResponsePartialUpdateData,
+  ): CancelablePromise<TestResponsePartialUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PATCH",
+      url: "/api/test-response/{id}/",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this mock response.
+   * @returns void No response body
+   * @throws ApiError
+   */
+  public static testResponseDestroy(
+    data: TestResponseDestroyData,
+  ): CancelablePromise<TestResponseDestroyResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/test-response/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns MockResponse
+   * @throws ApiError
+   */
+  public static testResponseFetchByKeywordCreate(
+    data: TestResponseFetchByKeywordCreateData,
+  ): CancelablePromise<TestResponseFetchByKeywordCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/test-response/fetch_by_keyword/",
+      body: data.requestBody,
+      mediaType: "application/json",
     });
   }
 }
