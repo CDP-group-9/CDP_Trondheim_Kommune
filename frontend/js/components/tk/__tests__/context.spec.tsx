@@ -37,25 +37,15 @@ jest.mock("../../ui/textarea", () => ({
 }));
 
 describe("Context", () => {
-  test("renders the section heading", () => {
+  test("renders all form elements", () => {
     render(<Context />);
 
     expect(screen.getByText("Prosjekt/Initiativ Kontekst")).toBeInTheDocument();
-  });
-
-  test("renders project name input field", () => {
-    render(<Context />);
-
     expect(
       screen.getByPlaceholderText(
         "F.eks. 'Digital Skoleportal - ny løsning for elevdata'",
       ),
     ).toBeInTheDocument();
-  });
-
-  test("renders department selection dropdown", () => {
-    render(<Context />);
-
     expect(screen.getByText("Ansvarlig avdeling/enhet:")).toBeInTheDocument();
     expect(screen.getByText("Velg et alternativ...")).toBeInTheDocument();
   });
@@ -63,50 +53,38 @@ describe("Context", () => {
   test("renders all project status radio buttons", () => {
     render(<Context />);
 
-    expect(screen.getByText("Planlegging")).toBeInTheDocument();
-    expect(screen.getByText("Utvikling")).toBeInTheDocument();
-    expect(screen.getByText("Testing")).toBeInTheDocument();
-    expect(screen.getByText("Implementering")).toBeInTheDocument();
-    expect(screen.getByText("Produksjon")).toBeInTheDocument();
+    const statuses = [
+      "Planlegging",
+      "Utvikling",
+      "Testing",
+      "Implementering",
+      "Produksjon",
+    ];
+
+    statuses.forEach((status) => {
+      expect(screen.getByText(status)).toBeInTheDocument();
+    });
   });
 
   test("allows selecting a project status", () => {
     render(<Context />);
 
-    const planningRadio = screen
-      .getByText("Planlegging")
-      .closest("label")
-      ?.querySelector('input[type="radio"]') as HTMLInputElement;
-    fireEvent.click(planningRadio);
-    expect(planningRadio.checked).toBe(true);
+    const statuses = [
+      "Planlegging",
+      "Utvikling",
+      "Testing",
+      "Implementering",
+      "Produksjon",
+    ];
 
-    const developmentRadio = screen
-      .getByText("Utvikling")
-      .closest("label")
-      ?.querySelector('input[type="radio"]') as HTMLInputElement;
-    fireEvent.click(developmentRadio);
-    expect(developmentRadio.checked).toBe(true);
-
-    const testingRadio = screen
-      .getByText("Testing")
-      .closest("label")
-      ?.querySelector('input[type="radio"]') as HTMLInputElement;
-    fireEvent.click(testingRadio);
-    expect(testingRadio.checked).toBe(true);
-
-    const implementationRadio = screen
-      .getByText("Implementering")
-      .closest("label")
-      ?.querySelector('input[type="radio"]') as HTMLInputElement;
-    fireEvent.click(implementationRadio);
-    expect(implementationRadio.checked).toBe(true);
-
-    const productionRadio = screen
-      .getByText("Produksjon")
-      .closest("label")
-      ?.querySelector('input[type="radio"]') as HTMLInputElement;
-    fireEvent.click(productionRadio);
-    expect(productionRadio.checked).toBe(true);
+    statuses.forEach((status) => {
+      const radio = screen
+        .getByText(status)
+        .closest("label")
+        ?.querySelector('input[type="radio"]') as HTMLInputElement;
+      fireEvent.click(radio);
+      expect(radio.checked).toBe(true);
+    });
   });
 
   test("only allows one status to be selected at a time", () => {

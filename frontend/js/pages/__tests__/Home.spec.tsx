@@ -70,34 +70,21 @@ describe("Home", () => {
     mockFetch.mockClear();
   });
 
-  test("renders the textarea and submit button", () => {
+  test("renders the textarea and submit button with correct initial state", () => {
     render(<Home />);
 
-    expect(
-      screen.getByPlaceholderText(
-        "Spør om GDPR, DPIA eller personvernspørsmål...",
-      ),
-    ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Submit" })).toBeInTheDocument();
-  });
-
-  test("renders FourButtons component initially", () => {
-    render(<Home />);
-
-    expect(screen.getByTestId("four-buttons")).toBeInTheDocument();
-    expect(
-      screen.getByText("Hjelp meg med å starte en DPIA for et nytt prosjekt."),
-    ).toBeInTheDocument();
-  });
-
-  test("submit button is disabled when input is empty", () => {
-    render(<Home />);
-
+    const textarea = screen.getByPlaceholderText(
+      "Spør om GDPR, DPIA eller personvernspørsmål...",
+    );
     const submitButton = screen.getByRole("button", { name: "Submit" });
+
+    expect(textarea).toBeInTheDocument();
+    expect(submitButton).toBeInTheDocument();
     expect(submitButton).toBeDisabled();
+    expect(screen.getByTestId("four-buttons")).toBeInTheDocument();
   });
 
-  test("submit button is enabled when input has text", async () => {
+  test("enables submit button when input has text", async () => {
     const user = userEvent.setup();
     render(<Home />);
 
@@ -107,22 +94,11 @@ describe("Home", () => {
     const submitButton = screen.getByRole("button", { name: "Submit" });
 
     await user.type(textarea, "Test input");
+    expect(textarea).toHaveValue("Test input");
     expect(submitButton).toBeEnabled();
   });
 
-  test("textarea is interactive", async () => {
-    const user = userEvent.setup();
-    render(<Home />);
-
-    const textarea = screen.getByPlaceholderText(
-      "Spør om GDPR, DPIA eller personvernspørsmål...",
-    );
-
-    await user.type(textarea, "Test question");
-    expect(textarea).toHaveValue("Test question");
-  });
-
-  test("clicking FourButtons action button submits prompt", async () => {
+  test("clicking FourButtons action button submits prompt and displays messages", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ response: "Bot response" }),
@@ -148,48 +124,10 @@ describe("Home", () => {
           }),
         }),
       );
-    });
-  });
-
-  test("displays user message after submission", async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ response: "Bot response" }),
-    } as Response);
-
-    render(<Home />);
-
-    const actionButton = screen.getByText(
-      "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
-    );
-    fireEvent.click(actionButton);
-
-    await waitFor(() => {
       expect(screen.getByTestId("chatbox-user")).toBeInTheDocument();
-      expect(
-        screen.getByText(
-          "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
-        ),
-      ).toBeInTheDocument();
-    });
-  });
-
-  test("displays bot response after successful API call", async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ response: "Here is the bot response" }),
-    } as Response);
-
-    render(<Home />);
-
-    const actionButton = screen.getByText(
-      "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
-    );
-    fireEvent.click(actionButton);
-
-    await waitFor(() => {
       expect(screen.getByTestId("chatbox-bot")).toBeInTheDocument();
-      expect(screen.getByText("Here is the bot response")).toBeInTheDocument();
+      expect(screen.getByText("Bot response")).toBeInTheDocument();
+      expect(screen.queryByTestId("four-buttons")).not.toBeInTheDocument();
     });
   });
 
@@ -226,27 +164,7 @@ describe("Home", () => {
     });
   });
 
-  test("hides FourButtons after first message is sent", async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ response: "Bot response" }),
-    } as Response);
-
-    render(<Home />);
-
-    expect(screen.getByTestId("four-buttons")).toBeInTheDocument();
-
-    const actionButton = screen.getByText(
-      "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
-    );
-    fireEvent.click(actionButton);
-
-    await waitFor(() => {
-      expect(screen.queryByTestId("four-buttons")).not.toBeInTheDocument();
-    });
-  });
-
-  test("clears input after submission", async () => {
+  test("clears input after form submission", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ response: "Bot response" }),

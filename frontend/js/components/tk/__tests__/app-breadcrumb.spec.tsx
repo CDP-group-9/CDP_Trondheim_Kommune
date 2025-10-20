@@ -9,7 +9,7 @@ jest.mock("lucide-react", () => ({
 }));
 
 describe("DynamicBreadcrumb", () => {
-  test("renders Home link when at root path", () => {
+  test("renders Home link at root path", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <DynamicBreadcrumb />
@@ -19,7 +19,7 @@ describe("DynamicBreadcrumb", () => {
     expect(screen.getByText("Home")).toBeInTheDocument();
   });
 
-  test("renders breadcrumb trail for nested path", () => {
+  test("renders breadcrumb trail with capitalized path parts", () => {
     render(
       <MemoryRouter initialEntries={["/personvern/sjekkliste"]}>
         <DynamicBreadcrumb />
@@ -31,25 +31,14 @@ describe("DynamicBreadcrumb", () => {
     expect(screen.getByText("Sjekkliste")).toBeInTheDocument();
   });
 
-  test("capitalizes first letter of path parts", () => {
-    render(
-      <MemoryRouter initialEntries={["/eksempel"]}>
-        <DynamicBreadcrumb />
-      </MemoryRouter>,
-    );
-
-    expect(screen.getByText("Eksempel")).toBeInTheDocument();
-  });
-
-  test("applies custom className when provided", () => {
+  test("applies custom className", () => {
     const { container } = render(
       <MemoryRouter initialEntries={["/"]}>
         <DynamicBreadcrumb className="custom-class" />
       </MemoryRouter>,
     );
 
-    const breadcrumb = container.querySelector("nav");
-    expect(breadcrumb).toHaveClass("custom-class");
+    expect(container.querySelector("nav")).toHaveClass("custom-class");
   });
 
   test("renders separator icons between breadcrumb items", () => {
@@ -59,7 +48,6 @@ describe("DynamicBreadcrumb", () => {
       </MemoryRouter>,
     );
 
-    const separators = screen.getAllByText("ChevronRight");
-    expect(separators.length).toBeGreaterThan(0);
+    expect(screen.getAllByText("ChevronRight").length).toBeGreaterThan(0);
   });
 });
