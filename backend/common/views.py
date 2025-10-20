@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from django.views import generic
 
 from asgiref.sync import async_to_sync
@@ -71,6 +73,7 @@ class RestViewSet(viewsets.ViewSet):
 
 class MockResponseViewSet(viewsets.ModelViewSet):
     queryset = MockResponse.objects.all()
+    permission_classes: ClassVar[list] = [AllowAny]
     serializer_class = MockResponseSerializer
 
     @action(detail=False, methods=["post"], permission_classes=[AllowAny])
@@ -157,18 +160,12 @@ class ChatViewSet(viewsets.ViewSet):
                 value={
                     "prompt": "Hva er hovedprinsippene i norsk personvernslovgivning?",
                     "history": [
-                        {
-                            "role": "user",
-                            "parts": [{"text": "Forrige spørsmål"}]
-                        },
-                        {
-                            "role": "model",
-                            "parts": [{"text": "Forrige svar"}]
-                        }
+                        {"role": "user", "parts": [{"text": "Forrige spørsmål"}]},
+                        {"role": "model", "parts": [{"text": "Forrige svar"}]},
                     ],
                     "context_text": "Valgfri kontekst for RAG",
                     "system_instructions": "Svar som en juridisk ekspert",
-                    "model_name": "gemini-2.5-flash"
+                    "model_name": "gemini-2.5-flash",
                 },
                 request_only=True,
             )
