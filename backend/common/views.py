@@ -2,7 +2,6 @@ from typing import ClassVar
 
 from django.views import generic
 
-from asgiref.sync import async_to_sync
 from drf_spectacular.utils import OpenApiExample, extend_schema
 from google.genai.types import Content
 from rest_framework import status, viewsets
@@ -196,9 +195,7 @@ class ChatViewSet(viewsets.ViewSet):
             previous_history = json_to_history(previous_history_json)
 
             # chat call
-            response_text, updated_history = async_to_sync(
-                GEMINI_CHAT_SERVICE.async_send_chat_message
-            )(
+            response_text, updated_history = GEMINI_CHAT_SERVICE.send_chat_message_sync(
                 prompt=user_prompt,
                 current_history=previous_history,
                 system_instruction=system_instructions,

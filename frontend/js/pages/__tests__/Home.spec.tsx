@@ -113,14 +113,17 @@ describe("Home", () => {
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-        "http://localhost:8000/api/test-response/fetch_by_keyword/",
+        "http://localhost:8000/api/chat/chat/",
         expect.objectContaining({
           method: "POST",
           headers: expect.objectContaining({
             "Content-Type": "application/json",
+            "X-CSRFTOKEN": "",
           }),
+          credentials: "include",
           body: JSON.stringify({
-            input: "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
+            prompt: "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
+            history: [],
           }),
         }),
       );
@@ -185,6 +188,16 @@ describe("Home", () => {
 
     await waitFor(() => {
       expect(textarea).toHaveValue("");
+      expect(mockFetch).toHaveBeenCalledWith(
+        "http://localhost:8000/api/chat/chat/",
+        expect.objectContaining({
+          method: "POST",
+          body: JSON.stringify({
+            prompt: "Test question",
+            history: [],
+          }),
+        }),
+      );
     });
   });
 });
