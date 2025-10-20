@@ -1,7 +1,6 @@
 import logging
 import time
 from typing import Optional
-import json
 
 from django.conf import settings
 
@@ -9,16 +8,9 @@ from google import genai
 from google.genai import types
 from google.genai.client import AsyncClient
 from google.genai.types import Content, Part, GenerateContentConfig
-# from ..preprocessing import find_law
-#from common.preprocessing import find_law
 
 
 logger = logging.getLogger(__name__)
-#from ..rag_test import LawRetriever
-
-# Lag en global instans
-# self.law_retriever = LawRetriever(json_folder="/home/user/app/backend/common/lovdata_test")
-# conversation_history: list[Content] = []
 
 
 class GeminiAPIClient:
@@ -35,8 +27,6 @@ class GeminiAPIClient:
             timeout (int): The timeout for API requests in seconds.
         """
 
-        # self.law_retriever = LawRetriever(json_folder="/home/user/app/backend/common/lovdata_test")
-        # conversation_history: list[Content] = []
         self.api_key = api_key or getattr(settings, "GEMINI_API_KEY", None)
         if self.api_key is None:
             raise ValueError(
@@ -257,52 +247,6 @@ class GeminiAPIClient:
         except Exception as e:
             logger.error("Failed to engage in chat with Gemini API: %s", e)
             raise
-    
-    async def send_with_law_context(
-        self,
-        relevant_docs: list[dict],
-        user_query: str,
-        model_name: str = "gemini-2.5-flash",
-        system_instruction: Optional[str] = None,
-        current_history: Optional[list[Content]] = None,
-    ) -> tuple[str, list[Content]]:
-        """
-        Sender et spørsmål til Gemini, basert på relevante lovdokumenter funnet av find_law().
-
-        Args:
-            relevant_docs: Liste med dokumenter (fra find_law), som inneholder minst 'text'.
-            user_query: Spørsmålet brukeren stiller.
-            model_name: Gemini-modell.
-            system_instruction: Instruksjon for modellens stil/oppførsel.
-
-        Returns:
-            tuple[str, list[Content]]: Modellens svar og oppdatert historikk.
-        """
-
-        if not relevant_docs:
-            raise ValueError("Ingen relevante dokumenter sendt til send_with_law_context().")
-
-        # Hent tekst fra dokumentene
-        context_snippets = [doc.get("text", "").strip() for doc in relevant_docs if doc.get("text")]
-        if not context_snippets:
-            raise ValueError("Ingen tekst funnet i de relevante dokumentene.")
-
-        # Slå sammen til en kontekststreng
-        context_text = "\n\n---\n\n".join(context_snippets)
-
-        # Lag prompten
-        prompt = f"Bruk konteksten under til å svare på spørsmålet:\n\n'{user_query}'"
-
-        # Bruk eksisterende async_send_chat_message til å spørre Gemini
-        response_text, updated_history = await self.client.async_send_chat_message(
-            prompt=prompt,
-            current_history=current_history or [],
-            system_instruction=system_instruction or "Svar presist og faglig basert på konteksten nedenfor.",
-            model_name=model_name,
-            context_text=context_text,
-        )
-
-        return response_text, updated_history
 
     async def async_send_chat_message(
             self,
@@ -361,99 +305,6 @@ class GeminiAPIClient:
         except Exception as e:
             logger.error("Failed to send async chat message to Gemini API: %s", e)
             raise
-    
-
-    # async def async_rag_chatbot(
-    #     input_text: str,
-    #     history: list[Content],
-    #     top_k=3,  # færre lover for å redusere prompt-størrelse
-    #     max_law_chars=200,  # maks antall tegn per lov
-    #     max_history_msgs=1,  # maks antall meldinger fra historikken
-    #     preview_only=False
-    #     ):
-    #     # --- Hent relevante lover fra FAISS ---
-    #     relevant_laws = law_retriever.query(input_text, top_k=top_k)
-
-    #     # Kutt lovteksten til max_law_chars
-    #     context_laws = "\n\n".join([
-    #         f"{law['title']} ({law['chapter']}): {law['text'][:max_law_chars]}..."
-    #         for law in relevant_laws
-    #     ])
-
-    #     # Ta kun de siste max_history_msgs meldinger
-    #     last_history_text = "\n".join([
-    #         f"{c.role}: {getattr(c, 'text', '') or getattr(c.parts[0], 'text', '')}"
-    #         for c in history[-max_history_msgs:]
-    #     ])
-
-    #     # Bygg full context
-    #     full_context = (
-    #         f"=== RELEVANTE LOVER ===\n{context_laws}\n\n"
-    #         f"=== SAMTALEHISTORIKK ===\n{last_history_text}\n\n"
-    #         f"=== SPØRSMÅL ===\n{input_text}\n\nSvar:"
-    #     )
-
-    #     # if preview_only:
-    #     #     print("\n--- PREVIEW AV PROMPT SOM VIL SENDES TIL GEMINI ---\n")
-    #     #     print(full_context)
-    #     #     return "Preview complete."
-    #     # 🧩 Debug – alltid vis prompten og størrelsen
-    #     # print("\n--- PROMPT SOM SENDES TIL GEMINI ---")
-    #     # print(f"🧩 Lengde på prompt: {len(full_context)} tegn\n")
-    #     # print(full_context)
-    #     # print("\n--- SLUTT PÅ PROMPT ---\n")
-
-    # # if preview_only:
-    # #     return "Preview complete."
-
-    #     # Send meldingen til Gemini
-    #     response_text, updated_history = await GEMINI_CHAT_SERVICE.async_send_chat_message(
-    #         # prompt=input_text,
-    #         prompt=full_context,
-    #         current_history=history,
-    #         #context_text=full_context,
-    #         system_instruction="Svar som en juridisk ekspert"
-    #     )
-
-    #     return response_text, updated_history, full_context
-    # async def async_rag_chatbot(
-    #     self,
-    #     input_text: str,
-    #     history: list[Content],
-    #     top_k=1,
-    #     max_law_chars=50,
-    #     max_history_msgs=1,
-    #     preview_only=False
-    # ):
-    #     # --- Hent relevante lover fra FAISS ---
-    #     relevant_laws = self.law_retriever.query(input_text, top_k=top_k)
-
-    #     # Kutt lovteksten
-    #     context_laws = "\n\n".join([
-    #         f"{law['title']} ({law['chapter']}): {law['text'][:max_law_chars]}..."
-    #         for law in relevant_laws
-    #     ])
-
-    #     # Ta kun de siste max_history_msgs meldinger
-    #     last_history_text = "\n".join([
-    #         f"{c.role}: {getattr(c, 'text', '') or getattr(c.parts[0], 'text', '')}"
-    #         for c in history[-max_history_msgs:]
-    #     ])
-
-    #     # Bygg full context
-    #     full_context = (
-    #         f"=== RELEVANTE LOVER ===\n{context_laws}\n\n"
-    #         f"=== SAMTALEHISTORIKK ===\n{last_history_text}\n\n"
-    #         f"=== SPØRSMÅL ===\n{input_text}\n\nSvar:"
-    #     )
-
-    #     if preview_only:
-    #         print("\n--- PREVIEW AV FULL CONTEXT ---")
-    #         print(full_context)
-    #         print("\n--- SLUTT ---\n")
-
-    #     # Returner bare full_context og historikk, ikke kall Gemini her
-    #     return None, history, full_context
 
 # Runs ONCE when the django server process loads this module
 GEMINI_CHAT_SERVICE = GeminiAPIClient()
