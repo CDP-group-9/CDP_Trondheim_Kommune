@@ -4,8 +4,8 @@ import {
   DataSubjectRightsSection,
   KeyPrinciplesSection,
   ContactInfoSection,
-} from "../components/ui/privacy-sections";
-import ProgressBarUpdated from "../components/ui/progressbar-updated";
+} from "../components/tk/privacy-sections";
+import ProgressBarUpdated from "../components/tk/progressbar-updated";
 
 const Privacy = () => {
   return (

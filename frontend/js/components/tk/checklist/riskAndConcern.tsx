@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Slider } from "js/components/ui/slider";
 import { Switch } from "js/components/ui/switch";
 
-import { Textarea } from "../textarea";
+import { Textarea } from "../../ui/textarea";
 
 export const RiskAndConcern = () => {
   const [privacyRisk, setPrivacyRisk] = useState(1);

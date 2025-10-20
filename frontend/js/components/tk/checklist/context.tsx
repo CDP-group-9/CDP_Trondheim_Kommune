@@ -8,8 +8,8 @@ import {
   SelectItem,
 } from "js/components/ui/select";
 
-import { Input } from "../input";
-import { Textarea } from "../textarea";
+import { Input } from "../../ui/input";
+import { Textarea } from "../../ui/textarea";
 
 export const Context = () => {
   const [status, setStatus] = useState("");

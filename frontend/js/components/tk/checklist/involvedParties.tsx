@@ -8,8 +8,7 @@ import {
   SelectItem,
 } from "js/components/ui/select";
 import { Switch } from "js/components/ui/switch";
-
-import { Textarea } from "../textarea";
+import { Textarea } from "js/components/ui/textarea";
 
 export const InvolvedParties = () => {
   const [usesExternalProcessors, setUsesExternalProcessors] = useState(false);

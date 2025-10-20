@@ -1,9 +1,9 @@
 import { Send } from "lucide-react";
 import { useState } from "react";
 
-import { FourButtons } from "../components/ui/app-four-buttons";
+import { FourButtons } from "../components/tk/app-four-buttons";
+import { ChatBox } from "../components/tk/chatbox";
 import { Button } from "../components/ui/button";
-import { ChatBox } from "../components/ui/chatbox";
 import { Textarea } from "../components/ui/textarea";
 
 interface ChatMessage {

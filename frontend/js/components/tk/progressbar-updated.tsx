@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Progress } from "./progress";
+import { Progress } from "../ui/progress";
 
 const ProgressBarUpdated = () => {
   const [progress, setProgress] = React.useState(0);

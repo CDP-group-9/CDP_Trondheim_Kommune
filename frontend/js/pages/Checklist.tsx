@@ -1,14 +1,14 @@
 import { useState } from "react";
 
-import { Button } from "js/components/ui/button";
-import { Context } from "js/components/ui/checklist/context";
-import { Data } from "js/components/ui/checklist/data";
-import { InvolvedParties } from "js/components/ui/checklist/involvedParties";
-import { Legal } from "js/components/ui/checklist/legal";
-import { ReceiveOrShareData } from "js/components/ui/checklist/receiveOrShareData";
-import { RiskAndConcern } from "js/components/ui/checklist/riskAndConcern";
-import { Tech } from "js/components/ui/checklist/tech";
-import ProgressBarUpdated from "js/components/ui/progressbar-updated";
+import { Context } from "../components/tk/checklist/context";
+import { Data } from "../components/tk/checklist/data";
+import { InvolvedParties } from "../components/tk/checklist/involvedParties";
+import { Legal } from "../components/tk/checklist/legal";
+import { ReceiveOrShareData } from "../components/tk/checklist/receiveOrShareData";
+import { RiskAndConcern } from "../components/tk/checklist/riskAndConcern";
+import { Tech } from "../components/tk/checklist/tech";
+import ProgressBarUpdated from "../components/tk/progressbar-updated";
+import { Button } from "../components/ui/button";
 
 const Checklist = () => {
   const [selectedOption, setSelectedOption] = useState<
