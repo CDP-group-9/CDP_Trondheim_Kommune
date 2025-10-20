@@ -24,31 +24,28 @@ const Home = () => {
     return "";
   }
 
-  async function handleChatSubmit(input: string) {
-    if (!input.trim()) return;
+  async function handleChatSubmit(prompt: string) {
+    if (!prompt.trim()) return;
 
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       type: "user",
-      message: input,
+      message: prompt,
     };
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setErrorMsg(null);
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/test-response/fetch_by_keyword/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFTOKEN": getCookie("csrftoken") || "",
-          },
-          credentials: "include",
-          body: JSON.stringify({ input }),
+      const response = await fetch("http://localhost:8000/api/chat/chat/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFTOKEN": getCookie("csrftoken") || "",
         },
-      );
+        credentials: "include",
+        body: JSON.stringify({ prompt, history: [] }),
+      });
       const data: { response?: string; error?: string } = await response.json();
       if (response.ok && data.response !== undefined) {
         const botMessage: ChatMessage = {
