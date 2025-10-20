@@ -12,6 +12,13 @@ class IndexedTimeStampedModel(models.Model):
         abstract = True
 
 
+class MockResponse(models.Model):
+    response = models.TextField()
+
+    def __str__(self):
+        return self.response
+
+
 class Counter(models.Model):
     value = models.IntegerField(default=0)
 
