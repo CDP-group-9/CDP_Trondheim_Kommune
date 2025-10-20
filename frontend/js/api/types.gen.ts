@@ -53,11 +53,28 @@ export type Message = {
   message: string;
 };
 
+export type MockResponse = {
+  readonly id: number;
+  response: string;
+};
+
+export type PaginatedMockResponseList = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: Array<MockResponse>;
+};
+
 export type PaginatedUserList = {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: Array<User>;
+};
+
+export type PatchedMockResponse = {
+  readonly id?: number;
+  response?: string;
 };
 
 export type PatchedUser = {
@@ -113,6 +130,69 @@ export type CounterIncrementCreateData = {
 export type CounterIncrementCreateResponse = Counter;
 
 export type RestRestCheckRetrieveResponse = Message;
+
+export type TestResponseListData = {
+  /**
+   * Number of results to return per page.
+   */
+  limit?: number;
+  /**
+   * The initial index from which to return the results.
+   */
+  offset?: number;
+};
+
+export type TestResponseListResponse = PaginatedMockResponseList;
+
+export type TestResponseCreateData = {
+  requestBody: MockResponse;
+};
+
+export type TestResponseCreateResponse = MockResponse;
+
+export type TestResponseRetrieveData = {
+  /**
+   * A unique integer value identifying this mock response.
+   */
+  id: number;
+};
+
+export type TestResponseRetrieveResponse = MockResponse;
+
+export type TestResponseUpdateData = {
+  /**
+   * A unique integer value identifying this mock response.
+   */
+  id: number;
+  requestBody: MockResponse;
+};
+
+export type TestResponseUpdateResponse = MockResponse;
+
+export type TestResponsePartialUpdateData = {
+  /**
+   * A unique integer value identifying this mock response.
+   */
+  id: number;
+  requestBody?: PatchedMockResponse;
+};
+
+export type TestResponsePartialUpdateResponse = MockResponse;
+
+export type TestResponseDestroyData = {
+  /**
+   * A unique integer value identifying this mock response.
+   */
+  id: number;
+};
+
+export type TestResponseDestroyResponse = void;
+
+export type TestResponseFetchByKeywordCreateData = {
+  requestBody: MockResponse;
+};
+
+export type TestResponseFetchByKeywordCreateResponse = MockResponse;
 
 export type UsersListData = {
   /**
@@ -192,6 +272,57 @@ export type $OpenApiTs = {
     get: {
       res: {
         200: Message;
+      };
+    };
+  };
+  "/api/test-response/": {
+    get: {
+      req: TestResponseListData;
+      res: {
+        200: PaginatedMockResponseList;
+      };
+    };
+    post: {
+      req: TestResponseCreateData;
+      res: {
+        201: MockResponse;
+      };
+    };
+  };
+  "/api/test-response/{id}/": {
+    get: {
+      req: TestResponseRetrieveData;
+      res: {
+        200: MockResponse;
+      };
+    };
+    put: {
+      req: TestResponseUpdateData;
+      res: {
+        200: MockResponse;
+      };
+    };
+    patch: {
+      req: TestResponsePartialUpdateData;
+      res: {
+        200: MockResponse;
+      };
+    };
+    delete: {
+      req: TestResponseDestroyData;
+      res: {
+        /**
+         * No response body
+         */
+        204: void;
+      };
+    };
+  };
+  "/api/test-response/fetch_by_keyword/": {
+    post: {
+      req: TestResponseFetchByKeywordCreateData;
+      res: {
+        200: MockResponse;
       };
     };
   };

@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { DynamicBreadcrumb } from "../app-breadcrumb";
 
 jest.mock("lucide-react", () => ({
+  House: () => <div>House</div>,
   ChevronRight: () => <div>ChevronRight</div>,
 }));
 
