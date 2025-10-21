@@ -29,7 +29,14 @@ const App = () => (
         </a>
       </div>
     </header>
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        // eslint-disable-next-line camelcase
+        v7_startTransition: true,
+        // eslint-disable-next-line camelcase
+        v7_relativeSplatPath: true,
+      }}
+    >
       <SidebarProvider>
         <div className="flex min-h-screen">
           <AppSidebar />
