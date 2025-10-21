@@ -17,7 +17,7 @@
       "js/lib/utils/*": ["frontend/js/lib/utils/*"] },
     "skipLibCheck": true,
     "strict": true,
-    "types": ["node", "jest", "@testing-library/jest-dom"]
+    "types": ["node", "jest", "@testing-library/jest-dom", "jest-axe"]
   },
   "include": ["./frontend/**/*.ts", "./frontend/**/*.tsx"],
   "exclude": ["node_modules", "build", "frontend/**/*.js", "frontend/**/*.jsx"]
