@@ -184,7 +184,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                     className="inline-flex items-center space-x-2 cursor-pointer"
                   >
                     <input
-                      checked={handlingData.collectionMethod.includes(value)}
+                      checked={handlingData.collectionMethods.includes(value)}
                       className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                       type="checkbox"
                       onChange={() => toggleInArray("collectionMethods", value)}
