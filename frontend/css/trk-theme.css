@@ -1,8 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-@custom-variant dark (&:is(.dark *));
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
   /* Color palette */
@@ -156,9 +155,12 @@
 /* ---------- 6) Shadcn component variables (already used by components) ---------- */
 @layer base {
   * { @apply border-border outline-ring/50; }
-  .btn-primary { @apply bg-primary text-secondary-foreground hover:bg-primary/90; }
+  .btn-primary { @apply bg-primary text-primary-foreground hover:bg-primary/90; }
   .btn-secondary { @apply bg-secondary text-secondary-foreground hover:bg-secondary/80; }
-  .btn-destructive { @apply bg-destructive text-destructive-foreground hover:bg-destructive/90; }
+  .btn-destructive { @apply bg-destructive text-secondary-foreground hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60; }
+  .btn-outline { @apply border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground; }
+  .btn-muted { @apply hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50; }
+  .btn-link { @apply text-primary underline-offset-4 hover:underline; }
   .card { @apply bg-card text-card-foreground border border-border rounded-lg; }
   .surface-muted { @apply bg-muted text-muted-foreground; }
 }
