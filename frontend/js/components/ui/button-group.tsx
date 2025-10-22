@@ -55,7 +55,7 @@ function ButtonGroupText({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function ButtonGroupSeparator({
@@ -73,7 +73,7 @@ function ButtonGroupSeparator({
       orientation={orientation}
       {...props}
     />
-  )
+  );
 }
 
 export {
