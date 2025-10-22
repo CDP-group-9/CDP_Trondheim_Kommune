@@ -154,14 +154,18 @@
 
 /* ---------- 6) Shadcn component variables (already used by components) ---------- */
 @layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
   * { @apply border-border outline-ring/50; }
   .btn-primary { @apply bg-primary text-primary-foreground hover:bg-primary/90; }
   .btn-secondary { @apply bg-secondary text-secondary-foreground hover:bg-secondary/80; }
   .btn-destructive { @apply bg-destructive text-secondary-foreground hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60; }
-  .btn-outline { @apply border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground; }
+  .btn-outline { @apply border bg-background shadow-sm hover:bg-accent focus:bg-accent focus:text-accent-foreground hover:text-accent-foreground; }
   .btn-muted { @apply hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50; }
   .btn-link { @apply text-primary underline-offset-4 hover:underline; }
-  .card { @apply bg-card text-card-foreground border border-border rounded-lg; }
+  .card { @apply bg-card text-card-foreground border border-border rounded-lg shadow-sm hover:shadow-md; }
   .surface-muted { @apply bg-muted text-muted-foreground; }
 }
 
@@ -172,11 +176,4 @@
   --chart-3: var(--brand-green);
   --chart-4: var(--brand-orange);
   --chart-5: var(--brand-purple);
-}
-.dark {
-  --chart-1: var(--brand-cyan);
-  --chart-2: var(--brand-blue);
-  --chart-3: var(--brand-lime);
-  --chart-4: var(--brand-pink);
-  --chart-5: var(--brand-orange);
 }

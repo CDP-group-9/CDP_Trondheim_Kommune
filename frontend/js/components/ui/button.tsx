@@ -13,8 +13,7 @@ const buttonVariants = cva(
         destructive: "btn-destructive",
         outline: "btn-outline",
         secondary: "btn-secondary",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "btn-link",
         card: "card",
         surfaceMuted: "surface-muted",
@@ -22,7 +21,7 @@ const buttonVariants = cva(
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3 tk-readable",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 tk-readable",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4 tk-readable",
+        lg: "h-10 p-2 rounded-md px-6 has-[>svg]:px-4 tk-readable",
         icon: "size-9",
       },
     },

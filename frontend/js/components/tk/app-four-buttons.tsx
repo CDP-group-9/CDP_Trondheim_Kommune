@@ -1,4 +1,7 @@
 import { Button } from "js/components/ui/button";
+import { cn } from "js/lib/utils";
+
+import { ButtonGroup } from "../ui/button-group";
 
 const actions = [
   { title: "Hjelp meg med å starte en DPIA for et nytt prosjekt.", url: "#" },
@@ -9,23 +12,32 @@ const actions = [
 
 interface FourButtonsProps {
   submitPromptFunction(input: string): void;
+  className?: string;
 }
 
-export function FourButtons({ submitPromptFunction }: FourButtonsProps) {
+export function FourButtons({
+  submitPromptFunction,
+  className,
+}: FourButtonsProps) {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <ButtonGroup
+      aria-label="Ofte stilte spørsmål"
+      className={cn(className)}
+      orientation="grid"
+      role="group"
+    >
       {actions.map((action) => (
         <Button
           key={action.title}
-          asChild
-          className="w-full min-h-[2rem] p-4 whitespace-normal text-left cursor-pointer"
+          className="flex justify-center min-h-[5rem] pt-2 whitespace-normal text-left"
           size="lg"
+          type="button"
           variant="outline"
           onClick={() => submitPromptFunction(action.title)}
         >
-          <span className="block w-full h-full">{action.title}</span>
+          <span className="w-full">{action.title}</span>
         </Button>
       ))}
-    </div>
+    </ButtonGroup>
   );
 }

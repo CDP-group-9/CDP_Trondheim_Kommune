@@ -63,7 +63,7 @@ const Home = () => {
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full w-full flex flex-col">
       {messages.length === 0 && (
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="max-w-lg mx-auto">
