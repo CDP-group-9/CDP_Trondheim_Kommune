@@ -15,6 +15,65 @@ const Checklist = () => {
     "receive" | "share" | null
   >(null);
 
+  const [contextData, setContextData] = useState({
+    projectSummary: "",
+    department: "",
+    status: "",
+    purpose: "",
+  });
+
+  const [involvedPartiesData, setInvolvedPartiesData] = useState({
+    registeredGroups: [] as string[],
+    usesExternalProcessors: false,
+    externalProcessors: "",
+    employeeAccess: "",
+    sharesWithOthers: false,
+    sharedWith: "",
+  });
+  const [legalBasisData, setLegalBasisData] = useState({
+    legalBasis: "",
+    handlesSensitiveData: false,
+    selectedSensitiveDataReason: [] as string[],
+    statutoryTasks: "",
+  });
+
+  const [riskConcernData, setRiskConcernData] = useState({
+    privacyRisk: 1,
+    unauthAccess: 1,
+    dataLoss: 1,
+    reidentification: 1,
+    employeeConcern: false,
+    writtenConcern: "",
+    regulatoryConcern: "",
+  });
+
+  const [techData, setTechData] = useState({
+    storage: "",
+    security: [] as string[],
+    integrations: false,
+    integrationDetails: "",
+    automated: false,
+    automatedDescription: "",
+  });
+
+  const [handlingData, setHandlingData] = useState({
+    purpose: "",
+    selectedDataTypes: [] as string[],
+    personCount: 1,
+    retentionTime: 0,
+    collectionMethods: [] as string[],
+    recipient: "",
+    recipientType: "",
+    sharingLegalBasis: "",
+    shareFrequency: 0,
+    dataTransferMethods: [] as string[],
+    selectedDataSources: [] as string[],
+  });
+
+  const sendToBackend = () => {
+    console.log("Hello World!");
+  };
+
   return (
     <div>
       <ProgressBarUpdated />
@@ -43,12 +102,25 @@ const Checklist = () => {
                 juridisk veiledning.
               </p>
             </div>
-            <Context />
-            <Data selectedOption={selectedOption} />
-            <Legal />
-            <InvolvedParties />
-            <Tech />
-            <RiskAndConcern />
+            <Context contextData={contextData} onChange={setContextData} />
+            <Data
+              handlingData={handlingData}
+              selectedOption={selectedOption}
+              onChange={setHandlingData}
+            />
+            <Legal
+              legalBasisData={legalBasisData}
+              onChange={setLegalBasisData}
+            />
+            <InvolvedParties
+              involvedPartiesData={involvedPartiesData}
+              onChange={setInvolvedPartiesData}
+            />
+            <Tech techData={techData} onChange={setTechData} />
+            <RiskAndConcern
+              riskConcernData={riskConcernData}
+              onChange={setRiskConcernData}
+            />
             <div className="flex justify-center space-x-4 pb-1">
               <Button
                 className="bg-gray-200 text-gray-900 hover:bg-gray-300 cursor-pointer"
@@ -56,7 +128,9 @@ const Checklist = () => {
               >
                 Nullstill skjema
               </Button>
-              <Button className="cursor-pointer">Generer veiledning</Button>
+              <Button className="cursor-pointer" onClick={sendToBackend}>
+                Generer veiledning
+              </Button>
             </div>
           </>
         )}

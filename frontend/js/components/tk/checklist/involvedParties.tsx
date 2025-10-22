@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   Select,
   SelectTrigger,
@@ -10,17 +8,16 @@ import {
 import { Switch } from "js/components/ui/switch";
 import { Textarea } from "js/components/ui/textarea";
 
-export const InvolvedParties = () => {
-  const [usesExternalProcessors, setUsesExternalProcessors] = useState(false);
-  const [sharesWithOthers, setSharesWithOthers] = useState(false);
-  const [employeeAccess, setEmployeeAccess] = useState("");
-
-  const [registeredGroups, setRegisteredGroups] = useState<string[]>([]);
-
+export const InvolvedParties = ({ involvedPartiesData, onChange }) => {
   const toggleGroup = (value: string) => {
-    setRegisteredGroups((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
-    );
+    const updatedGroup = involvedPartiesData.registeredGroups.includes(value)
+      ? involvedPartiesData.registeredGroups.filter((v) => v !== value)
+      : [...involvedPartiesData.registeredGroups, value];
+    onChange({ ...involvedPartiesData, registeredGroups: updatedGroup });
+  };
+
+  const handleChange = (field: string, value: any) => {
+    onChange({ ...involvedPartiesData, [field]: value });
   };
 
   const groupOptions = [
@@ -59,7 +56,7 @@ export const InvolvedParties = () => {
                 className="inline-flex items-center space-x-2 cursor-pointer"
               >
                 <input
-                  checked={registeredGroups.includes(label)}
+                  checked={involvedPartiesData.registeredGroups.includes(label)}
                   className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                   type="checkbox"
                   onChange={() => toggleGroup(label)}
@@ -77,20 +74,30 @@ export const InvolvedParties = () => {
           </label>
           <div className="flex items-center gap-2">
             <Switch
-              checked={usesExternalProcessors}
+              checked={involvedPartiesData.usesExternalProcessors}
               id="external-processors"
-              onCheckedChange={setUsesExternalProcessors}
+              onCheckedChange={(value) =>
+                handleChange("usesExternalProcessors", value)
+              }
             />
-            <span>{usesExternalProcessors ? "Ja" : "Nei"}</span>
+            <span>
+              {involvedPartiesData.usesExternalProcessors ? "Ja" : "Nei"}
+            </span>
           </div>
         </div>
 
-        {usesExternalProcessors && (
+        {involvedPartiesData.usesExternalProcessors && (
           <div>
             <label className="block text-sm font-medium mb-2">
               Eksterne leverandører/databehandlere:
             </label>
-            <Textarea placeholder="Liste over eksterne som behandler data på kommunens vegne..." />
+            <Textarea
+              placeholder="Liste over eksterne som behandler data på kommunens vegne..."
+              value={involvedPartiesData.externalProcessors || ""}
+              onChange={(e) =>
+                handleChange("externalProcessors", e.target.value)
+              }
+            />
           </div>
         )}
 
@@ -99,7 +106,10 @@ export const InvolvedParties = () => {
           <label className="block text-sm font-medium mb-2">
             Hvor mange ansatte skal ha tilgang?
           </label>
-          <Select value={employeeAccess} onValueChange={setEmployeeAccess}>
+          <Select
+            value={involvedPartiesData.employeeAccess}
+            onValueChange={(value) => handleChange("employeeAccess", value)}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Velg et alternativ..." />
             </SelectTrigger>
@@ -119,20 +129,26 @@ export const InvolvedParties = () => {
           </label>
           <div className="flex items-center gap-2">
             <Switch
-              checked={sharesWithOthers}
+              checked={involvedPartiesData.sharesWithOthers}
               id="share-with-others"
-              onCheckedChange={setSharesWithOthers}
+              onCheckedChange={(value) =>
+                handleChange("sharesWithOthers", value)
+              }
             />
-            <span>{sharesWithOthers ? "Ja" : "Nei"}</span>
+            <span>{involvedPartiesData.sharesWithOthers ? "Ja" : "Nei"}</span>
           </div>
         </div>
 
-        {sharesWithOthers && (
+        {involvedPartiesData.sharesWithOthers && (
           <div>
             <label className="block text-sm font-medium mb-2">
               Hvem deles det data med?
             </label>
-            <Textarea placeholder="F.eks. andre kommuner, statlige etater, private aktører..." />
+            <Textarea
+              placeholder="F.eks. andre kommuner, statlige etater, private aktører..."
+              value={involvedPartiesData.sharedWith || ""}
+              onChange={(e) => handleChange("sharedWith", e.target.value)}
+            />
           </div>
         )}
       </div>
