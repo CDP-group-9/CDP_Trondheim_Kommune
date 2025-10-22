@@ -36,7 +36,7 @@ jest.mock("../../ui/sidebar", () => ({
     children: React.ReactNode;
     asChild?: boolean;
   }) => (
-    <li>{asChild ? children : <button type="button">{children}</button>}</li>
+    <div>{asChild ? children : <button type="button">{children}</button>}</div>
   ),
   SidebarMenuItem: ({ children }: { children: React.ReactNode }) => (
     <li>{children}</li>
@@ -59,7 +59,14 @@ jest.mock("lucide-react", () => ({
 describe("AppSidebar", () => {
   test("renders DASQ brand name", () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+      >
         <AppSidebar />
       </MemoryRouter>,
     );
@@ -69,7 +76,14 @@ describe("AppSidebar", () => {
 
   test("renders all menu items", () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+      >
         <AppSidebar />
       </MemoryRouter>,
     );
@@ -82,7 +96,14 @@ describe("AppSidebar", () => {
 
   test("renders Tidligere samtaler section", () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+      >
         <AppSidebar />
       </MemoryRouter>,
     );
@@ -92,7 +113,14 @@ describe("AppSidebar", () => {
 
   test("menu items have correct links", () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+      >
         <AppSidebar />
       </MemoryRouter>,
     );
@@ -116,7 +144,14 @@ describe("AppSidebar", () => {
 
   test("renders menu item icons", () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+      >
         <AppSidebar />
       </MemoryRouter>,
     );

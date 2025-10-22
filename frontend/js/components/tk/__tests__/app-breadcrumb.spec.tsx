@@ -11,7 +11,15 @@ jest.mock("lucide-react", () => ({
 describe("DynamicBreadcrumb", () => {
   test("renders Home link at root path", () => {
     render(
-      <MemoryRouter initialEntries={["/"]}>
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+        initialEntries={["/"]}
+      >
         <DynamicBreadcrumb />
       </MemoryRouter>,
     );
@@ -21,7 +29,15 @@ describe("DynamicBreadcrumb", () => {
 
   test("renders breadcrumb trail with capitalized path parts", () => {
     render(
-      <MemoryRouter initialEntries={["/personvern/sjekkliste"]}>
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+        initialEntries={["/personvern/sjekkliste"]}
+      >
         <DynamicBreadcrumb />
       </MemoryRouter>,
     );
@@ -33,7 +49,15 @@ describe("DynamicBreadcrumb", () => {
 
   test("applies custom className", () => {
     const { container } = render(
-      <MemoryRouter initialEntries={["/"]}>
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+        initialEntries={["/"]}
+      >
         <DynamicBreadcrumb className="custom-class" />
       </MemoryRouter>,
     );
@@ -43,7 +67,15 @@ describe("DynamicBreadcrumb", () => {
 
   test("renders separator icons between breadcrumb items", () => {
     render(
-      <MemoryRouter initialEntries={["/personvern/test"]}>
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+        initialEntries={["/personvern/test"]}
+      >
         <DynamicBreadcrumb />
       </MemoryRouter>,
     );
