@@ -22,7 +22,7 @@ const Checklist = () => {
         <div className="flex-1 space-y-6 max-w-4xl px-6 py-4">
           <div className="text-left space-y-4">
             <h1 className="text-3xl font-medium mb-1">Personvernsjekkliste</h1>
-            <p className="text-muted-foreground text-left max-w-2xl">
+            <p className="text-muted-foreground text-left tk-readable">
               Systematisk gjennomgang av alle personvernkrav for ditt prosjekt
             </p>
           </div>
@@ -37,7 +37,7 @@ const Checklist = () => {
           <>
             {/* <ProgressBar /> hvis det er nøvendig kan dette lages */}
             <div className="flex justify-center">
-              <p className="text-center text-muted-foreground max-w-2xl">
+              <p className="text-center text-muted-foreground tk-readable mx-auto">
                 Fyll ut informasjonen nedenfor for å gi AI-assistenten best
                 mulig grunnlag for å hjelpe deg med personvernvurdering, DPIA og
                 juridisk veiledning.

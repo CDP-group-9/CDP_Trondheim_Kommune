@@ -16,7 +16,7 @@ const Privacy = () => {
           <h1 className="text-3xl font-medium mb-4">
             Generell informasjon om personopplysninger
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground tk-readable mx-auto">
             Grunnleggende informasjon om personopplysninger og personvern som er
             relevant for alle ansatte i Trondheim Kommune.
           </p>
