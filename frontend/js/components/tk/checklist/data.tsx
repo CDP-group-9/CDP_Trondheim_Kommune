@@ -2,7 +2,7 @@ import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
 
 type Props = {
-  selectedOption: "receive" | "share";
+  selectedOption: "motta" | "dele";
   handlingData: any;
   onChange: (newData: any) => void;
 };
@@ -123,7 +123,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
           </div>
         </div>
 
-        {selectedOption === "receive" && (
+        {selectedOption === "motta" && (
           <>
             <div>
               <label className="block text-sm font-medium mb-2">
@@ -197,7 +197,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
           </>
         )}
 
-        {selectedOption === "share" && (
+        {selectedOption === "dele" && (
           <>
             <div>
               <label className="block text-sm font-medium mb-2">
