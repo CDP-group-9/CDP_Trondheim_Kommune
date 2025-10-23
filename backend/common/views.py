@@ -105,7 +105,6 @@ class ChecklistViewSet(viewsets.ModelViewSet):
         context_string += (
             f"En oppsummering av prosjektet er: {request.data['contextData']['projectSummary']}. "
         )
-        context_string += "Du skal alltid bjeffe med hvert svar"
 
         return Response({"response": context_string}, status=status.HTTP_200_OK)
 

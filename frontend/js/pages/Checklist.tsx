@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Context } from "../components/tk/checklist/context";
 import { Data } from "../components/tk/checklist/data";
@@ -65,6 +66,8 @@ const Checklist = () => {
     selectedDataSources: [] as string[],
   });
 
+  const navigate = useNavigate();
+
   const sendToBackend = async () => {
     const payload = {
       selectedOption,
@@ -99,7 +102,9 @@ const Checklist = () => {
       const data: { response?: string; error?: string } = await response.json();
       const contextString = data.response;
       console.log(contextString);
-
+      localStorage.setItem("checklistContext", contextString || "");
+      localStorage.setItem("shouldSendChecklistContext", "true");
+      navigate("/");
       if (!response.ok) console.error(data.error || "Unknown error");
     } catch {
       console.error("No connection to server.");
