@@ -4,12 +4,13 @@ const path = require("path");
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  plugins: ["prettier", "@typescript-eslint", "react"],
+  plugins: ["prettier", "@typescript-eslint", "react", "jsx-a11y"],
   extends: [
     "vinta/recommended-typescript",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
+    "plugin:jsx-a11y/recommended",
   ],
   rules: {
     "import/extensions": [
@@ -64,6 +65,24 @@ module.exports = {
     },
     {
       files: ["openapi-ts.config.ts"],
+      rules: {
+        "import/no-extraneous-dependencies": [
+          "error",
+          { devDependencies: true },
+        ],
+      },
+    },
+    {
+      files: ["jest.setup.js"],
+      rules: {
+        "import/no-extraneous-dependencies": [
+          "error",
+          { devDependencies: true },
+        ],
+      },
+    },
+    {
+      files: ["**/__tests__/**/*.{ts,tsx,js,jsx}", "**/*.test.{ts,tsx,js,jsx}", "**/*.spec.{ts,tsx,js,jsx}"],
       rules: {
         "import/no-extraneous-dependencies": [
           "error",

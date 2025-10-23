@@ -2,8 +2,6 @@ import * as Sentry from "@sentry/react";
 import { parse } from "cookie";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import trondheimLogo from "../assets/images/tk-logo-co.png";
-
 import { OpenAPI } from "./api";
 import { DynamicBreadcrumb } from "./components/tk/app-breadcrumb";
 import { AppSidebar } from "./components/tk/app-sidebar";
@@ -24,17 +22,10 @@ const App = () => (
     <header className="bg-card px-4 py-5 flex items-center justify-between">
       <div className="flex items-center gap-4 ml-auto">
         <a
-          aria-label="Gå til Trondheim Kommune sin hjemmeside (åpner i ny fane)"
-          className="rounded-md cursor-pointer"
-          href="https://www.trondheim.kommune.no/"
-          rel="noreferrer"
-          target="_blank"
+          className="font-medium text-gray-900 hover:text-gray-900/75 transition-colors cursor-pointer rounded-md px-1 py-1"
+          href="/"
         >
-          <img
-            alt="Trondheim Kommune logo"
-            className="h-8 object-contain hover:opacity-80 transition-opacity"
-            src={trondheimLogo}
-          />
+          DASQ
         </a>
       </div>
     </header>

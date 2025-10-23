@@ -272,7 +272,7 @@ export const ContactInfoSection = () => (
       Trenger du mer hjelp?
     </h2>
     <div className="space-y-3">
-      <p>
+      <p className="tk-readable">
         Du kan også bruke denne AI-assistenten for å få veiledning om spesifikke
         personvernspørsmål eller ta kontakt med personvernombudet i Trondheim
         kommune.

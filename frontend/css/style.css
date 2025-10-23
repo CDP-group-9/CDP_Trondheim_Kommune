@@ -29,3 +29,4 @@
   @apply px-2 py-1 border border-black text-black rounded-md
          hover:bg-black hover:text-white transition duration-200 cursor-pointer;
 }
+
