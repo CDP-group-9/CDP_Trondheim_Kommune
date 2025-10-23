@@ -1,6 +1,7 @@
 import { Check, History, DockIcon, Info, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import trondheimLogo from "../../../assets/images/tk-logo-co.png";
 import {
   SidebarTrigger,
   Sidebar,
@@ -47,10 +48,17 @@ export function AppSidebar() {
           style={{ fontSize: "20px", fontWeight: "600" }}
         >
           <a
-            className="font-medium text-gray-900 hover:text-gray-900/75 transition-colors cursor-pointer rounded-md px-1 py-1"
-            href="/"
+            aria-label="Gå til Trondheim Kommune sin hjemmeside (åpner i ny fane)"
+            className="rounded-md cursor-pointer"
+            href="https://www.trondheim.kommune.no/"
+            rel="noreferrer"
+            target="_blank"
           >
-            DASQ
+            <img
+              alt="Trondheim Kommune logo"
+              className="h-8 object-contain hover:opacity-80 transition-opacity"
+              src={trondheimLogo}
+            />
           </a>
         </SidebarGroupLabel>
         <SidebarTrigger className="ml-2 mr-2 mt-2 mb-1 hover:bg-muted transition" />

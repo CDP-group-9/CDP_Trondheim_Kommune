@@ -1,106 +1,85 @@
 import { Send } from "lucide-react";
-import { useState } from "react";
+
+import { Button } from "js/components/ui/button";
+import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
+import { useChat } from "js/hooks/useChat";
 
 import { FourButtons } from "../components/tk/app-four-buttons";
 import { ChatBox } from "../components/tk/chatbox";
-import { Button } from "../components/ui/button";
-import { Textarea } from "../components/ui/textarea";
+import { ChatMessage } from "../types/ChatMessage";
 
-interface ChatMessage {
-  id: string;
-  type: "user" | "bot";
-  message: string;
-}
+
 
 const Home = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [inputValue, setInputValue] = useState<string>("");
-
-  function getCookie(name: string) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()!.split(";").shift();
-    return "";
-  }
-
-  async function handleChatSubmit(prompt: string) {
-    if (!prompt.trim()) return;
-
-    const userMessage: ChatMessage = {
-      id: `user-${Date.now()}`,
-      type: "user",
-      message: prompt,
-    };
-    setMessages((prev) => [...prev, userMessage]);
-    setInputValue("");
-    setErrorMsg(null);
-
-    try {
-      const response = await fetch("http://localhost:8000/api/chat/chat/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFTOKEN": getCookie("csrftoken") || "",
-        },
-        credentials: "include",
-        body: JSON.stringify({ prompt, history: [] }),
-      });
-      const data: { response?: string; error?: string } = await response.json();
-      if (response.ok && data.response !== undefined) {
-        const botMessage: ChatMessage = {
-          id: `bot-${Date.now()}`,
-          type: "bot",
-          message: data.response,
-        };
-        setMessages((prev) => [...prev, botMessage]);
-      } else {
-        setErrorMsg(data.error || "Unknown error");
-      }
-    } catch (error) {
-      setErrorMsg("No connection to server.");
-    }
-  }
+  const {
+    messages,
+    errorMsg,
+    inputValue,
+    setInputValue,
+    isSending,
+    sendMessage,
+  } = useChat("http://localhost:8000/api/chat/chat/");
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full w-full flex flex-col">
       {messages.length === 0 && (
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="max-w-lg mx-auto">
-            <FourButtons submitPromptFunction={handleChatSubmit} />
+            <FourButtons submitPromptFunction={sendMessage} />
           </div>
         </div>
       )}
 
       {messages.length > 0 && (
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          {messages.map((msg) => (
+          {messages.map((msg: ChatMessage) => (
             <ChatBox key={msg.id} message={msg.message} type={msg.type} />
           ))}
         </div>
       )}
 
       {errorMsg && (
-        <div className="p-4 bg-red-50 text-red-600 text-center">{errorMsg}</div>
+        <div className="p-4 bg-red-50 text-destructive-foreground text-center">{errorMsg}</div>
       )}
-      <div className="border-t border-gray-300 bg-background p-4">
+      <div className="border-t border-brand-gray bg-background p-4">
         <div className="mx-auto flex gap-2">
-          <Textarea
-            className="flex-1 min-h-8"
-            id="user-input"
-            placeholder="Spør om GDPR, DPIA eller personvernspørsmål..."
-            rows={1}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-          <Button
-            aria-label="Submit"
-            disabled={!inputValue.trim()}
-            size="icon"
-            onClick={() => handleChatSubmit(inputValue)}
+          <InputGroup
+            className="rounded-4xl p-2 shadow-sm
+            focus-within:border-brand-primary 
+            focus-within:ring-2 
+            focus-within:ring-brand-blue/30
+            transition-all
+          "
           >
-            <Send className="size-4" />
-          </Button>
+            <InputGroupTextarea
+              autoFocus
+              className="flex-1 min-h-8 rounded-4xl bg-transparent border-none outline-transparent focus:outline-none"
+              id="user-input"
+              placeholder="Spør om GDPR, DPIA eller personvernspørsmål..."
+              rows={
+                inputValue.length < 144 ? (inputValue.length < 72 ? 2 : 4) : 6
+              }
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault(); // Prevent newline
+                  if (inputValue.trim() && !isSending) {
+                    sendMessage(inputValue);
+                  }
+                }
+              }}
+            />
+            <Button
+              aria-label="Submit"
+              className="rounded-4xl"
+              disabled={!inputValue.trim() || isSending}
+              size="icon"
+              onClick={() => sendMessage(inputValue)}
+            >
+              <Send className="size-4" />
+            </Button>
+          </InputGroup>
         </div>
       </div>
     </div>
