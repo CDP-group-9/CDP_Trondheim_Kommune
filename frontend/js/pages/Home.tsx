@@ -77,7 +77,7 @@ const Home = () => {
                 if (event.key === "Enter" && !event.shiftKey) {
                   event.preventDefault(); // Prevent newline
                   if (inputValue.trim() && !isSending) {
-                    sendMessage(inputValue,);
+                    sendMessage(inputValue);
                   }
                 }
               }}

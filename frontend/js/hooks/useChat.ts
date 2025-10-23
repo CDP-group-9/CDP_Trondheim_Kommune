@@ -39,6 +39,7 @@ export function useChat(apiUrl: string) {
         body: JSON.stringify({
           prompt,
           history: [],
+          // eslint-disable-next-line camelcase
           context_text: contextToUse,
         }),
       });

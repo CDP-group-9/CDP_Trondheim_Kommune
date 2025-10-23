@@ -64,8 +64,6 @@ export const useChecklist = () => {
     selectedDataSources: [] as string[],
   });
 
-  // --- Derived / Utility Functions ---
-
   const createPayload = () => ({
     selectedOption,
     contextData,
@@ -173,7 +171,6 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
   const resetChecklist = () => window.location.reload();
 
   return {
-    // state
     selectedOption,
     contextData,
     involvedPartiesData,
@@ -182,7 +179,6 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
     techData,
     handlingData,
 
-    // setters
     setSelectedOption,
     setContextData,
     setInvolvedPartiesData,
@@ -191,7 +187,6 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
     setTechData,
     setHandlingData,
 
-    // actions
     createPayload,
     downloadAsTextFile,
     sendToBackend,
