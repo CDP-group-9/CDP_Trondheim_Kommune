@@ -62,6 +62,20 @@ export const $ChatResponse = {
   required: ["history", "response"],
 } as const;
 
+export const $Checklist = {
+  type: "object",
+  properties: {
+    id: {
+      type: "integer",
+      readOnly: true,
+    },
+    result: {
+      type: "string",
+    },
+  },
+  required: ["id", "result"],
+} as const;
+
 export const $Counter = {
   type: "object",
   properties: {
@@ -100,6 +114,35 @@ export const $MockResponse = {
     },
   },
   required: ["id", "response"],
+} as const;
+
+export const $PaginatedChecklistList = {
+  type: "object",
+  required: ["count", "results"],
+  properties: {
+    count: {
+      type: "integer",
+      example: 123,
+    },
+    next: {
+      type: "string",
+      nullable: true,
+      format: "uri",
+      example: "http://api.example.org/accounts/?offset=400&limit=100",
+    },
+    previous: {
+      type: "string",
+      nullable: true,
+      format: "uri",
+      example: "http://api.example.org/accounts/?offset=200&limit=100",
+    },
+    results: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Checklist",
+      },
+    },
+  },
 } as const;
 
 export const $PaginatedMockResponseList = {
@@ -156,6 +199,19 @@ export const $PaginatedUserList = {
       items: {
         $ref: "#/components/schemas/User",
       },
+    },
+  },
+} as const;
+
+export const $PatchedChecklist = {
+  type: "object",
+  properties: {
+    id: {
+      type: "integer",
+      readOnly: true,
+    },
+    result: {
+      type: "string",
     },
   },
 } as const;

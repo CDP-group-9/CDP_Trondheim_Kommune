@@ -117,7 +117,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this checklist result.
         required: true
       tags:
       - checklist
@@ -136,7 +137,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this checklist result.
         required: true
       tags:
       - checklist
@@ -167,7 +169,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this checklist result.
         required: true
       tags:
       - checklist
@@ -197,7 +200,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this checklist result.
         required: true
       tags:
       - checklist
