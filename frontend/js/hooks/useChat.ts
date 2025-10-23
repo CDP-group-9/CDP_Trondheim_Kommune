@@ -8,13 +8,15 @@ export function useChat(apiUrl: string) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState<string>("");
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   const csrftoken = useCookie("csrftoken");
 
   const sendMessage = async (prompt: string) => {
     /* Prevent sending empty messages */
-    if (!prompt.trim()) return;
+    if (!prompt.trim() || isSending) return;
 
+    setIsSending(true);
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       type: "user",
@@ -47,8 +49,10 @@ export function useChat(apiUrl: string) {
       }
     } catch {
       setErrorMsg("No connection to server.");
+    } finally {
+      setIsSending(false);
     }
   };
 
-  return { messages, errorMsg, inputValue, setInputValue, sendMessage };
+  return { messages, errorMsg, inputValue, setInputValue, isSending, sendMessage };
 }

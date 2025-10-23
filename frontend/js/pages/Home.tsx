@@ -1,16 +1,24 @@
 import { Send } from "lucide-react";
 
+import { Button } from "js/components/ui/button";
+import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
 
 import { FourButtons } from "../components/tk/app-four-buttons";
 import { ChatBox } from "../components/tk/chatbox";
-import { Button } from "../components/ui/button";
-import { Textarea } from "../components/ui/textarea";
 import { ChatMessage } from "../types/ChatMessage";
 
+
+
 const Home = () => {
-  const { messages, errorMsg, inputValue, setInputValue, sendMessage } =
-    useChat("http://localhost:8000/api/chat/chat/");
+  const {
+    messages,
+    errorMsg,
+    inputValue,
+    setInputValue,
+    isSending,
+    sendMessage,
+  } = useChat("http://localhost:8000/api/chat/chat/");
 
   return (
     <div className="h-full w-full flex flex-col">
@@ -31,26 +39,47 @@ const Home = () => {
       )}
 
       {errorMsg && (
-        <div className="p-4 bg-red-50 text-red-600 text-center">{errorMsg}</div>
+        <div className="p-4 bg-red-50 text-destructive-foreground text-center">{errorMsg}</div>
       )}
-      <div className="border-t border-gray-300 bg-background p-4">
+      <div className="border-t border-brand-gray bg-background p-4">
         <div className="mx-auto flex gap-2">
-          <Textarea
-            className="flex-1 min-h-8"
-            id="user-input"
-            placeholder="Spør om GDPR, DPIA eller personvernspørsmål..."
-            rows={1}
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-          />
-          <Button
-            aria-label="Submit"
-            disabled={!inputValue.trim()}
-            size="icon"
-            onClick={() => sendMessage(inputValue)}
+          <InputGroup
+            className="rounded-4xl p-2 shadow-sm
+            focus-within:border-brand-primary 
+            focus-within:ring-2 
+            focus-within:ring-brand-blue/30
+            transition-all
+          "
           >
-            <Send className="size-4" />
-          </Button>
+            <InputGroupTextarea
+              autoFocus
+              className="flex-1 min-h-8 rounded-4xl bg-transparent border-none outline-transparent focus:outline-none"
+              id="user-input"
+              placeholder="Spør om GDPR, DPIA eller personvernspørsmål..."
+              rows={
+                inputValue.length < 144 ? (inputValue.length < 72 ? 2 : 4) : 6
+              }
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault(); // Prevent newline
+                  if (inputValue.trim() && !isSending) {
+                    sendMessage(inputValue);
+                  }
+                }
+              }}
+            />
+            <Button
+              aria-label="Submit"
+              className="rounded-4xl"
+              disabled={!inputValue.trim() || isSending}
+              size="icon"
+              onClick={() => sendMessage(inputValue)}
+            >
+              <Send className="size-4" />
+            </Button>
+          </InputGroup>
         </div>
       </div>
     </div>
