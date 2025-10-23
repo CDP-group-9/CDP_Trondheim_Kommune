@@ -68,8 +68,8 @@ const Checklist = () => {
 
   const navigate = useNavigate();
 
-  const sendToBackend = async () => {
-    const payload = {
+  const createPayload = () => {
+    return {
       selectedOption,
       contextData,
       handlingData,
@@ -78,6 +78,71 @@ const Checklist = () => {
       techData,
       riskConcernData,
     };
+  };
+
+  const downloadAsTextFile = () => {
+    const payload = createPayload();
+
+    // Format the payload as readable text
+    const formatPayload = (data: any, indent = 0): string => {
+      const spaces = "  ".repeat(indent);
+      let result = "";
+
+      for (const [key, value] of Object.entries(data)) {
+        if (value === null || value === undefined) {
+          // skip null or undefined values
+        } else {
+          const formattedKey = key.replace(/([A-Z])/g, " $1").toLowerCase().replace(/^./, str => str.toUpperCase());
+
+          if (Array.isArray(value)) {
+            if (value.length > 0) {
+              result += `${spaces}${formattedKey}:\n`;
+              for (const item of value) {
+                result += `${spaces}  - ${item}\n`;
+              }
+            }
+          } else if (typeof value === "object") {
+            result += `${spaces}${formattedKey}:\n`;
+            result += formatPayload(value, indent + 1);
+          } else if (value !== "" && value !== 0 && value !== false) {
+            result += `${spaces}${formattedKey}: ${value}\n`;
+          }
+        }
+      }
+
+      return result;
+    };
+
+    const textContent = `PERSONVERNSJEKKLISTE - EKSPORT
+Generert: ${new Date().toLocaleString("nb-NO")}
+
+==================================================
+
+${formatPayload(payload)}
+
+==================================================
+Eksportert fra Trondheim Kommune - Personvern AI-assistent
+`;
+
+    // Create and download the file
+    const blob = new Blob([textContent], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, "-");
+    link.download = `personvernsjekkliste_${timestamp}.txt`;
+    link.href = url;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Clean up the URL object
+    URL.revokeObjectURL(url);
+  };
+
+  const sendToBackend = async () => {
+    const payload = createPayload();
 
     function getCookie(name: string) {
       const value = `; ${document.cookie}`;
@@ -166,6 +231,9 @@ const Checklist = () => {
               </Button>
               <Button className="cursor-pointer" onClick={sendToBackend}>
                 Generer veiledning
+              </Button>
+              <Button className="cursor-pointer" onClick={downloadAsTextFile}>
+                Eksporter til tekstfil
               </Button>
             </div>
           </>
