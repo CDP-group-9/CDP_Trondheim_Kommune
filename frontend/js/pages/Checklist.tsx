@@ -16,24 +16,24 @@ const Checklist = () => {
     "receive" | "share" | null
   >(null);
   const [contextData, setContextData] = useState({
-    projectSummary: "",
-    department: "",
-    status: "",
-    purpose: "",
+    projectSummary: "ikke oppgitt",
+    department: "ikke oppgitt",
+    status: "ikke oppgitt",
+    purpose: "ikke oppgitt",
   });
   const [involvedPartiesData, setInvolvedPartiesData] = useState({
     registeredGroups: [] as string[],
     usesExternalProcessors: false,
-    externalProcessors: "",
-    employeeAccess: "",
+    externalProcessors: "ikke oppgitt",
+    employeeAccess: "ikke oppgitt",
     sharesWithOthers: false,
-    sharedWith: "",
+    sharedWith: "ikke oppgitt",
   });
   const [legalBasisData, setLegalBasisData] = useState({
-    legalBasis: "",
+    legalBasis: "ikke oppgitt",
     handlesSensitiveData: false,
     selectedSensitiveDataReason: [] as string[],
-    statutoryTasks: "",
+    statutoryTasks: "ikke oppgitt",
   });
   const [riskConcernData, setRiskConcernData] = useState({
     privacyRisk: 1,
@@ -41,26 +41,26 @@ const Checklist = () => {
     dataLoss: 1,
     reidentification: 1,
     employeeConcern: false,
-    writtenConcern: "",
-    regulatoryConcern: "",
+    writtenConcern: "ikke oppgitt",
+    regulatoryConcern: "ikke oppgitt",
   });
   const [techData, setTechData] = useState({
-    storage: "",
+    storage: "ikke oppgitt",
     security: [] as string[],
     integrations: false,
-    integrationDetails: "",
+    integrationDetails: "ikke oppgitt",
     automated: false,
-    automatedDescription: "",
+    automatedDescription: "ikke oppgitt",
   });
   const [handlingData, setHandlingData] = useState({
-    purpose: "",
+    purpose: "ikke oppgitt",
     selectedDataTypes: [] as string[],
     personCount: 1,
     retentionTime: 0,
     collectionMethods: [] as string[],
-    recipient: "",
-    recipientType: "",
-    sharingLegalBasis: "",
+    recipient: "ikke oppgitt",
+    recipientType: "ikke oppgitt",
+    sharingLegalBasis: "ikke oppgitt",
     shareFrequency: 0,
     dataTransferMethods: [] as string[],
     selectedDataSources: [] as string[],
