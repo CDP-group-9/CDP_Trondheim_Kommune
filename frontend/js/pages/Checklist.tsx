@@ -13,7 +13,7 @@ import { Button } from "../components/ui/button";
 
 const Checklist = () => {
   const [selectedOption, setSelectedOption] = useState<
-    "receive" | "share" | null
+    "motta" | "dele" | null
   >(null);
   const [contextData, setContextData] = useState({
     projectSummary: "ikke oppgitt",
