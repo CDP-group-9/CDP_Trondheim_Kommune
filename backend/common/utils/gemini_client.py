@@ -6,7 +6,8 @@ from django.conf import settings
 from google import genai
 from google.genai import types
 from google.genai.types import Content, GenerateContentConfig, Part
-from ..law_retriever import LawRetriever
+#from ..law_retriever import LawRetriever
+from .law_retriever_from_database import LawRetriever
 
 logger = logging.getLogger(__name__)
 

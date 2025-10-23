@@ -9,6 +9,18 @@ services:
       - "5432"
     volumes:
       - dbdata:/var/lib/postgresql/data:delegated
+  
+  db_new:
+    image: "ankane/pgvector:latest"
+    container_name: cdp_trondheim_kommune-db-new
+    environment:
+      - POSTGRES_USER=CDP_Trondheim_Kommune
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=CDP_Trondheim_Kommune
+    ports:
+      - "5433:5432"
+    volumes:
+      - new_dbdata:/var/lib/postgresql/data:delegated
 
   broker:
     image: "rabbitmq:alpine"
@@ -69,4 +81,6 @@ services:
 volumes:
   dbdata:
     name: CDP_Trondheim_Kommune_dbdata
+    external: true
+  new_dbdata:
     external: true
