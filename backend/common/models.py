@@ -24,3 +24,10 @@ class Counter(models.Model):
 
     def __str__(self):
         return f"Counter: {self.value}"
+
+
+class ChecklistResult(models.Model):
+    result = models.TextField()
+
+    def __str__(self):
+        return self.result

@@ -1,4 +1,4 @@
-from .views import ChatViewSet, CounterViewSet, MockResponseViewSet, RestViewSet
+from .views import ChatViewSet, ChecklistViewSet, CounterViewSet, MockResponseViewSet, RestViewSet
 
 
 routes = [
@@ -6,4 +6,5 @@ routes = [
     {"regex": r"counter", "viewset": CounterViewSet, "basename": "counter"},
     {"regex": r"chat", "viewset": ChatViewSet, "basename": "chat"},
     {"regex": r"test-response", "viewset": MockResponseViewSet, "basename": "test-response"},
+    {"regex": r"checklist", "viewset": ChecklistViewSet, "basename": "checklist"},
 ]

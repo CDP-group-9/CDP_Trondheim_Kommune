@@ -9,10 +9,11 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .models import Counter, MockResponse
+from .models import ChecklistResult, Counter, MockResponse
 from .serializers import (
     ChatRequestSerializer,
     ChatResponseSerializer,
+    ChecklistSerializer,
     CounterSerializer,
     MessageSerializer,
     MockResponseSerializer,
@@ -91,6 +92,22 @@ class MockResponseViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(mock)
             return Response(serializer.data)
         return Response({"error": "No mock response found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ChecklistViewSet(viewsets.ModelViewSet):
+    queryset = ChecklistResult.objects.all()
+    serializer_class = ChecklistSerializer
+
+    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
+    def json_to_string(self, request):
+        context_string = "Dette er informasjon fra en sjekkliste. "
+        context_string += f"Jeg skal {request.data['selectedOption']} data. "
+        context_string += (
+            f"En oppsummering av prosjektet er: {request.data['contextData']['projectSummary']}. "
+        )
+        context_string += "Du skal alltid bjeffe med hvert svar"
+
+        return Response({"response": context_string}, status=status.HTTP_200_OK)
 
 
 # ------------- Gemini chat service ---------------

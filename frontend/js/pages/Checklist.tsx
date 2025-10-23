@@ -14,14 +14,12 @@ const Checklist = () => {
   const [selectedOption, setSelectedOption] = useState<
     "receive" | "share" | null
   >(null);
-
   const [contextData, setContextData] = useState({
     projectSummary: "",
     department: "",
     status: "",
     purpose: "",
   });
-
   const [involvedPartiesData, setInvolvedPartiesData] = useState({
     registeredGroups: [] as string[],
     usesExternalProcessors: false,
@@ -36,7 +34,6 @@ const Checklist = () => {
     selectedSensitiveDataReason: [] as string[],
     statutoryTasks: "",
   });
-
   const [riskConcernData, setRiskConcernData] = useState({
     privacyRisk: 1,
     unauthAccess: 1,
@@ -46,7 +43,6 @@ const Checklist = () => {
     writtenConcern: "",
     regulatoryConcern: "",
   });
-
   const [techData, setTechData] = useState({
     storage: "",
     security: [] as string[],
@@ -55,7 +51,6 @@ const Checklist = () => {
     automated: false,
     automatedDescription: "",
   });
-
   const [handlingData, setHandlingData] = useState({
     purpose: "",
     selectedDataTypes: [] as string[],
@@ -70,8 +65,45 @@ const Checklist = () => {
     selectedDataSources: [] as string[],
   });
 
-  const sendToBackend = () => {
-    console.log("Hello World!");
+  const sendToBackend = async () => {
+    const payload = {
+      selectedOption,
+      contextData,
+      handlingData,
+      legalBasisData,
+      involvedPartiesData,
+      techData,
+      riskConcernData,
+    };
+
+    function getCookie(name: string) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()!.split(";").shift();
+      return "";
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/checklist/json_to_string/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFTOKEN": getCookie("csrftoken") || "",
+          },
+          credentials: "include",
+          body: JSON.stringify(payload),
+        },
+      );
+      const data: { response?: string; error?: string } = await response.json();
+      const contextString = data.response;
+      console.log(contextString);
+
+      if (!response.ok) console.error(data.error || "Unknown error");
+    } catch {
+      console.error("No connection to server.");
+    }
   };
 
   return (
@@ -94,7 +126,6 @@ const Checklist = () => {
         />
         {selectedOption && (
           <>
-            {/* <ProgressBar /> hvis det er nøvendig kan dette lages */}
             <div className="flex justify-center">
               <p className="text-center text-muted-foreground max-w-2xl">
                 Fyll ut informasjonen nedenfor for å gi AI-assistenten best
