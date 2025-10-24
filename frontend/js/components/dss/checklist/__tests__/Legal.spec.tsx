@@ -1,8 +1,16 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import type {
+  Dispatch,
+  SetStateAction,
+  TextareaHTMLAttributes,
+} from "react";
+import { useState } from "react";
+
+import type { LegalBasisData } from "js/hooks/useChecklist";
 
 import { Legal } from "../index";
 
-jest.mock("components/ui/switch", () => ({
+jest.mock("js/components/ui/switch", () => ({
   Switch: ({
     checked,
     onCheckedChange,
@@ -14,26 +22,69 @@ jest.mock("components/ui/switch", () => ({
       checked={checked}
       data-testid="switch"
       type="checkbox"
-      onChange={(e) => onCheckedChange(e.target.checked)}
+      onChange={(event) => onCheckedChange(event.target.checked)}
     />
   ),
 }));
 
 jest.mock("js/components/ui/textarea", () => ({
-  Textarea: ({ placeholder }: { placeholder?: string }) => (
-    <textarea placeholder={placeholder} />
+  Textarea: ({
+    placeholder,
+    ...props
+  }: {
+    placeholder?: string;
+  } & TextareaHTMLAttributes<HTMLTextAreaElement>) => (
+    <textarea placeholder={placeholder} {...props} />
   ),
 }));
 
 describe("Legal", () => {
+  const baseData: LegalBasisData = {
+    legalBasis: "",
+    handlesSensitiveData: false,
+    selectedSensitiveDataReason: [],
+    statutoryTasks: "",
+  };
+
+  const renderLegal = (
+    override?: Partial<Parameters<typeof Legal>[0]>,
+  ) => {
+    const {
+      legalBasisData: overrideData,
+      onChange: overrideOnChange,
+      ...restProps
+    } = override ?? {};
+
+    const Wrapper = () => {
+      const [legalBasisData, setLegalBasisData] = useState<LegalBasisData>({
+        ...baseData,
+        ...overrideData,
+      });
+
+      const handleChange =
+        overrideOnChange ??
+        (setLegalBasisData as Dispatch<SetStateAction<LegalBasisData>>);
+
+      return (
+        <Legal
+          legalBasisData={legalBasisData}
+          onChange={handleChange}
+          {...restProps}
+        />
+      );
+    };
+
+    return render(<Wrapper />);
+  };
+
   test("renders the section heading", () => {
-    render(<Legal />);
+    renderLegal();
 
     expect(screen.getByText("Rettsgrunnlag og Formål")).toBeInTheDocument();
   });
 
   test("renders all legal basis options", () => {
-    render(<Legal />);
+    renderLegal();
 
     expect(
       screen.getByText(
@@ -58,7 +109,7 @@ describe("Legal", () => {
   });
 
   test("allows selecting a legal basis", () => {
-    render(<Legal />);
+    renderLegal();
 
     const publicTaskRadio = screen
       .getByText(
@@ -73,7 +124,7 @@ describe("Legal", () => {
   });
 
   test("only allows one legal basis to be selected at a time", () => {
-    render(<Legal />);
+    renderLegal();
 
     const publicTaskRadio = screen
       .getByText(
@@ -96,7 +147,7 @@ describe("Legal", () => {
   });
 
   test("renders sensitive data handling switch", () => {
-    render(<Legal />);
+    renderLegal();
 
     expect(
       screen.getByText("Behandles sensitive personopplysninger?"),
@@ -105,7 +156,7 @@ describe("Legal", () => {
   });
 
   test("shows sensitive data reasons when switch is enabled", () => {
-    render(<Legal />);
+    renderLegal();
 
     const switchElement = screen.getByTestId("switch");
 
@@ -130,7 +181,7 @@ describe("Legal", () => {
   });
 
   test("allows selecting multiple sensitive data reasons", () => {
-    render(<Legal />);
+    renderLegal();
 
     const switchElement = screen.getByTestId("switch");
     fireEvent.click(switchElement);
@@ -153,7 +204,7 @@ describe("Legal", () => {
   });
 
   test("allows deselecting sensitive data reasons", () => {
-    render(<Legal />);
+    renderLegal();
 
     const switchElement = screen.getByTestId("switch");
     fireEvent.click(switchElement);

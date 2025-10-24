@@ -1,10 +1,33 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import type {
+  Dispatch,
+  SetStateAction,
+  TextareaHTMLAttributes,
+} from "react";
+import { useState } from "react";
+
+import type { InvolvedPartiesData } from "js/hooks/useChecklist";
 
 import { InvolvedParties } from "../index";
 
 jest.mock("js/components/ui/select", () => ({
-  Select: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="select">{children}</div>
+  Select: ({
+    children,
+    value,
+    onValueChange,
+  }: {
+    children: React.ReactNode;
+    value?: string;
+    onValueChange?: (value: string) => void;
+  }) => (
+    <div data-testid="select">
+      <select
+        value={value}
+        onChange={(event) => onValueChange?.(event.target.value)}
+      >
+        {children}
+      </select>
+    </div>
   ),
   SelectTrigger: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
@@ -24,7 +47,7 @@ jest.mock("js/components/ui/select", () => ({
   }) => <option value={value}>{children}</option>,
 }));
 
-jest.mock("components/ui/switch", () => ({
+jest.mock("js/components/ui/switch", () => ({
   Switch: ({
     checked,
     onCheckedChange,
@@ -36,26 +59,74 @@ jest.mock("components/ui/switch", () => ({
       checked={checked}
       data-testid="switch"
       type="checkbox"
-      onChange={(e) => onCheckedChange(e.target.checked)}
+      onChange={(event) => onCheckedChange(event.target.checked)}
     />
   ),
 }));
 
-jest.mock("components/ui/textarea", () => ({
-  Textarea: ({ placeholder }: { placeholder?: string }) => (
-    <textarea placeholder={placeholder} />
+jest.mock("js/components/ui/textarea", () => ({
+  Textarea: ({
+    placeholder,
+    ...props
+  }: {
+    placeholder?: string;
+  } & TextareaHTMLAttributes<HTMLTextAreaElement>) => (
+    <textarea placeholder={placeholder} {...props} />
   ),
 }));
 
 describe("InvolvedParties", () => {
+  const baseData: InvolvedPartiesData = {
+    registeredGroups: [],
+    usesExternalProcessors: false,
+    externalProcessors: "",
+    employeeAccess: "",
+    sharesWithOthers: false,
+    sharedWith: "",
+  };
+
+  const renderInvolvedParties = (
+    override?: Partial<Parameters<typeof InvolvedParties>[0]>,
+  ) => {
+    const {
+      involvedPartiesData: overrideData,
+      onChange: overrideOnChange,
+      ...restProps
+    } = override ?? {};
+
+    const Wrapper = () => {
+      const [involvedPartiesData, setInvolvedPartiesData] =
+        useState<InvolvedPartiesData>({
+          ...baseData,
+          ...overrideData,
+        });
+
+      const handleChange =
+        overrideOnChange ??
+        (setInvolvedPartiesData as Dispatch<
+          SetStateAction<InvolvedPartiesData>
+        >);
+
+      return (
+        <InvolvedParties
+          involvedPartiesData={involvedPartiesData}
+          onChange={handleChange}
+          {...restProps}
+        />
+      );
+    };
+
+    return render(<Wrapper />);
+  };
+
   test("renders the section heading", () => {
-    render(<InvolvedParties />);
+    renderInvolvedParties();
 
     expect(screen.getByText("Involverte Parter")).toBeInTheDocument();
   });
 
   test("renders all registered groups checkboxes", () => {
-    render(<InvolvedParties />);
+    renderInvolvedParties();
 
     expect(screen.getByText("Barn (under 16 år)")).toBeInTheDocument();
     expect(screen.getByText("Elever/studenter")).toBeInTheDocument();
@@ -67,7 +138,7 @@ describe("InvolvedParties", () => {
   });
 
   test("allows selecting multiple registered groups", () => {
-    render(<InvolvedParties />);
+    renderInvolvedParties();
 
     const childrenCheckbox = screen
       .getByText("Barn (under 16 år)")
@@ -87,7 +158,7 @@ describe("InvolvedParties", () => {
   });
 
   test("renders external processors switch", () => {
-    render(<InvolvedParties />);
+    renderInvolvedParties();
 
     expect(
       screen.getByText("Brukes eksterne leverandører/databehandlere?"),
@@ -97,7 +168,7 @@ describe("InvolvedParties", () => {
   });
 
   test("shows external processors textarea when switch is enabled", () => {
-    render(<InvolvedParties />);
+    renderInvolvedParties();
 
     const switches = screen.getAllByTestId("switch");
     const externalProcessorsSwitch = switches[0];
@@ -118,7 +189,7 @@ describe("InvolvedParties", () => {
   });
 
   test("renders employee access section", () => {
-    render(<InvolvedParties />);
+    renderInvolvedParties();
 
     expect(
       screen.getByText("Hvor mange ansatte skal ha tilgang?"),
@@ -126,7 +197,7 @@ describe("InvolvedParties", () => {
   });
 
   test("renders data sharing switch", () => {
-    render(<InvolvedParties />);
+    renderInvolvedParties();
 
     expect(
       screen.getByText("Deles data med andre organisasjoner?"),
@@ -134,7 +205,7 @@ describe("InvolvedParties", () => {
   });
 
   test("allows deselecting registered groups", () => {
-    render(<InvolvedParties />);
+    renderInvolvedParties();
 
     const childrenCheckbox = screen
       .getByText("Barn (under 16 år)")
@@ -149,7 +220,7 @@ describe("InvolvedParties", () => {
   });
 
   test("shows data sharing textarea when switch is enabled", () => {
-    render(<InvolvedParties />);
+    renderInvolvedParties();
 
     const switches = screen.getAllByTestId("switch");
     const dataShareSwitch = switches[1];

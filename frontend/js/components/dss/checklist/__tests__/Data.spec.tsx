@@ -1,22 +1,88 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import type {
+  Dispatch,
+  SetStateAction,
+  InputHTMLAttributes,
+  TextareaHTMLAttributes,
+} from "react";
+import { useState } from "react";
 
-import { Data } from "../index";
+import type { ChecklistOption, HandlingData } from "js/hooks/useChecklist";
+
+import { Data } from "..";
 
 jest.mock("js/components/ui/input", () => ({
-  Input: ({ placeholder }: { placeholder?: string }) => (
-    <input placeholder={placeholder} />
+  // Forward props so the controlled component logic in Data works in tests.
+  Input: ({
+    placeholder,
+    ...props
+  }: {
+    placeholder?: string;
+  } & InputHTMLAttributes<HTMLInputElement>) => (
+    <input placeholder={placeholder} {...props} />
   ),
 }));
 
 jest.mock("js/components/ui/textarea", () => ({
-  Textarea: ({ placeholder }: { placeholder?: string }) => (
-    <textarea placeholder={placeholder} />
+  Textarea: ({
+    placeholder,
+    ...props
+  }: {
+    placeholder?: string;
+  } & TextareaHTMLAttributes<HTMLTextAreaElement>) => (
+    <textarea placeholder={placeholder} {...props} />
   ),
 }));
 
 describe("Data", () => {
+  const baseHandlingData: HandlingData = {
+    purpose: "",
+    selectedDataTypes: [],
+    personCount: 1,
+    retentionTime: 0,
+    collectionMethods: [],
+    recipient: "",
+    recipientType: "",
+    sharingLegalBasis: "",
+    shareFrequency: 0,
+    dataTransferMethods: [],
+    selectedDataSources: [],
+  };
+
+  const renderData = (
+    selectedOption: Exclude<ChecklistOption, null>,
+    override?: Partial<Parameters<typeof Data>[0]>,
+  ) => {
+    const {
+      handlingData: overrideHandlingData,
+      onChange: overrideOnChange,
+      ...restProps
+    } = override ?? {};
+
+    const Wrapper = () => {
+      const [handlingData, setHandlingData] = useState<HandlingData>({
+        ...baseHandlingData,
+        ...overrideHandlingData,
+      });
+
+      const handleChange =
+        overrideOnChange ?? (setHandlingData as Dispatch<SetStateAction<HandlingData>>);
+
+      return (
+        <Data
+          handlingData={handlingData}
+          selectedOption={selectedOption}
+          onChange={handleChange}
+          {...restProps}
+        />
+      );
+    };
+
+    return render(<Wrapper />);
+  };
+
   test("renders with receive option selected", () => {
-    render(<Data selectedOption="receive" />);
+    renderData("motta");
 
     expect(screen.getByText("Datahåndtering")).toBeInTheDocument();
     expect(
@@ -25,7 +91,7 @@ describe("Data", () => {
   });
 
   test("renders with share option selected", () => {
-    render(<Data selectedOption="share" />);
+    renderData("dele");
 
     expect(screen.getByText("Datahåndtering")).toBeInTheDocument();
     expect(
@@ -34,7 +100,7 @@ describe("Data", () => {
   });
 
   test("renders data type checkboxes for receive option", () => {
-    render(<Data selectedOption="receive" />);
+    renderData("motta");
 
     expect(
       screen.getByText("Grunnleggende (navn, adresse, telefon)"),
@@ -47,7 +113,7 @@ describe("Data", () => {
   });
 
   test("allows selecting multiple data types", () => {
-    render(<Data selectedOption="receive" />);
+    renderData("motta");
 
     const basicDataCheckbox = screen
       .getByText("Grunnleggende (navn, adresse, telefon)")
@@ -67,7 +133,7 @@ describe("Data", () => {
   });
 
   test("renders data source options", () => {
-    render(<Data selectedOption="receive" />);
+    renderData("motta");
 
     expect(screen.getByText("Folkeregisteret")).toBeInTheDocument();
     expect(screen.getByText("Kommunens egne systemer")).toBeInTheDocument();
@@ -75,7 +141,7 @@ describe("Data", () => {
   });
 
   test("renders collection method options", () => {
-    render(<Data selectedOption="receive" />);
+    renderData("motta");
 
     expect(
       screen.getByText("Direkte fra de registrerte (skjema, søknad)"),
@@ -85,7 +151,7 @@ describe("Data", () => {
   });
 
   test("renders collection method options for receive", () => {
-    render(<Data selectedOption="receive" />);
+    renderData("motta");
 
     expect(
       screen.getByText("Hvordan skal dataene samles inn?"),
@@ -96,7 +162,7 @@ describe("Data", () => {
   });
 
   test("renders share-specific fields when share option is selected", () => {
-    render(<Data selectedOption="share" />);
+    renderData("dele");
 
     expect(screen.getByText("Hvem skal motta dataen?")).toBeInTheDocument();
     expect(screen.getByText("Mottaker type:")).toBeInTheDocument();
@@ -112,7 +178,7 @@ describe("Data", () => {
   });
 
   test("renders recipient type radio buttons for share option", () => {
-    render(<Data selectedOption="share" />);
+    renderData("dele");
 
     expect(screen.getByText("Offentlig myndighet (Norge)")).toBeInTheDocument();
     expect(
@@ -127,7 +193,7 @@ describe("Data", () => {
   });
 
   test("allows selecting recipient type for share option", () => {
-    render(<Data selectedOption="share" />);
+    renderData("dele");
 
     const govtNorwayRadio = screen
       .getByText("Offentlig myndighet (Norge)")
@@ -149,7 +215,7 @@ describe("Data", () => {
   });
 
   test("allows cycling through all recipient types", () => {
-    render(<Data selectedOption="share" />);
+    renderData("dele");
 
     const recipientTypes = [
       "Offentlig myndighet (Norge)",
@@ -172,7 +238,7 @@ describe("Data", () => {
   });
 
   test("renders data transfer methods for share option", () => {
-    render(<Data selectedOption="share" />);
+    renderData("dele");
 
     expect(screen.getByText("API/systemintegrasjon")).toBeInTheDocument();
     expect(screen.getByText("Sikker filoverføring (SFTP)")).toBeInTheDocument();
@@ -182,7 +248,7 @@ describe("Data", () => {
   });
 
   test("allows selecting multiple data transfer methods", () => {
-    render(<Data selectedOption="share" />);
+    renderData("dele");
 
     const apiCheckbox = screen
       .getByText("API/systemintegrasjon")
@@ -202,7 +268,7 @@ describe("Data", () => {
   });
 
   test("allows deselecting data types", () => {
-    render(<Data selectedOption="receive" />);
+    renderData("motta");
 
     const basicDataCheckbox = screen
       .getByText("Grunnleggende (navn, adresse, telefon)")
@@ -217,7 +283,7 @@ describe("Data", () => {
   });
 
   test("allows deselecting data sources", () => {
-    render(<Data selectedOption="receive" />);
+    renderData("motta");
 
     const folkeregisteretCheckbox = screen
       .getByText("Folkeregisteret")
@@ -232,7 +298,7 @@ describe("Data", () => {
   });
 
   test("allows deselecting collection methods", () => {
-    render(<Data selectedOption="receive" />);
+    renderData("motta");
 
     const directCheckbox = screen
       .getByText("Direkte fra de registrerte (skjema, søknad)")
@@ -247,7 +313,7 @@ describe("Data", () => {
   });
 
   test("allows deselecting data transfer methods", () => {
-    render(<Data selectedOption="share" />);
+    renderData("dele");
 
     const apiCheckbox = screen
       .getByText("API/systemintegrasjon")

@@ -1,14 +1,26 @@
+import type { Dispatch, SetStateAction } from "react";
+
+import type { RiskConcernData } from "js/hooks/useChecklist";
+
 import { Slider } from "js/components/ui/slider";
 import { Switch } from "js/components/ui/switch";
 
 import { Textarea } from "../../ui/textarea";
 
-export const RiskAndConcern = ({ riskConcernData, onChange }) => {
+type Props = {
+  riskConcernData: RiskConcernData;
+  onChange: Dispatch<SetStateAction<RiskConcernData>>;
+};
+
+export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
   const riskLabels = ["Svært lav", "Lav", "Moderat", "Høy", "Svært høy"];
 
   const getRiskLabel = (value: number) => `${riskLabels[value - 1]} (${value})`;
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = <K extends keyof RiskConcernData>(
+    field: K,
+    value: RiskConcernData[K],
+  ) => {
     onChange({ ...riskConcernData, [field]: value });
   };
 

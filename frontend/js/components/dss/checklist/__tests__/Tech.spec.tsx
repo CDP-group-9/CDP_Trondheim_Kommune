@@ -1,8 +1,16 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import type {
+  Dispatch,
+  SetStateAction,
+  TextareaHTMLAttributes,
+} from "react";
+import { useState } from "react";
+
+import type { TechData } from "js/hooks/useChecklist";
 
 import { Tech } from "../index";
 
-jest.mock("components/ui/switch", () => ({
+jest.mock("js/components/ui/switch", () => ({
   Switch: ({
     checked,
     onCheckedChange,
@@ -14,26 +22,71 @@ jest.mock("components/ui/switch", () => ({
       checked={checked}
       data-testid="switch"
       type="checkbox"
-      onChange={(e) => onCheckedChange(e.target.checked)}
+      onChange={(event) => onCheckedChange(event.target.checked)}
     />
   ),
 }));
 
-jest.mock("components/ui/textarea", () => ({
-  Textarea: ({ placeholder }: { placeholder?: string }) => (
-    <textarea placeholder={placeholder} />
+jest.mock("js/components/ui/textarea", () => ({
+  Textarea: ({
+    placeholder,
+    ...props
+  }: {
+    placeholder?: string;
+  } & TextareaHTMLAttributes<HTMLTextAreaElement>) => (
+    <textarea placeholder={placeholder} {...props} />
   ),
 }));
 
 describe("Tech", () => {
+  const baseData: TechData = {
+    storage: "",
+    security: [],
+    integrations: false,
+    integrationDetails: "",
+    automated: false,
+    automatedDescription: "",
+  };
+
+  const renderTech = (
+    override?: Partial<Parameters<typeof Tech>[0]>,
+  ) => {
+    const {
+      techData: overrideData,
+      onChange: overrideOnChange,
+      ...restProps
+    } = override ?? {};
+
+    const Wrapper = () => {
+      const [techData, setTechData] = useState<TechData>({
+        ...baseData,
+        ...overrideData,
+      });
+
+      const handleChange =
+        overrideOnChange ??
+        (setTechData as Dispatch<SetStateAction<TechData>>);
+
+      return (
+        <Tech
+          techData={techData}
+          onChange={handleChange}
+          {...restProps}
+        />
+      );
+    };
+
+    return render(<Wrapper />);
+  };
+
   test("renders the section heading", () => {
-    render(<Tech />);
+    renderTech();
 
     expect(screen.getByText("Teknisk Løsning")).toBeInTheDocument();
   });
 
   test("renders storage location options", () => {
-    render(<Tech />);
+    renderTech();
 
     expect(
       screen.getByText("Kommunens egne servere (on-premise)"),
@@ -45,7 +98,7 @@ describe("Tech", () => {
   });
 
   test("allows selecting a storage location", () => {
-    render(<Tech />);
+    renderTech();
 
     const cloudNorwayRadio = screen
       .getByText("Sky-løsning i Norge")
@@ -58,7 +111,7 @@ describe("Tech", () => {
   });
 
   test("only allows one storage location to be selected at a time", () => {
-    render(<Tech />);
+    renderTech();
 
     const onPremRadio = screen
       .getByText("Kommunens egne servere (on-premise)")
@@ -79,7 +132,7 @@ describe("Tech", () => {
   });
 
   test("renders all security measure checkboxes", () => {
-    render(<Tech />);
+    renderTech();
 
     expect(
       screen.getByText("Kryptering under overføring (TLS/SSL)"),
@@ -103,7 +156,7 @@ describe("Tech", () => {
   });
 
   test("allows selecting multiple security measures", () => {
-    render(<Tech />);
+    renderTech();
 
     const tlsCheckbox = screen
       .getByText("Kryptering under overføring (TLS/SSL)")
@@ -130,7 +183,7 @@ describe("Tech", () => {
   });
 
   test("renders integrations switch", () => {
-    render(<Tech />);
+    renderTech();
 
     expect(
       screen.getByText("Integrasjoner med andre systemer?"),
@@ -138,7 +191,7 @@ describe("Tech", () => {
   });
 
   test("renders automated processing switch", () => {
-    render(<Tech />);
+    renderTech();
 
     expect(
       screen.getByText("Brukes automatiserte beslutninger eller profilering?"),
@@ -146,7 +199,7 @@ describe("Tech", () => {
   });
 
   test("shows integrations textarea when switch is enabled", () => {
-    render(<Tech />);
+    renderTech();
 
     const switches = screen.getAllByTestId("switch");
     const integrationsSwitch = switches[0];
@@ -167,7 +220,7 @@ describe("Tech", () => {
   });
 
   test("shows automated processing textarea when switch is enabled", () => {
-    render(<Tech />);
+    renderTech();
 
     const switches = screen.getAllByTestId("switch");
     const automatedSwitch = switches[1];
@@ -188,7 +241,7 @@ describe("Tech", () => {
   });
 
   test("allows deselecting security measures", () => {
-    render(<Tech />);
+    renderTech();
 
     const tlsCheckbox = screen
       .getByText("Kryptering under overføring (TLS/SSL)")

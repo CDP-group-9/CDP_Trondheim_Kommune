@@ -1,8 +1,16 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import type {
+  Dispatch,
+  SetStateAction,
+  TextareaHTMLAttributes,
+} from "react";
+import { useState } from "react";
+
+import type { RiskConcernData } from "js/hooks/useChecklist";
 
 import { RiskAndConcern } from "../index";
 
-jest.mock("components/ui/slider", () => ({
+jest.mock("js/components/ui/slider", () => ({
   Slider: ({
     value,
     onValueChange,
@@ -25,7 +33,7 @@ jest.mock("components/ui/slider", () => ({
   ),
 }));
 
-jest.mock("components/ui/switch", () => ({
+jest.mock("js/components/ui/switch", () => ({
   Switch: ({
     checked,
     onCheckedChange,
@@ -50,21 +58,62 @@ jest.mock("js/components/ui/textarea", () => ({
   }: {
     placeholder?: string;
     value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    onChange?: TextareaHTMLAttributes<HTMLTextAreaElement>["onChange"];
   }) => (
     <textarea placeholder={placeholder} value={value} onChange={onChange} />
   ),
 }));
 
 describe("RiskAndConcern", () => {
+  const baseData: RiskConcernData = {
+    privacyRisk: 1,
+    unauthAccess: 1,
+    dataLoss: 1,
+    reidentification: 1,
+    employeeConcern: false,
+    writtenConcern: "",
+    regulatoryConcern: "",
+  };
+
+  const renderRisk = (
+    override?: Partial<Parameters<typeof RiskAndConcern>[0]>,
+  ) => {
+    const {
+      riskConcernData: overrideData,
+      onChange: overrideOnChange,
+      ...restProps
+    } = override ?? {};
+
+    const Wrapper = () => {
+      const [riskConcernData, setRiskConcernData] = useState<RiskConcernData>({
+        ...baseData,
+        ...overrideData,
+      });
+
+      const handleChange =
+        overrideOnChange ??
+        (setRiskConcernData as Dispatch<SetStateAction<RiskConcernData>>);
+
+      return (
+        <RiskAndConcern
+          riskConcernData={riskConcernData}
+          onChange={handleChange}
+          {...restProps}
+        />
+      );
+    };
+
+    return render(<Wrapper />);
+  };
+
   test("renders the section heading", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     expect(screen.getByText("Risikoer og Bekymringer")).toBeInTheDocument();
   });
 
   test("renders privacy risk slider", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     expect(
       screen.getByText("Samlet vurdering av personvernsrisiko"),
@@ -74,7 +123,7 @@ describe("RiskAndConcern", () => {
   });
 
   test("renders unauthorized access risk slider", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     expect(
       screen.getByText("Risiko for uautorisert tilgang"),
@@ -82,13 +131,13 @@ describe("RiskAndConcern", () => {
   });
 
   test("renders data loss risk slider", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     expect(screen.getByText("Risiko for datatap")).toBeInTheDocument();
   });
 
   test("renders re-identification risk slider", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     expect(
       screen.getByText("Risiko for re-identifisering av anonymiserte data"),
@@ -96,14 +145,14 @@ describe("RiskAndConcern", () => {
   });
 
   test("displays correct risk labels", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     const labels = screen.getAllByText("Svært lav (1)");
     expect(labels.length).toBeGreaterThan(0);
   });
 
   test("slider values can be changed", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     const sliders = screen.getAllByTestId("slider");
     const firstSlider = sliders[0] as HTMLInputElement;
@@ -114,7 +163,7 @@ describe("RiskAndConcern", () => {
   });
 
   test("renders employee concern switch", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     expect(
       screen.getByText("Er det bekymringer fra registrerte eller ansatte?"),
@@ -123,7 +172,7 @@ describe("RiskAndConcern", () => {
   });
 
   test("renders regulatory concern section", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     expect(
       screen.getByText("Bekymringer om regelverksetterlevelse:"),
@@ -131,7 +180,7 @@ describe("RiskAndConcern", () => {
   });
 
   test("shows employee concern textarea when switch is enabled", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     const switches = screen.getAllByTestId("switch");
     const employeeConcernSwitch = switches[0];
@@ -144,7 +193,7 @@ describe("RiskAndConcern", () => {
   });
 
   test("can change all slider values to different levels", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     const sliders = screen.getAllByTestId("slider");
 
@@ -159,7 +208,7 @@ describe("RiskAndConcern", () => {
   });
 
   test("handles regulatory concern textarea input", () => {
-    render(<RiskAndConcern />);
+    renderRisk();
 
     const textarea = screen.getByPlaceholderText(
       "Områder hvor dere er usikre på lovlighet...",

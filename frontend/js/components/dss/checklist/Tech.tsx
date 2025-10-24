@@ -1,7 +1,16 @@
+import type { Dispatch, SetStateAction } from "react";
+
+import type { TechData } from "js/hooks/useChecklist";
+
 import { Switch } from "js/components/ui/switch";
 import { Textarea } from "js/components/ui/textarea";
 
-export const Tech = ({ techData, onChange }) => {
+type Props = {
+  techData: TechData;
+  onChange: Dispatch<SetStateAction<TechData>>;
+};
+
+export const Tech = ({ techData, onChange }: Props) => {
   const storageOptions = [
     { value: "onprem", label: "Kommunens egne servere (on-premise)" },
     { value: "cloudNO", label: "Sky-løsning i Norge" },
@@ -22,7 +31,10 @@ export const Tech = ({ techData, onChange }) => {
     { value: "plan", label: "Beredskapsplan for databrudd" },
   ];
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = <K extends keyof TechData>(
+    field: K,
+    value: TechData[K],
+  ) => {
     onChange({ ...techData, [field]: value });
   };
 

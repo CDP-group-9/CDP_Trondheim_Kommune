@@ -68,6 +68,7 @@ const mockFetch = jest.fn();
 describe("Home", () => {
   beforeEach(() => {
     mockFetch.mockClear();
+    localStorage.clear();
   });
 
   test("renders the textarea and submit button with correct initial state", () => {
@@ -124,6 +125,8 @@ describe("Home", () => {
           body: JSON.stringify({
             prompt: "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
             history: [],
+            // eslint-disable-next-line camelcase
+            context_text: "",
           }),
         }),
       );
@@ -195,6 +198,8 @@ describe("Home", () => {
           body: JSON.stringify({
             prompt: "Test question",
             history: [],
+            // eslint-disable-next-line camelcase
+            context_text: "",
           }),
         }),
       );

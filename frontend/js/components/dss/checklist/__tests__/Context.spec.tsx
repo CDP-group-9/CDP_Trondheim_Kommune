@@ -1,10 +1,34 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import type {
+  Dispatch,
+  SetStateAction,
+  InputHTMLAttributes,
+  TextareaHTMLAttributes,
+} from "react";
+import { useState } from "react";
+
+import type { ContextData } from "js/hooks/useChecklist";
 
 import { Context } from "../index";
 
 jest.mock("js/components/ui/select", () => ({
-  Select: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="select">{children}</div>
+  Select: ({
+    children,
+    value,
+    onValueChange,
+  }: {
+    children: React.ReactNode;
+    value?: string;
+    onValueChange?: (value: string) => void;
+  }) => (
+    <div data-testid="select">
+      <select
+        value={value}
+        onChange={(event) => onValueChange?.(event.target.value)}
+      >
+        {children}
+      </select>
+    </div>
   ),
   SelectTrigger: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
@@ -25,20 +49,68 @@ jest.mock("js/components/ui/select", () => ({
 }));
 
 jest.mock("js/components/ui/input", () => ({
-  Input: ({ placeholder }: { placeholder?: string }) => (
-    <input placeholder={placeholder} />
+  Input: ({
+    placeholder,
+    ...props
+  }: {
+    placeholder?: string;
+  } & InputHTMLAttributes<HTMLInputElement>) => (
+    <input placeholder={placeholder} {...props} />
   ),
 }));
 
 jest.mock("js/components/ui/textarea", () => ({
-  Textarea: ({ placeholder }: { placeholder?: string }) => (
-    <textarea placeholder={placeholder} />
+  Textarea: ({
+    placeholder,
+    ...props
+  }: {
+    placeholder?: string;
+  } & TextareaHTMLAttributes<HTMLTextAreaElement>) => (
+    <textarea placeholder={placeholder} {...props} />
   ),
 }));
 
 describe("Context", () => {
+  const baseContextData: ContextData = {
+    projectSummary: "",
+    department: "",
+    status: "",
+    purpose: "",
+  };
+
+  const renderContext = (
+    override?: Partial<Parameters<typeof Context>[0]>,
+  ) => {
+    const {
+      contextData: overrideContextData,
+      onChange: overrideOnChange,
+      ...restProps
+    } = override ?? {};
+
+    const Wrapper = () => {
+      const [contextData, setContextData] = useState<ContextData>({
+        ...baseContextData,
+        ...overrideContextData,
+      });
+
+      const handleChange =
+        overrideOnChange ??
+        (setContextData as Dispatch<SetStateAction<ContextData>>);
+
+      return (
+        <Context
+          contextData={contextData}
+          onChange={handleChange}
+          {...restProps}
+        />
+      );
+    };
+
+    return render(<Wrapper />);
+  };
+
   test("renders all form elements", () => {
-    render(<Context />);
+    renderContext();
 
     expect(screen.getByText("Prosjekt/Initiativ Kontekst")).toBeInTheDocument();
     expect(
@@ -51,7 +123,7 @@ describe("Context", () => {
   });
 
   test("renders all project status radio buttons", () => {
-    render(<Context />);
+    renderContext();
 
     const statuses = [
       "Planlegging",
@@ -67,7 +139,7 @@ describe("Context", () => {
   });
 
   test("allows selecting a project status", () => {
-    render(<Context />);
+    renderContext();
 
     const statuses = [
       "Planlegging",
@@ -88,7 +160,7 @@ describe("Context", () => {
   });
 
   test("only allows one status to be selected at a time", () => {
-    render(<Context />);
+    renderContext();
 
     const planningRadio = screen
       .getByText("Planlegging")

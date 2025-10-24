@@ -1,9 +1,21 @@
+import type { Dispatch, SetStateAction } from "react";
+
+import type { LegalBasisData } from "js/hooks/useChecklist";
+
 import { Switch } from "js/components/ui/switch";
 
 import { Textarea } from "../../ui/textarea";
 
-export const Legal = ({ legalBasisData, onChange }) => {
-  const handleChange = (field: string, value: any) => {
+type Props = {
+  legalBasisData: LegalBasisData;
+  onChange: Dispatch<SetStateAction<LegalBasisData>>;
+};
+
+export const Legal = ({ legalBasisData, onChange }: Props) => {
+  const handleChange = <K extends keyof LegalBasisData>(
+    field: K,
+    value: LegalBasisData[K],
+  ) => {
     onChange({ ...legalBasisData, [field]: value });
   };
 

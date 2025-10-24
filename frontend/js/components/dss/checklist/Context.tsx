@@ -1,3 +1,7 @@
+import type { Dispatch, SetStateAction } from "react";
+
+import type { ContextData } from "js/hooks/useChecklist";
+
 import {
   Select,
   SelectTrigger,
@@ -9,8 +13,16 @@ import {
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
 
-export const Context = ({ contextData, onChange }) => {
-  const handleChange = (field: string, value: any) => {
+type Props = {
+  contextData: ContextData;
+  onChange: Dispatch<SetStateAction<ContextData>>;
+};
+
+export const Context = ({ contextData, onChange }: Props) => {
+  const handleChange = <K extends keyof ContextData>(
+    field: K,
+    value: ContextData[K],
+  ) => {
     onChange({ ...contextData, [field]: value });
   };
 

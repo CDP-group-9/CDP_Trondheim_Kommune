@@ -1,23 +1,47 @@
+import type { Dispatch, SetStateAction } from "react";
+
+import type { ChecklistOption, HandlingData } from "js/hooks/useChecklist";
+
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
 
 type Props = {
-  selectedOption: "motta" | "dele";
-  handlingData: any;
-  onChange: (newData: any) => void;
+  selectedOption: Exclude<ChecklistOption, null>;
+  handlingData: HandlingData;
+  onChange: Dispatch<SetStateAction<HandlingData>>;
 };
 
+type ArrayField = {
+  [K in keyof HandlingData]: HandlingData[K] extends string[] ? K : never;
+}[keyof HandlingData];
+
+type NumericField = {
+  [K in keyof HandlingData]: HandlingData[K] extends number | "" ? K : never;
+}[keyof HandlingData];
+
 export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
-  const handleChange = (field: string, value: any) => {
+  const handleChange = <K extends keyof HandlingData>(
+    field: K,
+    value: HandlingData[K],
+  ) => {
     onChange({ ...handlingData, [field]: value });
   };
 
-  const toggleInArray = (field: string, value: string) => {
-    const current = handlingData[field] || [];
+  const toggleInArray = <K extends ArrayField>(field: K, value: string) => {
+    const current = handlingData[field];
     const updated = current.includes(value)
-      ? current.filter((v: string) => v !== value)
+      ? current.filter((v) => v !== value)
       : [...current, value];
-    handleChange(field, updated);
+    handleChange(field, updated as HandlingData[K]);
+  };
+
+  const handleNumericInput = <K extends NumericField>(
+    field: K,
+    value: string,
+  ) => {
+    const parsedValue =
+      value === "" ? "" : (Number.isNaN(Number(value)) ? "" : Number(value));
+    handleChange(field, parsedValue as HandlingData[K]);
   };
 
   const datatypes = [
@@ -158,7 +182,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 step={1}
                 type="number"
                 value={handlingData.personCount || ""}
-                onChange={(e) => handleChange("personCount", e.target.value)}
+                onChange={(e) => handleNumericInput("personCount", e.target.value)}
               />
             </div>
             <div>
@@ -170,7 +194,9 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 placeholder="Oppgi svaret i antall år (bruk desimaltall om nødvendig)"
                 type="number"
                 value={handlingData.retentionTime || ""}
-                onChange={(e) => handleChange("retentionTime", e.target.value)}
+                onChange={(e) =>
+                  handleNumericInput("retentionTime", e.target.value)
+                }
               />
             </div>
             <div>
@@ -259,7 +285,9 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 step={1}
                 type="number"
                 value={handlingData.shareFrequency || ""}
-                onChange={(e) => handleChange("shareFrequency", e.target.value)}
+                onChange={(e) =>
+                  handleNumericInput("shareFrequency", e.target.value)
+                }
               />
             </div>
             <div>

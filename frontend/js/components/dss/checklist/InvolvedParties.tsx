@@ -1,3 +1,7 @@
+import type { Dispatch, SetStateAction } from "react";
+
+import type { InvolvedPartiesData } from "js/hooks/useChecklist";
+
 import {
   Select,
   SelectTrigger,
@@ -8,7 +12,12 @@ import {
 import { Switch } from "js/components/ui/switch";
 import { Textarea } from "js/components/ui/textarea";
 
-export const InvolvedParties = ({ involvedPartiesData, onChange }) => {
+type Props = {
+  involvedPartiesData: InvolvedPartiesData;
+  onChange: Dispatch<SetStateAction<InvolvedPartiesData>>;
+};
+
+export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
   const toggleGroup = (value: string) => {
     const updatedGroup = involvedPartiesData.registeredGroups.includes(value)
       ? involvedPartiesData.registeredGroups.filter((v) => v !== value)
@@ -16,7 +25,10 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }) => {
     onChange({ ...involvedPartiesData, registeredGroups: updatedGroup });
   };
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = <K extends keyof InvolvedPartiesData>(
+    field: K,
+    value: InvolvedPartiesData[K],
+  ) => {
     onChange({ ...involvedPartiesData, [field]: value });
   };
 

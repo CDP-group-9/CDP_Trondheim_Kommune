@@ -1,16 +1,30 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { useState } from "react";
 
 import { ReceiveOrShareData } from "../index";
 
 describe("ReceiveOrShareData", () => {
-  const mockOnSelect = jest.fn();
+  const renderComponent = (
+    initialSelected: "motta" | "dele" | null = null,
+    onSelect?: (value: "motta" | "dele" | null) => void,
+  ) => {
+    const Wrapper = () => {
+      const [selected, setSelected] =
+        useState<"motta" | "dele" | null>(initialSelected);
 
-  beforeEach(() => {
-    mockOnSelect.mockClear();
-  });
+      const handleSelect = (value: "motta" | "dele" | null) => {
+        setSelected(value);
+        onSelect?.(value);
+      };
+
+      return <ReceiveOrShareData selected={selected} onSelect={handleSelect} />;
+    };
+
+    return render(<Wrapper />);
+  };
 
   test("renders the section heading", () => {
-    render(<ReceiveOrShareData selected={null} onSelect={mockOnSelect} />);
+    renderComponent();
 
     expect(
       screen.getByText("Hva skal du gjøre med personopplysninger?"),
@@ -18,14 +32,14 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("renders both option cards", () => {
-    render(<ReceiveOrShareData selected={null} onSelect={mockOnSelect} />);
+    renderComponent();
 
     expect(screen.getByText("Motta/samle inn data")).toBeInTheDocument();
     expect(screen.getByText("Dele/utlevere data")).toBeInTheDocument();
   });
 
   test("renders receive option description", () => {
-    render(<ReceiveOrShareData selected={null} onSelect={mockOnSelect} />);
+    renderComponent();
 
     expect(
       screen.getByText(
@@ -35,7 +49,7 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("renders share option description", () => {
-    render(<ReceiveOrShareData selected={null} onSelect={mockOnSelect} />);
+    renderComponent();
 
     expect(
       screen.getByText(
@@ -45,7 +59,7 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("shows warning message when nothing is selected", () => {
-    render(<ReceiveOrShareData selected={null} onSelect={mockOnSelect} />);
+    renderComponent();
 
     expect(
       screen.getByText(
@@ -55,7 +69,7 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("does not show warning when receive is selected", () => {
-    render(<ReceiveOrShareData selected="receive" onSelect={mockOnSelect} />);
+    renderComponent("motta");
 
     expect(
       screen.queryByText(
@@ -65,7 +79,7 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("does not show warning when share is selected", () => {
-    render(<ReceiveOrShareData selected="share" onSelect={mockOnSelect} />);
+    renderComponent("dele");
 
     expect(
       screen.queryByText(
@@ -74,41 +88,44 @@ describe("ReceiveOrShareData", () => {
     ).not.toBeInTheDocument();
   });
 
-  test("calls onSelect with 'receive' when receive card is clicked", () => {
-    render(<ReceiveOrShareData selected={null} onSelect={mockOnSelect} />);
+  test("calls onSelect with 'motta' when receive card is clicked", () => {
+    const onSelect = jest.fn();
+    renderComponent(null, onSelect);
 
     const receiveButton = screen
       .getByText("Motta/samle inn data")
       .closest("button");
     fireEvent.click(receiveButton!);
 
-    expect(mockOnSelect).toHaveBeenCalledWith("receive");
+    expect(onSelect).toHaveBeenCalledWith("motta");
   });
 
-  test("calls onSelect with 'share' when share card is clicked", () => {
-    render(<ReceiveOrShareData selected={null} onSelect={mockOnSelect} />);
+  test("calls onSelect with 'dele' when share card is clicked", () => {
+    const onSelect = jest.fn();
+    renderComponent(null, onSelect);
 
     const shareButton = screen
       .getByText("Dele/utlevere data")
       .closest("button");
     fireEvent.click(shareButton!);
 
-    expect(mockOnSelect).toHaveBeenCalledWith("share");
+    expect(onSelect).toHaveBeenCalledWith("dele");
   });
 
   test("calls onSelect with null when already selected option is clicked again", () => {
-    render(<ReceiveOrShareData selected="receive" onSelect={mockOnSelect} />);
+    const onSelect = jest.fn();
+    renderComponent("motta", onSelect);
 
     const receiveButton = screen
       .getByText("Motta/samle inn data")
       .closest("button");
     fireEvent.click(receiveButton!);
 
-    expect(mockOnSelect).toHaveBeenCalledWith(null);
+    expect(onSelect).toHaveBeenCalledWith(null);
   });
 
   test("applies correct styling to selected receive option", () => {
-    render(<ReceiveOrShareData selected="receive" onSelect={mockOnSelect} />);
+    renderComponent("motta");
 
     const receiveButton = screen
       .getByText("Motta/samle inn data")
@@ -119,7 +136,7 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("applies correct styling to selected share option", () => {
-    render(<ReceiveOrShareData selected="share" onSelect={mockOnSelect} />);
+    renderComponent("dele");
 
     const shareButton = screen
       .getByText("Dele/utlevere data")
