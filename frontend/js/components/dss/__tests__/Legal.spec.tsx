@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { Legal } from "../checklist/Legal";
+import { Legal } from "../checklist";
 
 jest.mock("js/components/ui/switch", () => ({
   Switch: ({

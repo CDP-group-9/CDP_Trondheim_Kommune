@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { Data } from "../checklist/Data";
+import { Data } from "../checklist";
 
 jest.mock("../../ui/input", () => ({
   Input: ({ placeholder }: { placeholder?: string }) => (

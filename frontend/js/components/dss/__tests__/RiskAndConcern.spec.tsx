@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { RiskAndConcern } from "../checklist/RiskAndConcern";
+import { RiskAndConcern } from "../checklist";
 
 jest.mock("js/components/ui/slider", () => ({
   Slider: ({

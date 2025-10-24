@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { InvolvedParties } from "../checklist/InvolvedParties";
+import { InvolvedParties } from "../checklist";
 
 jest.mock("../../ui/select", () => ({
   Select: ({ children }: { children: React.ReactNode }) => (

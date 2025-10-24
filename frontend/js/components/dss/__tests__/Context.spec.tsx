@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { Context } from "../checklist/Context";
+import { Context } from "../checklist";
 
 jest.mock("../../ui/select", () => ({
   Select: ({ children }: { children: React.ReactNode }) => (

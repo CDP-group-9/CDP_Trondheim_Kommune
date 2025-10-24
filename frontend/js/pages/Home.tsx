@@ -7,7 +7,7 @@ import { useChat } from "js/hooks/useChat";
 
 import { DssFourButtons } from "components/dss/DssFourButtons";
 import { DssChatBox } from "components/dss/DssChatBox";
-import { ChatMessage } from "../types/ChatMessage";
+import { ChatMessage } from "types/ChatMessage";
 
 const Home = () => {
   const {
