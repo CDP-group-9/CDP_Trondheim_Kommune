@@ -15,7 +15,7 @@ interface FourButtonsProps {
   className?: string;
 }
 
-export function FourButtons({
+export function DssFourButtons({
   submitPromptFunction,
   className,
 }: FourButtonsProps) {

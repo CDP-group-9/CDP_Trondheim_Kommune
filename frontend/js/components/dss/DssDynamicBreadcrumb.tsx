@@ -15,7 +15,7 @@ interface DynamicBreadcrumbProps {
   className?: string;
 }
 
-export function DynamicBreadcrumb({ className }: DynamicBreadcrumbProps) {
+export function DssDynamicBreadcrumb({ className }: DynamicBreadcrumbProps) {
   const location = useLocation();
   const pathParts = location.pathname.split("/").filter(Boolean);
 

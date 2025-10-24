@@ -1,7 +1,7 @@
 import { Check, History, DockIcon, Info, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
-//import trondheimLogo from "../../../assets/images/tk-logo-co.png";
+//import trondheimLogo from "../../../assets/images/dss-logo-co.png";
 import tkLogo from "../../../assets/images/tk-logo-wide.svg";
 
 import {
@@ -41,7 +41,7 @@ const items = [
   },
 ];
 
-export function AppSidebar() {
+export function DssSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>

@@ -3,7 +3,7 @@ import { userEvent } from "@testing-library/user-event";
 
 import Home from "../Home";
 
-jest.mock("../../components/tk/app-four-buttons", () => ({
+jest.mock("components/dss/DssFourButtons", () => ({
   FourButtons: ({
     submitPromptFunction,
   }: {
@@ -50,7 +50,7 @@ jest.mock("../../components/tk/app-four-buttons", () => ({
   ),
 }));
 
-jest.mock("../../components/tk/chatbox", () => ({
+jest.mock("components/dss/chatbox", () => ({
   ChatBox: ({ message, type }: { message: string; type: "user" | "bot" }) => (
     <div data-testid={`chatbox-${type}`}>
       <span>{message}</span>

@@ -3,9 +3,9 @@ import { parse } from "cookie";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { OpenAPI } from "./api";
-import { DynamicBreadcrumb } from "./components/tk/app-breadcrumb";
-import { AppSidebar } from "./components/tk/app-sidebar";
-import Footer from "./components/tk/footer";
+import { DssDynamicBreadcrumb } from "components/dss/DssDynamicBreadcrumb";
+import { DssSidebar } from "components/dss/DssSidebar";
+import Footer from "components/dss/footer";
 import { SidebarProvider } from "./components/ui/sidebar";
 import { Checklist, Examples, Home, Privacy } from "./routes";
 
@@ -39,10 +39,10 @@ const App = () => (
     >
       <SidebarProvider>
         <div className="flex min-h-screen">
-          <AppSidebar />
+          <DssSidebar />
           <div className="flex flex-col flex-grow w-full">
             <div className="pl-6 mb-1">
-              <DynamicBreadcrumb />
+              <DssDynamicBreadcrumb />
             </div>
             <main className="flex-1">
               <Routes>

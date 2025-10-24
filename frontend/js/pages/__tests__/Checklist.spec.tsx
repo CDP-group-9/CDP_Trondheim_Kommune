@@ -2,17 +2,17 @@ import { render, screen, fireEvent } from "@testing-library/react";
 
 import Checklist from "../Checklist";
 
-jest.mock("../../components/tk/checklist/context", () => ({
+jest.mock("components/dss/checklist/context", () => ({
   Context: () => <div data-testid="context-component">Context Component</div>,
 }));
 
-jest.mock("../../components/tk/checklist/data", () => ({
+jest.mock("components/dss/checklist/data", () => ({
   Data: ({ selectedOption }: { selectedOption: string }) => (
     <div data-testid="data-component">Data Component - {selectedOption}</div>
   ),
 }));
 
-jest.mock("../../components/tk/checklist/involvedParties", () => ({
+jest.mock("components/dss/checklist/involvedParties", () => ({
   InvolvedParties: () => (
     <div data-testid="involved-parties-component">
       InvolvedParties Component
@@ -20,11 +20,11 @@ jest.mock("../../components/tk/checklist/involvedParties", () => ({
   ),
 }));
 
-jest.mock("../../components/tk/checklist/legal", () => ({
+jest.mock("components/dss/checklist/legal", () => ({
   Legal: () => <div data-testid="legal-component">Legal Component</div>,
 }));
 
-jest.mock("../../components/tk/checklist/receiveOrShareData", () => ({
+jest.mock("components/dss/checklist/receiveOrShareData", () => ({
   ReceiveOrShareData: ({
     selected,
     onSelect,
@@ -44,17 +44,17 @@ jest.mock("../../components/tk/checklist/receiveOrShareData", () => ({
   ),
 }));
 
-jest.mock("../../components/tk/checklist/riskAndConcern", () => ({
+jest.mock("components/dss/checklist/riskAndConcern", () => ({
   RiskAndConcern: () => (
     <div data-testid="risk-and-concern-component">RiskAndConcern Component</div>
   ),
 }));
 
-jest.mock("../../components/tk/checklist/tech", () => ({
+jest.mock("components/dss/checklist/tech", () => ({
   Tech: () => <div data-testid="tech-component">Tech Component</div>,
 }));
 
-jest.mock("../../components/tk/progressbar-updated", () => ({
+jest.mock("components/dss/progressbar-updated", () => ({
   __esModule: true,
   default: () => (
     <div data-testid="progressbar-component">ProgressBar Component</div>

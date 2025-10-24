@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import Examples from "../Examples";
 
-jest.mock("../../components/tk/chatbox", () => ({
+jest.mock("components/dss/chatbox", () => ({
   ChatBox: ({ message, type }: { message: string; type: "user" | "bot" }) => (
     <div data-testid={`chatbox-${type}`}>
       <span>{message}</span>
@@ -10,7 +10,7 @@ jest.mock("../../components/tk/chatbox", () => ({
   ),
 }));
 
-jest.mock("../../components/tk/progressbar-updated", () => ({
+jest.mock("components/dss/progressbar-updated", () => ({
   __esModule: true,
   default: () => (
     <div data-testid="progressbar-component">ProgressBar Component</div>

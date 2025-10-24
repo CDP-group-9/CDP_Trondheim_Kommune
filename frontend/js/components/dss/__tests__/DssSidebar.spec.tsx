@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
-import { AppSidebar } from "../app-sidebar";
+import { DssSidebar } from "../DssSidebar";
 
 jest.mock("../../ui/sidebar", () => ({
   Sidebar: ({ children }: { children: React.ReactNode }) => (
@@ -67,7 +67,7 @@ describe("AppSidebar", () => {
           v7_relativeSplatPath: true,
         }}
       >
-        <AppSidebar />
+        <DssSidebar />
       </MemoryRouter>,
     );
 
@@ -84,7 +84,7 @@ describe("AppSidebar", () => {
           v7_relativeSplatPath: true,
         }}
       >
-        <AppSidebar />
+        <DssSidebar />
       </MemoryRouter>,
     );
 
@@ -104,7 +104,7 @@ describe("AppSidebar", () => {
           v7_relativeSplatPath: true,
         }}
       >
-        <AppSidebar />
+        <DssSidebar />
       </MemoryRouter>,
     );
 
@@ -121,7 +121,7 @@ describe("AppSidebar", () => {
           v7_relativeSplatPath: true,
         }}
       >
-        <AppSidebar />
+        <DssSidebar />
       </MemoryRouter>,
     );
 
@@ -152,7 +152,7 @@ describe("AppSidebar", () => {
           v7_relativeSplatPath: true,
         }}
       >
-        <AppSidebar />
+        <DssSidebar />
       </MemoryRouter>,
     );
 

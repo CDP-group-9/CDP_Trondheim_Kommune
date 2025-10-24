@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import { ChatBox } from "../chatbox";
 
-jest.mock("../../../../assets/images/tk-avatar.png", () => "tk-avatar.png");
+jest.mock("../../../../assets/images/tk-avatar.png", () => "dss-avatar.png");
 jest.mock("../../../../assets/images/user-avatar.svg", () => "user-avatar.svg");
 
 describe("ChatBox", () => {
@@ -26,7 +26,7 @@ describe("ChatBox", () => {
 
     expect(screen.getByText("Hello from bot")).toBeInTheDocument();
 
-    const avatar = screen.getByAltText("tk avatar");
+    const avatar = screen.getByAltText("dss avatar");
     expect(avatar).toBeInTheDocument();
 
     expect(container.querySelector(".justify-start")).toBeInTheDocument();

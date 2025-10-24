@@ -1,14 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
-import { DynamicBreadcrumb } from "../app-breadcrumb";
+import { DssDynamicBreadcrumb } from "../DssDynamicBreadcrumb";
 
 jest.mock("lucide-react", () => ({
   House: () => <div>House</div>,
   ChevronRight: () => <div>ChevronRight</div>,
 }));
 
-describe("DynamicBreadcrumb", () => {
+describe("DssDynamicBreadcrumb", () => {
   test("renders Home link at root path", () => {
     render(
       <MemoryRouter
@@ -20,7 +20,7 @@ describe("DynamicBreadcrumb", () => {
         }}
         initialEntries={["/"]}
       >
-        <DynamicBreadcrumb />
+        <DssDynamicBreadcrumb />
       </MemoryRouter>,
     );
 
@@ -38,7 +38,7 @@ describe("DynamicBreadcrumb", () => {
         }}
         initialEntries={["/personvern/sjekkliste"]}
       >
-        <DynamicBreadcrumb />
+        <DssDynamicBreadcrumb />
       </MemoryRouter>,
     );
 
@@ -58,7 +58,7 @@ describe("DynamicBreadcrumb", () => {
         }}
         initialEntries={["/"]}
       >
-        <DynamicBreadcrumb className="custom-class" />
+        <DssDynamicBreadcrumb className="custom-class" />
       </MemoryRouter>,
     );
 
@@ -76,7 +76,7 @@ describe("DynamicBreadcrumb", () => {
         }}
         initialEntries={["/personvern/test"]}
       >
-        <DynamicBreadcrumb />
+        <DssDynamicBreadcrumb />
       </MemoryRouter>,
     );
 

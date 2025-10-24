@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import Privacy from "../Privacy";
 
-jest.mock("../../components/tk/privacy-sections", () => ({
+jest.mock("components/dss/privacy-sections", () => ({
   PersonalDataSection: () => (
     <div data-testid="personal-data-section">PersonalDataSection</div>
   ),
@@ -22,7 +22,7 @@ jest.mock("../../components/tk/privacy-sections", () => ({
   ),
 }));
 
-jest.mock("../../components/tk/progressbar-updated", () => ({
+jest.mock("components/dss/progressbar-updated", () => ({
   __esModule: true,
   default: () => (
     <div data-testid="progressbar-component">ProgressBar Component</div>

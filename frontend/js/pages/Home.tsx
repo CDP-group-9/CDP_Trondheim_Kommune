@@ -5,8 +5,8 @@ import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
 
-import { FourButtons } from "../components/tk/app-four-buttons";
-import { ChatBox } from "../components/tk/chatbox";
+import { DssFourButtons } from "components/dss/DssFourButtons";
+import { ChatBox } from "components/dss/chatbox";
 import { ChatMessage } from "../types/ChatMessage";
 
 const Home = () => {
@@ -35,7 +35,7 @@ const Home = () => {
       {messages.length === 0 && (
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="max-w-lg mx-auto">
-            <FourButtons submitPromptFunction={sendMessage} />
+            <DssFourButtons submitPromptFunction={sendMessage} />
           </div>
         </div>
       )}

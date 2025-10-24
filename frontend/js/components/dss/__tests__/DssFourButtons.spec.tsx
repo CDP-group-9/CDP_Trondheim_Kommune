@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { FourButtons } from "../app-four-buttons";
+import { DssFourButtons } from "../DssFourButtons";
 
-describe("FourButtons", () => {
+describe("DssFourButtons", () => {
   const mockSubmitPromptFunction = jest.fn();
 
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe("FourButtons", () => {
 
   test("renders all four action buttons in grid layout", () => {
     const { container } = render(
-      <FourButtons submitPromptFunction={mockSubmitPromptFunction} />,
+      <DssFourButtons submitPromptFunction={mockSubmitPromptFunction} />,
     );
 
     expect(
@@ -31,7 +31,7 @@ describe("FourButtons", () => {
   });
 
   test("calls submitPromptFunction with correct text when buttons are clicked", () => {
-    render(<FourButtons submitPromptFunction={mockSubmitPromptFunction} />);
+    render(<DssFourButtons submitPromptFunction={mockSubmitPromptFunction} />);
 
     const buttonTexts = [
       "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
