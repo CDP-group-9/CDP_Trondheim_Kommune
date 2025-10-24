@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import DssFooter from "../DssFooter";
+import { DssFooter } from "../DssFooter";
 
 describe("DssFooter", () => {
   test("renders footer with disclaimer text", () => {

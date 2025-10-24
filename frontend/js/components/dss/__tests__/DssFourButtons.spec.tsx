@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { DssFourButtons } from "../DssFourButtons";
+import { DssFourButtons } from "components/dss";
 
 describe("DssFourButtons", () => {
   const mockSubmitPromptFunction = jest.fn();

@@ -1,9 +1,9 @@
-import * as React from "react";
+import React, { useState } from "react";
 
 import { Progress } from "../ui/progress";
 
-const DssProgressBarUpdated = () => {
-  const [progress, setProgress] = React.useState(0);
+export const DssProgressBarUpdated: React.FC = () => {
+  const [progress, setProgress] = useState(0);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -28,5 +28,3 @@ const DssProgressBarUpdated = () => {
     </div>
   );
 };
-
-export default DssProgressBarUpdated;

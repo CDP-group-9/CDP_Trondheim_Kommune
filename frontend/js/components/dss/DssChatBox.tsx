@@ -1,12 +1,13 @@
 import trondheimKommuneAvatar from "../../../assets/images/tk-avatar.svg";
 import brukerAvatar from "../../../assets/images/user-avatar.svg";
+import {FC} from "react";
 
 interface ChatBoxProps {
   type: "user" | "bot";
   message: string;
 }
 
-const DssChatBox = ({ type, message }: ChatBoxProps) => {
+export const DssChatBox: FC<ChatBoxProps> = ({ type, message }) => {
   return (
     <div
       className={`flex gap-3 px-3 ${type === "user" ? "justify-end" : "justify-start"}`}
@@ -37,5 +38,3 @@ const DssChatBox = ({ type, message }: ChatBoxProps) => {
     </div>
   );
 };
-
-export { DssChatBox };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import {
+  DssProgressBarUpdated,
   Context,
   Data,
   InvolvedParties,
@@ -8,8 +9,7 @@ import {
   ReceiveOrShareData,
   RiskAndConcern,
   Tech
-} from "components/dss/checklist";
-import DssProgressBarUpdated from "components/dss/DssProgressBarUpdated";
+} from "components/dss";
 import { Button } from "components/ui/button";
 import { useChecklist } from "../hooks/useChecklist";
 

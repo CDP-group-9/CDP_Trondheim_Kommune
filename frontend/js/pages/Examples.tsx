@@ -1,5 +1,4 @@
-import { DssChatBox } from "components/dss/DssChatBox";
-import DssProgressBarUpdated from "components/dss/DssProgressBarUpdated";
+import { DssChatBox, DssProgressBarUpdated } from "components/dss";
 
 /*
 TODO: move to backend

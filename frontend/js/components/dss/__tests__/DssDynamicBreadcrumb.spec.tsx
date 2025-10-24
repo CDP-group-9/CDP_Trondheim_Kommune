@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
-import { DssDynamicBreadcrumb } from "../DssDynamicBreadcrumb";
+import { DssDynamicBreadcrumb } from "components/dss";
 
 jest.mock("lucide-react", () => ({
   House: () => <div>House</div>,

@@ -1,6 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
 
-import DssProgressBarUpdated from "../DssProgressBarUpdated";
+import { DssProgressBarUpdated } from "components/dss";
 
 describe("DssProgressBarUpdated", () => {
   beforeEach(() => {

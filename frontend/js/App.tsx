@@ -3,9 +3,8 @@ import { parse } from "cookie";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { OpenAPI } from "api";
-import { DssDynamicBreadcrumb } from "components/dss/DssDynamicBreadcrumb";
-import { DssSidebar } from "components/dss/DssSidebar";
-import DssFooter from "components/dss/DssFooter";
+import { DssDynamicBreadcrumb, DssSidebar, DssFooter } from "components/dss";
+
 import { SidebarProvider } from "components/ui/sidebar";
 import { Checklist, Examples, Home, Privacy } from "./routes";
 
