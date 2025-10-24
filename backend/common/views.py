@@ -304,7 +304,7 @@ class ChatViewSet(viewsets.ViewSet):
             previous_history = json_to_history(previous_history_json)
 
             # chat call
-            response_text, updated_history = GEMINI_CHAT_SERVICE.send_chat_message_sync(
+            response_text, updated_history = GEMINI_CHAT_SERVICE.send_question_with_laws(
                 prompt=user_prompt,
                 current_history=previous_history,
                 system_instruction=system_instructions,

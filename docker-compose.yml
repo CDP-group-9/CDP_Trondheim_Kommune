@@ -1,12 +1,12 @@
 services:
   db:
-    image: "postgres:alpine"
+    image: "pgvector/pgvector:pg16"
     environment:
       - POSTGRES_USER=CDP_Trondheim_Kommune
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=CDP_Trondheim_Kommune
     ports:
-      - "5432"
+      - "5432:5432"
     volumes:
       - dbdata:/var/lib/postgresql/data:delegated
 

@@ -62,3 +62,9 @@ docker_backend_update_schema:
 
 docker_frontend_update_api:
 	docker compose run --rm frontend npm run openapi-ts
+
+docker_insert_laws:
+	docker compose run --rm backend python common/utils/db_client.py
+
+docker_open_pg_shell:
+	docker compose exec db psql -U CDP_Trondheim_Kommune -d CDP_Trondheim_Kommune
