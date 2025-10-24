@@ -3,16 +3,15 @@ import { render, screen } from "@testing-library/react";
 import Examples from "../Examples";
 
 jest.mock("components/dss/DssChatBox", () => ({
-  ChatBox: ({ message, type }: { message: string; type: "user" | "bot" }) => (
+  DssChatBox: ({ message, type }: { message: string; type: "user" | "bot" }) => (
     <div data-testid={`chatbox-${type}`}>
       <span>{message}</span>
     </div>
   ),
 }));
 
-jest.mock("components/dss/DssProgressBarUpdated", () => ({
-  __esModule: true,
-  default: () => (
+jest.mock("components/dss/DssProgressBar", () => ({
+  DssProgressBar: () => (
     <div data-testid="progressbar-component">ProgressBar Component</div>
   ),
 }));

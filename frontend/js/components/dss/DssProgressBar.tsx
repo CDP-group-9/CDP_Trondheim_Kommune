@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Progress } from "../ui/progress";
 
-export const DssProgressBarUpdated: React.FC = () => {
+export const DssProgressBar: React.FC = () => {
   const [progress, setProgress] = useState(0);
 
   React.useEffect(() => {

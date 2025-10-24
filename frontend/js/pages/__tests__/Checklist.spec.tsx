@@ -54,9 +54,8 @@ jest.mock("components/dss/checklist/Tech", () => ({
   Tech: () => <div data-testid="tech-component">Tech Component</div>,
 }));
 
-jest.mock("components/dss/DssProgressBarUpdated", () => ({
-  __esModule: true,
-  default: () => (
+jest.mock("components/dss/DssProgressBar", () => ({
+  DssProgressBar: () => (
     <div data-testid="progressbar-component">ProgressBar Component</div>
   ),
 }));

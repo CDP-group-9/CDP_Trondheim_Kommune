@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import {
-  DssProgressBarUpdated,
   Context,
   Data,
   InvolvedParties,
@@ -10,6 +9,7 @@ import {
   RiskAndConcern,
   Tech
 } from "components/dss";
+import { DssProgressBar } from "components/dss";
 import { Button } from "components/ui/button";
 import { useChecklist } from "../hooks/useChecklist";
 
@@ -36,7 +36,7 @@ const Checklist = () => {
 
   return (
     <div>
-      <DssProgressBarUpdated />
+      <DssProgressBar />
       <div className="flex justify-start mb-4 border-b border-gray-300">
         <div className="flex-1 space-y-6 max-w-4xl px-6 py-4">
           <h1 className="text-3xl font-medium mb-1">Personvernsjekkliste</h1>

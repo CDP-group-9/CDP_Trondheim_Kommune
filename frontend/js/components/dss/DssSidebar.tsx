@@ -77,11 +77,11 @@ export function DssSidebar() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
-                <SidebarGroupLabel className="gap-2 mt-4 mb-2">
-                  <History />
-                  <span> Tidligere samtaler</span>
-                </SidebarGroupLabel>
               </SidebarMenu>
+              <SidebarGroupLabel className="gap-2 mt-4 mb-2">
+                <History />
+                <span> Tidligere samtaler</span>
+              </SidebarGroupLabel>
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>

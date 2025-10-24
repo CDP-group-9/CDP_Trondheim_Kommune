@@ -4,7 +4,7 @@ import { userEvent } from "@testing-library/user-event";
 import Home from "../Home";
 
 jest.mock("components/dss/DssFourButtons", () => ({
-  FourButtons: ({
+  DssFourButtons: ({
     submitPromptFunction,
   }: {
     submitPromptFunction: (input: string) => void;
@@ -51,7 +51,7 @@ jest.mock("components/dss/DssFourButtons", () => ({
 }));
 
 jest.mock("components/dss/DssChatBox", () => ({
-  ChatBox: ({ message, type }: { message: string; type: "user" | "bot" }) => (
+  DssChatBox: ({ message, type }: { message: string; type: "user" | "bot" }) => (
     <div data-testid={`chatbox-${type}`}>
       <span>{message}</span>
     </div>
