@@ -150,4 +150,21 @@ lines-after-imports = 2
 [tool.coverage.run]
 branch = true
 source = ["backend"]
-omit = ["**/venv/*", "**/env/*", "**/virtualenvs/*", "**/node_modules/*", "**/migrations/*", "**/settings/*", "**/tests/*"]
+omit = [
+    "*/venv/*",
+    "*/env/*",
+    "*/virtualenvs/*",
+    "*/node_modules/*",
+    "*/migrations/*",
+    "*/settings/*",
+    "*/tests/*",
+    "*test*.py",
+    "*/__init__.py",
+    "manage.py",
+    "*/wsgi.py",
+    "*/asgi.py",
+    "*/apps.py",
+    "*/admin.py",
+    "*/celery.py",
+    "*/celerybeat_schedule.py"
+]
