@@ -35,7 +35,9 @@ drf-spectacular = "^0.27.2"
 google-genai = "^1.41.0"
 psycopg2-binary = "^2.9.10"
 numpy = "^2.3.4"
-sentence-transformers = "^5.1.2"
+fastembed = "^0.7.3"
+xmltodict = "^1.0.2"
+pgvector = "^0.4.1"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.2.7"

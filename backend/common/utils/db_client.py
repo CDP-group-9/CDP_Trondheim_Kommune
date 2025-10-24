@@ -1,13 +1,14 @@
-import os
 import json
-import xmltodict
-import psycopg2
-import numpy as np
-from tqdm import tqdm
-#from sentence_transformers import SentenceTransformer
 import logging
+import os
 import sys
 import time
+
+import psycopg2
+import xmltodict
+from fastembed import TextEmbedding
+from tqdm import tqdm
+
 
 # Konfigurer logging
 logging.basicConfig(
@@ -15,37 +16,42 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),  # Log til konsollen
-        logging.FileHandler("process_laws.log")  # Log til fil
-    ]
+        logging.FileHandler("process_laws.log"),  # Log til fil
+    ],
 )
 
 # --- GLOBAL MODELLCACHE ---
 _model = None
 
+
 def get_model():
     """Lazy-load modellen kun når den trengs."""
     global _model
     if _model is None:
-        from sentence_transformers import SentenceTransformer
-        logging.info("🔹 Laster SentenceTransformer-modellen første gang...")
-        _model = SentenceTransformer("all-MiniLM-L6-v2")
+        logging.info("🔹 Laster FastEmbed-modellen første gang...")
+        # Using a similar sized model to all-MiniLM-L6-v2
+        _model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
     return _model
+
+
 # --------------------------
 # Initialiser modellen én gang
-#model = SentenceTransformer("all-MiniLM-L6-v2")
+# model = SentenceTransformer("all-MiniLM-L6-v2")
 
 DB_CONFIG = {
     "dbname": "CDP_Trondheim_Kommune",
     "user": "CDP_Trondheim_Kommune",
     "password": "password",
-    "host": "db_new",   # Hvis koden kjører på samme maskin
-    "port": "5433"
+    "host": "db",  # Hvis koden kjører på samme maskin
+    "port": "5432",
 }
+
 
 # 1 Opprett database-tabell automatisk
 def create_table_if_not_exists(conn):
     with conn.cursor() as cur:
-        cur.execute("""
+        cur.execute(
+            """
             CREATE EXTENSION IF NOT EXISTS vector;
             CREATE TABLE IF NOT EXISTS laws (
                 id SERIAL PRIMARY KEY,
@@ -54,16 +60,19 @@ def create_table_if_not_exists(conn):
                 metadata JSONB,
                 embedding VECTOR(384)
             );
-        """)
+        """
+        )
     conn.commit()
     logging.info(" Tabell 'laws' er klar i databasen.")
 
+
 # 2 Funksjon: XML → JSON
 def xml_to_json(xml_path):
-    with open(xml_path, "r", encoding="utf-8") as f:
+    with open(xml_path, encoding="utf-8") as f:
         xml_data = f.read()
     data = xmltodict.parse(xml_data)
     return data
+
 
 # 3 Funksjon: trekk ut tekst (robust)
 def extract_text_from_json(data):
@@ -90,23 +99,31 @@ def extract_text_from_json(data):
         logging.error(f"Feil ved tekstuttrekk: {e}", exc_info=True)
         return None
 
+
 # 4 Funksjon: lag embedding
 def create_embedding(text):
     model = get_model()
-    return model.encode(text).tolist()
+    # FastEmbed returns a generator, so we need to get the first (and only) result
+    embeddings = list(model.embed([text]))
+    return embeddings[0].tolist()
+
 
 # 5 Funksjon: lagre i PostgreSQL med try/catch
 def insert_law_record(conn, law_id, text, metadata, embedding):
     try:
         with conn.cursor() as cur:
-            cur.execute("""
+            cur.execute(
+                """
                 INSERT INTO laws (law_id, text, metadata, embedding)
                 VALUES (%s, %s, %s, %s)
-            """, (law_id, text, json.dumps(metadata), embedding))
+            """,
+                (law_id, text, json.dumps(metadata), embedding),
+            )
         conn.commit()
         logging.info(f"Lagret lov: {law_id}")
     except Exception as e:
         logging.error(f"Kunne ikke lagre lov {law_id}: {e}", exc_info=True)
+
 
 # 6 Funksjon: tøm tabellen
 def clear_table(conn):
@@ -157,5 +174,8 @@ def process_laws(input_dir):
     conn.close()
     logging.info("Ferdig med konvertering og lagring!")
 
+
 if __name__ == "__main__":
-    process_laws("lovdataxml")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    lovdata_path = os.path.join(current_dir, "lovdataxml")
+    process_laws(lovdata_path)

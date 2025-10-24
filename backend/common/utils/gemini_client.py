@@ -6,6 +6,7 @@ from django.conf import settings
 from google import genai
 from google.genai import types
 from google.genai.types import Content, GenerateContentConfig, Part
+
 #from ..law_retriever import LawRetriever
 from .law_retriever_from_database import LawRetriever
 
@@ -50,7 +51,7 @@ class GeminiAPIClient:
         if self.client is None:
             # Initialize the Gemini client
             self.client = genai.Client(
-                api_key=self.api_key, http_options=types.HttpOptions(timeout=10000)
+                api_key=self.api_key, http_options=types.HttpOptions(timeout=50000)
             )
         if self.async_client is None:
             self.async_client = self.client.aio
@@ -361,7 +362,7 @@ class GeminiAPIClient:
         except Exception as e:
             logger.error("Failed to send sync chat message to Gemini API: %s", e)
             raise
-    
+
     def send_question_with_laws(
             self,
             prompt: str,
@@ -384,7 +385,7 @@ class GeminiAPIClient:
         model_name = model_name or self.standard_model
 
         # Get relevant laws
-        laws = law_retriever.get_relevant_laws(prompt)  
+        laws = law_retriever.get_relevant_laws(prompt)
         context_text = "\n\n".join(laws) if laws else None
 
         max_words = 400
