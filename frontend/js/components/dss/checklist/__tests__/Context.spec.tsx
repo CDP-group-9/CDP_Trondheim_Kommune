@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { Context } from "../checklist";
+import { Context } from "../index";
 
-jest.mock("../../ui/select", () => ({
+jest.mock("js/components/ui/select", () => ({
   Select: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="select">{children}</div>
   ),
@@ -24,13 +24,13 @@ jest.mock("../../ui/select", () => ({
   }) => <option value={value}>{children}</option>,
 }));
 
-jest.mock("../../ui/input", () => ({
+jest.mock("js/components/ui/input", () => ({
   Input: ({ placeholder }: { placeholder?: string }) => (
     <input placeholder={placeholder} />
   ),
 }));
 
-jest.mock("../../ui/textarea", () => ({
+jest.mock("js/components/ui/textarea", () => ({
   Textarea: ({ placeholder }: { placeholder?: string }) => (
     <textarea placeholder={placeholder} />
   ),

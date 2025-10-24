@@ -1,5 +1,5 @@
-import tkAvatar from "../../../assets/images/tk-avatar.svg";
-import userAvatar from "../../../assets/images/user-avatar.svg";
+import trondheimKommuneAvatar from "../../../assets/images/tk-avatar.svg";
+import brukerAvatar from "../../../assets/images/user-avatar.svg";
 
 interface ChatBoxProps {
   type: "user" | "bot";
@@ -17,16 +17,16 @@ const DssChatBox = ({ type, message }: ChatBoxProps) => {
             {message}
           </div>
           <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center flex-shrink-0">
-            <img alt="user avatar" className="w-8" src={userAvatar} />
+            <img alt="bruker avatar" className="w-8" src={brukerAvatar} />
           </div>
         </>
       ) : (
         <>
           <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center flex-shrink-0 p-3">
             <img
-              alt="tk avatar"
+              alt="Trondheim Kommune avatar"
               className="w-full h-full object-contain"
-              src={tkAvatar}
+              src={trondheimKommuneAvatar}
             />
           </div>
           <div className="max-w-2xl p-4 rounded-lg bg-muted mr-12 whitespace-pre-wrap">

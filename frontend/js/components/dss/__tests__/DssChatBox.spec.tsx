@@ -13,7 +13,7 @@ describe("DssChatBox", () => {
 
     expect(screen.getByText("Hello from user")).toBeInTheDocument();
 
-    const avatar = screen.getByAltText("user avatar");
+    const avatar = screen.getByAltText("bruker avatar");
     expect(avatar).toHaveAttribute("src", "user-avatar.svg");
 
     expect(container.querySelector(".justify-end")).toBeInTheDocument();
@@ -26,7 +26,7 @@ describe("DssChatBox", () => {
 
     expect(screen.getByText("Hello from bot")).toBeInTheDocument();
 
-    const avatar = screen.getByAltText("dss avatar");
+    const avatar = screen.getByAltText("Trondheim Kommune avatar");
     expect(avatar).toBeInTheDocument();
 
     expect(container.querySelector(".justify-start")).toBeInTheDocument();

@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { Legal } from "../checklist";
+import { Legal } from "../index";
 
-jest.mock("js/components/ui/switch", () => ({
+jest.mock("components/ui/switch", () => ({
   Switch: ({
     checked,
     onCheckedChange,
@@ -19,7 +19,7 @@ jest.mock("js/components/ui/switch", () => ({
   ),
 }));
 
-jest.mock("../../ui/textarea", () => ({
+jest.mock("js/components/ui/textarea", () => ({
   Textarea: ({ placeholder }: { placeholder?: string }) => (
     <textarea placeholder={placeholder} />
   ),

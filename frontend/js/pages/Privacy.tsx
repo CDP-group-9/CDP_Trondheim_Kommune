@@ -1,11 +1,11 @@
+import DssProgressBarUpdated from "components/dss/DssProgressBarUpdated";
 import {
   PersonalDataSection,
   SensitiveDataSection,
   DataSubjectRightsSection,
   KeyPrinciplesSection,
   ContactInfoSection,
-} from "components/dss/privacy-sections";
-import DssProgressBarUpdated from "components/dss/DssProgressBarUpdated";
+} from "components/dss/privacySections";
 
 const Privacy = () => {
   return (

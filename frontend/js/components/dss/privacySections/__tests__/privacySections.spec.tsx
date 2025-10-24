@@ -1,18 +1,12 @@
 import { render, screen } from "@testing-library/react";
 
-import {
-  PersonalDataSection,
-  SensitiveDataSection,
-  DataSubjectRightsSection,
-  KeyPrinciplesSection,
-  ContactInfoSection,
-} from "../privacy-sections";
+import { PersonalDataSection, SensitiveDataSection, DataSubjectRightsSection, KeyPrinciplesSection, ContactInfoSection } from "components/dss/privacySections";
 
 jest.mock("lucide-react", () => ({
   ExternalLink: () => <div>ExternalLink</div>,
 }));
 
-describe("Privacy Sections", () => {
+describe("privacySections folder", () => {
   describe("PersonalDataSection", () => {
     test("renders section heading", () => {
       render(<PersonalDataSection />);

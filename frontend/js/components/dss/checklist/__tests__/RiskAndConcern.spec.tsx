@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { RiskAndConcern } from "../checklist";
+import { RiskAndConcern } from "../index";
 
-jest.mock("js/components/ui/slider", () => ({
+jest.mock("components/ui/slider", () => ({
   Slider: ({
     value,
     onValueChange,
@@ -25,7 +25,7 @@ jest.mock("js/components/ui/slider", () => ({
   ),
 }));
 
-jest.mock("js/components/ui/switch", () => ({
+jest.mock("components/ui/switch", () => ({
   Switch: ({
     checked,
     onCheckedChange,
@@ -42,7 +42,7 @@ jest.mock("js/components/ui/switch", () => ({
   ),
 }));
 
-jest.mock("../../ui/textarea", () => ({
+jest.mock("js/components/ui/textarea", () => ({
   Textarea: ({
     placeholder,
     value,

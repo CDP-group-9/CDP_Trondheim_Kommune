@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import Privacy from "../Privacy";
 
-jest.mock("components/dss/privacy-sections", () => ({
+jest.mock("components/dss/privacySections", () => ({
   PersonalDataSection: () => (
     <div data-testid="personal-data-section">PersonalDataSection</div>
   ),

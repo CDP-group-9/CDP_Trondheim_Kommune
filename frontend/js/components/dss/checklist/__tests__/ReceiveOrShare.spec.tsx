@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { ReceiveOrShareData } from "../checklist";
+import { ReceiveOrShareData } from "../index";
 
 describe("ReceiveOrShareData", () => {
   const mockOnSelect = jest.fn();

@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { InvolvedParties } from "../checklist";
+import { InvolvedParties } from "../index";
 
-jest.mock("../../ui/select", () => ({
+jest.mock("js/components/ui/select", () => ({
   Select: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="select">{children}</div>
   ),
@@ -24,7 +24,7 @@ jest.mock("../../ui/select", () => ({
   }) => <option value={value}>{children}</option>,
 }));
 
-jest.mock("js/components/ui/switch", () => ({
+jest.mock("components/ui/switch", () => ({
   Switch: ({
     checked,
     onCheckedChange,
@@ -41,7 +41,7 @@ jest.mock("js/components/ui/switch", () => ({
   ),
 }));
 
-jest.mock("js/components/ui/textarea", () => ({
+jest.mock("components/ui/textarea", () => ({
   Textarea: ({ placeholder }: { placeholder?: string }) => (
     <textarea placeholder={placeholder} />
   ),

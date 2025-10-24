@@ -1,14 +1,14 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { Data } from "../checklist";
+import { Data } from "../index";
 
-jest.mock("../../ui/input", () => ({
+jest.mock("js/components/ui/input", () => ({
   Input: ({ placeholder }: { placeholder?: string }) => (
     <input placeholder={placeholder} />
   ),
 }));
 
-jest.mock("../../ui/textarea", () => ({
+jest.mock("js/components/ui/textarea", () => ({
   Textarea: ({ placeholder }: { placeholder?: string }) => (
     <textarea placeholder={placeholder} />
   ),

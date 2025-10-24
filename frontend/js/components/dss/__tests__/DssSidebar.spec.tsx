@@ -57,8 +57,10 @@ jest.mock("lucide-react", () => ({
   Plus: () => <div>Plus</div>,
 }));
 
-describe("AppSidebar", () => {
-  test("renders DASQ brand name", () => {
+jest.mock("../../../assets/images/tk-logo-wide.svg", () => "tk-logo-wide.svg");
+
+describe("DssSidebar", () => {
+  test("renders Trondheim Kommune logo", () => {
     render(
       <MemoryRouter
         future={{
@@ -71,8 +73,8 @@ describe("AppSidebar", () => {
         <DssSidebar />
       </MemoryRouter>,
     );
-
-    expect(screen.getByText("DASQ")).toBeInTheDocument();
+    const logo = screen.getByAltText("Trondheim Kommunes logo");
+    expect(logo).toHaveAttribute("src", "tk-logo-wide.svg");
   });
 
   test("renders all menu items", () => {
