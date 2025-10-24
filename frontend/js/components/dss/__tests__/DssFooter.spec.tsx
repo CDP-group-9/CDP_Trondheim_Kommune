@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
-import Footer from "../footer";
+import DssFooter from "../DssFooter";
 
-describe("Footer", () => {
+describe("DssFooter", () => {
   test("renders footer with disclaimer text", () => {
-    const { container } = render(<Footer />);
+    const { container } = render(<DssFooter />);
 
     const footer = container.querySelector("footer");
     expect(footer).toBeInTheDocument();

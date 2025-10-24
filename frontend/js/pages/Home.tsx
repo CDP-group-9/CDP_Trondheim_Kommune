@@ -6,7 +6,7 @@ import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
 
 import { DssFourButtons } from "components/dss/DssFourButtons";
-import { ChatBox } from "components/dss/chatbox";
+import { DssChatBox } from "components/dss/DssChatBox";
 import { ChatMessage } from "../types/ChatMessage";
 
 const Home = () => {
@@ -43,7 +43,7 @@ const Home = () => {
       {messages.length > 0 && (
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {messages.map((msg: ChatMessage) => (
-            <ChatBox key={msg.id} message={msg.message} type={msg.type} />
+            <DssChatBox key={msg.id} message={msg.message} type={msg.type} />
           ))}
         </div>
       )}

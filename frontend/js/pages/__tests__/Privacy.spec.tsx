@@ -22,7 +22,7 @@ jest.mock("components/dss/privacy-sections", () => ({
   ),
 }));
 
-jest.mock("components/dss/progressbar-updated", () => ({
+jest.mock("components/dss/DssProgressBarUpdated", () => ({
   __esModule: true,
   default: () => (
     <div data-testid="progressbar-component">ProgressBar Component</div>

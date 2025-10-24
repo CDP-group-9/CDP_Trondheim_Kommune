@@ -1,8 +1,8 @@
 import { render, fireEvent } from "@testing-library/react";
 
-import ProgressBarUpdated from "../progressbar-updated";
+import DssProgressBarUpdated from "../DssProgressBarUpdated";
 
-describe("ProgressBarUpdated", () => {
+describe("DssProgressBarUpdated", () => {
   beforeEach(() => {
     window.scrollY = 0;
     Object.defineProperty(window, "innerHeight", {
@@ -18,13 +18,13 @@ describe("ProgressBarUpdated", () => {
   });
 
   test("does not render when scroll progress is 0", () => {
-    const { container } = render(<ProgressBarUpdated />);
+    const { container } = render(<DssProgressBarUpdated />);
 
     expect(container.firstChild).toBeNull();
   });
 
   test("renders progress bar when scrolled", () => {
-    const { container } = render(<ProgressBarUpdated />);
+    const { container } = render(<DssProgressBarUpdated />);
 
     Object.defineProperty(window, "scrollY", {
       writable: true,
@@ -42,7 +42,7 @@ describe("ProgressBarUpdated", () => {
     const addEventListenerSpy = jest.spyOn(window, "addEventListener");
     const removeEventListenerSpy = jest.spyOn(window, "removeEventListener");
 
-    const { unmount } = render(<ProgressBarUpdated />);
+    const { unmount } = render(<DssProgressBarUpdated />);
 
     expect(addEventListenerSpy).toHaveBeenCalledWith(
       "scroll",

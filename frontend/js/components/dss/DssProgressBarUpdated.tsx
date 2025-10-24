@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Progress } from "../ui/progress";
 
-const ProgressBarUpdated = () => {
+const DssProgressBarUpdated = () => {
   const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
@@ -29,4 +29,4 @@ const ProgressBarUpdated = () => {
   );
 };
 
-export default ProgressBarUpdated;
+export default DssProgressBarUpdated;

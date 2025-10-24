@@ -2,17 +2,17 @@ import { render, screen, fireEvent } from "@testing-library/react";
 
 import Checklist from "../Checklist";
 
-jest.mock("components/dss/checklist/context", () => ({
+jest.mock("components/dss/checklist/Context", () => ({
   Context: () => <div data-testid="context-component">Context Component</div>,
 }));
 
-jest.mock("components/dss/checklist/data", () => ({
+jest.mock("components/dss/checklist/Data", () => ({
   Data: ({ selectedOption }: { selectedOption: string }) => (
     <div data-testid="data-component">Data Component - {selectedOption}</div>
   ),
 }));
 
-jest.mock("components/dss/checklist/involvedParties", () => ({
+jest.mock("components/dss/checklist/InvolvedParties", () => ({
   InvolvedParties: () => (
     <div data-testid="involved-parties-component">
       InvolvedParties Component
@@ -20,11 +20,11 @@ jest.mock("components/dss/checklist/involvedParties", () => ({
   ),
 }));
 
-jest.mock("components/dss/checklist/legal", () => ({
+jest.mock("components/dss/checklist/Legal", () => ({
   Legal: () => <div data-testid="legal-component">Legal Component</div>,
 }));
 
-jest.mock("components/dss/checklist/receiveOrShareData", () => ({
+jest.mock("components/dss/checklist/ReceiveOrShareData", () => ({
   ReceiveOrShareData: ({
     selected,
     onSelect,
@@ -44,17 +44,17 @@ jest.mock("components/dss/checklist/receiveOrShareData", () => ({
   ),
 }));
 
-jest.mock("components/dss/checklist/riskAndConcern", () => ({
+jest.mock("components/dss/checklist/RiskAndConcern", () => ({
   RiskAndConcern: () => (
     <div data-testid="risk-and-concern-component">RiskAndConcern Component</div>
   ),
 }));
 
-jest.mock("components/dss/checklist/tech", () => ({
+jest.mock("components/dss/checklist/Tech", () => ({
   Tech: () => <div data-testid="tech-component">Tech Component</div>,
 }));
 
-jest.mock("components/dss/progressbar-updated", () => ({
+jest.mock("components/dss/DssProgressBarUpdated", () => ({
   __esModule: true,
   default: () => (
     <div data-testid="progressbar-component">ProgressBar Component</div>

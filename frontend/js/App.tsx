@@ -2,11 +2,11 @@ import * as Sentry from "@sentry/react";
 import { parse } from "cookie";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { OpenAPI } from "./api";
+import { OpenAPI } from "api";
 import { DssDynamicBreadcrumb } from "components/dss/DssDynamicBreadcrumb";
 import { DssSidebar } from "components/dss/DssSidebar";
-import Footer from "components/dss/footer";
-import { SidebarProvider } from "./components/ui/sidebar";
+import DssFooter from "components/dss/DssFooter";
+import { SidebarProvider } from "components/ui/sidebar";
 import { Checklist, Examples, Home, Privacy } from "./routes";
 
 OpenAPI.interceptors.request.use((request) => {
@@ -52,7 +52,7 @@ const App = () => (
                 <Route element={<Examples />} path="/eksempel" />
               </Routes>
             </main>
-            <Footer />
+            <DssFooter />
           </div>
         </div>
       </SidebarProvider>

@@ -1,14 +1,14 @@
 import { render, screen } from "@testing-library/react";
 
-import { ChatBox } from "../chatbox";
+import { DssChatBox } from "../DssChatBox";
 
 jest.mock("../../../../assets/images/tk-avatar.png", () => "dss-avatar.png");
 jest.mock("../../../../assets/images/user-avatar.svg", () => "user-avatar.svg");
 
-describe("ChatBox", () => {
+describe("DssChatBox", () => {
   test("renders user message with correct avatar", () => {
     const { container } = render(
-      <ChatBox message="Hello from user" type="user" />,
+      <DssChatBox message="Hello from user" type="user" />,
     );
 
     expect(screen.getByText("Hello from user")).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe("ChatBox", () => {
 
   test("renders bot message with correct avatar", () => {
     const { container } = render(
-      <ChatBox message="Hello from bot" type="bot" />,
+      <DssChatBox message="Hello from bot" type="bot" />,
     );
 
     expect(screen.getByText("Hello from bot")).toBeInTheDocument();

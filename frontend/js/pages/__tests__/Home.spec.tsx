@@ -50,7 +50,7 @@ jest.mock("components/dss/DssFourButtons", () => ({
   ),
 }));
 
-jest.mock("components/dss/chatbox", () => ({
+jest.mock("components/dss/DssChatBox", () => ({
   ChatBox: ({ message, type }: { message: string; type: "user" | "bot" }) => (
     <div data-testid={`chatbox-${type}`}>
       <span>{message}</span>

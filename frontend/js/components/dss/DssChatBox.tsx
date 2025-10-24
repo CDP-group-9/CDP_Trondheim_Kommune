@@ -6,7 +6,7 @@ interface ChatBoxProps {
   message: string;
 }
 
-const ChatBox = ({ type, message }: ChatBoxProps) => {
+const DssChatBox = ({ type, message }: ChatBoxProps) => {
   return (
     <div
       className={`flex gap-3 px-3 ${type === "user" ? "justify-end" : "justify-start"}`}
@@ -38,4 +38,4 @@ const ChatBox = ({ type, message }: ChatBoxProps) => {
   );
 };
 
-export { ChatBox };
+export { DssChatBox };
