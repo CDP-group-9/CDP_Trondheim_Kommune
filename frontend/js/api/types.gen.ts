@@ -44,6 +44,11 @@ export type ChatResponse = {
   }>;
 };
 
+export type Checklist = {
+  readonly id: number;
+  result: string;
+};
+
 export type Counter = {
   readonly id: number;
   value?: number;
@@ -58,6 +63,13 @@ export type MockResponse = {
   response: string;
 };
 
+export type PaginatedChecklistList = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: Array<Checklist>;
+};
+
 export type PaginatedMockResponseList = {
   count: number;
   next?: string | null;
@@ -70,6 +82,11 @@ export type PaginatedUserList = {
   next?: string | null;
   previous?: string | null;
   results: Array<User>;
+};
+
+export type PatchedChecklist = {
+  readonly id?: number;
+  result?: string;
 };
 
 export type PatchedMockResponse = {
@@ -122,6 +139,69 @@ export type ChatChatCreateData = {
 };
 
 export type ChatChatCreateResponse = ChatResponse;
+
+export type ChecklistListData = {
+  /**
+   * Number of results to return per page.
+   */
+  limit?: number;
+  /**
+   * The initial index from which to return the results.
+   */
+  offset?: number;
+};
+
+export type ChecklistListResponse = PaginatedChecklistList;
+
+export type ChecklistCreateData = {
+  requestBody: Checklist;
+};
+
+export type ChecklistCreateResponse = Checklist;
+
+export type ChecklistRetrieveData = {
+  /**
+   * A unique integer value identifying this checklist result.
+   */
+  id: number;
+};
+
+export type ChecklistRetrieveResponse = Checklist;
+
+export type ChecklistUpdateData = {
+  /**
+   * A unique integer value identifying this checklist result.
+   */
+  id: number;
+  requestBody: Checklist;
+};
+
+export type ChecklistUpdateResponse = Checklist;
+
+export type ChecklistPartialUpdateData = {
+  /**
+   * A unique integer value identifying this checklist result.
+   */
+  id: number;
+  requestBody?: PatchedChecklist;
+};
+
+export type ChecklistPartialUpdateResponse = Checklist;
+
+export type ChecklistDestroyData = {
+  /**
+   * A unique integer value identifying this checklist result.
+   */
+  id: number;
+};
+
+export type ChecklistDestroyResponse = void;
+
+export type ChecklistJsonToStringCreateData = {
+  requestBody: Checklist;
+};
+
+export type ChecklistJsonToStringCreateResponse = Checklist;
 
 export type CounterIncrementCreateData = {
   requestBody?: Counter;
@@ -257,6 +337,57 @@ export type $OpenApiTs = {
       req: ChatChatCreateData;
       res: {
         200: ChatResponse;
+      };
+    };
+  };
+  "/api/checklist/": {
+    get: {
+      req: ChecklistListData;
+      res: {
+        200: PaginatedChecklistList;
+      };
+    };
+    post: {
+      req: ChecklistCreateData;
+      res: {
+        201: Checklist;
+      };
+    };
+  };
+  "/api/checklist/{id}/": {
+    get: {
+      req: ChecklistRetrieveData;
+      res: {
+        200: Checklist;
+      };
+    };
+    put: {
+      req: ChecklistUpdateData;
+      res: {
+        200: Checklist;
+      };
+    };
+    patch: {
+      req: ChecklistPartialUpdateData;
+      res: {
+        200: Checklist;
+      };
+    };
+    delete: {
+      req: ChecklistDestroyData;
+      res: {
+        /**
+         * No response body
+         */
+        204: void;
+      };
+    };
+  };
+  "/api/checklist/json_to_string/": {
+    post: {
+      req: ChecklistJsonToStringCreateData;
+      res: {
+        200: Checklist;
       };
     };
   };

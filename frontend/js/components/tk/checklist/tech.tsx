@@ -1,14 +1,7 @@
-import { useState } from "react";
-
 import { Switch } from "js/components/ui/switch";
 import { Textarea } from "js/components/ui/textarea";
 
-export const Tech = () => {
-  const [storage, setStorage] = useState("");
-  const [security, setSecurity] = useState<string[]>([]);
-  const [integrations, setIntegrations] = useState(false);
-  const [automated, setAutomated] = useState(false);
-
+export const Tech = ({ techData, onChange }) => {
   const storageOptions = [
     { value: "onprem", label: "Kommunens egne servere (on-premise)" },
     { value: "cloudNO", label: "Sky-løsning i Norge" },
@@ -29,10 +22,15 @@ export const Tech = () => {
     { value: "plan", label: "Beredskapsplan for databrudd" },
   ];
 
+  const handleChange = (field: string, value: any) => {
+    onChange({ ...techData, [field]: value });
+  };
+
   const toggleSecurity = (value: string) => {
-    setSecurity((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
-    );
+    const newSecurity = techData.security.includes(value)
+      ? techData.security.filter((item) => item !== value)
+      : [...techData.security, value];
+    handleChange("security", newSecurity);
   };
 
   return (
@@ -60,11 +58,11 @@ export const Tech = () => {
                 className="flex items-center gap-2 cursor-pointer"
               >
                 <input
-                  checked={storage === value}
+                  checked={techData.storage === value}
                   name="storage"
                   type="radio"
                   value={value}
-                  onChange={() => setStorage(value)}
+                  onChange={() => handleChange("storage", value)}
                 />
                 <span>{label}</span>
               </label>
@@ -84,7 +82,7 @@ export const Tech = () => {
                 className="inline-flex items-center space-x-2 cursor-pointer"
               >
                 <input
-                  checked={security.includes(value)}
+                  checked={techData.security.includes(value)}
                   className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                   type="checkbox"
                   onChange={() => toggleSecurity(value)}
@@ -102,20 +100,26 @@ export const Tech = () => {
           </label>
           <div className="flex items-center gap-2">
             <Switch
-              checked={integrations}
+              checked={techData.integrations}
               id="integrations"
-              onCheckedChange={setIntegrations}
+              onCheckedChange={(v) => handleChange("integrations", v)}
             />
-            <span>{integrations ? "Ja" : "Nei"}</span>
+            <span>{techData.integrations ? "Ja" : "Nei"}</span>
           </div>
         </div>
 
-        {integrations && (
+        {techData.integrations && (
           <div>
             <label className="block text-sm font-medium mb-2">
               Hvilke systemer?
             </label>
-            <Textarea placeholder="Beskriv hvilke systemer som skal kommunisere sammen..." />
+            <Textarea
+              placeholder="Beskriv hvilke systemer som skal kommunisere sammen..."
+              value={techData.integrationDetails || ""}
+              onChange={(e) =>
+                handleChange("integrationDetails", e.target.value)
+              }
+            />
           </div>
         )}
 
@@ -126,20 +130,26 @@ export const Tech = () => {
           </label>
           <div className="flex items-center gap-2">
             <Switch
-              checked={automated}
+              checked={techData.automated}
               id="automated"
-              onCheckedChange={setAutomated}
+              onCheckedChange={(v) => handleChange("automated", v)}
             />
-            <span>{automated ? "Ja" : "Nei"}</span>
+            <span>{techData.automated ? "Ja" : "Nei"}</span>
           </div>
         </div>
 
-        {automated && (
+        {techData.automated && (
           <div>
             <label className="block text-sm font-medium mb-2">
-              Beskriv automatiserte beslutninger?
+              Beskriv automatiserte beslutninger:
             </label>
-            <Textarea placeholder="F.eks. algoritmer for tildeling, scoring, profiling..." />
+            <Textarea
+              placeholder="F.eks. algoritmer for tildeling, scoring, profiling..."
+              value={techData.automatedDescription || ""}
+              onChange={(e) =>
+                handleChange("automatedDescription", e.target.value)
+              }
+            />
           </div>
         )}
       </div>

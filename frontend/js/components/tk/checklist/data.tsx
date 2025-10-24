@@ -1,25 +1,24 @@
-import { useState } from "react";
-
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
 
 type Props = {
-  selectedOption: "receive" | "share";
+  selectedOption: "motta" | "dele";
+  handlingData: any;
+  onChange: (newData: any) => void;
 };
 
-export const Data = ({ selectedOption }: Props) => {
-  const [recipient, setStatus] = useState("");
+export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
+  const handleChange = (field: string, value: any) => {
+    onChange({ ...handlingData, [field]: value });
+  };
 
-  const [selected, setSelected] = useState<string[]>([]);
-
-  const [selectedDataSource, setSelectedDataSource] = useState<string[]>([]);
-
-  const [selectedCollectionMethod, setSelectedCollectionMethod] = useState<
-    string[]
-  >([]);
-
-  const [selectedDataTransferMethods, setSelectedDataTransferMethods] =
-    useState<string[]>([]);
+  const toggleInArray = (field: string, value: string) => {
+    const current = handlingData[field] || [];
+    const updated = current.includes(value)
+      ? current.filter((v: string) => v !== value)
+      : [...current, value];
+    handleChange(field, updated);
+  };
 
   const datatypes = [
     {
@@ -50,12 +49,6 @@ export const Data = ({ selectedOption }: Props) => {
     { value: "atferd", label: "Atferdsdata (nettvaner, preferanser)" },
   ];
 
-  const toggleDatatype = (value: string) => {
-    setSelected((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
-    );
-  };
-
   const dataSources = [
     { value: "folkeregisteret", label: "Folkeregisteret" },
     { value: "kommunens_systemer", label: "Kommunens egne systemer" },
@@ -64,12 +57,6 @@ export const Data = ({ selectedOption }: Props) => {
     { value: "andre_offentlige_etater", label: "Andre offentlige etater" },
     { value: "selvrapportert_brukere", label: "Selvrapportert av brukere" },
   ];
-
-  const toggleDataSources = (value: string) => {
-    setSelectedDataSource((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
-    );
-  };
 
   const collectionMethodTypes = [
     { value: "direkte", label: "Direkte fra de registrerte (skjema, søknad)" },
@@ -80,12 +67,6 @@ export const Data = ({ selectedOption }: Props) => {
     { value: "tredjepart", label: "Fra tredjepart" },
   ];
 
-  const toggleCollectionMethod = (value: string) => {
-    setSelectedCollectionMethod((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
-    );
-  };
-
   const datatransferMethods = [
     { value: "api", label: "API/systemintegrasjon" },
     { value: "sftp", label: "Sikker filoverføring (SFTP)" },
@@ -93,12 +74,6 @@ export const Data = ({ selectedOption }: Props) => {
     { value: "sikker_portal", label: "Sikker portal" },
     { value: "fysisk_medium", label: "Fysisk medium (kryptert)" },
   ];
-
-  const toggleTransfer = (value: string) => {
-    setSelectedDataTransferMethods((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
-    );
-  };
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
@@ -119,7 +94,11 @@ export const Data = ({ selectedOption }: Props) => {
           <label className="block text-sm font-medium mb-2">
             Hva er formålet med dataen som skal hånteres?
           </label>
-          <Textarea placeholder="Beskriv hva dataen skal brukes til..." />
+          <Textarea
+            placeholder="Beskriv hva dataen skal brukes til..."
+            value={handlingData.purpose || ""}
+            onChange={(e) => handleChange("purpose", e.target.value)}
+          />
         </div>
         {/* Both */}
         <div>
@@ -133,10 +112,10 @@ export const Data = ({ selectedOption }: Props) => {
                 className="inline-flex items-center space-x-2 cursor-pointer"
               >
                 <input
-                  checked={selected.includes(value)}
+                  checked={handlingData.selectedDataTypes.includes(value)}
                   className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                   type="checkbox"
-                  onChange={() => toggleDatatype(value)}
+                  onChange={() => toggleInArray("selectedDataTypes", value)}
                 />
                 <span>{label}</span>
               </label>
@@ -144,7 +123,7 @@ export const Data = ({ selectedOption }: Props) => {
           </div>
         </div>
 
-        {selectedOption === "receive" && (
+        {selectedOption === "motta" && (
           <>
             <div>
               <label className="block text-sm font-medium mb-2">
@@ -157,10 +136,12 @@ export const Data = ({ selectedOption }: Props) => {
                     className="inline-flex items-center space-x-2 cursor-pointer"
                   >
                     <input
-                      checked={selectedDataSource.includes(value)}
+                      checked={handlingData.selectedDataSources.includes(value)}
                       className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                       type="checkbox"
-                      onChange={() => toggleDataSources(value)}
+                      onChange={() =>
+                        toggleInArray("selectedDataSources", value)
+                      }
                     />
                     <span>{label}</span>
                   </label>
@@ -176,6 +157,8 @@ export const Data = ({ selectedOption }: Props) => {
                 placeholder="Oppgi svaret som et heltall"
                 step={1}
                 type="number"
+                value={handlingData.personCount || ""}
+                onChange={(e) => handleChange("personCount", e.target.value)}
               />
             </div>
             <div>
@@ -186,6 +169,8 @@ export const Data = ({ selectedOption }: Props) => {
                 min={0}
                 placeholder="Oppgi svaret i antall år (bruk desimaltall om nødvendig)"
                 type="number"
+                value={handlingData.retentionTime || ""}
+                onChange={(e) => handleChange("retentionTime", e.target.value)}
               />
             </div>
             <div>
@@ -199,10 +184,10 @@ export const Data = ({ selectedOption }: Props) => {
                     className="inline-flex items-center space-x-2 cursor-pointer"
                   >
                     <input
-                      checked={selectedCollectionMethod.includes(value)}
+                      checked={handlingData.collectionMethods.includes(value)}
                       className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                       type="checkbox"
-                      onChange={() => toggleCollectionMethod(value)}
+                      onChange={() => toggleInArray("collectionMethods", value)}
                     />
                     <span>{label}</span>
                   </label>
@@ -212,86 +197,57 @@ export const Data = ({ selectedOption }: Props) => {
           </>
         )}
 
-        {selectedOption === "share" && (
+        {selectedOption === "dele" && (
           <>
             <div>
               <label className="block text-sm font-medium mb-2">
                 Hvem skal motta dataen?
               </label>
-              <Input placeholder="F.eks. 'Helsedirektoratet', 'Annen kommune', 'Privat leverandør'..." />
+              <Input
+                placeholder="F.eks. 'Helsedirektoratet', 'Annen kommune', 'Privat leverandør'..."
+                value={handlingData.recipient || ""}
+                onChange={(e) => handleChange("recipient", e.target.value)}
+              />
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">
                 Mottaker type:
               </label>
               <div className="space-y-2">
-                <label className="flex items-center gap-2">
-                  <input
-                    checked={recipient === "govtN"}
-                    name="status"
-                    type="radio"
-                    value="govtN"
-                    onChange={(e) => setStatus(e.target.value)}
-                  />
-                  Offentlig myndighet (Norge)
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    checked={recipient === "govtEU"}
-                    name="status"
-                    type="radio"
-                    value="govtEU"
-                    onChange={(e) => setStatus(e.target.value)}
-                  />
-                  Offentlig myndighet (EU/EØS)
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    checked={recipient === "govt3rd"}
-                    name="status"
-                    type="radio"
-                    value="govt3rd"
-                    onChange={(e) => setStatus(e.target.value)}
-                  />
-                  Offentlig myndighet (tredjeland)
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    checked={recipient === "privateN"}
-                    name="status"
-                    type="radio"
-                    value="privateN"
-                    onChange={(e) => setStatus(e.target.value)}
-                  />
-                  Privat aktør (Norge)
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    checked={recipient === "privateEU"}
-                    name="status"
-                    type="radio"
-                    value="privateEU"
-                    onChange={(e) => setStatus(e.target.value)}
-                  />
-                  Privat aktør (EU/EØS)
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    checked={recipient === "private3rd"}
-                    name="status"
-                    type="radio"
-                    value="private3rd"
-                    onChange={(e) => setStatus(e.target.value)}
-                  />
-                  Privat aktør (tredjeland)
-                </label>
+                {[
+                  ["govtN", "Offentlig myndighet (Norge)"],
+                  ["govtEU", "Offentlig myndighet (EU/EØS)"],
+                  ["govt3rd", "Offentlig myndighet (tredjeland)"],
+                  ["privateN", "Privat aktør (Norge)"],
+                  ["privateEU", "Privat aktør (EU/EØS)"],
+                  ["private3rd", "Privat aktør (tredjeland)"],
+                ].map(([value, label]) => (
+                  <label key={value} className="flex items-center gap-2">
+                    <input
+                      checked={handlingData.recipientType === value}
+                      name="recipientType"
+                      type="radio"
+                      value={value}
+                      onChange={(e) =>
+                        handleChange("recipientType", e.target.value)
+                      }
+                    />
+                    {label}
+                  </label>
+                ))}
               </div>
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">
                 Rettsgrunnlag for utlevering:
               </label>
-              <Textarea placeholder="Angi lovhjemmel eller annet grunnlag for å dele dataene..." />
+              <Textarea
+                placeholder="Angi lovhjemmel eller annet grunnlag for å dele dataene..."
+                value={handlingData.sharingLegalBasis || ""}
+                onChange={(e) =>
+                  handleChange("sharingLegalBasis", e.target.value)
+                }
+              />
             </div>
             <div>
               <label className="block text-sm font-medium mb-2">
@@ -302,6 +258,8 @@ export const Data = ({ selectedOption }: Props) => {
                 placeholder="Oppgi som et heltall"
                 step={1}
                 type="number"
+                value={handlingData.shareFrequency || ""}
+                onChange={(e) => handleChange("shareFrequency", e.target.value)}
               />
             </div>
             <div>
@@ -315,10 +273,12 @@ export const Data = ({ selectedOption }: Props) => {
                     className="inline-flex items-center space-x-2 cursor-pointer"
                   >
                     <input
-                      checked={selectedDataTransferMethods.includes(value)}
+                      checked={handlingData.dataTransferMethods.includes(value)}
                       className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                       type="checkbox"
-                      onChange={() => toggleTransfer(value)}
+                      onChange={() =>
+                        toggleInArray("dataTransferMethods", value)
+                      }
                     />
                     <span>{label}</span>
                   </label>

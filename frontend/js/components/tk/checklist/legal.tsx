@@ -1,14 +1,11 @@
-import { useState } from "react";
-
 import { Switch } from "js/components/ui/switch";
 
 import { Textarea } from "../../ui/textarea";
 
-export const Legal = () => {
-  const [legalBasis, setLegalBasis] = useState("");
-  const [handlesSensitiveData, setHandlesSensitiveData] = useState(false);
-  const [selectedSensitiveDataReason, setSelectedSensitiveDataReason] =
-    useState<string[]>([]);
+export const Legal = ({ legalBasisData, onChange }) => {
+  const handleChange = (field: string, value: any) => {
+    onChange({ ...legalBasisData, [field]: value });
+  };
 
   const sensitiveDataReasons = [
     {
@@ -30,9 +27,14 @@ export const Legal = () => {
   ];
 
   const toggleSensitive = (value: string) => {
-    setSelectedSensitiveDataReason((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
-    );
+    const updatedSensitive =
+      legalBasisData.selectedSensitiveDataReason.includes(value)
+        ? legalBasisData.selectedSensitiveDataReason.filter((v) => v !== value)
+        : [...legalBasisData.selectedSensitiveDataReason, value];
+    onChange({
+      ...legalBasisData,
+      selectedSensitiveDataReason: updatedSensitive,
+    });
   };
 
   return (
@@ -55,42 +57,32 @@ export const Legal = () => {
             Hvilket rettsgrunnlag planlegges brukt?
           </label>
           {[
-            {
-              value: "offentlig_oppgave",
-              label:
-                "Offentlig oppgave (GDPR art. 6(1)(e)) - Vanligst for kommuner",
-            },
-            {
-              value: "rettslig_forpliktelse",
-              label: "Rettslig forpliktelse (GDPR art. 6(1)(c))",
-            },
-            {
-              value: "kontraktsoppfyllelse",
-              label: "Kontraktsoppfyllelse (GDPR art. 6(1)(b))",
-            },
-            {
-              value: "samtykke",
-              label: "Samtykke (GDPR art. 6(1)(a))",
-            },
-            {
-              value: "berettiget_interesse",
-              label: "Berettiget interesse (GDPR art. 6(1)(f))",
-            },
-            {
-              value: "usikker",
-              label: "Usikker – trenger veiledning",
-            },
-          ].map(({ value, label }) => (
+            [
+              "offentlig_oppgave",
+              "Offentlig oppgave (GDPR art. 6(1)(e)) - Vanligst for kommuner",
+            ],
+            [
+              "rettslig_forpliktelse",
+              "Rettslig forpliktelse (GDPR art. 6(1)(c))",
+            ],
+            ["kontaktsoppfyllelse", "Kontraktsoppfyllelse (GDPR art. 6(1)(b))"],
+            ["samtykke", "Samtykke (GDPR art. 6(1)(a))"],
+            [
+              "berettiget_interesse",
+              "Berettiget interesse (GDPR art. 6(1)(f))",
+            ],
+            ["usikker", "Usikker – trenger veiledning"],
+          ].map(([value, label]) => (
             <label
               key={value}
               className="flex items-center gap-2 cursor-pointer"
             >
               <input
-                checked={legalBasis === value}
+                checked={legalBasisData.legalBasis === value}
                 name="legalBasis"
                 type="radio"
                 value={value}
-                onChange={() => setLegalBasis(value)}
+                onChange={(e) => handleChange("legalBasis", e.target.value)}
               />
               <span>{label}</span>
             </label>
@@ -103,15 +95,17 @@ export const Legal = () => {
           </label>
           <div className="flex items-center gap-2">
             <Switch
-              checked={handlesSensitiveData}
+              checked={legalBasisData.handlesSensitiveData}
               id="sensitive-data-switch"
-              onCheckedChange={setHandlesSensitiveData}
+              onCheckedChange={(value) =>
+                handleChange("handlesSensitiveData", value)
+              }
             />
-            <span>{handlesSensitiveData ? "Ja" : "Nei"}</span>
+            <span>{legalBasisData.handlesSensitiveData ? "Ja" : "Nei"}</span>
           </div>
         </div>
 
-        {handlesSensitiveData && (
+        {legalBasisData.handlesSensitiveData && (
           <div>
             <label className="block text-sm font-medium mb-2">
               Rettsgrunnlag for sensitive opplysninger (GDPR art. 9)
@@ -123,7 +117,9 @@ export const Legal = () => {
                   className="inline-flex items-center space-x-2 cursor-pointer"
                 >
                   <input
-                    checked={selectedSensitiveDataReason.includes(value)}
+                    checked={legalBasisData.selectedSensitiveDataReason.includes(
+                      value,
+                    )}
                     className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                     type="checkbox"
                     onChange={() => toggleSensitive(value)}
@@ -139,7 +135,10 @@ export const Legal = () => {
           <label className="block text-sm font-medium mb-2">
             Lovpålagte oppgaver eller krav?
           </label>
-          <Textarea placeholder="Referanser til lover som krever databehandlingen..." />
+          <Textarea
+            placeholder="Referanser til lover som krever databehandlingen..."
+            onChange={(e) => handleChange("statutoryTasks", e.target.value)}
+          />
         </div>
       </div>
     </section>

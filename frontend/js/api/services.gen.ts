@@ -6,6 +6,20 @@ import { request as __request } from "./core/request";
 import type {
   ChatChatCreateData,
   ChatChatCreateResponse,
+  ChecklistListData,
+  ChecklistListResponse,
+  ChecklistCreateData,
+  ChecklistCreateResponse,
+  ChecklistRetrieveData,
+  ChecklistRetrieveResponse,
+  ChecklistUpdateData,
+  ChecklistUpdateResponse,
+  ChecklistPartialUpdateData,
+  ChecklistPartialUpdateResponse,
+  ChecklistDestroyData,
+  ChecklistDestroyResponse,
+  ChecklistJsonToStringCreateData,
+  ChecklistJsonToStringCreateResponse,
   CounterIncrementCreateData,
   CounterIncrementCreateResponse,
   RestRestCheckRetrieveResponse,
@@ -52,6 +66,140 @@ export class ChatService {
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/chat/chat/",
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+}
+
+export class ChecklistService {
+  /**
+   * @param data The data for the request.
+   * @param data.limit Number of results to return per page.
+   * @param data.offset The initial index from which to return the results.
+   * @returns PaginatedChecklistList
+   * @throws ApiError
+   */
+  public static checklistList(
+    data: ChecklistListData = {},
+  ): CancelablePromise<ChecklistListResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/checklist/",
+      query: {
+        limit: data.limit,
+        offset: data.offset,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns Checklist
+   * @throws ApiError
+   */
+  public static checklistCreate(
+    data: ChecklistCreateData,
+  ): CancelablePromise<ChecklistCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/checklist/",
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this checklist result.
+   * @returns Checklist
+   * @throws ApiError
+   */
+  public static checklistRetrieve(
+    data: ChecklistRetrieveData,
+  ): CancelablePromise<ChecklistRetrieveResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/checklist/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this checklist result.
+   * @param data.requestBody
+   * @returns Checklist
+   * @throws ApiError
+   */
+  public static checklistUpdate(
+    data: ChecklistUpdateData,
+  ): CancelablePromise<ChecklistUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/checklist/{id}/",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this checklist result.
+   * @param data.requestBody
+   * @returns Checklist
+   * @throws ApiError
+   */
+  public static checklistPartialUpdate(
+    data: ChecklistPartialUpdateData,
+  ): CancelablePromise<ChecklistPartialUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PATCH",
+      url: "/api/checklist/{id}/",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this checklist result.
+   * @returns void No response body
+   * @throws ApiError
+   */
+  public static checklistDestroy(
+    data: ChecklistDestroyData,
+  ): CancelablePromise<ChecklistDestroyResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/checklist/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns Checklist
+   * @throws ApiError
+   */
+  public static checklistJsonToStringCreate(
+    data: ChecklistJsonToStringCreateData,
+  ): CancelablePromise<ChecklistJsonToStringCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/checklist/json_to_string/",
       body: data.requestBody,
       mediaType: "application/json",
     });

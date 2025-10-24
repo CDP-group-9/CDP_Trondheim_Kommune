@@ -12,7 +12,7 @@ export function useChat(apiUrl: string) {
 
   const csrftoken = useCookie("csrftoken");
 
-  const sendMessage = async (prompt: string) => {
+  const sendMessage = async (prompt: string, context?: string) => {
     /* Prevent sending empty messages */
     if (!prompt.trim() || isSending) return;
 
@@ -25,6 +25,8 @@ export function useChat(apiUrl: string) {
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setErrorMsg(null);
+    const contextToUse =
+      context || localStorage.getItem("checklistContext") || "";
 
     try {
       const response = await fetch(apiUrl, {
@@ -34,7 +36,12 @@ export function useChat(apiUrl: string) {
           "X-CSRFTOKEN": csrftoken || "",
         },
         credentials: "include",
-        body: JSON.stringify({ prompt, history: [] }),
+        body: JSON.stringify({
+          prompt,
+          history: [],
+          // eslint-disable-next-line camelcase
+          context_text: contextToUse,
+        }),
       });
       const data: { response?: string; error?: string } = await response.json();
       if (response.ok && data.response !== undefined) {
@@ -54,5 +61,12 @@ export function useChat(apiUrl: string) {
     }
   };
 
-  return { messages, errorMsg, inputValue, setInputValue, isSending, sendMessage };
+  return {
+    messages,
+    errorMsg,
+    inputValue,
+    setInputValue,
+    isSending,
+    sendMessage,
+  };
 }

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   Select,
   SelectTrigger,
@@ -11,8 +9,10 @@ import {
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
 
-export const Context = () => {
-  const [status, setStatus] = useState("");
+export const Context = ({ contextData, onChange }) => {
+  const handleChange = (field: string, value: any) => {
+    onChange({ ...contextData, [field]: value });
+  };
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
@@ -32,14 +32,21 @@ export const Context = () => {
           <label className="block text-sm font-medium mb-2">
             Prosjektnavn og kort beskrivelse:
           </label>
-          <Input placeholder="F.eks. 'Digital Skoleportal - ny løsning for elevdata'" />
+          <Input
+            placeholder="F.eks. 'Digital Skoleportal - ny løsning for elevdata'"
+            value={contextData.projectSummary || ""}
+            onChange={(e) => handleChange("projectSummary", e.target.value)}
+          />
         </div>
 
         <div>
           <label className="block text-sm font-medium mb-2">
             Ansvarlig avdeling/enhet:
           </label>
-          <Select>
+          <Select
+            value={contextData.department}
+            onValueChange={(value) => handleChange("department", value)}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Velg et alternativ..." />
             </SelectTrigger>
@@ -55,63 +62,35 @@ export const Context = () => {
             Prosjektstatus:
           </label>
           <div className="space-y-2">
-            <label className="flex items-center gap-2">
-              <input
-                checked={status === "planning"}
-                name="status"
-                type="radio"
-                value="planning"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Planlegging
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                checked={status === "development"}
-                name="status"
-                type="radio"
-                value="development"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Utvikling
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                checked={status === "testing"}
-                name="status"
-                type="radio"
-                value="testing"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Testing
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                checked={status === "implementation"}
-                name="status"
-                type="radio"
-                value="implementation"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Implementering
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                checked={status === "production"}
-                name="status"
-                type="radio"
-                value="production"
-                onChange={(e) => setStatus(e.target.value)}
-              />
-              Produksjon
-            </label>
+            {[
+              ["planning", "Planlegging"],
+              ["development", "Utvikling"],
+              ["testing", "Testing"],
+              ["implementation", "Implementering"],
+              ["production", "Produksjon"],
+            ].map(([value, label]) => (
+              <label key={value} className="flex items-center gap-2">
+                <input
+                  checked={contextData.status === value}
+                  name="status"
+                  type="radio"
+                  value={value}
+                  onChange={(e) => handleChange("status", e.target.value)}
+                />
+                {label}
+              </label>
+            ))}
           </div>
         </div>
         <div>
           <label className="block text-sm font-medium mb-2">
             Formål og mål med prosjektet:
           </label>
-          <Textarea placeholder="Beskriv hva dere ønsker å oppnå og hvorfor..." />
+          <Textarea
+            placeholder="Beskriv hva dere ønsker å oppnå og hvorfor..."
+            value={contextData.purpose || ""}
+            onChange={(e) => handleChange("purpose", e.target.value)}
+          />
         </div>
       </div>
     </section>

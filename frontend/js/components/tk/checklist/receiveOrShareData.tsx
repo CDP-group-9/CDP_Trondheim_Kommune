@@ -1,10 +1,10 @@
 type Props = {
-  selected: "receive" | "share" | null;
-  onSelect: (key: "receive" | "share" | null) => void;
+  selected: "motta" | "dele" | null;
+  onSelect: (key: "motta" | "dele" | null) => void;
 };
 
 export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
-  const handleSelect = (key: "receive" | "share") => {
+  const handleSelect = (key: "motta" | "dele") => {
     onSelect(selected === key ? null : key);
   };
 
@@ -24,13 +24,13 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
         {/* Receive/Collect Data Card */}
         <button
           className={`flex flex-col items-start justify-start flex-1 border rounded-lg p-4 cursor-pointer transition text-left
-      ${selected === "receive" ? "border-primary bg-white shadow-sm" : "border-primary/20 bg-muted/10"}`}
+      ${selected === "motta" ? "border-primary bg-white shadow-sm" : "border-primary/20 bg-muted/10"}`}
           type="button"
-          onClick={() => handleSelect("receive")}
+          onClick={() => handleSelect("motta")}
         >
           <div className="flex items-start gap-3 self-start">
             <input
-              checked={selected === "receive"}
+              checked={selected === "motta"}
               className="mt-1"
               readOnly
               type="checkbox"
@@ -57,13 +57,13 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
         {/* Share/Transfer Data Card */}
         <button
           className={`flex flex-col items-start justify-start flex-1 border rounded-lg p-4 cursor-pointer transition text-left
-      ${selected === "share" ? "border-primary bg-white shadow-sm" : "border-primary/20 bg-muted/10"}`}
+      ${selected === "dele" ? "border-primary bg-white shadow-sm" : "border-primary/20 bg-muted/10"}`}
           type="button"
-          onClick={() => handleSelect("share")}
+          onClick={() => handleSelect("dele")}
         >
           <div className="flex items-start gap-3 self-start">
             <input
-              checked={selected === "share"}
+              checked={selected === "dele"}
               className="mt-1"
               readOnly
               type="checkbox"

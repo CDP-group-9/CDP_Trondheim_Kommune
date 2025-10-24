@@ -9,10 +9,11 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .models import Counter, MockResponse
+from .models import ChecklistResult, Counter, MockResponse
 from .serializers import (
     ChatRequestSerializer,
     ChatResponseSerializer,
+    ChecklistSerializer,
     CounterSerializer,
     MessageSerializer,
     MockResponseSerializer,
@@ -91,6 +92,114 @@ class MockResponseViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(mock)
             return Response(serializer.data)
         return Response({"error": "No mock response found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ChecklistViewSet(viewsets.ModelViewSet):
+    queryset = ChecklistResult.objects.all()
+    serializer_class = ChecklistSerializer
+
+    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
+    def json_to_string(self, request):
+        context_string = "Dette er informasjon fra en sjekkliste. "
+        context_string += f"Jeg skal {request.data['selectedOption']} data. "
+        context_string += (
+            f"En oppsummering av prosjektet er: {request.data['contextData']['projectSummary']}. "
+        )
+        context_string += f"Ansvarlig avdelingen er {request.data['contextData']['department']}. "
+        context_string += f"Prosjektet er i {request.data['contextData']['status']} fasen. "
+        context_string += f"Formålet til prosjektet {request.data['contextData']['purpose']}. "
+        context_string += (
+            f"Originalformålet til dataen er {request.data['handlingData']['purpose']}"
+        )
+        context_string += "De ulike datatypene er: " + ", ".join(
+            f"{x}" for x in request.data["handlingData"]["selectedDataTypes"]
+        )
+        context_string += f"Antall personer er {request.data['handlingData']['personCount']}. "
+        context_string += f"Det skal lagres i {request.data['handlingData']['retentionTime']} år. "
+        context_string += (
+            "Innsamlingsmetodene er: "
+            + ", ".join(request.data["handlingData"]["collectionMethods"])
+            + ". "
+        )
+        context_string += f"Mottakeren er {request.data['handlingData']['recipient']}. "
+        context_string += f"Mottakertypen er {request.data['handlingData']['recipientType']}. "
+        context_string += (
+            f"Juridisk grunnlag for deling er {request.data['handlingData']['sharingLegalBasis']}. "
+        )
+        context_string += f"Delingsfrekvensen er {request.data['handlingData']['shareFrequency']}. "
+        context_string += (
+            "Datakildene er: "
+            + ", ".join(request.data["handlingData"]["selectedDataSources"])
+            + ". "
+        )
+
+        # Legal basis data
+        context_string += (
+            f"Det juridiske grunnlaget er {request.data['legalBasisData']['legalBasis']}. "
+        )
+        context_string += (
+            f"Håndterer sensitiv data: {request.data['legalBasisData']['handlesSensitiveData']}. "
+        )
+        context_string += (
+            "Sensitive datatyper: "
+            + ", ".join(request.data["legalBasisData"]["selectedSensitiveDataReason"])
+            + ". "
+        )
+        context_string += (
+            f"Lovpålagte oppgaver: {request.data['legalBasisData']['statutoryTasks']}. "
+        )
+
+        # Involved parties
+        context_string += (
+            "Registrerte grupper: "
+            + ", ".join(request.data["involvedPartiesData"]["registeredGroups"])
+            + ". "
+        )
+        context_string += f"Bruker eksterne databehandlere: {request.data['involvedPartiesData']['usesExternalProcessors']}. "
+        context_string += f"Eksterne databehandlere: {request.data['involvedPartiesData']['externalProcessors']}. "
+        context_string += (
+            f"Antall ansatte med tilgang: {request.data['involvedPartiesData']['employeeAccess']}. "
+        )
+        context_string += (
+            f"Deler med andre: {request.data['involvedPartiesData']['sharesWithOthers']}. "
+        )
+        context_string += f"Delt med: {request.data['involvedPartiesData']['sharedWith']}. "
+
+        # Technical data
+        context_string += f"Lagringsløsning: {request.data['techData']['storage']}. "
+        context_string += (
+            "Sikkerhetstiltak: " + ", ".join(request.data["techData"]["security"]) + ". "
+        )
+        context_string += f"Har integrasjoner: {request.data['techData']['integrations']}. "
+        context_string += (
+            f"Integrasjonsdetaljer: {request.data['techData']['integrationDetails']}. "
+        )
+        context_string += f"Automatisert behandling: {request.data['techData']['automated']}. "
+        context_string += (
+            f"Automatiseringsbeskrivelse: {request.data['techData']['automatedDescription']}. "
+        )
+
+        # Risk concerns
+        context_string += (
+            f"Personvernrisiko nivå: {request.data['riskConcernData']['privacyRisk']}. "
+        )
+        context_string += (
+            f"Uautorisert tilgang risiko: {request.data['riskConcernData']['unauthAccess']}. "
+        )
+        context_string += f"Datatap risiko: {request.data['riskConcernData']['dataLoss']}. "
+        context_string += (
+            f"Re-identifisering risiko: {request.data['riskConcernData']['reidentification']}. "
+        )
+        context_string += (
+            f"Ansatte bekymringer: {request.data['riskConcernData']['employeeConcern']}. "
+        )
+        context_string += (
+            f"Skriftlige bekymringer: {request.data['riskConcernData']['writtenConcern']}. "
+        )
+        context_string += (
+            f"Regulatoriske bekymringer: {request.data['riskConcernData']['regulatoryConcern']}. "
+        )
+        return Response({"response": context_string}, status=status.HTTP_200_OK)
 
 
 # ------------- Gemini chat service ---------------

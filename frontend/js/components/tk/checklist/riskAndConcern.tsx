@@ -1,21 +1,16 @@
-import { useState } from "react";
-
 import { Slider } from "js/components/ui/slider";
 import { Switch } from "js/components/ui/switch";
 
 import { Textarea } from "../../ui/textarea";
 
-export const RiskAndConcern = () => {
-  const [privacyRisk, setPrivacyRisk] = useState(1);
-  const [unauthAccess, setUnauthAccess] = useState(1);
-  const [dataLoss, setDataLoss] = useState(1);
-  const [reidentification, setReidentification] = useState(1);
-  const [employeeConcern, setEmployeeConcern] = useState(false);
-  const [regulatoryConcern, setRegulatoryConcern] = useState("");
-
+export const RiskAndConcern = ({ riskConcernData, onChange }) => {
   const riskLabels = ["Svært lav", "Lav", "Moderat", "Høy", "Svært høy"];
 
   const getRiskLabel = (value: number) => `${riskLabels[value - 1]} (${value})`;
+
+  const handleChange = (field: string, value: any) => {
+    onChange({ ...riskConcernData, [field]: value });
+  };
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
@@ -44,10 +39,12 @@ export const RiskAndConcern = () => {
             max={5}
             min={1}
             step={1}
-            value={[privacyRisk]}
-            onValueChange={([v]) => setPrivacyRisk(v)}
+            value={[riskConcernData.privacyRisk]}
+            onValueChange={([v]) => handleChange("privacyRisk", v)}
           />
-          <div className="mt-1 text-xs">{getRiskLabel(privacyRisk)}</div>
+          <div className="mt-1 text-xs">
+            {getRiskLabel(riskConcernData.privacyRisk)}
+          </div>
         </div>
 
         {/* Unauthorized access */}
@@ -64,10 +61,12 @@ export const RiskAndConcern = () => {
             max={5}
             min={1}
             step={1}
-            value={[unauthAccess]}
-            onValueChange={([v]) => setUnauthAccess(v)}
+            value={[riskConcernData.unauthAccess]}
+            onValueChange={([v]) => handleChange("unauthAccess", v)}
           />
-          <div className="mt-1 text-xs">{getRiskLabel(unauthAccess)}</div>
+          <div className="mt-1 text-xs">
+            {getRiskLabel(riskConcernData.unauthAccess)}
+          </div>
         </div>
 
         {/* Data loss */}
@@ -84,10 +83,12 @@ export const RiskAndConcern = () => {
             max={5}
             min={1}
             step={1}
-            value={[dataLoss]}
-            onValueChange={([v]) => setDataLoss(v)}
+            value={[riskConcernData.dataLoss]}
+            onValueChange={([v]) => handleChange("dataLoss", v)}
           />
-          <div className="mt-1 text-xs">{getRiskLabel(dataLoss)}</div>
+          <div className="mt-1 text-xs">
+            {getRiskLabel(riskConcernData.dataLoss)}
+          </div>
         </div>
 
         {/* Re-identification */}
@@ -104,10 +105,12 @@ export const RiskAndConcern = () => {
             max={5}
             min={1}
             step={1}
-            value={[reidentification]}
-            onValueChange={([v]) => setReidentification(v)}
+            value={[riskConcernData.reidentification]}
+            onValueChange={([v]) => handleChange("reidentification", v)}
           />
-          <div className="mt-1 text-xs">{getRiskLabel(reidentification)}</div>
+          <div className="mt-1 text-xs">
+            {getRiskLabel(riskConcernData.reidentification)}
+          </div>
         </div>
 
         {/* Employee/registered concern */}
@@ -117,20 +120,26 @@ export const RiskAndConcern = () => {
           </label>
           <div className="flex items-center gap-2">
             <Switch
-              checked={employeeConcern}
+              checked={riskConcernData.employeeConcern}
               id="employee-concern"
-              onCheckedChange={setEmployeeConcern}
+              onCheckedChange={(value) =>
+                handleChange("employeeConcern", value)
+              }
             />
-            <span>{employeeConcern ? "Ja" : "Nei"}</span>
+            <span>{riskConcernData.employeeConcern ? "Ja" : "Nei"}</span>
           </div>
         </div>
 
-        {employeeConcern && (
+        {riskConcernData.employeeConcern && (
           <div>
             <label className="block text-sm font-medium mb-2">
               Beskriv bekymringene:
             </label>
-            <Textarea placeholder="Innspill eller bekymringer som er reist..." />
+            <Textarea
+              placeholder="Innspill eller bekymringer som er reist..."
+              value={riskConcernData.writtenConcern || ""}
+              onChange={(e) => handleChange("writtenConcern", e.target.value)}
+            />
           </div>
         )}
 
@@ -141,8 +150,8 @@ export const RiskAndConcern = () => {
           </label>
           <Textarea
             placeholder="Områder hvor dere er usikre på lovlighet..."
-            value={regulatoryConcern}
-            onChange={(e) => setRegulatoryConcern(e.target.value)}
+            value={riskConcernData.regulatoryConcern || ""}
+            onChange={(e) => handleChange("regulatoryConcern", e.target.value)}
           />
         </div>
       </div>

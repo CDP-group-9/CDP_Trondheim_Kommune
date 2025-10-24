@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Counter, MockResponse
+from .models import ChecklistResult, Counter, MockResponse
 
 
 class MessageSerializer(serializers.Serializer):
@@ -17,6 +17,12 @@ class MockResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = MockResponse
         fields = ("id", "response")
+
+
+class ChecklistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChecklistResult
+        fields = ("id", "result")
 
 
 class ChatRequestSerializer(serializers.Serializer):

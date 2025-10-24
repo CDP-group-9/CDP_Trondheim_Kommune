@@ -48,12 +48,10 @@ class GeminiAPIClient:
         if self.client is None:
             # Initialize the Gemini client
             self.client = genai.Client(
-                api_key=self.api_key, http_options=types.HttpOptions(timeout=10000)
+                api_key=self.api_key, http_options=types.HttpOptions(timeout=50000)
             )
         if self.async_client is None:
             self.async_client = self.client.aio
-
-
 
     def test_connection(self) -> bool:
         """
