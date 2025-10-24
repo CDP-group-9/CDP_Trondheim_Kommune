@@ -1,4 +1,4 @@
-import tkAvatar from "../../../assets/images/tk-avatar.png";
+import tkAvatar from "../../../assets/images/tk-avatar.svg";
 import userAvatar from "../../../assets/images/user-avatar.svg";
 
 interface ChatBoxProps {

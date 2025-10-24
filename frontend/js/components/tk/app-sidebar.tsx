@@ -1,7 +1,9 @@
 import { Check, History, DockIcon, Info, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import trondheimLogo from "../../../assets/images/tk-logo-co.png";
+//import trondheimLogo from "../../../assets/images/tk-logo-co.png";
+import tkLogo from "../../../assets/images/tk-logo-wide.svg";
+
 import {
   SidebarTrigger,
   Sidebar,
@@ -55,9 +57,9 @@ export function AppSidebar() {
             target="_blank"
           >
             <img
-              alt="Trondheim Kommune logo"
-              className="h-8 object-contain hover:opacity-80 transition-opacity"
-              src={trondheimLogo}
+              alt="Trondheim Kommunes logo"
+              className="h-12 object-contain hover:opacity-80 transition-opacity"
+              src={tkLogo}
             />
           </a>
         </SidebarGroupLabel>
