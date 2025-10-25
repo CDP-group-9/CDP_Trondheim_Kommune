@@ -256,4 +256,9 @@ message: Short description of changes
 
 ## Branch naming
 
-### Generate branch from github issue, remove the first number and -
+Generate branch from github issue, remove the first number and replace it with the number we have given the corresponding issue.
+
+For example the branch for issue 2.1 should be called `2.1-short-descriptive-title`.
+
+## Naming Conventions and file structure
+see [this document](naming_conventions.md).

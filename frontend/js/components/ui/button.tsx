@@ -19,9 +19,9 @@ const buttonVariants = cva(
         surfaceMuted: "surface-muted",
       },
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3 tk-readable",
-        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 tk-readable",
-        lg: "h-10 p-2 rounded-md px-6 has-[>svg]:px-4 tk-readable",
+        default: "h-9 px-4 py-2 has-[>svg]:px-3 dss-readable",
+        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 dss-readable",
+        lg: "h-10 p-2 rounded-md px-6 has-[>svg]:px-4 dss-readable",
         icon: "size-9",
       },
     },

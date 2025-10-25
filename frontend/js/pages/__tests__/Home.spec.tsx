@@ -3,8 +3,8 @@ import { userEvent } from "@testing-library/user-event";
 
 import Home from "../Home";
 
-jest.mock("../../components/tk/app-four-buttons", () => ({
-  FourButtons: ({
+jest.mock("components/dss/DssFourButtons", () => ({
+  DssFourButtons: ({
     submitPromptFunction,
   }: {
     submitPromptFunction: (input: string) => void;
@@ -50,8 +50,14 @@ jest.mock("../../components/tk/app-four-buttons", () => ({
   ),
 }));
 
-jest.mock("../../components/tk/chatbox", () => ({
-  ChatBox: ({ message, type }: { message: string; type: "user" | "bot" }) => (
+jest.mock("components/dss/DssChatBox", () => ({
+  DssChatBox: ({
+    message,
+    type,
+  }: {
+    message: string;
+    type: "user" | "bot";
+  }) => (
     <div data-testid={`chatbox-${type}`}>
       <span>{message}</span>
     </div>
@@ -68,6 +74,7 @@ const mockFetch = jest.fn();
 describe("Home", () => {
   beforeEach(() => {
     mockFetch.mockClear();
+    localStorage.clear();
   });
 
   test("renders the textarea and submit button with correct initial state", () => {
@@ -124,6 +131,8 @@ describe("Home", () => {
           body: JSON.stringify({
             prompt: "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
             history: [],
+            // eslint-disable-next-line camelcase
+            context_text: "",
           }),
         }),
       );
@@ -195,6 +204,8 @@ describe("Home", () => {
           body: JSON.stringify({
             prompt: "Test question",
             history: [],
+            // eslint-disable-next-line camelcase
+            context_text: "",
           }),
         }),
       );

@@ -1,16 +1,16 @@
 import {
+  DssProgressBar,
   PersonalDataSection,
   SensitiveDataSection,
   DataSubjectRightsSection,
   KeyPrinciplesSection,
   ContactInfoSection,
-} from "../components/tk/privacy-sections";
-import ProgressBarUpdated from "../components/tk/progressbar-updated";
+} from "components/dss";
 
 const Privacy = () => {
   return (
     <div className="flex justify-center mb-4">
-      <ProgressBarUpdated />
+      <DssProgressBar />
       <div className="flex-1 space-y-6 max-w-4xl px-6 py-4">
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-medium mb-4">

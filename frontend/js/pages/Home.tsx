@@ -1,13 +1,11 @@
 import { Send } from "lucide-react";
 import { useEffect } from "react";
 
+import { DssFourButtons, DssChatBox } from "components/dss";
 import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
-
-import { FourButtons } from "../components/tk/app-four-buttons";
-import { ChatBox } from "../components/tk/chatbox";
-import { ChatMessage } from "../types/ChatMessage";
+import { ChatMessage } from "types/ChatMessage";
 
 const Home = () => {
   const {
@@ -35,7 +33,7 @@ const Home = () => {
       {messages.length === 0 && (
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="max-w-lg mx-auto">
-            <FourButtons submitPromptFunction={sendMessage} />
+            <DssFourButtons submitPromptFunction={sendMessage} />
           </div>
         </div>
       )}
@@ -43,7 +41,7 @@ const Home = () => {
       {messages.length > 0 && (
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {messages.map((msg: ChatMessage) => (
-            <ChatBox key={msg.id} message={msg.message} type={msg.type} />
+            <DssChatBox key={msg.id} message={msg.message} type={msg.type} />
           ))}
         </div>
       )}
