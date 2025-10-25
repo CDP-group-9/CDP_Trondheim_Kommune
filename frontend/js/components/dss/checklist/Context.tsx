@@ -1,7 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
 
-import type { ContextData } from "js/hooks/useChecklist";
-
 import {
   Select,
   SelectTrigger,
@@ -9,6 +7,7 @@ import {
   SelectContent,
   SelectItem,
 } from "js/components/ui/select";
+import type { ContextData } from "js/hooks/useChecklist";
 
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";

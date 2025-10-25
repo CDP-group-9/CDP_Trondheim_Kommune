@@ -1,5 +1,6 @@
-import {Button} from "components/ui/button";
-import {ExternalLink} from "lucide-react";
+import { ExternalLink } from "lucide-react";
+
+import { Button } from "components/ui/button";
 
 export const ContactInfoSection = () => (
   <section className="bg-primary/5 border border-primary/20 rounded-lg p-6">
@@ -29,7 +30,7 @@ export const ContactInfoSection = () => (
             target="_blank"
           >
             <Button className="h-auto p-1" size="sm" variant="ghost">
-              <ExternalLink size={14}/>
+              <ExternalLink size={14} />
             </Button>
           </a>
         </div>

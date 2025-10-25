@@ -1,6 +1,12 @@
 import { render, screen } from "@testing-library/react";
 
-import { PersonalDataSection, SensitiveDataSection, DataSubjectRightsSection, KeyPrinciplesSection, ContactInfoSection } from "components/dss/sections";
+import {
+  PersonalDataSection,
+  SensitiveDataSection,
+  DataSubjectRightsSection,
+  KeyPrinciplesSection,
+  ContactInfoSection,
+} from "components/dss/sections";
 
 jest.mock("lucide-react", () => ({
   ExternalLink: () => <div>ExternalLink</div>,

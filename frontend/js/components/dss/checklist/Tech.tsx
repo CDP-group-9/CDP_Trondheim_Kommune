@@ -1,9 +1,8 @@
 import type { Dispatch, SetStateAction } from "react";
 
-import type { TechData } from "js/hooks/useChecklist";
-
 import { Switch } from "js/components/ui/switch";
 import { Textarea } from "js/components/ui/textarea";
+import type { TechData } from "js/hooks/useChecklist";
 
 type Props = {
   techData: TechData;

@@ -1,11 +1,10 @@
 import { Send } from "lucide-react";
 import { useEffect } from "react";
 
+import { DssFourButtons, DssChatBox } from "components/dss";
 import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
-
-import { DssFourButtons, DssChatBox } from "components/dss";
 import { ChatMessage } from "types/ChatMessage";
 
 const Home = () => {

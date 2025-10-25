@@ -1,8 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 
-import type { LegalBasisData } from "js/hooks/useChecklist";
-
 import { Switch } from "js/components/ui/switch";
+import type { LegalBasisData } from "js/hooks/useChecklist";
 
 import { Textarea } from "../../ui/textarea";
 

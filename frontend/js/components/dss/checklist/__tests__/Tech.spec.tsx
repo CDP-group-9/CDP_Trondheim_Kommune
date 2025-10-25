@@ -1,14 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import type {
-  Dispatch,
-  SetStateAction,
-  TextareaHTMLAttributes,
-} from "react";
+import type { Dispatch, SetStateAction, TextareaHTMLAttributes } from "react";
 import { useState } from "react";
 
 import type { TechData } from "js/hooks/useChecklist";
 
-import { Tech } from "../index";
+import { Tech } from "..";
 
 jest.mock("js/components/ui/switch", () => ({
   Switch: ({
@@ -48,9 +44,7 @@ describe("Tech", () => {
     automatedDescription: "",
   };
 
-  const renderTech = (
-    override?: Partial<Parameters<typeof Tech>[0]>,
-  ) => {
+  const renderTech = (override?: Partial<Parameters<typeof Tech>[0]>) => {
     const {
       techData: overrideData,
       onChange: overrideOnChange,
@@ -64,15 +58,10 @@ describe("Tech", () => {
       });
 
       const handleChange =
-        overrideOnChange ??
-        (setTechData as Dispatch<SetStateAction<TechData>>);
+        overrideOnChange ?? (setTechData as Dispatch<SetStateAction<TechData>>);
 
       return (
-        <Tech
-          techData={techData}
-          onChange={handleChange}
-          {...restProps}
-        />
+        <Tech techData={techData} onChange={handleChange} {...restProps} />
       );
     };
 

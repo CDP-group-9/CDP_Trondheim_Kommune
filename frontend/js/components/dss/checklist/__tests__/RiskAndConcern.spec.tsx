@@ -1,14 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import type {
-  Dispatch,
-  SetStateAction,
-  TextareaHTMLAttributes,
-} from "react";
+import type { Dispatch, SetStateAction, TextareaHTMLAttributes } from "react";
 import { useState } from "react";
 
 import type { RiskConcernData } from "js/hooks/useChecklist";
 
-import { RiskAndConcern } from "../index";
+import { RiskAndConcern } from "..";
 
 jest.mock("js/components/ui/slider", () => ({
   Slider: ({

@@ -1,14 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import type {
-  Dispatch,
-  SetStateAction,
-  TextareaHTMLAttributes,
-} from "react";
+import type { Dispatch, SetStateAction, TextareaHTMLAttributes } from "react";
 import { useState } from "react";
 
 import type { LegalBasisData } from "js/hooks/useChecklist";
 
-import { Legal } from "../index";
+import { Legal } from "..";
 
 jest.mock("js/components/ui/switch", () => ({
   Switch: ({
@@ -46,9 +42,7 @@ describe("Legal", () => {
     statutoryTasks: "",
   };
 
-  const renderLegal = (
-    override?: Partial<Parameters<typeof Legal>[0]>,
-  ) => {
+  const renderLegal = (override?: Partial<Parameters<typeof Legal>[0]>) => {
     const {
       legalBasisData: overrideData,
       onChange: overrideOnChange,

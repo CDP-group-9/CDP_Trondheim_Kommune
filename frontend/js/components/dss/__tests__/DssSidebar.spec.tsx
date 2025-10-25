@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
+import React from "react";
 import { MemoryRouter } from "react-router-dom";
 
 import { DssSidebar } from "../DssSidebar";
-import React from "react";
 
 jest.mock("../../ui/sidebar", () => ({
   Sidebar: ({ children }: { children: React.ReactNode }) => (

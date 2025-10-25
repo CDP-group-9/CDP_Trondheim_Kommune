@@ -1,14 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import type {
-  Dispatch,
-  SetStateAction,
-  TextareaHTMLAttributes,
-} from "react";
+import type { Dispatch, SetStateAction, TextareaHTMLAttributes } from "react";
 import { useState } from "react";
 
 import type { InvolvedPartiesData } from "js/hooks/useChecklist";
 
-import { InvolvedParties } from "../index";
+import { InvolvedParties } from "..";
 
 jest.mock("js/components/ui/select", () => ({
   Select: ({

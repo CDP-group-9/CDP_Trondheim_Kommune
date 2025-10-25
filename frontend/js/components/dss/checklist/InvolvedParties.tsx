@@ -1,7 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
 
-import type { InvolvedPartiesData } from "js/hooks/useChecklist";
-
 import {
   Select,
   SelectTrigger,
@@ -11,6 +9,7 @@ import {
 } from "js/components/ui/select";
 import { Switch } from "js/components/ui/switch";
 import { Textarea } from "js/components/ui/textarea";
+import type { InvolvedPartiesData } from "js/hooks/useChecklist";
 
 type Props = {
   involvedPartiesData: InvolvedPartiesData;

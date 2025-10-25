@@ -1,6 +1,7 @@
+import { FC } from "react";
+
 import trondheimKommuneAvatar from "../../../assets/images/tk-avatar.svg";
 import brukerAvatar from "../../../assets/images/user-avatar.svg";
-import {FC} from "react";
 
 interface ChatBoxProps {
   type: "user" | "bot";

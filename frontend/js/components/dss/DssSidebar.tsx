@@ -2,7 +2,6 @@ import { Check, History, DockIcon, Info, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import tkLogo from "../../../assets/images/tk-logo-wide.svg";
-
 import {
   SidebarTrigger,
   Sidebar,

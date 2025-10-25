@@ -1,16 +1,17 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useState } from "react";
 
-import { ReceiveOrShareData } from "../index";
+import { ReceiveOrShareData } from "..";
 
 describe("ReceiveOrShareData", () => {
   const renderComponent = (
-    initialSelected: "motta" | "dele" | null = null,
     onSelect?: (value: "motta" | "dele" | null) => void,
+    initialSelected: "motta" | "dele" | null = null,
   ) => {
     const Wrapper = () => {
-      const [selected, setSelected] =
-        useState<"motta" | "dele" | null>(initialSelected);
+      const [selected, setSelected] = useState<"motta" | "dele" | null>(
+        initialSelected,
+      );
 
       const handleSelect = (value: "motta" | "dele" | null) => {
         setSelected(value);
@@ -69,7 +70,7 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("does not show warning when receive is selected", () => {
-    renderComponent("motta");
+    renderComponent(undefined, "motta");
 
     expect(
       screen.queryByText(
@@ -79,7 +80,7 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("does not show warning when share is selected", () => {
-    renderComponent("dele");
+    renderComponent(undefined, "dele");
 
     expect(
       screen.queryByText(
@@ -90,7 +91,7 @@ describe("ReceiveOrShareData", () => {
 
   test("calls onSelect with 'motta' when receive card is clicked", () => {
     const onSelect = jest.fn();
-    renderComponent(null, onSelect);
+    renderComponent(onSelect, null);
 
     const receiveButton = screen
       .getByText("Motta/samle inn data")
@@ -102,7 +103,7 @@ describe("ReceiveOrShareData", () => {
 
   test("calls onSelect with 'dele' when share card is clicked", () => {
     const onSelect = jest.fn();
-    renderComponent(null, onSelect);
+    renderComponent(onSelect, null);
 
     const shareButton = screen
       .getByText("Dele/utlevere data")
@@ -114,7 +115,7 @@ describe("ReceiveOrShareData", () => {
 
   test("calls onSelect with null when already selected option is clicked again", () => {
     const onSelect = jest.fn();
-    renderComponent("motta", onSelect);
+    renderComponent(onSelect, "motta");
 
     const receiveButton = screen
       .getByText("Motta/samle inn data")
@@ -125,7 +126,7 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("applies correct styling to selected receive option", () => {
-    renderComponent("motta");
+    renderComponent(undefined, "motta");
 
     const receiveButton = screen
       .getByText("Motta/samle inn data")
@@ -136,7 +137,7 @@ describe("ReceiveOrShareData", () => {
   });
 
   test("applies correct styling to selected share option", () => {
-    renderComponent("dele");
+    renderComponent(undefined, "dele");
 
     const shareButton = screen
       .getByText("Dele/utlevere data")

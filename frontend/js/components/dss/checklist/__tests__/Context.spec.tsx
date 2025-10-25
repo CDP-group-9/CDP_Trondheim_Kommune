@@ -9,7 +9,7 @@ import { useState } from "react";
 
 import type { ContextData } from "js/hooks/useChecklist";
 
-import { Context } from "../index";
+import { Context } from "..";
 
 jest.mock("js/components/ui/select", () => ({
   Select: ({
@@ -78,9 +78,7 @@ describe("Context", () => {
     purpose: "",
   };
 
-  const renderContext = (
-    override?: Partial<Parameters<typeof Context>[0]>,
-  ) => {
+  const renderContext = (override?: Partial<Parameters<typeof Context>[0]>) => {
     const {
       contextData: overrideContextData,
       onChange: overrideOnChange,

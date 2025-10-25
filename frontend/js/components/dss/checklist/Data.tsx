@@ -40,7 +40,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
     value: string,
   ) => {
     const parsedValue =
-      value === "" ? "" : (Number.isNaN(Number(value)) ? "" : Number(value));
+      value === "" ? "" : Number.isNaN(Number(value)) ? "" : Number(value);
     handleChange(field, parsedValue as HandlingData[K]);
   };
 
@@ -182,7 +182,9 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 step={1}
                 type="number"
                 value={handlingData.personCount || ""}
-                onChange={(e) => handleNumericInput("personCount", e.target.value)}
+                onChange={(e) =>
+                  handleNumericInput("personCount", e.target.value)
+                }
               />
             </div>
             <div>

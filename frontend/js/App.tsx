@@ -4,8 +4,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { OpenAPI } from "api";
 import { DssDynamicBreadcrumb, DssSidebar, DssFooter } from "components/dss";
-
 import { SidebarProvider } from "components/ui/sidebar";
+
 import { Checklist, Examples, Home, Privacy } from "./routes";
 
 OpenAPI.interceptors.request.use((request) => {

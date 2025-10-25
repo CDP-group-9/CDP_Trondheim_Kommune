@@ -72,7 +72,11 @@ jest.mock("components/dss/DssProgressBar", () => ({
 }));
 
 jest.mock("components/ui/button", () => ({
-  Button: ({ children, onClick, ...rest }: ButtonHTMLAttributes<HTMLButtonElement> & { children: ReactNode }) => (
+  Button: ({
+    children,
+    onClick,
+    ...rest
+  }: ButtonHTMLAttributes<HTMLButtonElement> & { children: ReactNode }) => (
     <button type="button" onClick={onClick} {...rest}>
       {children}
     </button>
@@ -235,9 +239,9 @@ describe("Checklist", () => {
     expect(generateButton).toBeInTheDocument();
   });
 });
-  const renderChecklist = () =>
-    render(
-      <MemoryRouter>
-        <Checklist />
-      </MemoryRouter>,
-    );
+const renderChecklist = () =>
+  render(
+    <MemoryRouter>
+      <Checklist />
+    </MemoryRouter>,
+  );

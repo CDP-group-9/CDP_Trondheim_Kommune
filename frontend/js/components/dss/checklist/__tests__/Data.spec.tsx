@@ -66,7 +66,8 @@ describe("Data", () => {
       });
 
       const handleChange =
-        overrideOnChange ?? (setHandlingData as Dispatch<SetStateAction<HandlingData>>);
+        overrideOnChange ??
+        (setHandlingData as Dispatch<SetStateAction<HandlingData>>);
 
       return (
         <Data

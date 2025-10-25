@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   Context,
   Data,
@@ -7,10 +5,11 @@ import {
   Legal,
   ReceiveOrShareData,
   RiskAndConcern,
-  Tech
+  Tech,
+  DssProgressBar,
 } from "components/dss";
-import { DssProgressBar } from "components/dss";
 import { Button } from "components/ui/button";
+
 import { useChecklist } from "../hooks/useChecklist";
 
 const Checklist = () => {

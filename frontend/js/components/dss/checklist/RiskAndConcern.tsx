@@ -1,9 +1,8 @@
 import type { Dispatch, SetStateAction } from "react";
 
-import type { RiskConcernData } from "js/hooks/useChecklist";
-
 import { Slider } from "js/components/ui/slider";
 import { Switch } from "js/components/ui/switch";
+import type { RiskConcernData } from "js/hooks/useChecklist";
 
 import { Textarea } from "../../ui/textarea";
 
