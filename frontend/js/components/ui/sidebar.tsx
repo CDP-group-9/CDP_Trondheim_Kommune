@@ -217,7 +217,7 @@ function Sidebar({
       {/* This is what handles the sidebar gap on desktop */}
       <div
         className={cn(
-          "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear",
+          "relative w-(--sidebar-width) bg-transparent transition-[width] duration-75 ease-linear",
           "group-data-[collapsible=offcanvas]:w-0",
           "group-data-[side=right]:rotate-180",
           variant === "floating" || variant === "inset"
@@ -228,7 +228,7 @@ function Sidebar({
       />
       <div
         className={cn(
-          "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
+          "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-75 ease-linear md:flex",
           side === "left"
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -263,7 +263,11 @@ function SidebarTrigger({
   return (
     <Button
       className={cn(
-        "flex items-center justify-start px-1.5 py-2 w-auto",
+        // Shared base styles
+        "flex items-center w-auto text-foreground hover:text-foreground",
+
+        state === "collapsed" ? "justify-center" : "justify-start px-1.5 py-2",
+
         className,
       )}
       data-sidebar="trigger"
@@ -279,9 +283,11 @@ function SidebarTrigger({
       {state === "collapsed" ? (
         <ChevronRight className="!w-5 !h-5" />
       ) : (
-        <ChevronLeft className="!w-5 !h-5" />
+        <>
+          <ChevronLeft className="!w-5 !h-5" />
+          <span className="ml-1">Skjul</span>
+        </>
       )}
-      <span>{state === "collapsed" ? "" : "Skjul"}</span>
     </Button>
   );
 }
@@ -352,6 +358,10 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
+  const { state } = useSidebar();
+
+  if (state === "collapsed") return null;
+
   return (
     <div
       className={cn("flex flex-col gap-2 p-2", className)}
@@ -368,7 +378,7 @@ function SidebarSeparator({
 }: React.ComponentProps<typeof Separator>) {
   return (
     <Separator
-      className={cn("bg-sidebar-border mx-2 w-auto", className)}
+      className={cn("bg-sidebar-border mx-2 w-fill", className)}
       data-sidebar="separator"
       data-slot="sidebar-separator"
       {...props}
@@ -407,11 +417,14 @@ function SidebarGroupLabel({
   ...props
 }: React.ComponentProps<"div"> & { asChild?: boolean }) {
   const Comp = asChild ? Slot : "div";
+  const { state } = useSidebar();
+
+  if (state === "collapsed") return null;
 
   return (
     <Comp
       className={cn(
-        "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-75 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         className,
       )}
@@ -471,9 +484,17 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
 }
 
 function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
+  const { state } = useSidebar();
+
   return (
     <li
-      className={cn("group/menu-item relative", className)}
+      className={cn(
+        "group/menu-item relative",
+
+        state === "collapsed" ? "flex justify-center" : "",
+
+        className,
+      )}
       data-sidebar="menu-item"
       data-slot="sidebar-menu-item"
       {...props}
