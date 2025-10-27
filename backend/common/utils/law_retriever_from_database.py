@@ -1,7 +1,6 @@
-
+import re
 import psycopg2
 
-#from sentence_transformers import SentenceTransformer
 from fastembed import TextEmbedding
 
 
@@ -12,28 +11,18 @@ class LawRetriever:
                 "dbname": "CDP_Trondheim_Kommune",
                 "user": "CDP_Trondheim_Kommune",
                 "password": "password",
-                "host": "db",  # 'db' hvis i Docker
+                "host": "db",  
                 "port": "5432"
             }
 
         self.conn = psycopg2.connect(**db_config)
         self.model = TextEmbedding(model_name=model_name)
-        # self.model_name = model_name
 
-    # def get_model():
-    #     from sentence_transformers import SentenceTransformer
-    #     model_name="all-MiniLM-L6-v2"
-    #     model = SentenceTransformer(model_name)
-    #     return model
 
     def get_relevant_laws(self, prompt: str, k: int = 10, min_words: int = 17) -> list[str]:
         if not prompt.strip():
             return []
-        # model = self.get_model()
-        # Embed spørsmålet
         query_vec = next(iter(self.model.embed([prompt]))).tolist()
-        # query_vec = self.model.encode(prompt).tolist()
-        # query_vec = model.encode(prompt).tolist()
 
         with self.conn.cursor() as cur:
             cur.execute("""
@@ -45,5 +34,30 @@ class LawRetriever:
             """, (query_vec, k))
             results = cur.fetchall()
 
-        laws = [r[0] for r in results if r[0] and len(r[0].split()) >= min_words]
+        laws = []
+        for r in results:
+            if not r[0]:
+                continue
+
+            cleaned = self._clean_text(r[0])
+
+            if len(cleaned.split()) >= min_words:
+                laws.append(cleaned)
         return laws
+    
+    def _clean_text(self, text: str) -> str:
+        """
+        Intern hjelpefunksjon for å rydde bort metadata.
+        """
+        import re
+        text = re.sub(
+            r'\b(XML generert|LegacyID|DocumentID|Departement|Publisert i|Korttittel|Tittel|Innhold|Kunngjort|Annet om dokumentet|Etat|Hjemmel|Endrer|I kraft fra)\b.*?(?=[A-ZÆØÅa-zæøå]|$)',
+            '', text, flags=re.DOTALL
+        )
+        text = re.sub(r'\s+', ' ', text).strip()
+        sections = re.findall(r'(§\s*\d+[a-zA-Z]*.*?)(?=(?:§|\Z))', text, flags=re.DOTALL)
+        if sections:
+            text = " ".join(sections)
+        if len(text.split()) > 600:
+            text = " ".join(text.split()[:600])
+        return text

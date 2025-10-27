@@ -5,22 +5,20 @@ import sys
 import time
 
 import psycopg2
-import xmltodict
 from fastembed import TextEmbedding
 from tqdm import tqdm
+from bs4 import BeautifulSoup
 
 
-# Konfigurer logging
 logging.basicConfig(
-    level=logging.INFO,  # Endre til DEBUG for mer detaljer
+    level=logging.INFO,  
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.StreamHandler(sys.stdout),  # Log til konsollen
-        logging.FileHandler("process_laws.log"),  # Log til fil
+        logging.StreamHandler(sys.stdout),  
+        logging.FileHandler("process_laws.log"),  
     ],
 )
 
-# --- GLOBAL MODELLCACHE ---
 _model = None
 
 
@@ -29,25 +27,18 @@ def get_model():
     global _model
     if _model is None:
         logging.info("🔹 Laster FastEmbed-modellen første gang...")
-        # Using a similar sized model to all-MiniLM-L6-v2
         _model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
     return _model
-
-
-# --------------------------
-# Initialiser modellen én gang
-# model = SentenceTransformer("all-MiniLM-L6-v2")
 
 DB_CONFIG = {
     "dbname": "CDP_Trondheim_Kommune",
     "user": "CDP_Trondheim_Kommune",
     "password": "password",
-    "host": "db",  # Hvis koden kjører på samme maskin
+    "host": "db",  
     "port": "5432",
 }
 
 
-# 1 Opprett database-tabell automatisk
 def create_table_if_not_exists(conn):
     with conn.cursor() as cur:
         cur.execute(
@@ -66,49 +57,64 @@ def create_table_if_not_exists(conn):
     logging.info(" Tabell 'laws' er klar i databasen.")
 
 
-# 2 Funksjon: XML → JSON
-def xml_to_json(xml_path):
-    with open(xml_path, encoding="utf-8") as f:
-        xml_data = f.read()
-    data = xmltodict.parse(xml_data)
+def html_to_json(html_path):
+    with open(html_path, encoding="utf-8") as f:
+        soup = BeautifulSoup(f, "html.parser")
+
+    header = soup.find("header", class_="documentHeader")
+    main = soup.find("main", class_="documentBody")
+
+    data = {
+        "title": (header.find("dd", class_="title").text.strip()
+                  if header.find("dd", class_="title") else None),
+        "ministry": (header.find("dd", class_="ministry").text.strip()
+                     if header.find("dd", class_="ministry") else None),
+        "date_in_force": (header.find("dd", class_="dateInForce").text.strip()
+                          if header.find("dd", class_="dateInForce") else None),
+        "published": (header.find("dd", class_="dateOfPublication").text.strip()
+                      if header.find("dd", class_="dateOfPublication") else None),
+        "based_on": [li.text.strip() for li in header.select("dd.basedOn li")],
+        "changes_to": [li.text.strip() for li in header.select("dd.changesToDocuments li")],
+        "chapters": [],
+    }
+
+    for section in main.find_all("section", class_="section"):
+        chapter = {
+            "name": section.find("h2").text.strip() if section.find("h2") else None,
+            "articles": [],
+        }
+        for article in section.find_all("article"):
+            text = article.get_text(" ", strip=True)
+            title = None
+            para = article.find(class_="legalArticleTitle")
+            if para:
+                title = para.text.strip()
+            article_id = article.get("id")
+            chapter["articles"].append({
+                "id": article_id,
+                "title": title,
+                "text": text,
+            })
+        data["chapters"].append(chapter)
+
     return data
 
-
-# 3 Funksjon: trekk ut tekst (robust)
 def extract_text_from_json(data):
-    texts = []
-
-    def walk(node):
-        if isinstance(node, dict):
-            for k, v in node.items():
-                if k == "#text" and isinstance(v, str):
-                    texts.append(v.strip())
-                else:
-                    walk(v)
-        elif isinstance(node, list):
-            for item in node:
-                walk(item)
-
-    try:
-        walk(data)
-        result = "\n".join(t for t in texts if t)
-        if not result:
-            logging.warning("Ingen tekst funnet i XML-strukturen.")
-        return result
-    except Exception as e:
-        logging.error(f"Feil ved tekstuttrekk: {e}", exc_info=True)
-        return None
+    parts = [data.get("title", "")]
+    for chapter in data.get("chapters", []):
+        for article in chapter["articles"]:
+            if article.get("text"):
+                parts.append(article["text"])
+    return "\n".join(parts)
 
 
-# 4 Funksjon: lag embedding
+
 def create_embedding(text):
     model = get_model()
-    # FastEmbed returns a generator, so we need to get the first (and only) result
     embeddings = list(model.embed([text]))
     return embeddings[0].tolist()
 
 
-# 5 Funksjon: lagre i PostgreSQL med try/catch
 def insert_law_record(conn, law_id, text, metadata, embedding):
     try:
         with conn.cursor() as cur:
@@ -125,7 +131,6 @@ def insert_law_record(conn, law_id, text, metadata, embedding):
         logging.error(f"Kunne ikke lagre lov {law_id}: {e}", exc_info=True)
 
 
-# 6 Funksjon: tøm tabellen
 def clear_table(conn):
     with conn.cursor() as cur:
         cur.execute("TRUNCATE TABLE laws;")
@@ -136,7 +141,6 @@ def clear_table(conn):
 def process_laws(input_dir):
     conn = None
 
-    #  Enkel retry for å vente på at DB er klar
     for attempt in range(5):
         try:
             conn = psycopg2.connect(**DB_CONFIG)
@@ -144,7 +148,7 @@ def process_laws(input_dir):
             break
         except Exception as e:
             logging.warning(f"Kan ikke koble til databasen (forsøk {attempt+1}/5): {e}")
-            time.sleep(3)  # Vent 3 sekunder før neste forsøk
+            time.sleep(3)  
     else:
         raise Exception("Kunne ikke koble til databasen etter flere forsøk")
 
@@ -156,7 +160,7 @@ def process_laws(input_dir):
         if file.endswith(".xml"):
             xml_path = os.path.join(input_dir, file)
             try:
-                json_data = xml_to_json(xml_path)
+                json_data = html_to_json(xml_path)
             except Exception as e:
                 logging.error(f"Kunne ikke lese XML {file}: {e}", exc_info=True)
                 continue
