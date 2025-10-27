@@ -1,37 +1,126 @@
 import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const useChecklist = () => {
+export type ChecklistOption = "motta" | "dele" | null;
+
+export type ContextData = {
+  projectSummary: string;
+  department: string;
+  status: string;
+  purpose: string;
+};
+
+export type InvolvedPartiesData = {
+  registeredGroups: string[];
+  usesExternalProcessors: boolean;
+  externalProcessors: string;
+  employeeAccess: string;
+  sharesWithOthers: boolean;
+  sharedWith: string;
+};
+
+export type LegalBasisData = {
+  legalBasis: string;
+  handlesSensitiveData: boolean;
+  selectedSensitiveDataReason: string[];
+  statutoryTasks: string;
+};
+
+export type RiskConcernData = {
+  privacyRisk: number;
+  unauthAccess: number;
+  dataLoss: number;
+  reidentification: number;
+  employeeConcern: boolean;
+  writtenConcern: string;
+  regulatoryConcern: string;
+};
+
+export type TechData = {
+  storage: string;
+  security: string[];
+  integrations: boolean;
+  integrationDetails: string;
+  automated: boolean;
+  automatedDescription: string;
+};
+
+export type HandlingData = {
+  purpose: string;
+  selectedDataTypes: string[];
+  personCount: number | "";
+  retentionTime: number | "";
+  collectionMethods: string[];
+  recipient: string;
+  recipientType: string;
+  sharingLegalBasis: string;
+  shareFrequency: number | "";
+  dataTransferMethods: string[];
+  selectedDataSources: string[];
+};
+
+export type ChecklistPayload = {
+  selectedOption: ChecklistOption;
+  contextData: ContextData;
+  handlingData: HandlingData;
+  legalBasisData: LegalBasisData;
+  involvedPartiesData: InvolvedPartiesData;
+  techData: TechData;
+  riskConcernData: RiskConcernData;
+};
+
+export type UseChecklistReturn = {
+  selectedOption: ChecklistOption;
+  setSelectedOption: Dispatch<SetStateAction<ChecklistOption>>;
+  contextData: ContextData;
+  setContextData: Dispatch<SetStateAction<ContextData>>;
+  handlingData: HandlingData;
+  setHandlingData: Dispatch<SetStateAction<HandlingData>>;
+  legalBasisData: LegalBasisData;
+  setLegalBasisData: Dispatch<SetStateAction<LegalBasisData>>;
+  involvedPartiesData: InvolvedPartiesData;
+  setInvolvedPartiesData: Dispatch<SetStateAction<InvolvedPartiesData>>;
+  techData: TechData;
+  setTechData: Dispatch<SetStateAction<TechData>>;
+  riskConcernData: RiskConcernData;
+  setRiskConcernData: Dispatch<SetStateAction<RiskConcernData>>;
+  createPayload: () => ChecklistPayload;
+  downloadAsTextFile: () => void;
+  sendToBackend: () => Promise<void>;
+  resetChecklist: () => void;
+};
+
+export const useChecklist = (): UseChecklistReturn => {
   const navigate = useNavigate();
 
-  const [selectedOption, setSelectedOption] = useState<"motta" | "dele" | null>(
-    null,
-  );
+  const [selectedOption, setSelectedOption] = useState<ChecklistOption>(null);
 
-  const [contextData, setContextData] = useState({
+  const [contextData, setContextData] = useState<ContextData>({
     projectSummary: "",
     department: "",
     status: "",
     purpose: "",
   });
 
-  const [involvedPartiesData, setInvolvedPartiesData] = useState({
-    registeredGroups: [] as string[],
-    usesExternalProcessors: false,
-    externalProcessors: "",
-    employeeAccess: "",
-    sharesWithOthers: false,
-    sharedWith: "",
-  });
+  const [involvedPartiesData, setInvolvedPartiesData] =
+    useState<InvolvedPartiesData>({
+      registeredGroups: [],
+      usesExternalProcessors: false,
+      externalProcessors: "",
+      employeeAccess: "",
+      sharesWithOthers: false,
+      sharedWith: "",
+    });
 
-  const [legalBasisData, setLegalBasisData] = useState({
+  const [legalBasisData, setLegalBasisData] = useState<LegalBasisData>({
     legalBasis: "",
     handlesSensitiveData: false,
-    selectedSensitiveDataReason: [] as string[],
+    selectedSensitiveDataReason: [],
     statutoryTasks: "",
   });
 
-  const [riskConcernData, setRiskConcernData] = useState({
+  const [riskConcernData, setRiskConcernData] = useState<RiskConcernData>({
     privacyRisk: 1,
     unauthAccess: 1,
     dataLoss: 1,
@@ -41,30 +130,30 @@ export const useChecklist = () => {
     regulatoryConcern: "",
   });
 
-  const [techData, setTechData] = useState({
+  const [techData, setTechData] = useState<TechData>({
     storage: "",
-    security: [] as string[],
+    security: [],
     integrations: false,
     integrationDetails: "",
     automated: false,
     automatedDescription: "",
   });
 
-  const [handlingData, setHandlingData] = useState({
+  const [handlingData, setHandlingData] = useState<HandlingData>({
     purpose: "",
-    selectedDataTypes: [] as string[],
+    selectedDataTypes: [],
     personCount: 1,
     retentionTime: 0,
-    collectionMethods: [] as string[],
+    collectionMethods: [],
     recipient: "",
     recipientType: "",
     sharingLegalBasis: "",
     shareFrequency: 0,
-    dataTransferMethods: [] as string[],
-    selectedDataSources: [] as string[],
+    dataTransferMethods: [],
+    selectedDataSources: [],
   });
 
-  const createPayload = () => ({
+  const createPayload = (): ChecklistPayload => ({
     selectedOption,
     contextData,
     handlingData,
