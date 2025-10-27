@@ -31,8 +31,8 @@ docker_test_reset:
 	docker compose run --rm backend python manage.py test $(ARG) --parallel
 
 docker_test_coverage:
-	docker compose run --rm backend coverage run --source='.' manage.py test --parallel --keepdb
-	docker compose run --rm backend coverage report
+	docker compose run --rm backend coverage run --source='.' --rcfile=../pyproject.toml manage.py test --keepdb
+	docker compose run --rm backend coverage report --rcfile=../pyproject.toml
 
 docker_up:
 	docker compose up -d
