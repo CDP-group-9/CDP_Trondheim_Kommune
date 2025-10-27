@@ -1,0 +1,894 @@
+{
+  "metadata": {
+    "XML generert": "2024-05-15 22:55:15",
+    "LegacyID": "FOR-2005-04-01-15",
+    "DocumentID": "LTI/forskrift/2005-04-01-15",
+    "Departement": "Utdannings- og forskningsdepartementet",
+    "Publisert i": "I 2005 hefte 4 s 486",
+    "I kraft fra": "Kongen bestemmer.",
+    "Endrer": [
+      "lov/1986-07-11-53",
+      "lov/1995-05-12-22",
+      "lov/1996-06-28-54",
+      "lov/2003-06-20-56"
+    ],
+    "Kunngjort": "2005-04-01",
+    "Korttittel": "Universitetsloven 2005 - univl.",
+    "Tittel": "Lov om universiteter og høyskoler.",
+    "Annet om dokumentet": "Ot.prp.nr.79 (2003-2004), Innst.O.nr.48 (2004-2005) og Besl.O.nr.45 (2004-2005). Odels- og lagtingsvedtak hhv. 28. februar og 17. mars 2005. Fremmet av Utdannings- og forskningsdepartementet.",
+    "Innhold": [
+      "Lov om universiteter og høyskoler.Del I FellesbestemmelserKapittel 1: Lovens formål og virkeområde§ 1-1. Lovens formål§ 1-2. Lovens virkeområde - universiteter og høyskoler§ 1-3. Institusjonenes virksomhet§ 1-4. Særlig ansvar for enkelte institusjoner§ 1-5. Akademisk og kunstnerisk frihet§ 1-6. KvalitetssikringKapittel 2: Nasjonalt organ for kvalitet i utdanningen - NOKUT§ 2-1. NOKUTs oppgaver og myndighet§ 2-2. NOKUTs styreKapittel 3: Faglige bestemmelser - akkreditering§ 3-1. Akkreditering av studietilbud og institusjoner§ 3-2. Grader, yrkesutdanninger og titler§ 3-3. Faglige fullmakter§ 3-4. Godskriving og godkjenning av annen utdanning§ 3-5. Fritak for eksamen eller prøve§ 3-6. Krav for opptak til høyere utdanning§ 3-7. Studentopptak§ 3-8. Undervisning§ 3-9. Eksamen og sensur§ 3-10. Rett til å gå opp til eksamen§ 3-11. VitnemålKapittel 4: Studentenes rettigheter og plikter§ 4-1. Studentorgan§ 4-2. Utdanningsplan§ 4-3. Læringsmiljø§ 4-4. Studentenes representasjon i institusjonens organer§ 4-5. Rett til fødselspermisjon§ 4-6. Studentenes taushetsplikt§ 4-7. Annullering av eksamen eller prøve§ 4-8. Utestenging og bortvisning§ 4-9. Utestenging grunnet straffbare forhold - politiattest§ 4-10. Utestenging etter skikkethetsvurdering§ 4-11. Domstolsprøving av vedtak om bortvisning eller utestengingKapittel 5: Klage§ 5-1. Klagenemnd og særskilte nasjonale klageorgan§ 5-2. Klage over formelle feil ved eksamen§ 5-3. Klage over karakterfastsetting - rett til begrunnelseKapittel 6: Ansettelse§ 6-1. Generelt§ 6-2. Likestilling§ 6-3. Utlysing av og ansettelse i undervisnings- og forskerstillinger§ 6-4. Ansettelse på åremål§ 6-5. Midlertidig ansettelse i undervisnings- og forskerstillinger§ 6-6. Særregler for visse typer bistillinger§ 6-7. Enerett til bruk av visse stillingstitlerKapittel 7: Diverse bestemmelser§ 7-1. Egenbetaling§ 7-2. Beskyttelse av universiteters og høyskolers egennavn§ 7-3. Bevilling som statsautorisert translatør§ 7-4. Ansatte i vitenskapelig samling§ 7-5. Grunnlagsmateriale for almanakker§ 7-6. Forholdet til annen lovgivningDel II Private universiteter og høyskolerKapittel 8: Diverse bestemmelser - private institusjoner§ 8-1. Institusjonens ledelse - styret§ 8-2. Delegasjon§ 8-3. StatstilskuddDel III Statlige universiteter og høyskolerKapittel 9: Styret§ 9-1. Ansvar for institusjonens virksomhet§ 9-2. Styrets oppgaver§ 9-3. Styrets sammensetning§ 9-4. Valg og oppnevning av styret§ 9-5. Plikt til å ta imot og utføre tillitsverv§ 9-6. Styremøter§ 9-7. Vedtaksførhet og flertallskrav§ 9-8. Adgang til å avsette styretKapittel 10: Rektor. Administrerende direktør§ 10-1. Rektor§ 10-2. Valg av rektor§ 10-3. Institusjonens administrerende direktør§ 10-4. Ansettelse av rektor§ 10-5. Rektors fratredenKapittel 11: Ansettelsesforhold§ 11-1. Særskilte ansettelsesbestemmelser for statlige universiteter og høyskoler§ 11-2. Saksbehandlingsregler ved ansettelse§ 11-3. Avskjed, oppsigelse, suspensjon eller ordensstraffKapittel 12: Forskjellige bestemmelser§ 12-1. Forhold utad§ 12-2. Partsforholdet§ 12-3. Eiendomsforvaltning§ 12-4. Samarbeid og deltakelse i andre tiltakDel IV Diverse bestemmelserKapittel 13: Sluttbestemmelser§ 13-1. Ikrafttredelse§ 13-2. Overgangsbestemmelser§ 13-3. Endringer i andre lover§ 13-4. Opphevelse av eldre lover",
+      "Del I FellesbestemmelserKapittel 1: Lovens formål og virkeområde§ 1-1. Lovens formål§ 1-2. Lovens virkeområde - universiteter og høyskoler§ 1-3. Institusjonenes virksomhet§ 1-4. Særlig ansvar for enkelte institusjoner§ 1-5. Akademisk og kunstnerisk frihet§ 1-6. KvalitetssikringKapittel 2: Nasjonalt organ for kvalitet i utdanningen - NOKUT§ 2-1. NOKUTs oppgaver og myndighet§ 2-2. NOKUTs styreKapittel 3: Faglige bestemmelser - akkreditering§ 3-1. Akkreditering av studietilbud og institusjoner§ 3-2. Grader, yrkesutdanninger og titler§ 3-3. Faglige fullmakter§ 3-4. Godskriving og godkjenning av annen utdanning§ 3-5. Fritak for eksamen eller prøve§ 3-6. Krav for opptak til høyere utdanning§ 3-7. Studentopptak§ 3-8. Undervisning§ 3-9. Eksamen og sensur§ 3-10. Rett til å gå opp til eksamen§ 3-11. VitnemålKapittel 4: Studentenes rettigheter og plikter§ 4-1. Studentorgan§ 4-2. Utdanningsplan§ 4-3. Læringsmiljø§ 4-4. Studentenes representasjon i institusjonens organer§ 4-5. Rett til fødselspermisjon§ 4-6. Studentenes taushetsplikt§ 4-7. Annullering av eksamen eller prøve§ 4-8. Utestenging og bortvisning§ 4-9. Utestenging grunnet straffbare forhold - politiattest§ 4-10. Utestenging etter skikkethetsvurdering§ 4-11. Domstolsprøving av vedtak om bortvisning eller utestengingKapittel 5: Klage§ 5-1. Klagenemnd og særskilte nasjonale klageorgan§ 5-2. Klage over formelle feil ved eksamen§ 5-3. Klage over karakterfastsetting - rett til begrunnelseKapittel 6: Ansettelse§ 6-1. Generelt§ 6-2. Likestilling§ 6-3. Utlysing av og ansettelse i undervisnings- og forskerstillinger§ 6-4. Ansettelse på åremål§ 6-5. Midlertidig ansettelse i undervisnings- og forskerstillinger§ 6-6. Særregler for visse typer bistillinger§ 6-7. Enerett til bruk av visse stillingstitlerKapittel 7: Diverse bestemmelser§ 7-1. Egenbetaling§ 7-2. Beskyttelse av universiteters og høyskolers egennavn§ 7-3. Bevilling som statsautorisert translatør§ 7-4. Ansatte i vitenskapelig samling§ 7-5. Grunnlagsmateriale for almanakker§ 7-6. Forholdet til annen lovgivning",
+      "Kapittel 1: Lovens formål og virkeområde§ 1-1. Lovens formål§ 1-2. Lovens virkeområde - universiteter og høyskoler§ 1-3. Institusjonenes virksomhet§ 1-4. Særlig ansvar for enkelte institusjoner§ 1-5. Akademisk og kunstnerisk frihet§ 1-6. Kvalitetssikring",
+      "§ 1-1. Lovens formål",
+      "§ 1-2. Lovens virkeområde - universiteter og høyskoler",
+      "§ 1-3. Institusjonenes virksomhet",
+      "§ 1-4. Særlig ansvar for enkelte institusjoner",
+      "§ 1-5. Akademisk og kunstnerisk frihet",
+      "§ 1-6. Kvalitetssikring",
+      "Kapittel 2: Nasjonalt organ for kvalitet i utdanningen - NOKUT§ 2-1. NOKUTs oppgaver og myndighet§ 2-2. NOKUTs styre",
+      "§ 2-1. NOKUTs oppgaver og myndighet",
+      "§ 2-2. NOKUTs styre",
+      "Kapittel 3: Faglige bestemmelser - akkreditering§ 3-1. Akkreditering av studietilbud og institusjoner§ 3-2. Grader, yrkesutdanninger og titler§ 3-3. Faglige fullmakter§ 3-4. Godskriving og godkjenning av annen utdanning§ 3-5. Fritak for eksamen eller prøve§ 3-6. Krav for opptak til høyere utdanning§ 3-7. Studentopptak§ 3-8. Undervisning§ 3-9. Eksamen og sensur§ 3-10. Rett til å gå opp til eksamen§ 3-11. Vitnemål",
+      "§ 3-1. Akkreditering av studietilbud og institusjoner",
+      "§ 3-2. Grader, yrkesutdanninger og titler",
+      "§ 3-3. Faglige fullmakter",
+      "§ 3-4. Godskriving og godkjenning av annen utdanning",
+      "§ 3-5. Fritak for eksamen eller prøve",
+      "§ 3-6. Krav for opptak til høyere utdanning",
+      "§ 3-7. Studentopptak",
+      "§ 3-8. Undervisning",
+      "§ 3-9. Eksamen og sensur",
+      "§ 3-10. Rett til å gå opp til eksamen",
+      "§ 3-11. Vitnemål",
+      "Kapittel 4: Studentenes rettigheter og plikter§ 4-1. Studentorgan§ 4-2. Utdanningsplan§ 4-3. Læringsmiljø§ 4-4. Studentenes representasjon i institusjonens organer§ 4-5. Rett til fødselspermisjon§ 4-6. Studentenes taushetsplikt§ 4-7. Annullering av eksamen eller prøve§ 4-8. Utestenging og bortvisning§ 4-9. Utestenging grunnet straffbare forhold - politiattest§ 4-10. Utestenging etter skikkethetsvurdering§ 4-11. Domstolsprøving av vedtak om bortvisning eller utestenging",
+      "§ 4-1. Studentorgan",
+      "§ 4-2. Utdanningsplan",
+      "§ 4-3. Læringsmiljø",
+      "§ 4-4. Studentenes representasjon i institusjonens organer",
+      "§ 4-5. Rett til fødselspermisjon",
+      "§ 4-6. Studentenes taushetsplikt",
+      "§ 4-7. Annullering av eksamen eller prøve",
+      "§ 4-8. Utestenging og bortvisning",
+      "§ 4-9. Utestenging grunnet straffbare forhold - politiattest",
+      "§ 4-10. Utestenging etter skikkethetsvurdering",
+      "§ 4-11. Domstolsprøving av vedtak om bortvisning eller utestenging",
+      "Kapittel 5: Klage§ 5-1. Klagenemnd og særskilte nasjonale klageorgan§ 5-2. Klage over formelle feil ved eksamen§ 5-3. Klage over karakterfastsetting - rett til begrunnelse",
+      "§ 5-1. Klagenemnd og særskilte nasjonale klageorgan",
+      "§ 5-2. Klage over formelle feil ved eksamen",
+      "§ 5-3. Klage over karakterfastsetting - rett til begrunnelse",
+      "Kapittel 6: Ansettelse§ 6-1. Generelt§ 6-2. Likestilling§ 6-3. Utlysing av og ansettelse i undervisnings- og forskerstillinger§ 6-4. Ansettelse på åremål§ 6-5. Midlertidig ansettelse i undervisnings- og forskerstillinger§ 6-6. Særregler for visse typer bistillinger§ 6-7. Enerett til bruk av visse stillingstitler",
+      "§ 6-1. Generelt",
+      "§ 6-2. Likestilling",
+      "§ 6-3. Utlysing av og ansettelse i undervisnings- og forskerstillinger",
+      "§ 6-4. Ansettelse på åremål",
+      "§ 6-5. Midlertidig ansettelse i undervisnings- og forskerstillinger",
+      "§ 6-6. Særregler for visse typer bistillinger",
+      "§ 6-7. Enerett til bruk av visse stillingstitler",
+      "Kapittel 7: Diverse bestemmelser§ 7-1. Egenbetaling§ 7-2. Beskyttelse av universiteters og høyskolers egennavn§ 7-3. Bevilling som statsautorisert translatør§ 7-4. Ansatte i vitenskapelig samling§ 7-5. Grunnlagsmateriale for almanakker§ 7-6. Forholdet til annen lovgivning",
+      "§ 7-1. Egenbetaling",
+      "§ 7-2. Beskyttelse av universiteters og høyskolers egennavn",
+      "§ 7-3. Bevilling som statsautorisert translatør",
+      "§ 7-4. Ansatte i vitenskapelig samling",
+      "§ 7-5. Grunnlagsmateriale for almanakker",
+      "§ 7-6. Forholdet til annen lovgivning",
+      "Del II Private universiteter og høyskolerKapittel 8: Diverse bestemmelser - private institusjoner§ 8-1. Institusjonens ledelse - styret§ 8-2. Delegasjon§ 8-3. Statstilskudd",
+      "Kapittel 8: Diverse bestemmelser - private institusjoner§ 8-1. Institusjonens ledelse - styret§ 8-2. Delegasjon§ 8-3. Statstilskudd",
+      "§ 8-1. Institusjonens ledelse - styret",
+      "§ 8-2. Delegasjon",
+      "§ 8-3. Statstilskudd",
+      "Del III Statlige universiteter og høyskolerKapittel 9: Styret§ 9-1. Ansvar for institusjonens virksomhet§ 9-2. Styrets oppgaver§ 9-3. Styrets sammensetning§ 9-4. Valg og oppnevning av styret§ 9-5. Plikt til å ta imot og utføre tillitsverv§ 9-6. Styremøter§ 9-7. Vedtaksførhet og flertallskrav§ 9-8. Adgang til å avsette styretKapittel 10: Rektor. Administrerende direktør§ 10-1. Rektor§ 10-2. Valg av rektor§ 10-3. Institusjonens administrerende direktør§ 10-4. Ansettelse av rektor§ 10-5. Rektors fratredenKapittel 11: Ansettelsesforhold§ 11-1. Særskilte ansettelsesbestemmelser for statlige universiteter og høyskoler§ 11-2. Saksbehandlingsregler ved ansettelse§ 11-3. Avskjed, oppsigelse, suspensjon eller ordensstraffKapittel 12: Forskjellige bestemmelser§ 12-1. Forhold utad§ 12-2. Partsforholdet§ 12-3. Eiendomsforvaltning§ 12-4. Samarbeid og deltakelse i andre tiltak",
+      "Kapittel 9: Styret§ 9-1. Ansvar for institusjonens virksomhet§ 9-2. Styrets oppgaver§ 9-3. Styrets sammensetning§ 9-4. Valg og oppnevning av styret§ 9-5. Plikt til å ta imot og utføre tillitsverv§ 9-6. Styremøter§ 9-7. Vedtaksførhet og flertallskrav§ 9-8. Adgang til å avsette styret",
+      "§ 9-1. Ansvar for institusjonens virksomhet",
+      "§ 9-2. Styrets oppgaver",
+      "§ 9-3. Styrets sammensetning",
+      "§ 9-4. Valg og oppnevning av styret",
+      "§ 9-5. Plikt til å ta imot og utføre tillitsverv",
+      "§ 9-6. Styremøter",
+      "§ 9-7. Vedtaksførhet og flertallskrav",
+      "§ 9-8. Adgang til å avsette styret",
+      "Kapittel 10: Rektor. Administrerende direktør§ 10-1. Rektor§ 10-2. Valg av rektor§ 10-3. Institusjonens administrerende direktør§ 10-4. Ansettelse av rektor§ 10-5. Rektors fratreden",
+      "§ 10-1. Rektor",
+      "§ 10-2. Valg av rektor",
+      "§ 10-3. Institusjonens administrerende direktør",
+      "§ 10-4. Ansettelse av rektor",
+      "§ 10-5. Rektors fratreden",
+      "Kapittel 11: Ansettelsesforhold§ 11-1. Særskilte ansettelsesbestemmelser for statlige universiteter og høyskoler§ 11-2. Saksbehandlingsregler ved ansettelse§ 11-3. Avskjed, oppsigelse, suspensjon eller ordensstraff",
+      "§ 11-1. Særskilte ansettelsesbestemmelser for statlige universiteter og høyskoler",
+      "§ 11-2. Saksbehandlingsregler ved ansettelse",
+      "§ 11-3. Avskjed, oppsigelse, suspensjon eller ordensstraff",
+      "Kapittel 12: Forskjellige bestemmelser§ 12-1. Forhold utad§ 12-2. Partsforholdet§ 12-3. Eiendomsforvaltning§ 12-4. Samarbeid og deltakelse i andre tiltak",
+      "§ 12-1. Forhold utad",
+      "§ 12-2. Partsforholdet",
+      "§ 12-3. Eiendomsforvaltning",
+      "§ 12-4. Samarbeid og deltakelse i andre tiltak",
+      "Del IV Diverse bestemmelserKapittel 13: Sluttbestemmelser§ 13-1. Ikrafttredelse§ 13-2. Overgangsbestemmelser§ 13-3. Endringer i andre lover§ 13-4. Opphevelse av eldre lover",
+      "Kapittel 13: Sluttbestemmelser§ 13-1. Ikrafttredelse§ 13-2. Overgangsbestemmelser§ 13-3. Endringer i andre lover§ 13-4. Opphevelse av eldre lover",
+      "§ 13-1. Ikrafttredelse",
+      "§ 13-2. Overgangsbestemmelser",
+      "§ 13-3. Endringer i andre lover",
+      "§ 13-4. Opphevelse av eldre lover"
+    ]
+  },
+  "table_of_contents": [
+    {
+      "title": "Lov om universiteter og høyskoler.",
+      "subsections": [
+        {
+          "title": "Del I Fellesbestemmelser",
+          "subsections": [
+            {
+              "title": "Kapittel 1: Lovens formål og virkeområde",
+              "subsections": [
+                {
+                  "title": "§ 1-1. Lovens formål"
+                },
+                {
+                  "title": "§ 1-2. Lovens virkeområde - universiteter og høyskoler"
+                },
+                {
+                  "title": "§ 1-3. Institusjonenes virksomhet"
+                },
+                {
+                  "title": "§ 1-4. Særlig ansvar for enkelte institusjoner"
+                },
+                {
+                  "title": "§ 1-5. Akademisk og kunstnerisk frihet"
+                },
+                {
+                  "title": "§ 1-6. Kvalitetssikring"
+                }
+              ]
+            },
+            {
+              "title": "Kapittel 2: Nasjonalt organ for kvalitet i utdanningen - NOKUT",
+              "subsections": [
+                {
+                  "title": "§ 2-1. NOKUTs oppgaver og myndighet"
+                },
+                {
+                  "title": "§ 2-2. NOKUTs styre"
+                }
+              ]
+            },
+            {
+              "title": "Kapittel 3: Faglige bestemmelser - akkreditering",
+              "subsections": [
+                {
+                  "title": "§ 3-1. Akkreditering av studietilbud og institusjoner"
+                },
+                {
+                  "title": "§ 3-2. Grader, yrkesutdanninger og titler"
+                },
+                {
+                  "title": "§ 3-3. Faglige fullmakter"
+                },
+                {
+                  "title": "§ 3-4. Godskriving og godkjenning av annen utdanning"
+                },
+                {
+                  "title": "§ 3-5. Fritak for eksamen eller prøve"
+                },
+                {
+                  "title": "§ 3-6. Krav for opptak til høyere utdanning"
+                },
+                {
+                  "title": "§ 3-7. Studentopptak"
+                },
+                {
+                  "title": "§ 3-8. Undervisning"
+                },
+                {
+                  "title": "§ 3-9. Eksamen og sensur"
+                },
+                {
+                  "title": "§ 3-10. Rett til å gå opp til eksamen"
+                },
+                {
+                  "title": "§ 3-11. Vitnemål"
+                }
+              ]
+            },
+            {
+              "title": "Kapittel 4: Studentenes rettigheter og plikter",
+              "subsections": [
+                {
+                  "title": "§ 4-1. Studentorgan"
+                },
+                {
+                  "title": "§ 4-2. Utdanningsplan"
+                },
+                {
+                  "title": "§ 4-3. Læringsmiljø"
+                },
+                {
+                  "title": "§ 4-4. Studentenes representasjon i institusjonens organer"
+                },
+                {
+                  "title": "§ 4-5. Rett til fødselspermisjon"
+                },
+                {
+                  "title": "§ 4-6. Studentenes taushetsplikt"
+                },
+                {
+                  "title": "§ 4-7. Annullering av eksamen eller prøve"
+                },
+                {
+                  "title": "§ 4-8. Utestenging og bortvisning"
+                },
+                {
+                  "title": "§ 4-9. Utestenging grunnet straffbare forhold - politiattest"
+                },
+                {
+                  "title": "§ 4-10. Utestenging etter skikkethetsvurdering"
+                },
+                {
+                  "title": "§ 4-11. Domstolsprøving av vedtak om bortvisning eller utestenging"
+                }
+              ]
+            },
+            {
+              "title": "Kapittel 5: Klage",
+              "subsections": [
+                {
+                  "title": "§ 5-1. Klagenemnd og særskilte nasjonale klageorgan"
+                },
+                {
+                  "title": "§ 5-2. Klage over formelle feil ved eksamen"
+                },
+                {
+                  "title": "§ 5-3. Klage over karakterfastsetting - rett til begrunnelse"
+                }
+              ]
+            },
+            {
+              "title": "Kapittel 6: Ansettelse",
+              "subsections": [
+                {
+                  "title": "§ 6-1. Generelt"
+                },
+                {
+                  "title": "§ 6-2. Likestilling"
+                },
+                {
+                  "title": "§ 6-3. Utlysing av og ansettelse i undervisnings- og forskerstillinger"
+                },
+                {
+                  "title": "§ 6-4. Ansettelse på åremål"
+                },
+                {
+                  "title": "§ 6-5. Midlertidig ansettelse i undervisnings- og forskerstillinger"
+                },
+                {
+                  "title": "§ 6-6. Særregler for visse typer bistillinger"
+                },
+                {
+                  "title": "§ 6-7. Enerett til bruk av visse stillingstitler"
+                }
+              ]
+            },
+            {
+              "title": "Kapittel 7: Diverse bestemmelser",
+              "subsections": [
+                {
+                  "title": "§ 7-1. Egenbetaling"
+                },
+                {
+                  "title": "§ 7-2. Beskyttelse av universiteters og høyskolers egennavn"
+                },
+                {
+                  "title": "§ 7-3. Bevilling som statsautorisert translatør"
+                },
+                {
+                  "title": "§ 7-4. Ansatte i vitenskapelig samling"
+                },
+                {
+                  "title": "§ 7-5. Grunnlagsmateriale for almanakker"
+                },
+                {
+                  "title": "§ 7-6. Forholdet til annen lovgivning"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Del II Private universiteter og høyskoler",
+          "subsections": [
+            {
+              "title": "Kapittel 8: Diverse bestemmelser - private institusjoner",
+              "subsections": [
+                {
+                  "title": "§ 8-1. Institusjonens ledelse - styret"
+                },
+                {
+                  "title": "§ 8-2. Delegasjon"
+                },
+                {
+                  "title": "§ 8-3. Statstilskudd"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Del III Statlige universiteter og høyskoler",
+          "subsections": [
+            {
+              "title": "Kapittel 9: Styret",
+              "subsections": [
+                {
+                  "title": "§ 9-1. Ansvar for institusjonens virksomhet"
+                },
+                {
+                  "title": "§ 9-2. Styrets oppgaver"
+                },
+                {
+                  "title": "§ 9-3. Styrets sammensetning"
+                },
+                {
+                  "title": "§ 9-4. Valg og oppnevning av styret"
+                },
+                {
+                  "title": "§ 9-5. Plikt til å ta imot og utføre tillitsverv"
+                },
+                {
+                  "title": "§ 9-6. Styremøter"
+                },
+                {
+                  "title": "§ 9-7. Vedtaksførhet og flertallskrav"
+                },
+                {
+                  "title": "§ 9-8. Adgang til å avsette styret"
+                }
+              ]
+            },
+            {
+              "title": "Kapittel 10: Rektor. Administrerende direktør",
+              "subsections": [
+                {
+                  "title": "§ 10-1. Rektor"
+                },
+                {
+                  "title": "§ 10-2. Valg av rektor"
+                },
+                {
+                  "title": "§ 10-3. Institusjonens administrerende direktør"
+                },
+                {
+                  "title": "§ 10-4. Ansettelse av rektor"
+                },
+                {
+                  "title": "§ 10-5. Rektors fratreden"
+                }
+              ]
+            },
+            {
+              "title": "Kapittel 11: Ansettelsesforhold",
+              "subsections": [
+                {
+                  "title": "§ 11-1. Særskilte ansettelsesbestemmelser for statlige universiteter og høyskoler"
+                },
+                {
+                  "title": "§ 11-2. Saksbehandlingsregler ved ansettelse"
+                },
+                {
+                  "title": "§ 11-3. Avskjed, oppsigelse, suspensjon eller ordensstraff"
+                }
+              ]
+            },
+            {
+              "title": "Kapittel 12: Forskjellige bestemmelser",
+              "subsections": [
+                {
+                  "title": "§ 12-1. Forhold utad"
+                },
+                {
+                  "title": "§ 12-2. Partsforholdet"
+                },
+                {
+                  "title": "§ 12-3. Eiendomsforvaltning"
+                },
+                {
+                  "title": "§ 12-4. Samarbeid og deltakelse i andre tiltak"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Del IV Diverse bestemmelser",
+          "subsections": [
+            {
+              "title": "Kapittel 13: Sluttbestemmelser",
+              "subsections": [
+                {
+                  "title": "§ 13-1. Ikrafttredelse"
+                },
+                {
+                  "title": "§ 13-2. Overgangsbestemmelser"
+                },
+                {
+                  "title": "§ 13-3. Endringer i andre lover"
+                },
+                {
+                  "title": "§ 13-4. Opphevelse av eldre lover"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "articles": [
+    {
+      "title": "§1-1",
+      "url": "LTI/forskrift/2005-04-01-15/§1-1",
+      "paragraphs": [
+        "Denne lov har som formål å legge til rette for at universiteter og høyskolera)tilbyr høyere utdanning på høyt internasjonalt nivå.b)utfører forskning og faglig og kunstnerisk utviklingsarbeid på høyt internasjonalt nivå.c)formidler kunnskap om virksomheten og utbrer forståelse for og anvendelse av vitenskapelige og kunstneriske metoder og resultater, både i offentlig forvaltning, kulturliv og næringsliv.",
+        "tilbyr høyere utdanning på høyt internasjonalt nivå.",
+        "utfører forskning og faglig og kunstnerisk utviklingsarbeid på høyt internasjonalt nivå.",
+        "formidler kunnskap om virksomheten og utbrer forståelse for og anvendelse av vitenskapelige og kunstneriske metoder og resultater, både i offentlig forvaltning, kulturliv og næringsliv."
+      ]
+    },
+    {
+      "title": "§1-2",
+      "url": "LTI/forskrift/2005-04-01-15/§1-2",
+      "paragraphs": [
+        "universitet,",
+        "vitenskapelig høyskole eller",
+        "høyskole."
+      ]
+    },
+    {
+      "title": "§1-3",
+      "url": "LTI/forskrift/2005-04-01-15/§1-3",
+      "paragraphs": [
+        "Universiteter og høyskoler skal arbeide for å fremme lovens formål ved å:a)tilby høyere utdanning som er basert på det fremste innen forskning, faglig og kunstnerisk utviklingsarbeid og erfaringskunnskap.b)utføre forskning og faglig og kunstnerisk utviklingsarbeid.c)forvalte tilførte ressurser effektivt og aktivt søke tilføring av eksterne ressurser.d)bidra til å spre og formidle resultater fra forskning og faglig og kunstnerisk utviklingsarbeid.e)bidra til innovasjon og verdiskapning basert på resultater fra forskning og faglig og kunstnerisk utviklingsarbeid.f)legge til rette for at institusjonens ansatte og studenter kan delta i samfunnsdebatten.g)bidra til at norsk høyere utdanning og forskning følger den internasjonale forskningsfronten og utviklingen av høyere utdanningstilbud.h)samarbeide med andre universiteter og høyskoler og tilsvarende institusjoner i andre land, lokalt og regionalt samfunns- og arbeidsliv, offentlig forvaltning og internasjonale organisasjoner.i)tilby etter- og videreutdanning innenfor institusjonens virkeområde.",
+        "tilby høyere utdanning som er basert på det fremste innen forskning, faglig og kunstnerisk utviklingsarbeid og erfaringskunnskap.",
+        "utføre forskning og faglig og kunstnerisk utviklingsarbeid.",
+        "forvalte tilførte ressurser effektivt og aktivt søke tilføring av eksterne ressurser.",
+        "bidra til å spre og formidle resultater fra forskning og faglig og kunstnerisk utviklingsarbeid.",
+        "bidra til innovasjon og verdiskapning basert på resultater fra forskning og faglig og kunstnerisk utviklingsarbeid.",
+        "legge til rette for at institusjonens ansatte og studenter kan delta i samfunnsdebatten.",
+        "bidra til at norsk høyere utdanning og forskning følger den internasjonale forskningsfronten og utviklingen av høyere utdanningstilbud.",
+        "samarbeide med andre universiteter og høyskoler og tilsvarende institusjoner i andre land, lokalt og regionalt samfunns- og arbeidsliv, offentlig forvaltning og internasjonale organisasjoner.",
+        "tilby etter- og videreutdanning innenfor institusjonens virkeområde."
+      ]
+    },
+    {
+      "title": "§1-4",
+      "url": "LTI/forskrift/2005-04-01-15/§1-4",
+      "paragraphs": []
+    },
+    {
+      "title": "§1-5",
+      "url": "LTI/forskrift/2005-04-01-15/§1-5",
+      "paragraphs": [
+        "læreinnholdet i undervisningen og innholdet i forskningen eller i det kunstneriske og faglige utviklingsarbeidet.",
+        "individuelle ansettelser eller utnevnelser."
+      ]
+    },
+    {
+      "title": "§1-6",
+      "url": "LTI/forskrift/2005-04-01-15/§1-6",
+      "paragraphs": []
+    },
+    {
+      "title": "§2-1",
+      "url": "LTI/forskrift/2005-04-01-15/§2-1",
+      "paragraphs": [
+        "Evaluering av institusjonenes system for kvalitetssikring.",
+        "Akkreditering av institusjoner.",
+        "Akkreditering av studietilbud.",
+        "Revidering av akkreditering som allerede er gitt.",
+        "Evalueringer av betydning for å kunne bedømme kvaliteten i høyere utdanning. Departementet kan pålegge organet å foreta slike evalueringer.",
+        "Generell godkjenning av utdanning fra institusjoner som ikke går inn under denne lov."
+      ]
+    },
+    {
+      "title": "§2-2",
+      "url": "LTI/forskrift/2005-04-01-15/§2-2",
+      "paragraphs": []
+    },
+    {
+      "title": "§3-1",
+      "url": "LTI/forskrift/2005-04-01-15/§3-1",
+      "paragraphs": []
+    },
+    {
+      "title": "§3-2",
+      "url": "LTI/forskrift/2005-04-01-15/§3-2",
+      "paragraphs": []
+    },
+    {
+      "title": "§3-3",
+      "url": "LTI/forskrift/2005-04-01-15/§3-3",
+      "paragraphs": []
+    },
+    {
+      "title": "§3-4",
+      "url": "LTI/forskrift/2005-04-01-15/§3-4",
+      "paragraphs": []
+    },
+    {
+      "title": "§3-5",
+      "url": "LTI/forskrift/2005-04-01-15/§3-5",
+      "paragraphs": [
+        "Fritak for eksamen eller prøve skal gis når det godtgjøres at tilsvarende eksamen eller prøve er avlagt ved samme eller annen institusjon. Det kan også gis slikt fritak på grunnlag av annen velegnet eksamen eller prøve. Dokumentasjon av realkompetanse kan også gi grunnlag for fritak. Departementet kan pålegge institusjonene å samordne praksis. Styret bestemmer om vedkommende avdeling eller særskilt organ ved institusjonen skal avgjøre saker om fritak."
+      ]
+    },
+    {
+      "title": "§3-6",
+      "url": "LTI/forskrift/2005-04-01-15/§3-6",
+      "paragraphs": []
+    },
+    {
+      "title": "§3-7",
+      "url": "LTI/forskrift/2005-04-01-15/§3-7",
+      "paragraphs": [
+        "at studentene har fått tilfredsstillende informasjon om de studier vedkommende er opptatt til, herunder om studiets oppbygging, hvilken tid studiet er normert til og hvilke faglige krav som stilles.",
+        "at studenten har fått tilfredsstillende informasjon om lærestedet, herunder om institusjonens ulike tilbud til studenter.",
+        "å være informert om på hvilken måte studenten er rekruttert og på hvilke betingelser tjenesten er tilbudt studenten."
+      ]
+    },
+    {
+      "title": "§3-8",
+      "url": "LTI/forskrift/2005-04-01-15/§3-8",
+      "paragraphs": []
+    },
+    {
+      "title": "§3-9",
+      "url": "LTI/forskrift/2005-04-01-15/§3-9",
+      "paragraphs": []
+    },
+    {
+      "title": "§3-10",
+      "url": "LTI/forskrift/2005-04-01-15/§3-10",
+      "paragraphs": []
+    },
+    {
+      "title": "§3-11",
+      "url": "LTI/forskrift/2005-04-01-15/§3-11",
+      "paragraphs": []
+    },
+    {
+      "title": "§4-1",
+      "url": "LTI/forskrift/2005-04-01-15/§4-1",
+      "paragraphs": []
+    },
+    {
+      "title": "§4-2",
+      "url": "LTI/forskrift/2005-04-01-15/§4-2",
+      "paragraphs": [
+        "Mellom institusjonen og studenter som tas opp til studier av 60 studiepoengs omfang eller mer, skal det utarbeides en utdanningsplan. Utdanningsplanen skal inneholde bestemmelser om institusjonens ansvar og forpliktelser overfor studenten, og studentens forpliktelser overfor institusjonen og medstudenter. Departementet kan gi forskrift om innhold i utdanningsplan."
+      ]
+    },
+    {
+      "title": "§4-3",
+      "url": "LTI/forskrift/2005-04-01-15/§4-3",
+      "paragraphs": [
+        "at lokaler, adkomstveier, trapper mv. er dimensjonert og innredet for den virksomhet som drives.",
+        "at lokalene har gode lys- og lydforhold og forsvarlig inneklima og luftkvalitet.",
+        "at lokalene blir vedlikeholdt og er rene og ryddige.",
+        "at lokalene er innredet slik at uheldige fysiske belastninger for studentene unngås.",
+        "at virksomheten er planlagt slik at skader og ulykker forebygges.",
+        "at tekniske innretninger og utstyr er forsynt med verneinnretninger og blir vedlikeholdt slik at studentene er vernet mot skader på liv og helse.",
+        "at lokaler, adkomstveier, sanitæranlegg og tekniske innretninger er utformet på en slik måte at funksjonshemmede kan studere ved institusjonen.",
+        "at læringsmiljøet er innrettet for studenter av begge kjønn.",
+        "at læringsmiljøet er utformet etter prinsippet om universell utforming."
+      ]
+    },
+    {
+      "title": "§4-4",
+      "url": "LTI/forskrift/2005-04-01-15/§4-4",
+      "paragraphs": []
+    },
+    {
+      "title": "§4-5",
+      "url": "LTI/forskrift/2005-04-01-15/§4-5",
+      "paragraphs": []
+    },
+    {
+      "title": "§4-6",
+      "url": "LTI/forskrift/2005-04-01-15/§4-6",
+      "paragraphs": [
+        "En student som i studiesammenheng får kjennskap til noens personlige forhold, har taushetsplikt etter de regler som gjelder for yrkesutøvere på vedkommende livsområde. Institusjonen skal utarbeide taushetsplikterklæring som må underskrives av de studenter dette er aktuelt for."
+      ]
+    },
+    {
+      "title": "§4-7",
+      "url": "LTI/forskrift/2005-04-01-15/§4-7",
+      "paragraphs": [
+        "ved hjelp av falskt vitnemål eller annen form for uredelig opptreden har skaffet seg adgang til å gå opp til vedkommende eksamen eller prøve, eller til å delta i vedkommende kurs, eller",
+        "har forsøkt å fuske eller forsettlig eller grovt uaktsomt har fusket ved avleggelsen av, eller forut for endelig sensur av, vedkommende eksamen eller prøve, eller under gjennomføringen av vedkommende kurs."
+      ]
+    },
+    {
+      "title": "§4-8",
+      "url": "LTI/forskrift/2005-04-01-15/§4-8",
+      "paragraphs": []
+    },
+    {
+      "title": "§4-9",
+      "url": "LTI/forskrift/2005-04-01-15/§4-9",
+      "paragraphs": []
+    },
+    {
+      "title": "§4-10",
+      "url": "LTI/forskrift/2005-04-01-15/§4-10",
+      "paragraphs": []
+    },
+    {
+      "title": "§4-11",
+      "url": "LTI/forskrift/2005-04-01-15/§4-11",
+      "paragraphs": []
+    },
+    {
+      "title": "§5-1",
+      "url": "LTI/forskrift/2005-04-01-15/§5-1",
+      "paragraphs": []
+    },
+    {
+      "title": "§5-2",
+      "url": "LTI/forskrift/2005-04-01-15/§5-2",
+      "paragraphs": []
+    },
+    {
+      "title": "§5-3",
+      "url": "LTI/forskrift/2005-04-01-15/§5-3",
+      "paragraphs": []
+    },
+    {
+      "title": "§6-1",
+      "url": "LTI/forskrift/2005-04-01-15/§6-1",
+      "paragraphs": [
+        "Ved ansettelser m.m. ved institusjoner under denne lov gjelder de alminnelige regler i lov 4. februar 1977 nr. 4 om arbeidervern og arbeidsmiljø og lov 4. mars 1983 nr. 3 om statstjenestemenn m.m., med de særregler som følger av denne lov."
+      ]
+    },
+    {
+      "title": "§6-2",
+      "url": "LTI/forskrift/2005-04-01-15/§6-2",
+      "paragraphs": [
+        "Universiteter og høyskoler skal arbeide aktivt, målrettet og planmessig for likestilling mellom kjønnene for samtlige kategorier av stillinger ved institusjonen."
+      ]
+    },
+    {
+      "title": "§6-3",
+      "url": "LTI/forskrift/2005-04-01-15/§6-3",
+      "paragraphs": []
+    },
+    {
+      "title": "§6-4",
+      "url": "LTI/forskrift/2005-04-01-15/§6-4",
+      "paragraphs": [
+        "rektor",
+        "administrerende direktør",
+        "prorektor",
+        "leder for avdeling og grunnenhet",
+        "undervisnings- og forskerstillinger når vedkommende skal delta i prosjekt",
+        "postdoktorstillinger",
+        "stipendiater",
+        "vitenskapelige assistenter",
+        "spesialistkandidater",
+        "undervisnings- og forskerstillinger når skapende eller utøvende kunstnerisk kompetanse inngår som et vesentlig element i kompetansekravet"
+      ]
+    },
+    {
+      "title": "§6-5",
+      "url": "LTI/forskrift/2005-04-01-15/§6-5",
+      "paragraphs": [
+        "muligheten for tidsbegrenset ansettelse er nevnt i kunngjøringen, og",
+        "vedkommende, etter ansettelsesmyndighetens vurdering, har forutsetninger for å skaffe seg de nødvendige kvalifikasjoner i løpet av ansettelsesperioden."
+      ]
+    },
+    {
+      "title": "§6-6",
+      "url": "LTI/forskrift/2005-04-01-15/§6-6",
+      "paragraphs": [
+        "Det kan nyttes midlertidig ansettelse i inntil 20 prosent av undervisnings- og forskerstilling. Departementet kan gi forskrift om varighet og vilkår for fratredelse."
+      ]
+    },
+    {
+      "title": "§6-7",
+      "url": "LTI/forskrift/2005-04-01-15/§6-7",
+      "paragraphs": []
+    },
+    {
+      "title": "§7-1",
+      "url": "LTI/forskrift/2005-04-01-15/§7-1",
+      "paragraphs": []
+    },
+    {
+      "title": "§7-2",
+      "url": "LTI/forskrift/2005-04-01-15/§7-2",
+      "paragraphs": []
+    },
+    {
+      "title": "§7-3",
+      "url": "LTI/forskrift/2005-04-01-15/§7-3",
+      "paragraphs": []
+    },
+    {
+      "title": "§7-4",
+      "url": "LTI/forskrift/2005-04-01-15/§7-4",
+      "paragraphs": [
+        "Den som er ansatt ved vitenskapelig samling må ikke uten samtykke fra styret holde egne samlinger av samme eller lignende art, eller for egen regning drive handel eller bytte med saker som hører til slik samling."
+      ]
+    },
+    {
+      "title": "§7-5",
+      "url": "LTI/forskrift/2005-04-01-15/§7-5",
+      "paragraphs": [
+        "Universitetet i Oslo skal utarbeide det astronomiske grunnlagsmateriale som trengs for utgivelse av almanakker og kalendere i Norge."
+      ]
+    },
+    {
+      "title": "§7-6",
+      "url": "LTI/forskrift/2005-04-01-15/§7-6",
+      "paragraphs": []
+    },
+    {
+      "title": "§8-1",
+      "url": "LTI/forskrift/2005-04-01-15/§8-1",
+      "paragraphs": []
+    },
+    {
+      "title": "§8-2",
+      "url": "LTI/forskrift/2005-04-01-15/§8-2",
+      "paragraphs": []
+    },
+    {
+      "title": "§8-3",
+      "url": "LTI/forskrift/2005-04-01-15/§8-3",
+      "paragraphs": []
+    },
+    {
+      "title": "§9-1",
+      "url": "LTI/forskrift/2005-04-01-15/§9-1",
+      "paragraphs": []
+    },
+    {
+      "title": "§9-2",
+      "url": "LTI/forskrift/2005-04-01-15/§9-2",
+      "paragraphs": []
+    },
+    {
+      "title": "§9-3",
+      "url": "LTI/forskrift/2005-04-01-15/§9-3",
+      "paragraphs": []
+    },
+    {
+      "title": "§9-4",
+      "url": "LTI/forskrift/2005-04-01-15/§9-4",
+      "paragraphs": []
+    },
+    {
+      "title": "§9-5",
+      "url": "LTI/forskrift/2005-04-01-15/§9-5",
+      "paragraphs": []
+    },
+    {
+      "title": "§9-6",
+      "url": "LTI/forskrift/2005-04-01-15/§9-6",
+      "paragraphs": []
+    },
+    {
+      "title": "§9-7",
+      "url": "LTI/forskrift/2005-04-01-15/§9-7",
+      "paragraphs": []
+    },
+    {
+      "title": "§9-8",
+      "url": "LTI/forskrift/2005-04-01-15/§9-8",
+      "paragraphs": [
+        "Hvis styret ved sine disposisjoner bringer institusjonens videre virksomhet i fare, kan Kongen i statsråd avsette styret og oppnevne et midlertidig styre inntil nytt styre er valgt og oppnevnt."
+      ]
+    },
+    {
+      "title": "§10-1",
+      "url": "LTI/forskrift/2005-04-01-15/§10-1",
+      "paragraphs": [
+        "Med mindre styret har truffet vedtak i medhold av § 10-4, gjelder følgende regler om rektor:a)Rektor er styrets leder. Rektor har på styrets vegne det overordnede ansvar for og ledelse av institusjonens virksomhet og fører tilsyn med denne. Rektor, og i dennes sted, prorektor, har rett til å delta i møter i alle institusjonenes styrer og utvalg.b)Rektor avgjør saker i det omfang disse ikke kan utsettes til styret kan komme sammen i møte. Rektor kan også gis fullmakt til å avgjøre løpende saker som bør avgjøres før neste ordinære styremøte, og som ikke anses som viktige nok til at ekstraordinært møte innkalles. I sak om avskjed eller suspensjon kan rektor bare beslutte kortvarig suspensjon i tjenesten, i påvente av styrets behandling.",
+        "Rektor er styrets leder. Rektor har på styrets vegne det overordnede ansvar for og ledelse av institusjonens virksomhet og fører tilsyn med denne. Rektor, og i dennes sted, prorektor, har rett til å delta i møter i alle institusjonenes styrer og utvalg.",
+        "Rektor avgjør saker i det omfang disse ikke kan utsettes til styret kan komme sammen i møte. Rektor kan også gis fullmakt til å avgjøre løpende saker som bør avgjøres før neste ordinære styremøte, og som ikke anses som viktige nok til at ekstraordinært møte innkalles. I sak om avskjed eller suspensjon kan rektor bare beslutte kortvarig suspensjon i tjenesten, i påvente av styrets behandling."
+      ]
+    },
+    {
+      "title": "§10-2",
+      "url": "LTI/forskrift/2005-04-01-15/§10-2",
+      "paragraphs": [
+        "ansatte i undervisnings- og forskerstilling 51-71 prosent",
+        "teknisk og administrativt ansatte 5-25 prosent",
+        "studenter 15-30 prosent."
+      ]
+    },
+    {
+      "title": "§10-3",
+      "url": "LTI/forskrift/2005-04-01-15/§10-3",
+      "paragraphs": []
+    },
+    {
+      "title": "§10-4",
+      "url": "LTI/forskrift/2005-04-01-15/§10-4",
+      "paragraphs": []
+    },
+    {
+      "title": "§10-5",
+      "url": "LTI/forskrift/2005-04-01-15/§10-5",
+      "paragraphs": []
+    },
+    {
+      "title": "§11-1",
+      "url": "LTI/forskrift/2005-04-01-15/§11-1",
+      "paragraphs": []
+    },
+    {
+      "title": "§11-2",
+      "url": "LTI/forskrift/2005-04-01-15/§11-2",
+      "paragraphs": [
+        "Når styret ansetter, gjelder ikke tjenestemannsloven § 4 nr. 5 tredje punktum og § 5 nr. 3. Når et annet organ ansetter, bringes saker etter disse bestemmelsene inn for styret til avgjørelse. Krav etter tjenestemannsloven § 5 nr. 3 må fremsettes i det møte hvor ansettelsessaken behandles."
+      ]
+    },
+    {
+      "title": "§11-3",
+      "url": "LTI/forskrift/2005-04-01-15/§11-3",
+      "paragraphs": []
+    },
+    {
+      "title": "§12-1",
+      "url": "LTI/forskrift/2005-04-01-15/§12-1",
+      "paragraphs": []
+    },
+    {
+      "title": "§12-2",
+      "url": "LTI/forskrift/2005-04-01-15/§12-2",
+      "paragraphs": []
+    },
+    {
+      "title": "§12-3",
+      "url": "LTI/forskrift/2005-04-01-15/§12-3",
+      "paragraphs": []
+    },
+    {
+      "title": "§12-4",
+      "url": "LTI/forskrift/2005-04-01-15/§12-4",
+      "paragraphs": []
+    },
+    {
+      "title": "§13-1",
+      "url": "LTI/forskrift/2005-04-01-15/§13-1",
+      "paragraphs": [
+        "Loven trer i kraft fra den tid Kongen bestemmer."
+      ]
+    },
+    {
+      "title": "§13-2",
+      "url": "LTI/forskrift/2005-04-01-15/§13-2",
+      "paragraphs": [
+        "Kongen kan gi nærmere overgangsbestemmelser."
+      ]
+    },
+    {
+      "title": "§13-3",
+      "url": "LTI/forskrift/2005-04-01-15/§13-3",
+      "paragraphs": [
+        "Fra lovens ikrafttredelse gjøres følgende endringer i andre lover:",
+        "Denne lov gjelder for institusjoner som omfattes av lov 1. april 2005 nr. 15 om universiteter og høyskoler.",
+        "For private institusjoner som er omfattet av lov 1. april 2005 nr. 15 om universiteter og høyskoler, kan departementet gjøre unntak for kravet om tilknytning til en studentsamskipnad, når institusjonen har andre tilfredsstillende velferdsordninger.",
+        "Godkjenning foretas av Nasjonalt organ for kvalitet i utdanningen (NOKUT), jf. lov 1. april 2005 nr. 15 om universiteter og høyskoler kapittel 2.",
+        "Godkjenningsvedtak foretatt av NOKUT overfor tilbydere av fagskoleutdanning kan i forskrift unntas fra bestemmelsene om klage i forvaltningsloven kapittel VI."
+      ]
+    },
+    {
+      "title": "§13-4",
+      "url": "LTI/forskrift/2005-04-01-15/§13-4",
+      "paragraphs": [
+        "Fra lovens ikrafttredelse oppheves følgende lover:Lov 12. mai 1995 nr. 22 om universiteter og høyskolerLov 11. juli 1986 nr. 53 om private høyskoler.",
+        "Lov 12. mai 1995 nr. 22 om universiteter og høyskoler",
+        "Lov 11. juli 1986 nr. 53 om private høyskoler."
+      ]
+    }
+  ]
+}

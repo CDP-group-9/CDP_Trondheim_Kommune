@@ -100,11 +100,22 @@ def html_to_json(html_path):
     return data
 
 def extract_text_from_json(data):
-    parts = [data.get("title", "")]
-    for chapter in data.get("chapters", []):
-        for article in chapter["articles"]:
-            if article.get("text"):
-                parts.append(article["text"])
+    """
+    Slår sammen all tekst fra JSON til én streng for embedding.
+    Fjerner duplikater og beholder rekkefølge.
+    """
+    parts = []
+
+    # Metadata-felter hvis ønskelig, f.eks. title
+    if "Title" in data.get("metadata", {}):
+        parts.append(data["metadata"]["Title"])
+    
+    # Gå gjennom artiklene
+    for article in data.get("articles", []):
+        for para in article.get("paragraphs", []):
+            if para and para not in parts:  # unngå duplikater
+                parts.append(para)
+
     return "\n".join(parts)
 
 
@@ -156,15 +167,61 @@ def process_laws(input_dir):
     clear_table(conn)
     os.makedirs("json_output", exist_ok=True)
 
+    def html_to_json_structured(html_path):
+        """Konverter HTML/XML fra Lovdata til strukturert JSON med metadata, toc og artikler."""
+        with open(html_path, encoding="utf-8") as f:
+            soup = BeautifulSoup(f, "html.parser")
+
+        # === Metadata ===
+        metadata = {}
+        for dt, dd in zip(soup.select("dl.data-document-key-info dt"), soup.select("dl.data-document-key-info dd")):
+            key = dt.get_text(strip=True)
+            if dd.find("ul"):
+                metadata[key] = [li.get_text(strip=True) for li in dd.select("li")]
+            else:
+                metadata[key] = dd.get_text(strip=True)
+
+        # === Innholdsfortegnelse ===
+        def parse_toc(ul):
+            items = []
+            for li in ul.find_all("li", recursive=False):
+                item = {"title": li.contents[0].strip()}
+                sub_ul = li.find("ul")
+                if sub_ul:
+                    item["subsections"] = parse_toc(sub_ul)
+                items.append(item)
+            return items
+
+        toc_ul = soup.select_one("dd.table-of-contents > ul.tocTopUl")
+        table_of_contents = parse_toc(toc_ul) if toc_ul else []
+
+        articles = []
+        for legal_article in soup.select("article.legalArticle"):
+            article_data = {
+                "title": legal_article.get("data-name", ""),
+                "url": legal_article.get("data-lovdata-url", ""),
+                "paragraphs": []
+            }
+            for p in legal_article.select("article.legalP"):
+                article_data["paragraphs"].append(p.get_text(strip=True))
+            articles.append(article_data)
+
+        return {
+            "metadata": metadata,
+            "table_of_contents": table_of_contents,
+            "articles": articles
+        }
+    
     for file in tqdm(os.listdir(input_dir), desc="Processing XML"):
         if file.endswith(".xml"):
             xml_path = os.path.join(input_dir, file)
             try:
-                json_data = html_to_json(xml_path)
+                json_data = html_to_json_structured(xml_path)
             except Exception as e:
                 logging.error(f"Kunne ikke lese XML {file}: {e}", exc_info=True)
                 continue
 
+            # Lag tekst for embedding
             text = extract_text_from_json(json_data)
             if not text:
                 logging.warning(f"Ingen tekst funnet i {file}")
@@ -173,10 +230,12 @@ def process_laws(input_dir):
             embedding = create_embedding(text)
             law_id = os.path.splitext(file)[0]
 
-            insert_law_record(conn, law_id, text, json_data, embedding)
+            insert_law_record(conn, law_id, text, json_data["metadata"], embedding)
 
-    conn.close()
-    logging.info("Ferdig med konvertering og lagring!")
+            # Lagre JSON lokalt
+            json_output_path = os.path.join("json_output", f"{law_id}.json")
+            with open(json_output_path, "w", encoding="utf-8") as f:
+                json.dump(json_data, f, ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":

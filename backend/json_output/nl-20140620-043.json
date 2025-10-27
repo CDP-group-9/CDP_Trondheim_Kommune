@@ -1,0 +1,555 @@
+{
+  "metadata": {
+    "XML generert": "2024-05-15 22:53:57",
+    "LegacyID": "FOR-2014-06-20-43",
+    "DocumentID": "LTI/forskrift/2014-06-20-43",
+    "Departement": "Helse- og omsorgsdepartementet",
+    "Publisert i": "I 2014 hefte 8 s 1175",
+    "I kraft fra": "Kongen bestemmer.",
+    "Endrer": [
+      "lov/1992-12-04-126",
+      "lov/1994-08-05-55",
+      "lov/1999-07-02-64",
+      "lov/2001-05-18-24",
+      "lov/2008-06-20-44",
+      "lov/2011-06-24-29"
+    ],
+    "Rettsområde": [
+      "Forvaltnings- og kommunalrett > Statistikk. Registrering",
+      "Helse- og omsorgsrett > Pasientrettigheter",
+      "14.08",
+      "IKT- og medierett > Personopplysninger"
+    ],
+    "Kunngjort": "2014-06-20 15:50",
+    "Korttittel": "Helseregisterloven",
+    "Tittel": "Lov om helseregistre og behandling av helseopplysninger (helseregisterloven)",
+    "Annet om dokumentet": "Prop.72 L (2013-2014), Innst.295 L (2013-2014), Lovvedtak 76 (2013-2014). Stortingets første og andre gangs behandling hhv. 16. og 20. juni 2014. Fremmet av Helse- og omsorgsdepartementet.",
+    "Innhold": [
+      "Lov om helseregistre og behandling av helseopplysninger (helseregisterloven)Kapittel 1 Generelle bestemmelser§ 1. Lovens formål§ 2. Definisjoner§ 3. Saklig virkeområde§ 4. Geografisk virkeområde§ 5. Forholdet til personopplysningslovenKapittel 2 Tillatelse til å behandle helseopplysninger og etablering av helseregistre§ 6. Alminnelige vilkår for å behandle helseopplysninger§ 7. Konsesjon fra Datatilsynet§ 8. Vilkår for etablering av helseregistre ved forskrift§ 9. Registre som er samtykkebaserte eller uten direkte personidentifiserende kjennetegn§ 10. Helseregistre der den registrerte har rett til å motsette seg behandling av helseopplysninger§ 11. Lovbestemte helseregistre§ 12. Helsearkivregisteret§ 13. Innmelding av helseopplysninger til helseregistre§ 14. Opplysninger fra Det sentrale folkeregisteret§ 15. Hvem som har samtykkekompetanse§ 16. Plikt til å innrapportere data til statistikkKapittel 3 Alminnelige bestemmelser om behandling av helseopplysninger§ 17. Taushetsplikt§ 18. Forbud mot urettmessig tilegnelse av taushetsbelagte helseopplysninger§ 19. Sammenstilling av helseopplysninger§ 20. Unntak fra taushetsplikten for indirekte identifiserbare helseopplysninger§ 21. Sikring av konfidensialitet, integritet og tilgjengelighet§ 22. InternkontrollKapittel 4 Informasjon, innsyn, retting, sletting og sperring§ 23. Informasjon til allmennheten om behandling av helseopplysninger§ 24. Rett til informasjon og innsyn§ 25. Sletting eller sperring av helseopplysningerKapittel 5 Tilsyn og sanksjoner§ 26. Tilsynsmyndighetene§ 27. Adgang til å gi pålegg§ 28. Tvangsmulkt§ 29. Overtredelsesgebyr§ 30. Straff§ 31. ErstatningKapittel 6 Ikraftsetting m.m.§ 32. Ikraftsetting§ 33. Videreføring av forskrifter§ 34. Endringer i andre lover",
+      "Kapittel 1 Generelle bestemmelser§ 1. Lovens formål§ 2. Definisjoner§ 3. Saklig virkeområde§ 4. Geografisk virkeområde§ 5. Forholdet til personopplysningsloven",
+      "§ 1. Lovens formål",
+      "§ 2. Definisjoner",
+      "§ 3. Saklig virkeområde",
+      "§ 4. Geografisk virkeområde",
+      "§ 5. Forholdet til personopplysningsloven",
+      "Kapittel 2 Tillatelse til å behandle helseopplysninger og etablering av helseregistre§ 6. Alminnelige vilkår for å behandle helseopplysninger§ 7. Konsesjon fra Datatilsynet§ 8. Vilkår for etablering av helseregistre ved forskrift§ 9. Registre som er samtykkebaserte eller uten direkte personidentifiserende kjennetegn§ 10. Helseregistre der den registrerte har rett til å motsette seg behandling av helseopplysninger§ 11. Lovbestemte helseregistre§ 12. Helsearkivregisteret§ 13. Innmelding av helseopplysninger til helseregistre§ 14. Opplysninger fra Det sentrale folkeregisteret§ 15. Hvem som har samtykkekompetanse§ 16. Plikt til å innrapportere data til statistikk",
+      "§ 6. Alminnelige vilkår for å behandle helseopplysninger",
+      "§ 7. Konsesjon fra Datatilsynet",
+      "§ 8. Vilkår for etablering av helseregistre ved forskrift",
+      "§ 9. Registre som er samtykkebaserte eller uten direkte personidentifiserende kjennetegn",
+      "§ 10. Helseregistre der den registrerte har rett til å motsette seg behandling av helseopplysninger",
+      "§ 11. Lovbestemte helseregistre",
+      "§ 12. Helsearkivregisteret",
+      "§ 13. Innmelding av helseopplysninger til helseregistre",
+      "§ 14. Opplysninger fra Det sentrale folkeregisteret",
+      "§ 15. Hvem som har samtykkekompetanse",
+      "§ 16. Plikt til å innrapportere data til statistikk",
+      "Kapittel 3 Alminnelige bestemmelser om behandling av helseopplysninger§ 17. Taushetsplikt§ 18. Forbud mot urettmessig tilegnelse av taushetsbelagte helseopplysninger§ 19. Sammenstilling av helseopplysninger§ 20. Unntak fra taushetsplikten for indirekte identifiserbare helseopplysninger§ 21. Sikring av konfidensialitet, integritet og tilgjengelighet§ 22. Internkontroll",
+      "§ 17. Taushetsplikt",
+      "§ 18. Forbud mot urettmessig tilegnelse av taushetsbelagte helseopplysninger",
+      "§ 19. Sammenstilling av helseopplysninger",
+      "§ 20. Unntak fra taushetsplikten for indirekte identifiserbare helseopplysninger",
+      "§ 21. Sikring av konfidensialitet, integritet og tilgjengelighet",
+      "§ 22. Internkontroll",
+      "Kapittel 4 Informasjon, innsyn, retting, sletting og sperring§ 23. Informasjon til allmennheten om behandling av helseopplysninger§ 24. Rett til informasjon og innsyn§ 25. Sletting eller sperring av helseopplysninger",
+      "§ 23. Informasjon til allmennheten om behandling av helseopplysninger",
+      "§ 24. Rett til informasjon og innsyn",
+      "§ 25. Sletting eller sperring av helseopplysninger",
+      "Kapittel 5 Tilsyn og sanksjoner§ 26. Tilsynsmyndighetene§ 27. Adgang til å gi pålegg§ 28. Tvangsmulkt§ 29. Overtredelsesgebyr§ 30. Straff§ 31. Erstatning",
+      "§ 26. Tilsynsmyndighetene",
+      "§ 27. Adgang til å gi pålegg",
+      "§ 28. Tvangsmulkt",
+      "§ 29. Overtredelsesgebyr",
+      "§ 30. Straff",
+      "§ 31. Erstatning",
+      "Kapittel 6 Ikraftsetting m.m.§ 32. Ikraftsetting§ 33. Videreføring av forskrifter§ 34. Endringer i andre lover",
+      "§ 32. Ikraftsetting",
+      "§ 33. Videreføring av forskrifter",
+      "§ 34. Endringer i andre lover"
+    ]
+  },
+  "table_of_contents": [
+    {
+      "title": "Lov om helseregistre og behandling av helseopplysninger (helseregisterloven)",
+      "subsections": [
+        {
+          "title": "Kapittel 1 Generelle bestemmelser",
+          "subsections": [
+            {
+              "title": "§ 1. Lovens formål"
+            },
+            {
+              "title": "§ 2. Definisjoner"
+            },
+            {
+              "title": "§ 3. Saklig virkeområde"
+            },
+            {
+              "title": "§ 4. Geografisk virkeområde"
+            },
+            {
+              "title": "§ 5. Forholdet til personopplysningsloven"
+            }
+          ]
+        },
+        {
+          "title": "Kapittel 2 Tillatelse til å behandle helseopplysninger og etablering av helseregistre",
+          "subsections": [
+            {
+              "title": "§ 6. Alminnelige vilkår for å behandle helseopplysninger"
+            },
+            {
+              "title": "§ 7. Konsesjon fra Datatilsynet"
+            },
+            {
+              "title": "§ 8. Vilkår for etablering av helseregistre ved forskrift"
+            },
+            {
+              "title": "§ 9. Registre som er samtykkebaserte eller uten direkte personidentifiserende kjennetegn"
+            },
+            {
+              "title": "§ 10. Helseregistre der den registrerte har rett til å motsette seg behandling av helseopplysninger"
+            },
+            {
+              "title": "§ 11. Lovbestemte helseregistre"
+            },
+            {
+              "title": "§ 12. Helsearkivregisteret"
+            },
+            {
+              "title": "§ 13. Innmelding av helseopplysninger til helseregistre"
+            },
+            {
+              "title": "§ 14. Opplysninger fra Det sentrale folkeregisteret"
+            },
+            {
+              "title": "§ 15. Hvem som har samtykkekompetanse"
+            },
+            {
+              "title": "§ 16. Plikt til å innrapportere data til statistikk"
+            }
+          ]
+        },
+        {
+          "title": "Kapittel 3 Alminnelige bestemmelser om behandling av helseopplysninger",
+          "subsections": [
+            {
+              "title": "§ 17. Taushetsplikt"
+            },
+            {
+              "title": "§ 18. Forbud mot urettmessig tilegnelse av taushetsbelagte helseopplysninger"
+            },
+            {
+              "title": "§ 19. Sammenstilling av helseopplysninger"
+            },
+            {
+              "title": "§ 20. Unntak fra taushetsplikten for indirekte identifiserbare helseopplysninger"
+            },
+            {
+              "title": "§ 21. Sikring av konfidensialitet, integritet og tilgjengelighet"
+            },
+            {
+              "title": "§ 22. Internkontroll"
+            }
+          ]
+        },
+        {
+          "title": "Kapittel 4 Informasjon, innsyn, retting, sletting og sperring",
+          "subsections": [
+            {
+              "title": "§ 23. Informasjon til allmennheten om behandling av helseopplysninger"
+            },
+            {
+              "title": "§ 24. Rett til informasjon og innsyn"
+            },
+            {
+              "title": "§ 25. Sletting eller sperring av helseopplysninger"
+            }
+          ]
+        },
+        {
+          "title": "Kapittel 5 Tilsyn og sanksjoner",
+          "subsections": [
+            {
+              "title": "§ 26. Tilsynsmyndighetene"
+            },
+            {
+              "title": "§ 27. Adgang til å gi pålegg"
+            },
+            {
+              "title": "§ 28. Tvangsmulkt"
+            },
+            {
+              "title": "§ 29. Overtredelsesgebyr"
+            },
+            {
+              "title": "§ 30. Straff"
+            },
+            {
+              "title": "§ 31. Erstatning"
+            }
+          ]
+        },
+        {
+          "title": "Kapittel 6 Ikraftsetting m.m.",
+          "subsections": [
+            {
+              "title": "§ 32. Ikraftsetting"
+            },
+            {
+              "title": "§ 33. Videreføring av forskrifter"
+            },
+            {
+              "title": "§ 34. Endringer i andre lover"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "articles": [
+    {
+      "title": "§1",
+      "url": "LTI/forskrift/2014-06-20-43/§1",
+      "paragraphs": [
+        "Formålet med loven er å legge til rette for innsamling og annen behandling av helseopplysninger, for å fremme helse, forebygge sykdom og skade og gi bedre helse- og omsorgstjenester. Loven skal sikre at behandlingen foretas på en etisk forsvarlig måte, ivaretar den enkeltes personvern og brukes til individets og samfunnets beste."
+      ]
+    },
+    {
+      "title": "§2",
+      "url": "LTI/forskrift/2014-06-20-43/§2",
+      "paragraphs": [
+        "I denne loven forstås med:a)helseopplysninger:taushetsbelagte opplysninger etter helsepersonelloven § 21, og andre opplysninger og vurderinger om helseforhold eller av betydning for helseforhold, som kan knyttes til en enkeltperson,b)indirekte identifiserbare helseopplysninger:helseopplysninger der navn, fødselsnummer og andre personentydige kjennetegn er fjernet, men hvor opplysningene likevel kan knyttes til en enkeltperson,c)behandling av helseopplysninger:enhver bruk av helseopplysninger, som for eksempel innsamling, registrering, sammenstilling, lagring og utlevering, eller en kombinasjon av slike bruksmåter,d)helseregister:register, fortegnelser, mv. der helseopplysninger er lagret systematisk slik at opplysninger om den enkelte kan finnes igjen,e)databehandlingsansvarlig:den som bestemmer formålet med behandlingen av helseopplysningene og hvilke hjelpemidler som skal brukes, og den som i eller i medhold av lov er pålagt et databehandlingsansvar,f)samtykke:en frivillig, uttrykkelig og informert erklæring fra den registrerte om at han eller hun godtar behandling av helseopplysninger om seg selv.",
+        "helseopplysninger:taushetsbelagte opplysninger etter helsepersonelloven § 21, og andre opplysninger og vurderinger om helseforhold eller av betydning for helseforhold, som kan knyttes til en enkeltperson,",
+        "indirekte identifiserbare helseopplysninger:helseopplysninger der navn, fødselsnummer og andre personentydige kjennetegn er fjernet, men hvor opplysningene likevel kan knyttes til en enkeltperson,",
+        "behandling av helseopplysninger:enhver bruk av helseopplysninger, som for eksempel innsamling, registrering, sammenstilling, lagring og utlevering, eller en kombinasjon av slike bruksmåter,",
+        "helseregister:register, fortegnelser, mv. der helseopplysninger er lagret systematisk slik at opplysninger om den enkelte kan finnes igjen,",
+        "databehandlingsansvarlig:den som bestemmer formålet med behandlingen av helseopplysningene og hvilke hjelpemidler som skal brukes, og den som i eller i medhold av lov er pålagt et databehandlingsansvar,",
+        "samtykke:en frivillig, uttrykkelig og informert erklæring fra den registrerte om at han eller hun godtar behandling av helseopplysninger om seg selv."
+      ]
+    },
+    {
+      "title": "§3",
+      "url": "LTI/forskrift/2014-06-20-43/§3",
+      "paragraphs": [
+        "Loven gjelder for behandling av helseopplysninger til statistikk, helseanalyser, forskning, kvalitetsforbedring, planlegging, styring og beredskap i helse- og omsorgsforvaltningen og helse- og omsorgstjenesten.",
+        "Loven gjelder også behandling av helseopplysninger i Helsearkivregisteret i Norsk helsearkiv.",
+        "Loven gjelder ikke for behandling av helseopplysninger som reguleres av helseforskningsloven eller pasientjournalloven.",
+        "Kongen i statsråd kan i forskrift bestemme at loven helt eller delvis skal gjelde for behandling av helseopplysninger utenfor helse- og omsorgsforvaltningen eller helse- og omsorgstjenesten."
+      ]
+    },
+    {
+      "title": "§4",
+      "url": "LTI/forskrift/2014-06-20-43/§4",
+      "paragraphs": [
+        "Loven gjelder for databehandlingsansvarlige som er etablert i Norge. Kongen kan i forskrift bestemme at loven helt eller delvis skal gjelde for Svalbard og Jan Mayen, og kan fastsette særlige regler om behandling av helseopplysninger i forbindelse med helsehjelp for disse områdene.",
+        "Loven gjelder også for databehandlingsansvarlige som er etablert i stater utenfor EØS-området dersom den databehandlingsansvarlige benytter hjelpemidler i Norge. Dette gjelder likevel ikke dersom hjelpemidlene bare brukes til å overføre personopplysninger via Norge. Databehandlingsansvarlige skal ha en representant som er etablert i Norge. Bestemmelsene som gjelder for den databehandlingsansvarlige, gjelder også for representanten."
+      ]
+    },
+    {
+      "title": "§5",
+      "url": "LTI/forskrift/2014-06-20-43/§5",
+      "paragraphs": [
+        "Personopplysningsloven gjelder så langt ikke annet følger av denne loven."
+      ]
+    },
+    {
+      "title": "§6",
+      "url": "LTI/forskrift/2014-06-20-43/§6",
+      "paragraphs": [
+        "Helseopplysninger kan bare behandles når det er tillatt etter denne loven eller andre lover.",
+        "Behandling av helseopplysninger krever den registrertes samtykke, dersom ikke annet har hjemmel i lov.",
+        "Den databehandlingsansvarlige skal sørge for at helseopplysningene som behandlesa)er tilstrekkelige og relevante for formålet med behandlingen,b)bare brukes til uttrykkelige angitte formål som er saklig begrunnet i den databehandlingsansvarliges virksomhet,c)ikke brukes senere til formål som er uforenlig med det opprinnelige formålet med innsamlingen av opplysningene, uten at den registrerte samtykker, ogd)er korrekte og oppdaterte og ikke lagres lenger enn det som er nødvendig ut fra formålet med behandlingen.",
+        "er tilstrekkelige og relevante for formålet med behandlingen,",
+        "bare brukes til uttrykkelige angitte formål som er saklig begrunnet i den databehandlingsansvarliges virksomhet,",
+        "ikke brukes senere til formål som er uforenlig med det opprinnelige formålet med innsamlingen av opplysningene, uten at den registrerte samtykker, og",
+        "er korrekte og oppdaterte og ikke lagres lenger enn det som er nødvendig ut fra formålet med behandlingen.",
+        "Graden av personidentifikasjon skal ikke være større enn nødvendig for det aktuelle formålet. Graden av personidentifikasjon skal begrunnes. Tilsynsmyndigheten kan kreve at den databehandlingsansvarlige legger frem begrunnelsen.",
+        "Departementet kan gi forskrift om godkjenning av programvare, sertifisering og om bruk av standarder, klassifikasjonssystemer og kodeverk, samt hvilke nasjonale eller internasjonale standardsystemer som skal følges ved behandling av helseopplysninger etter denne loven."
+      ]
+    },
+    {
+      "title": "§7",
+      "url": "LTI/forskrift/2014-06-20-43/§7",
+      "paragraphs": [
+        "Datatilsynet kan gi konsesjon for etablering av helseregistre og annen behandling av helseopplysninger. Konsesjon kan gis når vilkårene i denne loven § 6 og personopplysningsloven § 9 jf. §§ 33 til 35 er oppfylt.",
+        "Konsesjonsplikt etter personopplysningsloven § 33 gjelder ikke for behandling av helseopplysninger som skjer med hjemmel i denne loven §§ 8 til 12."
+      ]
+    },
+    {
+      "title": "§8",
+      "url": "LTI/forskrift/2014-06-20-43/§8",
+      "paragraphs": [
+        "Kongen i statsråd kan i forskrift gi nærmere bestemmelser om etablering av helseregistre og behandling av helseopplysninger i registre etter §§ 9, 10 eller 11, når vilkårene i denne bestemmelsen og § 6 er oppfylt.",
+        "Den helsefaglige eller samfunnsmessige nytten av registeret må klart overstige personvernulempene.",
+        "Registrene skal ivareta oppgaver etter apotekloven, folkehelseloven, helse- og omsorgstjenesteloven, legemiddelloven, smittevernloven, spesialisthelsetjenesteloven og tannhelsetjenesteloven.",
+        "Forskriften skal blant annet angia)formålet med behandlingen av helseopplysningene,b)hvilke typer opplysninger som kan behandles,c)krav til identitetsforvaltning,d)krav til sikring av opplysningene, oge)hvem som er databehandlingsansvarlig.",
+        "formålet med behandlingen av helseopplysningene,",
+        "hvilke typer opplysninger som kan behandles,",
+        "krav til identitetsforvaltning,",
+        "krav til sikring av opplysningene, og",
+        "hvem som er databehandlingsansvarlig."
+      ]
+    },
+    {
+      "title": "§9",
+      "url": "LTI/forskrift/2014-06-20-43/§9",
+      "paragraphs": [
+        "Kongen i statsråd kan, i samsvar med vilkår i § 8, gi forskrift om behandling av opplysninger i helseregistre dersoma)den registrerte samtykker, ellerb)opplysningene behandles uten at den databehandlingsansvarlige har tilgang til navn, fødselsnummer eller andre direkte personidentifiserende kjennetegn.",
+        "den registrerte samtykker, eller",
+        "opplysningene behandles uten at den databehandlingsansvarlige har tilgang til navn, fødselsnummer eller andre direkte personidentifiserende kjennetegn."
+      ]
+    },
+    {
+      "title": "§10",
+      "url": "LTI/forskrift/2014-06-20-43/§10",
+      "paragraphs": [
+        "Kongen i statsråd kan i samsvar med vilkårene i § 8 gi forskrift om behandling av opplysninger i helseregistre der navn, fødselsnummer eller andre direkte personidentifiserende kjennetegn skal kunne behandles uten samtykke fra den registrerte. Slike forskrifter kan gis dersoma)det for å oppnå formålet med behandlingen av opplysningene, og av hensyn til registerets kvalitet, ikke kan kreves at samtykke innhentes, ogb)den registrerte har rett til å motsette seg at helseopplysninger behandles i registeret.",
+        "det for å oppnå formålet med behandlingen av opplysningene, og av hensyn til registerets kvalitet, ikke kan kreves at samtykke innhentes, og",
+        "den registrerte har rett til å motsette seg at helseopplysninger behandles i registeret."
+      ]
+    },
+    {
+      "title": "§11",
+      "url": "LTI/forskrift/2014-06-20-43/§11",
+      "paragraphs": [
+        "Kongen i statsråd kan i samsvar med vilkårene i § 8 gi forskrift om behandling av opplysninger i helseregistre der navn, fødselsnummer og andre direkte personidentifiserende kjennetegn skal kunne behandles uten samtykke fra den registrerte i den utstrekning det er nødvendig for å nå formålet med registeret.",
+        "Det kan gis forskrifter om følgende registre:a)Dødsårsaksregisteretb)Kreftregisteretc)Medisinsk fødselsregisterd)Meldingssystem for smittsomme sykdommer (MSIS)e)System for vaksinasjonskontroll (SYSVAK)f)Forsvarets helseregisterg)Norsk pasientregisterh)Nasjonalt register over hjerte- og karlidelseri)System for bivirkningsrapportering.",
+        "Dødsårsaksregisteret",
+        "Kreftregisteret",
+        "Medisinsk fødselsregister",
+        "Meldingssystem for smittsomme sykdommer (MSIS)",
+        "System for vaksinasjonskontroll (SYSVAK)",
+        "Forsvarets helseregister",
+        "Norsk pasientregister",
+        "Nasjonalt register over hjerte- og karlidelser",
+        "System for bivirkningsrapportering.",
+        "Kreftregisteret kan inneholde helseopplysninger om personer som har deltatt i undersøkelsesprogram for tidlig diagnose og kontroll for kreftsykdom. Ved negativt funn kan opplysninger om navn, fødselsnummer, adresse, bostedskommune og sivilstand registreres permanent, med mindre den registrerte motsetter seg det. Dersom den registrerte har motsatt seg permanent registrering, skal opplysningene slettes etter at de er kvalitetssikret og senest seks måneder etter innsamlingen. Dette leddet gjelder også funn som er innsamlet før 1. januar 2014."
+      ]
+    },
+    {
+      "title": "§12",
+      "url": "LTI/forskrift/2014-06-20-43/§12",
+      "paragraphs": [
+        "Kongen i statsråd kan i forskrift gi bestemmelser om etablering av Helsearkivregisteret.",
+        "Helsearkivregisteret er et helseregister med personidentifiserbar pasientdokumentasjon om avdøde pasienter. Opplysningene i Helsearkivregisteret behandles uten de registrertes samtykke.",
+        "Riksarkivaren er databehandlingsansvarlig for opplysningene i Helsearkivregisteret, jf. arkivloven § 4.",
+        "Kongen i statsråd kan i forskrift gi nærmere bestemmelser om behandlingen av helseopplysningene i registeret og formålet med behandlingen. Forskriften skal angi den databehandlingsansvarliges plikt til å gjøre data tilgjengelig.",
+        "Kongen i statsråd kan i forskriften gi nærmere bestemmelser om bevaring, kassasjon og avlevering av pasientdokumentasjon for private virksomheter som yter tjenester etter spesialisthelsetjenesteloven."
+      ]
+    },
+    {
+      "title": "§13",
+      "url": "LTI/forskrift/2014-06-20-43/§13",
+      "paragraphs": [
+        "Virksomheter og helsepersonell som tilbyr eller yter tjenester som omfattes av apotekloven, folkehelseloven, helse- og omsorgstjenesteloven, legemiddelloven, smittevernloven, spesialisthelsetjenesteloven eller tannhelsetjenesteloven plikter å melde opplysninger som bestemt i forskrifter etter §§ 8 til 12. Innmelding til registre etter §§ 9 bokstav b, 10, 11 og 12 kan skje uten hinder av taushetsplikt.",
+        "Kongen kan gi forskrifter om innmelding av helseopplysninger til registre som omfattes av §§ 8 til 12, blant annet om hvem som skal gi og motta opplysningene og om frister, formkrav, bruk av meldingsskjemaer og standarder. Den som mottar opplysningene, skal varsle avsenderen dersom opplysningene er mangelfulle."
+      ]
+    },
+    {
+      "title": "§14",
+      "url": "LTI/forskrift/2014-06-20-43/§14",
+      "paragraphs": [
+        "Databehandlingsansvarlige kan innhente personopplysninger de har tillatelse til å behandle etter §§ 8 til 12, fra Det sentrale folkeregisteret."
+      ]
+    },
+    {
+      "title": "§15",
+      "url": "LTI/forskrift/2014-06-20-43/§15",
+      "paragraphs": [
+        "Rett til å samtykke til behandling av helseopplysninger hara)myndige personer, ogb)mindreårige etter fylte 16 år.",
+        "myndige personer, og",
+        "mindreårige etter fylte 16 år.",
+        "For samtykke til behandling av opplysninger som gjelder personer under 16 år, gjelder pasient- og brukerrettighetsloven § 4-4 tilsvarende. Dersom barn mellom 12 og 16 år, av grunner som bør respekteres, ikke ønsker at foreldrene, andre med foreldreansvar eller barnevernstjenesten gjøres kjent med opplysninger om barnet, skal dette ivaretas.",
+        "For personer uten samtykkekompetanse etter pasient- og brukerrettighetsloven § 4-3 andre ledd, skal nærmeste pårørende etter pasient- og brukerrettighetsloven § 1-3 bokstav b gi samtykke.",
+        "For personer som er fratatt rettslig handleevne på det personlige området, gjelder pasient- og brukerrettighetsloven § 4-7 tilsvarende.",
+        "Departementet kan i forskrift bestemme at barn mellom 12 og 16 år kan samtykke til behandling av helseopplysninger for nærmere bestemte spesielle formål."
+      ]
+    },
+    {
+      "title": "§16",
+      "url": "LTI/forskrift/2014-06-20-43/§16",
+      "paragraphs": [
+        "Departementet kan i forskrift eller ved enkeltvedtak pålegge regionale helseforetak, helseforetak, fylkeskommuner og kommuner å innrapportere anonyme data eller indirekte identifiserbare helseopplysninger, uten hensyn til taushetsplikt, til statistikk. Forskriften kan ha nærmere regler om blant annet bruk av standarder, klassifikasjonssystemer og kodeverk."
+      ]
+    },
+    {
+      "title": "§17",
+      "url": "LTI/forskrift/2014-06-20-43/§17",
+      "paragraphs": [
+        "Enhver som behandler helseopplysninger etter denne loven, har taushetsplikt etter helsepersonelloven §§ 21 flg. Andre som får adgang eller kjennskap til helseopplysninger fra helseregistre, har samme taushetsplikt."
+      ]
+    },
+    {
+      "title": "§18",
+      "url": "LTI/forskrift/2014-06-20-43/§18",
+      "paragraphs": [
+        "Det er forbudt å lese, søke etter eller på annen måte tilegne seg, bruke eller besitte helseopplysninger som behandles etter denne loven, uten særskilt hjemmel i lov eller forskrift."
+      ]
+    },
+    {
+      "title": "§19",
+      "url": "LTI/forskrift/2014-06-20-43/§19",
+      "paragraphs": [
+        "Kongen i statsråd kan gi forskrift om sammenstilling av helseopplysninger innsamlet etter § 13. Sammenstilling kan tillates for opplysninger i helseregistre etablert med hjemmel i §§ 8 til 12. Kongen i statsråd kan bestemme at opplysningene i disse registrene også skal kunne sammenstilles med opplysninger i Det sentrale folkeregisteret eller andre registre.",
+        "Den databehandlingsansvarlige kan utlevere helseopplysninger for sammenstillingen. Med mindre annet følger av lov eller i medhold av lov skal resultatet av sammenstillingen ikke inneholde navn, fødselsnummer eller andre direkte identifiserende kjennetegn. Sammenstillingen skal gjøres av den databehandlingsansvarlige for et av registrene eller en virksomhet departementet bestemmer.",
+        "Ut over dette kan helseopplysninger bare sammenstilles med andre opplysninger når dette er tillatt etter personopplysningsloven § 9, jf. §§ 33 til 35."
+      ]
+    },
+    {
+      "title": "§20",
+      "url": "LTI/forskrift/2014-06-20-43/§20",
+      "paragraphs": [
+        "Taushetsplikt er ikke til hinder for at den databehandlingsansvarlige kan utlevere indirekte identifiserbare helseopplysninger til forskning, helseanalyser, og kvalitetssikring, administrasjon, planlegging eller styring av helse- og omsorgstjenesten. Dette gjelder bare helseopplysninger i registre som er etablert med hjemmel i § 11.",
+        "Helseopplysningene kan bare utleveres dersom behandlingen av dem er av vesentlig interesse for samfunnet, hensynet til pasientens integritet og konfidensialitet er ivaretatt, og behandlingen er ubetenkelig ut fra etiske, medisinske og helsefaglige hensyn. Den databehandlingsansvarlige kan stille vilkår for utleveringen."
+      ]
+    },
+    {
+      "title": "§21",
+      "url": "LTI/forskrift/2014-06-20-43/§21",
+      "paragraphs": [
+        "Den databehandlingsansvarlige og databehandler skal gjennom planlagte og systematiske tiltak sørge for tilfredsstillende informasjonssikkerhet med hensyn til konfidensialitet, integritet og tilgjengelighet ved behandling av helseopplysninger. Dette gjelder blant annet å sørge for tilgangsstyring, logging og etterfølgende kontroll.",
+        "I registre som er etablert med hjemmel i §§ 10 eller 11, skal direkte personidentifiserende kjennetegn lagres kryptert.",
+        "For å oppnå tilfredsstillende informasjonssikkerhet skal den databehandlingsansvarlige og databehandleren dokumentere informasjonssystemet og sikkerhetstiltakene. Dokumentasjonen skal være tilgjengelig for medarbeiderne hos den databehandlingsansvarlige og hos databehandleren. Dokumentasjonen skal også være tilgjengelig for tilsynsmyndighetene.",
+        "En databehandlingsansvarlig som lar andre få tilgang til helseopplysninger, for eksempel en databehandler eller andre som utfører oppdrag i tilknytning til informasjonssystemet, skal påse at disse oppfyller kravene i første, andre og tredje ledd.",
+        "Departementet kan i forskrift fastsette nærmere krav til informasjonssikkerhet ved behandling av helseopplysninger, blant annet om organisatoriske og tekniske tiltak."
+      ]
+    },
+    {
+      "title": "§22",
+      "url": "LTI/forskrift/2014-06-20-43/§22",
+      "paragraphs": [
+        "Den databehandlingsansvarlige skal etablere og holde ved like planlagte og systematiske tiltak som er nødvendige for å oppfylle kravene i eller i medhold av denne loven.",
+        "Den databehandlingsansvarlige skal dokumentere tiltakene. Dokumentasjonen skal være tilgjengelig for medarbeiderne hos den databehandlingsansvarlige og hos databehandleren. Dokumentasjonen skal også være tilgjengelig for tilsynsmyndighetene.",
+        "Departementet kan i forskrift gi nærmere regler om internkontroll."
+      ]
+    },
+    {
+      "title": "§23",
+      "url": "LTI/forskrift/2014-06-20-43/§23",
+      "paragraphs": [
+        "En databehandlingsansvarlig som behandler opplysninger etter forskrift i medhold av §§ 8 til 11, skal av eget tiltak informere allmennheten om hva slags behandling av helseopplysninger som foretas."
+      ]
+    },
+    {
+      "title": "§24",
+      "url": "LTI/forskrift/2014-06-20-43/§24",
+      "paragraphs": [
+        "Rett til informasjon og innsyn følger av personopplysningsloven §§ 18 flg.",
+        "Den registrerte har rett til innsyn i hvem som har hatt tilgang til eller fått utlevert helseopplysninger som er knyttet til den registrertes navn eller fødselsnummer, fra helseregistre etter §§ 8 til 11. Departementet kan i særlige tilfeller gi den databehandlingsansvarlige en tidsbegrenset dispensasjon fra plikten til å gi innsyn etter dette leddet.",
+        "Når det er nødvendig for å vurdere innsyn kan den databehandlingsansvarlige innhente personopplysninger fra Det sentrale folkeregisteret. Dette gjelder uten hensyn til taushetsplikt.",
+        "Kongen kan i forskrift gi nærmere bestemmelser om retten til innsyn i helseregistrene."
+      ]
+    },
+    {
+      "title": "§25",
+      "url": "LTI/forskrift/2014-06-20-43/§25",
+      "paragraphs": [
+        "Den registrerte kan kreve at helseopplysninger som behandles etter §§ 8 til 11 skal slettes eller sperres, dersom behandling av opplysningene føles sterkt belastende for den registrerte og det ikke finnes sterke allmenne hensyn som tilsier at opplysningene behandles. Krav om sletting eller sperring av slike opplysninger rettes til den databehandlingsansvarlige for opplysningene.",
+        "Datatilsynet kan, etter at Riksarkivaren er hørt, treffe vedtak om at retten til sletting etter første ledd går foran reglene i arkivloven §§ 9 og 18. Hvis dokumentet som inneholdt de slettede opplysningene, gir et åpenbart misvisende bilde etter slettingen, skal hele dokumentet slettes."
+      ]
+    },
+    {
+      "title": "§26",
+      "url": "LTI/forskrift/2014-06-20-43/§26",
+      "paragraphs": [
+        "Datatilsynet fører tilsyn med at bestemmelsene i loven blir fulgt og at feil eller mangler blir rettet, jf. personopplysningsloven § 42. Dette gjelder ikke for tilsynsoppgaver som påligger Statens helsetilsyn eller Fylkesmannen etter helsetilsynsloven.",
+        "Tilsynsmyndighetene kan kreve de opplysninger som trengs for at de kan gjennomføre sine oppgaver.",
+        "Tilsynsmyndighetene kan, som ledd i sin kontroll med at lovens regler etterleves, kreve adgang til steder hvor det finnes helseregistre, helseopplysninger som behandles elektronisk og hjelpemidler for slik behandling av opplysninger. Tilsynsmyndighetene kan gjennomføre de prøver eller kontroller som de finner nødvendig, og kreve bistand fra personalet på stedet i den grad dette må til for å få utført prøvene eller kontrollene.",
+        "Retten til å kreve opplysninger, eller tilgang til lokaler og hjelpemidler i medhold av andre og tredje ledd, gjelder uten hinder av taushetsplikt.",
+        "Tilsynsmyndighetene og andre som utfører tjeneste for tilsynsmyndighetene, har taushetsplikt etter § 17. Taushetsplikten omfatter også opplysninger om sikkerhetstiltak.",
+        "Avgjørelser som Datatilsynet fatter etter denne bestemmelsen eller etter §§ 7, 25, 27, 28 eller 29, kan påklages til Personvernnemnda.",
+        "Kongen kan gi forskrift om unntak fra første til fjerde ledd av hensyn til rikets sikkerhet. Kongen kan også gi forskrift om dekning av utgiftene ved kontroll. Skyldige bidrag til dekning av utgiftene er tvangsgrunnlag for utlegg."
+      ]
+    },
+    {
+      "title": "§27",
+      "url": "LTI/forskrift/2014-06-20-43/§27",
+      "paragraphs": [
+        "Datatilsynet kan gi pålegg om at behandling av helseopplysninger i strid med bestemmelser i eller i medhold av denne loven skal opphøre, eller stille vilkår som må oppfylles for at behandlingen av helseopplysningene skal være i samsvar med loven. Statens helsetilsyn kan gi pålegg dersom det i tillegg må antas at behandlingen av helseopplysningene kan ha skadelige følger for pasienter eller brukere.",
+        "Når Datatilsynet har gitt et pålegg, skal Statens helsetilsyn informeres om dette. Når Statens helsetilsyn har gitt et pålegg, skal Datatilsynet informeres om dette.",
+        "Pålegg etter første ledd skal inneholde en frist for å rette seg etter pålegget."
+      ]
+    },
+    {
+      "title": "§28",
+      "url": "LTI/forskrift/2014-06-20-43/§28",
+      "paragraphs": [
+        "Ved pålegg etter § 27 kan Datatilsynet fastsette en tvangsmulkt som løper for hver dag som går etter utløpet av den fristen som er satt for oppfylling av pålegget, inntil pålegget er oppfylt.",
+        "Tvangsmulkten løper ikke før klagefristen er ute. Hvis vedtaket påklages, løper ikke tvangsmulkt før klageinstansen har bestemt det.",
+        "Datatilsynet kan frafalle påløpt tvangsmulkt."
+      ]
+    },
+    {
+      "title": "§29",
+      "url": "LTI/forskrift/2014-06-20-43/§29",
+      "paragraphs": [
+        "Datatilsynet kan pålegge den som har overtrådt denne loven eller forskrifter i medhold av den, å betale et pengebeløp til statskassen (overtredelsesgebyr) på inntil ti ganger grunnbeløpet i folketrygden. Fysiske personer kan bare ilegges overtredelsesgebyr for forsettlige eller uaktsomme overtredelser. Et foretak kan ikke ilegges overtredelsesgebyr dersom overtredelsen skyldes forhold utenfor foretakets kontroll.",
+        "Ved vurderingen av om overtredelsesgebyr skal ilegges, og ved utmålingen, skal det særlig legges vekt påa)hvor alvorlig overtredelsen har krenket de interesser loven verner,b)graden av skyld, om overtrederen ved retningslinjer, instruksjon, opplæring, kontroll eller andre tiltak kunne ha forebygget overtredelsen,c)om overtredelsen er begått for å fremme overtrederens interesser,d)om overtrederen har hatt eller kunne ha oppnådd noen fordel ved overtredelsen,e)om det foreligger gjentakelse,f)om andre reaksjoner som følge av overtredelsen blir ilagt overtrederen eller noen som har handlet på vegne av denne, blant annet om noen enkeltperson blir ilagt straff, ogg)overtrederens økonomiske evne.",
+        "hvor alvorlig overtredelsen har krenket de interesser loven verner,",
+        "graden av skyld, om overtrederen ved retningslinjer, instruksjon, opplæring, kontroll eller andre tiltak kunne ha forebygget overtredelsen,",
+        "om overtredelsen er begått for å fremme overtrederens interesser,",
+        "om overtrederen har hatt eller kunne ha oppnådd noen fordel ved overtredelsen,",
+        "om det foreligger gjentakelse,",
+        "om andre reaksjoner som følge av overtredelsen blir ilagt overtrederen eller noen som har handlet på vegne av denne, blant annet om noen enkeltperson blir ilagt straff, og",
+        "overtrederens økonomiske evne.",
+        "Oppfyllelsesfristen er fire uker etter at vedtaket om overtredelsesgebyr er endelig. Dersom et vedtak om overtredelsesgebyr bringes inn for en domstol, kan den prøve alle sider av saken."
+      ]
+    },
+    {
+      "title": "§30",
+      "url": "LTI/forskrift/2014-06-20-43/§30",
+      "paragraphs": [
+        "Den som forsettlig eller grovt uaktsomt overtrer § 17 om taushetsplikt eller § 18 om forbud mot urettmessig tilegnelse av helseopplysninger, straffes med bøter eller fengsel i inntil tre måneder.",
+        "Med bøter eller fengsel inntil ett år eller begge deler straffes den som forsettlig eller grovt uaktsomta)behandler helseopplysninger uten nødvendig konsesjon eller i strid med konsesjonsvilkår etter § 7,b)behandler helseopplysninger i strid med § 21,c)unnlater å informere den registrerte etter § 24, jf. personopplysningsloven §§ 19 eller 20,d)unnlater å gi opplysninger til tilsynsmyndighetene etter § 26, ellere)unnlater å etterkomme pålegg eller overtrer vilkår fra tilsynsmyndighetene etter § 27.",
+        "behandler helseopplysninger uten nødvendig konsesjon eller i strid med konsesjonsvilkår etter § 7,",
+        "behandler helseopplysninger i strid med § 21,",
+        "unnlater å informere den registrerte etter § 24, jf. personopplysningsloven §§ 19 eller 20,",
+        "unnlater å gi opplysninger til tilsynsmyndighetene etter § 26, eller",
+        "unnlater å etterkomme pålegg eller overtrer vilkår fra tilsynsmyndighetene etter § 27.",
+        "Ved særdeles skjerpende omstendigheter kan fengsel inntil tre år idømmes. Ved avgjørelsen av om det foreligger særdeles skjerpende omstendigheter skal det blant annet legges vekt på faren for stor skade eller ulempe for den registrerte, den tilsiktede vinningen ved overtredelsen, overtredelsens varighet og omfang, utvist skyld, og om den databehandlingsansvarlige tidligere er straffet for å ha overtrådt tilsvarende bestemmelser.",
+        "Medvirkning straffes på samme måte.",
+        "I forskrift som gis i medhold av loven, kan det fastsettes at den som forsettlig eller grovt uaktsomt overtrer forskriften skal straffes med bøter eller fengsel inntil ett år eller begge deler."
+      ]
+    },
+    {
+      "title": "§31",
+      "url": "LTI/forskrift/2014-06-20-43/§31",
+      "paragraphs": [
+        "Den databehandlingsansvarlige skal erstatte skade som er oppstått som følge av at helseopplysninger er behandlet i strid med bestemmelser i eller i medhold av loven, med mindre det godtgjøres at skaden ikke skyldes feil eller forsømmelse på den databehandlingsansvarliges side.",
+        "Erstatningen skal svare til det økonomiske tapet som den skadelidte er påført som følge av den ulovlige behandlingen av helseopplysningene. Den databehandlingsansvarlige kan også pålegges å betale slik erstatning for skade av ikke-økonomisk art (oppreisning) som synes rimelig."
+      ]
+    },
+    {
+      "title": "§32",
+      "url": "LTI/forskrift/2014-06-20-43/§32",
+      "paragraphs": [
+        "Loven trer i kraft fra den tid Kongen bestemmer. Fra samme tid oppheves lov 18. mai 2001 nr. 24 om helseregistre og behandling av helseopplysninger.",
+        "Kongen kan bestemme at de enkelte bestemmelsene i loven skal tre i kraft til ulik tid."
+      ]
+    },
+    {
+      "title": "§33",
+      "url": "LTI/forskrift/2014-06-20-43/§33",
+      "paragraphs": [
+        "Forskrifter gitt i medhold av lov 18. mai 2001 nr. 24 om helseregistre og behandling av helseopplysninger gjelder også etter at loven her har trådt i kraft. Dette gjelder selv om forskriften ikke har alle bestemmelser som kreves etter § 8 fjerde ledd."
+      ]
+    },
+    {
+      "title": "§34",
+      "url": "LTI/forskrift/2014-06-20-43/§34",
+      "paragraphs": [
+        "Fra den tid loven trer i kraft gjøres følgende endringer i andre lover:",
+        "kasserast. Dette forbodet går framom føresegner om kassasjon i eller i medhald av andre lover. Personregister eller delar av personregister kan likevel slettast etter føresegnene i personopplysningslova, helseregisterlova og etter føresegner i medhald av helseregisterlova §§ 8 til 12. Slik sletting kan først gjerast etter at det er innhenta fråsegn frå Riksarkivaren.",
+        "Nasjonalt folkehelseinstitutt skal overvåke den nasjonale og delta i overvåkingen av den internasjonale epidemiologiske situasjonen, utføre helseanalyser, drive forskning på smittevernområdet og sikre nødvendig vaksineforsyning og vaksineberedskap, herunder egen vaksineproduksjon.",
+        "Ved samarbeid om behandlingsrettede helseregistre etter pasientjournalloven § 9 kan slike opplysninger også gis til ledelsen i samarbeidende virksomhet.",
+        "Departementet kan bestemme at helseopplysninger kan eller skal gis til bruk for helseanalyser og kvalitetssikring, administrasjon, planlegging eller styring av helse- og omsorgstjenesten, og at det skal skje uten hensyn til taushetsplikt. Dette kan bare skje dersom behandlingen av opplysningene er av vesentlig interesse for samfunnet og hensynet til pasientens integritet og velferd er ivaretatt. Graden av personidentifikasjon skal ikke være større enn nødvendig for det aktuelle formålet. Kun i særskilte tilfeller kan det gis tillatelse til bruk av direkte personidentifiserbare opplysninger som for eksempel navn eller fødselsnummer. Reglene om taushetsplikt gjelder tilsvarende for den som mottar opplysningene.",
+        "Departementet kan sette vilkår for bruken av opplysninger etter paragrafen her.",
+        "Med mindre pasienten motsetter seg det, kan taushetsbelagte opplysninger etter særskilt anmodning gis til annet helsepersonell som tidligere har ytt helsehjelp til pasienten i et konkret behandlingsforløp, for kvalitetssikring av helsehjelpen eller egen læring. Behandlingen av anmodningen kan automatiseres. Helsepersonell kan bare gis de opplysninger som er nødvendige og relevante for formålet. I pasientens journal skal det dokumenteres hvem opplysninger har blitt utlevert til og hvilke opplysninger som har blitt utlevert, jf. § 40.",
+        "Departementet kan i forskrift gi bestemmelser om opprettelse og annen behandling av humant biologisk materiale i biobanker som er tilknyttet helseregistre etter helseregisterloven §§ 8 til 11.",
+        "Behandling av helseopplysninger fra helseregistre etter helseregisterloven §§ 8 til 11 krever ikke tillatelser etter første ledd, med mindre annet følger av forskriftene til registrene.",
+        "Nasjonalt folkehelseinstitutt skal overvåke utviklingen av folkehelsen, utarbeide oversikt over befolkningens helsetilstand og faktorer som påvirker denne, samt utføre helseanalyser og drive forskning på folkehelseområdet."
+      ]
+    }
+  ]
+}
