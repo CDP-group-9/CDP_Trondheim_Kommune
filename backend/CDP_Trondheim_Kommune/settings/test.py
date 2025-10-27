@@ -1,3 +1,8 @@
+import logging
+import os
+import sys
+import warnings
+
 from .base import *
 
 
@@ -26,3 +31,10 @@ PASSWORD_HASHERS = [
 # Celery
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_TASK_EAGER_PROPAGATES = True
+
+# Suppress logging and warnings during tests
+logging.disable(logging.CRITICAL)
+warnings.filterwarnings("ignore")
+
+# Suppress print statements during tests
+sys.stdout = open(os.devnull, "w")

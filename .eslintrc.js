@@ -25,6 +25,8 @@ module.exports = {
     ],
     "prettier/prettier": "warn",
     "react/react-in-jsx-scope": "off",
+    "no-console": "off",
+    "@typescript-eslint/no-explicit-any": "off",
   },
   env: {
     browser: true,

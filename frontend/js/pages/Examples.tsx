@@ -1,5 +1,4 @@
-import { ChatBox } from "../components/tk/chatbox";
-import ProgressBarUpdated from "../components/tk/progressbar-updated";
+import { DssChatBox, DssProgressBar } from "components/dss";
 
 /*
 TODO: move to backend
@@ -22,7 +21,7 @@ const final =
 const Examples = () => {
   return (
     <div className="flex justify-center py-4 mb-4">
-      <ProgressBarUpdated />
+      <DssProgressBar />
       <div className="flex flex-col max-w-4xl space-y-6">
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-medium">Eksempelsamtale</h1>
@@ -33,11 +32,11 @@ const Examples = () => {
           </p>
         </div>
         <div className="border border-1 border-[#d5d8de] rounded-lg flex flex-col items-center gap-5 pt-10 pb-10 tk-readable">
-          <ChatBox message={text1} type="user" />
-          <ChatBox message={text2} type="bot" />
-          <ChatBox message={notAllowed} type="bot" />
-          <ChatBox message={thanks} type="user" />
-          <ChatBox message={final} type="bot" />
+          <DssChatBox message={text1} type="user" />
+          <DssChatBox message={text2} type="bot" />
+          <DssChatBox message={notAllowed} type="bot" />
+          <DssChatBox message={thanks} type="user" />
+          <DssChatBox message={final} type="bot" />
         </div>
       </div>
     </div>

@@ -56,8 +56,6 @@ class GeminiAPIClient:
         if self.async_client is None:
             self.async_client = self.client.aio
 
-
-
     def test_connection(self) -> bool:
         """
         Tests the connection to the Gemini API by making a simple request.

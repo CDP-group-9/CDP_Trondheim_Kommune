@@ -58,6 +58,185 @@ paths:
                   error:
                     type: string
           description: ''
+  /api/checklist/:
+    get:
+      operationId: checklist_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - checklist
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedChecklistList'
+          description: ''
+    post:
+      operationId: checklist_create
+      tags:
+      - checklist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+          description: ''
+  /api/checklist/{id}/:
+    get:
+      operationId: checklist_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this checklist result.
+        required: true
+      tags:
+      - checklist
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+          description: ''
+    put:
+      operationId: checklist_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this checklist result.
+        required: true
+      tags:
+      - checklist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+          description: ''
+    patch:
+      operationId: checklist_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this checklist result.
+        required: true
+      tags:
+      - checklist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChecklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedChecklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedChecklist'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+          description: ''
+    delete:
+      operationId: checklist_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this checklist result.
+        required: true
+      tags:
+      - checklist
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/checklist/json_to_string/:
+    post:
+      operationId: checklist_json_to_string_create
+      tags:
+      - checklist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+          description: ''
   /api/counter/increment/:
     post:
       operationId: counter_increment_create
@@ -127,6 +306,7 @@ paths:
       - test-response
       security:
       - cookieAuth: []
+      - {}
       responses:
         '200':
           content:
@@ -152,6 +332,7 @@ paths:
         required: true
       security:
       - cookieAuth: []
+      - {}
       responses:
         '201':
           content:
@@ -173,6 +354,7 @@ paths:
       - test-response
       security:
       - cookieAuth: []
+      - {}
       responses:
         '200':
           content:
@@ -205,6 +387,7 @@ paths:
         required: true
       security:
       - cookieAuth: []
+      - {}
       responses:
         '200':
           content:
@@ -236,6 +419,7 @@ paths:
               $ref: '#/components/schemas/PatchedMockResponse'
       security:
       - cookieAuth: []
+      - {}
       responses:
         '200':
           content:
@@ -256,6 +440,7 @@ paths:
       - test-response
       security:
       - cookieAuth: []
+      - {}
       responses:
         '204':
           description: No response body
@@ -488,6 +673,17 @@ components:
       required:
       - history
       - response
+    Checklist:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        result:
+          type: string
+      required:
+      - id
+      - result
     Counter:
       type: object
       properties:
@@ -518,6 +714,29 @@ components:
       required:
       - id
       - response
+    PaginatedChecklistList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Checklist'
     PaginatedMockResponseList:
       type: object
       required:
@@ -564,6 +783,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
+    PatchedChecklist:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        result:
+          type: string
     PatchedMockResponse:
       type: object
       properties:
