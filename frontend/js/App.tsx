@@ -1,10 +1,11 @@
 import * as Sentry from "@sentry/react";
 import { parse } from "cookie";
+import { useLayoutEffect, useRef } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { OpenAPI } from "api";
-import { DssDynamicBreadcrumb, DssSidebar, DssFooter } from "components/dss";
-import { SidebarProvider } from "components/ui/sidebar";
+import { DssFooter, DssHeader, DssMain, DssSidebar } from "components/dss";
+import { SidebarInset, SidebarProvider } from "components/ui/sidebar";
 
 import { Checklist, Examples, Home, Privacy } from "./routes";
 
@@ -16,47 +17,81 @@ OpenAPI.interceptors.request.use((request) => {
   return request;
 });
 
-const App = () => (
-  <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>}>
-    <header className="bg-card px-4 py-5 flex items-center justify-between">
-      <div className="flex items-center gap-4 ml-auto">
-        <a
-          className="font-medium text-gray-900 hover:text-gray-900/75 transition-colors cursor-pointer rounded-md px-1 py-1"
-          href="/"
-        >
-          DASQ
-        </a>
-      </div>
-    </header>
-    <BrowserRouter
-      future={{
-        // eslint-disable-next-line camelcase
-        v7_startTransition: true,
-        // eslint-disable-next-line camelcase
-        v7_relativeSplatPath: true,
-      }}
-    >
-      <SidebarProvider>
-        <div className="flex min-h-screen">
+const App = () => {
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const footerRef = useRef<HTMLElement | null>(null);
+
+  useLayoutEffect(() => {
+    const updateLayoutVars = () => {
+      const headerHeight = headerRef.current?.offsetHeight ?? 0;
+      const footerHeight = footerRef.current?.offsetHeight ?? 0;
+
+      document.body.style.setProperty("--header-height", `${headerHeight}px`);
+      document.body.style.setProperty("--footer-height", `${footerHeight}px`);
+    };
+
+    updateLayoutVars();
+
+    let headerObserver: ResizeObserver | undefined;
+    let footerObserver: ResizeObserver | undefined;
+    let resizeListenerAttached = false;
+
+    if (typeof ResizeObserver !== "undefined") {
+      if (headerRef.current) {
+        headerObserver = new ResizeObserver(updateLayoutVars);
+        headerObserver.observe(headerRef.current);
+      }
+
+      if (footerRef.current) {
+        footerObserver = new ResizeObserver(updateLayoutVars);
+        footerObserver.observe(footerRef.current);
+      }
+    } else {
+      resizeListenerAttached = true;
+      window.addEventListener("resize", updateLayoutVars);
+    }
+
+    return () => {
+      headerObserver?.disconnect();
+      footerObserver?.disconnect();
+
+      if (resizeListenerAttached) {
+        window.removeEventListener("resize", updateLayoutVars);
+      }
+
+      document.body.style.removeProperty("--header-height");
+      document.body.style.removeProperty("--footer-height");
+    };
+  }, []);
+
+  return (
+    <Sentry.ErrorBoundary fallback={<p>An error has occurred</p>}>
+      <BrowserRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+      >
+        <SidebarProvider>
           <DssSidebar />
-          <div className="flex flex-col flex-grow w-full">
-            <div className="pl-6 mb-1">
-              <DssDynamicBreadcrumb />
-            </div>
-            <main className="flex-1">
+          <DssHeader ref={headerRef} />
+          <SidebarInset className="scroll-smooth">
+            <DssMain className="flex justify-center items-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] p-4 mx-auto">
               <Routes>
                 <Route element={<Home />} path="/" />
                 <Route element={<Privacy />} path="/personvern" />
                 <Route element={<Checklist />} path="/sjekkliste" />
                 <Route element={<Examples />} path="/eksempel" />
               </Routes>
-            </main>
-            <DssFooter />
-          </div>
-        </div>
-      </SidebarProvider>
-    </BrowserRouter>
-  </Sentry.ErrorBoundary>
-);
+            </DssMain>
+          </SidebarInset>
+          <DssFooter ref={footerRef} className="" />
+        </SidebarProvider>
+      </BrowserRouter>
+    </Sentry.ErrorBoundary>
+  );
+};
 
 export default App;
