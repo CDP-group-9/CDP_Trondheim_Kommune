@@ -15,7 +15,7 @@ const Home = () => {
     setInputValue,
     isSending,
     sendMessage,
-  } = useChat("http://localhost:8000/api/chat/chat/");
+  } = useChat("/api/chat/chat/");
 
   useEffect(() => {
     const shouldSend = localStorage.getItem("shouldSendChecklistContext");
