@@ -116,6 +116,8 @@ export function DssSidebar() {
             </div>
             <Link
               className="mt-2 text-sm font-medium text-primary hover:underline inline-flex items-center gap-1 whitespace-nowrap"
+              rel="noopener noreferrer"
+              target="_blank"
               to="https://www.trondheim.kommune.no/aktuelt/personvern/"
             >
               Mer om personvern <SquareArrowOutUpRight className="size-3" />

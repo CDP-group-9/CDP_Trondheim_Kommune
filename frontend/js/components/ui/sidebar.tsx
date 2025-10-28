@@ -25,6 +25,8 @@ import {
 import { useIsMobile } from "js/hooks/use-mobile";
 import { cn } from "js/lib/utils";
 
+import tkLogoSmall from "../../../assets/images/tk-avatar.svg";
+
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
@@ -419,7 +421,22 @@ function SidebarGroupLabel({
   const Comp = asChild ? Slot : "div";
   const { state } = useSidebar();
 
-  if (state === "collapsed") return null;
+  if (state === "collapsed")
+    return (
+      <div className="flex justify-center">
+        <a
+          href="https://www.trondheim.kommune.no/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="Trondheim Kommunes logo"
+            className="h-11 object-contain hover:opacity-80 transition-opacity"
+            src={tkLogoSmall}
+          />
+        </a>
+      </div>
+    );
 
   return (
     <Comp
