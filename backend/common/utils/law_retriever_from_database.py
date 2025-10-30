@@ -10,7 +10,7 @@ class LawRetriever:
                 "dbname": "CDP_Trondheim_Kommune",
                 "user": "CDP_Trondheim_Kommune",
                 "password": "password",
-                "host": "db",  
+                "host": "db",
                 "port": "5432"
             }
 
@@ -101,30 +101,32 @@ class LawRetriever:
         result = {}
 
         if skip_law_search:
-            result["law"] = None
+            result["laws"] = []
             result["paragraphs"] = self._retrieve_paragraphs(prompt, None, k_paragraphs)
             return result
 
         if law_id is None:
             law_results = self._retrieve_laws(prompt, k_laws)
             if not law_results:
-                return {"law": None, "paragraphs": []}
+                return {"laws": [], "paragraphs": []}
 
-            law_id, law_text, law_metadata = law_results[0]
-            result["law"] = {
+            # Store all relevant laws (without text/summary)
+            result["laws"] = [{
                 "law_id": law_id,
-                "metadata": law_metadata,
-                "summary": self._clean_text(law_text),
-            }
-        else:
-            result["law"] = {"law_id": law_id}
+                "metadata": law_metadata
+            } for law_id, _, law_metadata in law_results]
 
-        # result["paragraphs"] = self._retrieve_paragraphs(prompt, law_id, k_paragraphs)
-        # return result
-        paragraphs = self._retrieve_paragraphs(prompt, law_id, k_paragraphs)
+            # Get law_ids for paragraph retrieval
+            law_ids = [law_id for law_id, _, _ in law_results]
+        else:
+            result["laws"] = [{"law_id": law_id}]
+            law_ids = [law_id]
+
+        # Retrieve paragraphs from all relevant laws
+        paragraphs = self._retrieve_paragraphs_from_laws(prompt, law_ids, k_paragraphs)
         result["paragraphs"] = paragraphs
 
-        # Kombiner paragrafene til én tekst
+        # Combine paragraphs into one text
         result["paragraphs_text"] = "\n\n".join([f"{p['paragraph_number']}: {p['text']}" for p in paragraphs])
 
         return result
@@ -136,38 +138,71 @@ class LawRetriever:
                 SELECT law_id, text, metadata
                 FROM laws
                 WHERE embedding IS NOT NULL
-                ORDER BY embedding <-> (%s)::vector(384)
+                ORDER BY embedding <=> (%s)::vector(384)
                 LIMIT %s;
             """, (query_vec, k_laws))
             return cur.fetchall()
 
-    def _retrieve_paragraphs(self, prompt: str, law_id: int, k_paragraphs: int):
+    def _retrieve_paragraphs_from_laws(self, prompt: str, law_ids: list, k_paragraphs: int):
+        """Retrieve paragraphs from multiple laws with similarity scores."""
         query_vec = next(iter(self.model.embed([prompt]))).tolist()
         with self.conn.cursor() as cur:
-            if law_id:
+            if law_ids:
                 cur.execute("""
-                    SELECT paragraph_id, paragraph_number, text, metadata
+                    SELECT paragraph_id, paragraph_number, text, metadata, law_id,
+                           embedding <=> (%s)::vector(384) as cosine_distance
                     FROM paragraphs
-                    WHERE law_id = %s AND embedding IS NOT NULL
-                    ORDER BY embedding <-> (%s)::vector(384)
+                    WHERE law_id = ANY(%s) AND embedding IS NOT NULL
+                    ORDER BY embedding <=> (%s)::vector(384)
                     LIMIT %s;
-                """, (law_id, query_vec, k_paragraphs))
+                """, (query_vec, law_ids, query_vec, k_paragraphs))
             else:
                 cur.execute("""
-                    SELECT paragraph_id, paragraph_number, text, metadata
+                    SELECT paragraph_id, paragraph_number, text, metadata, law_id,
+                           embedding <=> (%s)::vector(384) as cosine_distance
                     FROM paragraphs
                     WHERE embedding IS NOT NULL
-                    ORDER BY embedding <-> (%s)::vector(384)
+                    ORDER BY embedding <=> (%s)::vector(384)
                     LIMIT %s;
-                """, (query_vec, k_paragraphs))
+                """, (query_vec, query_vec, k_paragraphs))
             results = cur.fetchall()
 
         return [{
             "paragraph_id": pid,
             "paragraph_number": pnum,
             "text": self._clean_text(txt),
-            "metadata": meta
-        } for pid, pnum, txt, meta in results]
+            "metadata": meta,
+            "law_id": law_id,
+            "cosine_distance": float(similarity)
+        } for pid, pnum, txt, meta, law_id, similarity in results]
+
+    # def _retrieve_paragraphs(self, prompt: str, law_id: int, k_paragraphs: int):
+    #     query_vec = next(iter(self.model.embed([prompt]))).tolist()
+    #     with self.conn.cursor() as cur:
+    #         if law_id:
+    #             cur.execute("""
+    #                 SELECT paragraph_id, paragraph_number, text, metadata
+    #                 FROM paragraphs
+    #                 WHERE law_id = %s AND embedding IS NOT NULL
+    #                 ORDER BY embedding <-> (%s)::vector(384)
+    #                 LIMIT %s;
+    #             """, (law_id, query_vec, k_paragraphs))
+    #         else:
+    #             cur.execute("""
+    #                 SELECT paragraph_id, paragraph_number, text, metadata
+    #                 FROM paragraphs
+    #                 WHERE embedding IS NOT NULL
+    #                 ORDER BY embedding <-> (%s)::vector(384)
+    #                 LIMIT %s;
+    #             """, (query_vec, k_paragraphs))
+    #         results = cur.fetchall()
+
+    #     return [{
+    #         "paragraph_id": pid,
+    #         "paragraph_number": pnum,
+    #         "text": self._clean_text(txt),
+    #         "metadata": meta
+    #     } for pid, pnum, txt, meta in results]
 
     def _clean_text(self, text: str) -> str:
         text = re.sub(

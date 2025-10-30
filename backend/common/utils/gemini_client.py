@@ -445,52 +445,61 @@ class GeminiAPIClient:
         model_name = model_name or self.standard_model
 
         # Hent relevante lover og paragraftekster
-        laws_data = law_retriever.retrieve(prompt, k_paragraphs=20)
+        laws_data = law_retriever.retrieve(prompt, k_laws=3, k_paragraphs=20)
 
         rag_context = ""
-
-        # Inkluder lovtekst (valgfritt)
-        # if laws_data.get("law"):
-            # rag_context += f"Loven {laws_data['law']['law_id']}:\n{laws_data['law'].get('summary','')}\n\n"
 
         # Inkluder de mest relevante paragrafene
-        if laws_data.get("paragraphs_text"):
-            if rag_context:
-                rag_context += "\n---\n"
-            rag_context += "Relevante paragrafer:\n" + laws_data["paragraphs_text"]
-
-        # # Trunkering
-        max_words = 400
-        rag_context = ""
-        if laws_data.get("paragraphs_text"):
-            paragraphs = laws_data["paragraphs_text"].split("\n\n")
-            selected_paragraphs = []
+        if laws_data.get("paragraphs"):
+            paragraphs_with_law_info = []
             total_words = 0
+            max_words = 400
 
-            for para in paragraphs:
-                # Tell ord i dette paragrafet
-                para_words = len(re.findall(r'\w+', para))
-                
-                # Hvis å legge til dette paragrafet overskrider maksgrensen – stopp
+            for p in laws_data["paragraphs"]:
+                # Find law metadata for this paragraph
+                law_info = None
+                for law in laws_data.get("laws", []):
+                    if law["law_id"] == p["law_id"]:
+                        law_info = law.get("metadata", {})
+                        break
+
+                law_title = "Ukjent lov"
+                if law_info and isinstance(law_info, dict):
+                    law_title = law_info.get("title", f"Lov ID {p['law_id']}")
+                elif law_info:
+                    law_title = str(law_info)
+                else:
+                    law_title = f"Lov ID {p['law_id']}"
+
+                # Print cosine distance
+                print(f"Cosine Distance: {p['cosine_distance']:.4f} - {p['paragraph_number']}")
+
+                # Create paragraph text and count words
+                para_text = f"Fra {law_title} - {p['paragraph_number']}: {p['text']}"
+                para_words = len(re.findall(r'\w+', para_text))
+
+                # Check if adding this paragraph would exceed word limit
                 if total_words + para_words > max_words:
                     break
-                
-                selected_paragraphs.append(para)
+
+                paragraphs_with_law_info.append(para_text)
                 total_words += para_words
 
-            # Sett sammen de valgte paragrafene
-            rag_context = "\n\n".join(selected_paragraphs)
+            rag_context = "Relevante paragrafer:\n" + "\n\n".join(paragraphs_with_law_info)
 
-            print(f"🧾 Sendte {len(selected_paragraphs)} paragrafer ({total_words} ord) til Gemini.")
-            print("Lovtekster og paragraftekster som ble sendt:\n", rag_context)
+            print(f":receipt: Sendte {len(paragraphs_with_law_info)} paragrafer ({total_words} ord) til Gemini.")
+            print("Paragraftekster som ble sendt:\n", rag_context)
 
         # Kombiner med eventuell eksisterende kontekst
-        combined_context = context_text or ""
+        combined_context = ""
+        if context_text:
+            combined_context += context_text
+
         if rag_context:
             if combined_context:
-                combined_context += "\n\n---\nDette er lover og relevante paragrafer: " + rag_context
+                combined_context += "\n\n---\n\n" + rag_context
             else:
-                combined_context = "Dette er lover og relevante paragrafer: " + rag_context
+                combined_context = rag_context
 
         # Legg til kontekst i user_parts
         if combined_context:
