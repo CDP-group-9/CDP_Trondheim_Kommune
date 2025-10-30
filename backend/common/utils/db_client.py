@@ -14,8 +14,7 @@ logging.basicConfig(
     level=logging.INFO,  
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.StreamHandler(sys.stdout),  
-        logging.FileHandler("process_laws.log"),  
+        logging.StreamHandler(sys.stdout)
     ],
 )
 
@@ -150,7 +149,7 @@ def insert_law_record(conn, law_id, text, metadata, embedding):
                 (law_id, text, json.dumps(metadata), embedding),
             )
         conn.commit()
-        logging.info(f"Lagret lov: {law_id}")
+
     except Exception as e:
         logging.error(f"Kunne ikke lagre lov {law_id}: {e}", exc_info=True)
 
@@ -166,7 +165,7 @@ def insert_paragraph_record(conn, law_id, paragraph_id, paragraph_number, text, 
                 (paragraph_id, law_id, paragraph_number, text, json.dumps(metadata), embedding),
             )
         conn.commit()
-        logging.info(f"Lagret paragraf {paragraph_id} for lov {law_id}")
+        
     except Exception as e:
         logging.error(f"Kunne ikke lagre paragraf {paragraph_id} for lov {law_id}: {e}", exc_info=True)
 
@@ -296,12 +295,6 @@ def process_laws(input_dir):
                     },
                     embedding=paragraph_embedding,
                 )
-
-        # --- Lagre JSON lokalt for referanse ---
-        json_output_path = os.path.join("json_output", f"{law_id}.json")
-        with open(json_output_path, "w", encoding="utf-8") as f:
-            json.dump(json_data, f, ensure_ascii=False, indent=2)
-
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
