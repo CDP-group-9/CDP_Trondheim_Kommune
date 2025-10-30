@@ -78,7 +78,7 @@ const App = () => {
           <DssSidebar />
           <DssHeader ref={headerRef} />
           <SidebarInset className="scroll-smooth">
-            <DssMain className="flex justify-center items-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] p-4 mx-auto">
+            <DssMain className="flex justify-center bg-blue-200 min-h-[calc(100vh-var(--header-height)-var(--footer-height))] p-4 mx-auto overflow-hidden">
               <Routes>
                 <Route element={<Home />} path="/" />
                 <Route element={<Privacy />} path="/personvern" />
