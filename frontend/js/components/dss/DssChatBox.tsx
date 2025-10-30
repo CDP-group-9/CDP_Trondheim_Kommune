@@ -36,13 +36,10 @@ export const DssChatBox: FC<ChatBoxProps> = ({ type, message }) => {
               components={{
                 a: ({ href, children }) => (
                   <a
+                    className="text-blue-600 underline hover:text-blue-800"
                     href={href}
-                    target="_blank"
                     rel="noopener noreferrer"
-                    style={{
-                      color: 'blue',
-                      textDecoration: 'underline',
-                    }}
+                    target="_blank"
                   >
                     {children}
                   </a>

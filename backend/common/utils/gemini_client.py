@@ -478,7 +478,7 @@ class GeminiAPIClient:
                 formtatted_2 = lov_id[12:].lstrip("0")
                 formatted = formatted_1 + formtatted_2
                 paragraph_number = p.get("paragraph_number", "").replace("§", "").strip()
-                lov_link = f"https://lovdata.no/dokument/NL/lov/{formatted}"
+                lov_link = f"https://lovdata.no/dokument/LTI/lov/{formatted}"
                 if paragraph_number:
                     lov_link += f"/§{paragraph_number}"
 
@@ -551,7 +551,7 @@ class GeminiAPIClient:
                         text, url = l.split(": ", 1)
                         md_links.append(f"[{text}]({url})")
                     else:
-                        md_links.append(l)  
+                        md_links.append(l)
                 full_response += "\n\n Relevante Lovdata-lenker:\n" + "\n".join(f"- {link}" for link in md_links)
 
             return full_response, updated_history
