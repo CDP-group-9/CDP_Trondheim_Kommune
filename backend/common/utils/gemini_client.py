@@ -539,20 +539,20 @@ class GeminiAPIClient:
             updated_history = chat_session.get_history()
             full_response = response.text
 
-            if combined_context:
-                full_response += "\n\n---\nKontekst som ble sendt til Gemini:\n" + combined_context
+            # if combined_context:
+            #     full_response += "\n\n---\nKontekst som ble sendt til Gemini:\n" + combined_context
 
-            if any(re.search(r"\blov\b|\b§\b", full_response, re.IGNORECASE) for _ in [0]):
-                if law_links:
+            #if any(re.search(r"\blov\b|\b§\b", full_response, re.IGNORECASE) for _ in [0]):
+            if law_links:
 
-                    md_links = []
-                    for l in law_links:
-                        if ": " in l:
-                            text, url = l.split(": ", 1)
-                            md_links.append(f"[{text}]({url})")
-                        else:
-                            md_links.append(l)  
-                    full_response += "\n\n📎 Relevante Lovdata-lenker:\n" + "\n".join(f"- {link}" for link in md_links)
+                md_links = []
+                for l in law_links:
+                    if ": " in l:
+                        text, url = l.split(": ", 1)
+                        md_links.append(f"[{text}]({url})")
+                    else:
+                        md_links.append(l)  
+                full_response += "\n\n Relevante Lovdata-lenker:\n" + "\n".join(f"- {link}" for link in md_links)
 
             return full_response, updated_history
 
