@@ -24,45 +24,77 @@ const Chat = ({
   onSend,
 }: ChatProps) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const lastMessageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const node = scrollContainerRef.current;
+    const container = scrollContainerRef.current;
+    const lastNode = lastMessageRef.current;
 
-    if (!node) return;
+    if (!container) return;
 
-    if (typeof node.scrollTo === "function") {
-      node.scrollTo({
-        top: node.scrollHeight,
-        behavior: "smooth",
-      });
-    } else {
-      node.scrollTop = node.scrollHeight;
+    const scrollTo = (top: number) => {
+      if (typeof container.scrollTo === "function") {
+        container.scrollTo({
+          top,
+          behavior: "smooth",
+        });
+      } else {
+        container.scrollTop = top;
+      }
+    };
+
+    if (lastNode && container.contains(lastNode)) {
+      const containerRect = container.getBoundingClientRect();
+      const lastRect = lastNode.getBoundingClientRect();
+      const marginBottom =
+        typeof window !== "undefined"
+          ? parseFloat(window.getComputedStyle(lastNode).marginBottom || "0")
+          : 0;
+      const offsetFromBottom =
+        lastRect.bottom - containerRect.bottom + marginBottom;
+      const maxScrollTop = container.scrollHeight - container.clientHeight;
+      const targetScrollTop = Math.min(
+        Math.max(container.scrollTop + offsetFromBottom, 0),
+        Math.max(maxScrollTop, 0),
+      );
+      scrollTo(targetScrollTop);
+      return;
     }
+
+    scrollTo(container.scrollHeight);
   }, [messages]);
 
   return (
-    <div className="flex flex-col min-h-full mb-34 max-h-screen justify-end align-bottom w-full bg-red-400 tk-readable overflow-hidden scroll-none">
-      <div className="flex-1 min-h-0 overflow-clip bg-yellow-400">
+    <div className="relative flex h-full w-full justify-center tk-readable">
+      <div className="fixed inset-x-4 pr-auto bottom-[calc(var(--footer-height,0)+1rem)] top-[calc(var(--header-height,0)+1rem)] mx-auto grid w-full max-w-5xl grid-rows-[1fr_auto] rounded-3xl border border-border bg-background shadow-lg">
         <div
           ref={scrollContainerRef}
-          className="flex h-full mb-80 max-h-[calc(100vh-var(40rem)-var(30rem))] flex-col justify-end overflow-x-scroll p-6 bg-purple-400"
+          aria-live="polite"
+          aria-relevant="additions text"
+          className="overflow-y-auto px-4 py-6 sm:px-6"
         >
-          <div className="space-y-4 overflow-clip">
-            {messages.map((msg) => (
-              <DssChatBox key={msg.id} message={msg.message} type={msg.type} />
-            ))}
+          <div className="flex min-h-full flex-col justify-end gap-4">
+            {messages.map((msg, index) => {
+              const isLast = index === messages.length - 1;
+              return (
+                <div
+                  key={msg.id}
+                  ref={isLast ? lastMessageRef : undefined}
+                >
+                  <DssChatBox message={msg.message} type={msg.type} />
+                </div>
+              );
+            })}
           </div>
         </div>
-      </div>
 
-      {errorMsg && (
-        <div className="mx-auto w-full max-w-2xl rounded-md bg-red-50 p-4 text-center text-destructive-foreground">
-          {errorMsg}
-        </div>
-      )}
+        <div className="border-t border-border px-4 py-4 sm:px-6">
+          {errorMsg && (
+            <div className="mb-3 rounded-md bg-red-50 p-3 text-center text-sm text-destructive-foreground">
+              {errorMsg}
+            </div>
+          )}
 
-      <div className="fixed bottom-10 justify-end w-full tk-readable min-h-fit border-t border-brand-gray bg-background bg-yellow-400 p-4 overflow-x-scroll">
-        <div className="sticky bottom-0 bg-green-400 mx-auto flex w-full max-w-3xl items-end gap-2">
           <InputGroup className="rounded-4xl p-2 shadow-sm transition-all focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-blue/30">
             <InputGroupTextarea
               autoFocus
