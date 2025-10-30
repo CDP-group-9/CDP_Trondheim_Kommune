@@ -8,7 +8,7 @@ import {
   MapPin,
   SquareArrowOutUpRight,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import {
   SidebarTrigger,
@@ -49,6 +49,8 @@ const items = [
 ];
 
 export function DssSidebar() {
+  const location = useLocation();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -71,22 +73,32 @@ export function DssSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) => {
+                const isActive =
+                  item.url === "/"
+                    ? location.pathname === "/"
+                    : location.pathname.startsWith(item.url);
+
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <Link
+                        aria-current={isActive ? "page" : undefined}
+                        to={item.url}
+                      >
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
         <SidebarFooter className="mt-auto border-t border-sidebar-border pt-3">
-          <div className="flex flex-col gap-1 text-sm text-sidebar-foreground/80">
+          <div className="flex flex-col gap-2 text-sm text-sidebar-foreground/80">
             <div className="flex items-center gap-2">
               <Mail className="size-4" />
               <a

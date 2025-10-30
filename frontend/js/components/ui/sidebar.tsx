@@ -25,8 +25,6 @@ import {
 import { useIsMobile } from "js/hooks/use-mobile";
 import { cn } from "js/lib/utils";
 
-import tkLogoSmall from "../../../assets/images/tk-avatar.svg";
-
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
@@ -42,6 +40,9 @@ type SidebarContextProps = {
   setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
+  hoveredAny: boolean;
+  hoverStart: (id: string) => void;
+  hoverStop: (id: string) => void;
 };
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
@@ -70,6 +71,9 @@ function SidebarProvider({
 }) {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
+  const [, setHoveredItems] = React.useState<Set<string>>(new Set());
+  const [hoveredAny, setHoveredAny] = React.useState(false);
+  const hoverClearTimeout = React.useRef<number | null>(null);
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -115,6 +119,36 @@ function SidebarProvider({
   // This makes it easier to style the sidebar with Tailwind classes.
   const state = open ? "expanded" : "collapsed";
 
+  const hoverStart = React.useCallback((id: string) => {
+    if (hoverClearTimeout.current) {
+      window.clearTimeout(hoverClearTimeout.current);
+      hoverClearTimeout.current = null;
+    }
+
+    setHoveredItems((prev) => {
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
+    setHoveredAny(true);
+  }, []);
+
+  const hoverStop = React.useCallback((id: string) => {
+    setHoveredItems((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+
+      if (next.size === 0) {
+        hoverClearTimeout.current = window.setTimeout(() => {
+          setHoveredAny(false);
+          hoverClearTimeout.current = null;
+        }, 120);
+      }
+
+      return next;
+    });
+  }, []);
+
   const contextValue = React.useMemo<SidebarContextProps>(
     () => ({
       state,
@@ -124,8 +158,22 @@ function SidebarProvider({
       openMobile,
       setOpenMobile,
       toggleSidebar,
+      hoveredAny,
+      hoverStart,
+      hoverStop,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
+    [
+      state,
+      open,
+      setOpen,
+      isMobile,
+      openMobile,
+      setOpenMobile,
+      toggleSidebar,
+      hoveredAny,
+      hoverStart,
+      hoverStop,
+    ],
   );
 
   return (
@@ -419,30 +467,11 @@ function SidebarGroupLabel({
   ...props
 }: React.ComponentProps<"div"> & { asChild?: boolean }) {
   const Comp = asChild ? Slot : "div";
-  const { state } = useSidebar();
-
-  if (state === "collapsed")
-    return (
-      <div className="flex justify-center">
-        <a
-          href="https://www.trondheim.kommune.no/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <img
-            alt="Trondheim Kommunes logo"
-            className="h-11 object-contain hover:opacity-80 transition-opacity"
-            src={tkLogoSmall}
-          />
-        </a>
-      </div>
-    );
 
   return (
     <Comp
       className={cn(
         "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-75 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
-        "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         className,
       )}
       data-sidebar="group-label"
@@ -492,7 +521,7 @@ function SidebarGroupContent({
 function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   return (
     <ul
-      className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+      className={cn("flex w-full min-w-0 flex-col gap-3", className)}
       data-sidebar="menu"
       data-slot="sidebar-menu"
       {...props}
@@ -555,16 +584,40 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : "button";
-  const { isMobile, state } = useSidebar();
+  const { isMobile, state, hoveredAny, hoverStart, hoverStop } = useSidebar();
+
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  const effectiveIsActive = isActive && (!hoveredAny || isHovered);
+
+  const idRef = React.useId();
+
+  const handleMouseEnter = (e: React.MouseEvent) => {
+    setIsHovered(true);
+    hoverStart(idRef);
+    if (typeof props.onMouseEnter === "function") {
+      (props.onMouseEnter as unknown as (ev: React.MouseEvent) => void)(e);
+    }
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent) => {
+    setIsHovered(false);
+    hoverStop(idRef);
+    if (typeof props.onMouseLeave === "function") {
+      (props.onMouseLeave as unknown as (ev: React.MouseEvent) => void)(e);
+    }
+  };
 
   const button = (
     <Comp
       className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-      data-active={isActive}
+      data-active={effectiveIsActive}
       data-sidebar="menu-button"
       data-size={size}
       data-slot="sidebar-menu-button"
       {...props}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     />
   );
 
