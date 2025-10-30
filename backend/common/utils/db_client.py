@@ -232,15 +232,10 @@ def process_laws(input_dir):
                 "paragraphs": []
             }
 
-            # Samle all tekst fra alle p-elementer i artikkelen til én streng
-            full_paragraph_text = " ".join(
-                p.get_text(" ", strip=True) 
-                for p in legal_article.select("article.legalP") 
-                if p.get_text(strip=True)
-            )
-
-            if full_paragraph_text:
-                article_data["paragraphs"].append(full_paragraph_text)
+            # Hent hele teksten i artikkelen, ikke bare <article.legalP>
+            full_text = legal_article.get_text(" ", strip=True)
+            if full_text:
+                article_data["paragraphs"].append(full_text)
 
             articles.append(article_data)
 
