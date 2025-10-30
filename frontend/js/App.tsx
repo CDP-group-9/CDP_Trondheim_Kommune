@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { OpenAPI } from "api";
 import { DssDynamicBreadcrumb, DssSidebar, DssFooter } from "components/dss";
 import { SidebarProvider } from "components/ui/sidebar";
+import { AppStateProvider } from "contexts/AppStateContext";
 
 import { Checklist, Examples, Home, Privacy } from "./routes";
 
@@ -36,25 +37,27 @@ const App = () => (
         v7_relativeSplatPath: true,
       }}
     >
-      <SidebarProvider>
-        <div className="flex min-h-screen">
-          <DssSidebar />
-          <div className="flex flex-col flex-grow w-full">
-            <div className="pl-6 mb-1">
-              <DssDynamicBreadcrumb />
+      <AppStateProvider>
+        <SidebarProvider>
+          <div className="flex min-h-screen">
+            <DssSidebar />
+            <div className="flex flex-col flex-grow w-full">
+              <div className="pl-6 mb-1">
+                <DssDynamicBreadcrumb />
+              </div>
+              <main className="flex-1">
+                <Routes>
+                  <Route element={<Home />} path="/" />
+                  <Route element={<Privacy />} path="/personvern" />
+                  <Route element={<Checklist />} path="/sjekkliste" />
+                  <Route element={<Examples />} path="/eksempel" />
+                </Routes>
+              </main>
+              <DssFooter />
             </div>
-            <main className="flex-1">
-              <Routes>
-                <Route element={<Home />} path="/" />
-                <Route element={<Privacy />} path="/personvern" />
-                <Route element={<Checklist />} path="/sjekkliste" />
-                <Route element={<Examples />} path="/eksempel" />
-              </Routes>
-            </main>
-            <DssFooter />
           </div>
-        </div>
-      </SidebarProvider>
+        </SidebarProvider>
+      </AppStateProvider>
     </BrowserRouter>
   </Sentry.ErrorBoundary>
 );
