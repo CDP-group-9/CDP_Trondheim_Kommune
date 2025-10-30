@@ -47,6 +47,10 @@
                 "Liberation Sans", sans-serif;
   --font-serif: "PT Serif", ui-serif, Georgia, Cambria, "Times New Roman", serif;
 
+  /* Header and footer heights */
+  --header-height: 4rem;
+  --footer-height: 3rem;
+
   /* Sidebar tokens */
   --sidebar: var(--background);
   --sidebar-foreground: var(--foreground);
@@ -56,6 +60,8 @@
   --sidebar-accent-foreground: var(--accent-foreground);
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
+  --sidebar-width: 16rem;
+  --sidebar-width-icon: 4rem;
 }
 
 /* === Tailwind v4 @theme mappings === */
@@ -133,8 +139,11 @@
   p { font-size: 1rem; line-height: 1.5; }
 
   /* Links must be visually distinct from body text */
-  a { color: var(--brand-blue); text-decoration: underline; text-underline-offset: 2px; }
-  a:hover { text-decoration-thickness: 2px; }
+  body a { color: var(--brand-blue); text-decoration: underline; text-underline-offset: 2px; }
+  body a:hover { text-decoration-thickness: 2px; }
+  body a:visited {
+    color: var(--brand-purple); /* pick whatever visited colour you prefer */
+  }
 }
 
 /* ---------- 5) Utilities & component glue ---------- */

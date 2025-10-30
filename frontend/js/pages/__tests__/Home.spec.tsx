@@ -120,7 +120,7 @@ describe("Home", () => {
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-        "http://localhost:8000/api/chat/chat/",
+        "/api/chat/chat/",
         expect.objectContaining({
           method: "POST",
           headers: expect.objectContaining({
@@ -198,7 +198,7 @@ describe("Home", () => {
     await waitFor(() => {
       expect(textarea).toHaveValue("");
       expect(mockFetch).toHaveBeenCalledWith(
-        "http://localhost:8000/api/chat/chat/",
+        "/api/chat/chat/",
         expect.objectContaining({
           method: "POST",
           body: JSON.stringify({

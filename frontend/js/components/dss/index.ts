@@ -1,6 +1,8 @@
 export { DssChatBox } from "./DssChatBox";
 export { DssDynamicBreadcrumb } from "./DssDynamicBreadcrumb";
+export { DssHeader } from "./DssHeader";
 export { DssFooter } from "./DssFooter";
+export { DssMain } from "./DssMain";
 export { DssFourButtons } from "./DssFourButtons";
 export { DssProgressBar } from "./DssProgressBar";
 export { DssSidebar } from "./DssSidebar";

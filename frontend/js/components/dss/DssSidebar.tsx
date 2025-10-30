@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import tkLogo from "../../../assets/images/tk-logo-wide.svg";
 import {
   SidebarTrigger,
   Sidebar,
@@ -58,17 +57,10 @@ export function DssSidebar() {
           style={{ fontSize: "20px", fontWeight: "600" }}
         >
           <a
-            aria-label="Gå til Trondheim Kommune sin hjemmeside (åpner i ny fane)"
-            className="rounded-md cursor-pointer"
-            href="https://www.trondheim.kommune.no/"
-            rel="noreferrer"
-            target="_blank"
+            className="font-medium text-gray-900 hover:text-gray-900/75 transition-colors cursor-pointer rounded-md px-1 py-1"
+            href="/"
           >
-            <img
-              alt="Trondheim Kommunes logo"
-              className="h-12 object-contain hover:opacity-80 transition-opacity"
-              src={tkLogo}
-            />
+            <h4>ASQ</h4>
           </a>
         </SidebarGroupLabel>
       </SidebarHeader>
