@@ -1,6 +1,6 @@
 import logging
-import time
 import re
+import time
 
 from django.conf import settings
 
@@ -8,7 +8,7 @@ from google import genai
 from google.genai import types
 from google.genai.types import Content, GenerateContentConfig, Part
 
-#from ..law_retriever import LawRetriever
+# from ..law_retriever import LawRetriever
 from .law_retriever_from_database import LawRetriever
 
 
@@ -45,7 +45,7 @@ class GeminiAPIClient:
         # )
 
         # self.async_client = self.client.aio
-        self.standard_model = "gemini-2.5-flash"
+        self.standard_model = "gemini-2.5-flash-lite"
         self.system_instructions = "You are a law assistant. Answer the questions based on Norwegian law and as concise as possible. If given additional context that are laws, refer to them when relevant. No more than 50 words. Answer in Norwegian."
 
     def start_client(self) -> None:
@@ -100,8 +100,12 @@ class GeminiAPIClient:
                 return response.text
 
             except Exception as e:
-                logger.warning(
-                    f"Attempt {attempt}/{max_retries}: Request failed ({e}). Retrying in {backoff}s..."
+                logger.exception(
+                    "Attempt %d/%d: Request failed (%s). Retrying in %ds...",
+                    attempt,
+                    max_retries,
+                    e,
+                    backoff,
                 )
                 time.sleep(backoff)
                 backoff *= 2  # exponential backoff
@@ -146,7 +150,7 @@ class GeminiAPIClient:
             }
             return model_details
         except Exception as e:
-            logger.error("Failed to fetch model details from Gemini API: %s", e)
+            logger.exception("Failed to fetch model details from Gemini API: %s", e)
             raise
 
     def quick_chat(self, model_name: str, messages: list[str]) -> list[(str, str)]:
@@ -249,12 +253,12 @@ class GeminiAPIClient:
             raise
 
     async def async_send_chat_message(
-            self,
-            prompt: str,
-            current_history: list[Content],
-            system_instruction: str | None = None,
-            model_name: str = "gemini-2.5-flash",
-            context_text: str | None = None,
+        self,
+        prompt: str,
+        current_history: list[Content],
+        system_instruction: str | None = None,
+        model_name: str = "gemini-2.5-flash",
+        context_text: str | None = None,
     ) -> tuple[str, list[Content]]:
         """
         Sends a message to the Gemini API asynchronously and returns the response.
@@ -281,7 +285,9 @@ class GeminiAPIClient:
         if context_text:
             # Add the context first
             user_parts.append(
-                Part(text=f"CONTEXT: The following text provides relevant information:\n\n---\n{context_text}\n---")
+                Part(
+                    text=f"CONTEXT: The following text provides relevant information:\n\n---\n{context_text}\n---"
+                )
             )
 
         # Add the actual user prompt
@@ -293,73 +299,14 @@ class GeminiAPIClient:
                 model=model_name,
                 history=current_history,
                 config=config,
-
             )
-            response = await async_chat_session.send_message(
-                user_parts
-            )
+            response = await async_chat_session.send_message(user_parts)
 
             updated_history = async_chat_session.get_history()
 
             return response.text, updated_history
         except Exception as e:
             logger.error("Failed to send async chat message to Gemini API: %s", e)
-            raise
-
-    def send_chat_message_sync(
-        self,
-        prompt: str,
-        current_history: list[Content],
-        system_instruction: str | None = None,
-        model_name: str = "gemini-2.5-flash",
-        context_text: str | None = None,
-    ) -> tuple[str, list[Content]]:
-        """
-        Sends a message to the Gemini API synchronously and returns the response.
-
-        Args:
-            system_instruction (str): Optional system instruction to guide the model's behavior.
-            prompt (str): The user's prompt or question.
-            current_history (list[Content]): The current chat history as a list of Content objects.
-            model_name (str): The name of the model to use for the chat.
-            context_text (str): Optional context text to include with the prompt.
-
-        Returns:
-            tuple[str, list[Content]]: The response and the updated chat history including the model's response.
-        """
-
-        if system_instruction is None:
-            system_instruction = self.system_instructions
-
-        config = None
-        if system_instruction:
-            config = GenerateContentConfig(system_instruction=system_instruction)
-
-        user_parts = []
-
-        if context_text:
-            # Add the context first
-            user_parts.append(
-                Part(text=f"CONTEXT: The following text provides relevant information:\n\n---\n{context_text}\n---")
-            )
-
-        # Add the actual user prompt
-        user_parts.append(Part(text=f"USER QUESTION: {prompt}"))
-
-        try:
-            self.start_client()
-            chat_session = self.client.chats.create(
-                model=model_name,
-                history=current_history,
-                config=config,
-            )
-            response = chat_session.send_message(user_parts)
-
-            updated_history = chat_session.get_history()
-
-            return response.text, updated_history
-        except Exception as e:
-            logger.error("Failed to send sync chat message to Gemini API: %s", e)
             raise
 
     def send_question_with_laws(
@@ -373,73 +320,16 @@ class GeminiAPIClient:
         """
         Henter relevante lover via RAG og sender dem som kontekst til Gemini.
         """
-        # law_retriever = LawRetriever()
-
-        # if system_instruction is None:
-        #     system_instruction = self.system_instructions
-
-        # config = GenerateContentConfig(system_instruction=system_instruction) if system_instruction else None
-        # user_parts = []
-
-        # model_name = model_name or self.standard_model
-
-        # # Get relevant laws
-        # laws = law_retriever.get_relevant_laws(prompt)
-        # rag_context = "\n\n".join(laws) if laws else None
-
-        # max_words = 400
-
-        # # Combine given context with RAG retrieved laws
-        # combined_context = ""
-        # if context_text:
-        #     combined_context += context_text
-
-        # if rag_context:
-        #     words = rag_context.split()
-        #     if len(words) > max_words:
-        #         truncated_words = words[:max_words]
-        #         rag_context = " ".join(truncated_words)
-
-        #     # Append RAG context to existing context
-        #     if combined_context:
-        #         combined_context += "\n\n---\nDette er lover som kan være relevante: " + rag_context
-        #     else:
-        #         combined_context = "Dette er lover som kan være relevante: "+rag_context
-
-        #     print(f"Antall ord sendt til Gemini: {len(words)}")
-        #     print("Lovtekster som ble sendt:\n", rag_context)
-
-        # # Add combined context
-        # if combined_context:
-        #     user_parts.append(
-        #         Part(text=f"KONTEKST: Følgende informasjon kan brukes for å begrunne eller forbedre svaret:\n\n---\n{combined_context}\n---")
-        #     )
-
-        # #Add users question
-        # user_parts.append(Part(text=f"USER QUESTION: {prompt}"))
-
-        # try:
-        #     self.start_client()
-        #     chat_session = self.client.chats.create(
-        #         model=model_name,
-        #         history=current_history,
-        #         config=config,
-        #     )
-        #     response = chat_session.send_message(user_parts)
-        #     updated_history = chat_session.get_history()
-        #     full_response = response.text
-        #     if combined_context:
-        #         full_response += "\n\n---\nKontekst som ble sendt til Gemini:\n" + combined_context
-        #     return full_response, updated_history
-        # except Exception as e:
-        #     logger.error("Failed to send sync chat message to Gemini API: %s", e)
-        #     raise
         law_retriever = LawRetriever()
 
         if system_instruction is None:
             system_instruction = self.system_instructions
 
-        config = GenerateContentConfig(system_instruction=system_instruction) if system_instruction else None
+        config = (
+            GenerateContentConfig(system_instruction=system_instruction)
+            if system_instruction
+            else None
+        )
         user_parts = []
 
         model_name = model_name or self.standard_model
@@ -449,14 +339,12 @@ class GeminiAPIClient:
 
         rag_context = ""
 
-        # Inkluder de mest relevante paragrafene
         if laws_data.get("paragraphs"):
             paragraphs_with_law_info = []
             total_words = 0
             max_words = 400
 
             for p in laws_data["paragraphs"]:
-                # Find law metadata for this paragraph
                 law_info = None
                 for law in laws_data.get("laws", []):
                     if law["law_id"] == p["law_id"]:
@@ -471,14 +359,11 @@ class GeminiAPIClient:
                 else:
                     law_title = f"Lov ID {p['law_id']}"
 
-                # Print cosine distance
                 print(f"Cosine Distance: {p['cosine_distance']:.4f} - {p['paragraph_number']}")
 
-                # Create paragraph text and count words
                 para_text = f"Fra {law_title} - {p['paragraph_number']}: {p['text']}"
-                para_words = len(re.findall(r'\w+', para_text))
+                para_words = len(re.findall(r"\w+", para_text))
 
-                # Check if adding this paragraph would exceed word limit
                 if total_words + para_words > max_words:
                     break
 
@@ -487,24 +372,27 @@ class GeminiAPIClient:
 
             rag_context = "Relevante paragrafer:\n" + "\n\n".join(paragraphs_with_law_info)
 
-            print(f":receipt: Sendte {len(paragraphs_with_law_info)} paragrafer ({total_words} ord) til Gemini.")
+            print(
+                f":receipt: Sendte {len(paragraphs_with_law_info)} paragrafer ({total_words} ord) til Gemini."
+            )
             print("Paragraftekster som ble sendt:\n", rag_context)
 
-        # Kombiner med eventuell eksisterende kontekst
-        combined_context = ""
-        if context_text:
-            combined_context += context_text
-
-        if rag_context:
-            if combined_context:
-                combined_context += "\n\n---\n\n" + rag_context
-            else:
-                combined_context = rag_context
+        # Combine contexts
+        if context_text and rag_context:
+            combined_context = context_text + "\n\n---\n\n" + rag_context
+        elif context_text:
+            combined_context = context_text
+        elif rag_context:
+            combined_context = rag_context
+        else:
+            combined_context = ""
 
         # Legg til kontekst i user_parts
         if combined_context:
             user_parts.append(
-                Part(text=f"KONTEKST: Følgende informasjon kan brukes for å begrunne eller forbedre svaret:\n\n---\n{combined_context}\n---")
+                Part(
+                    text=f"KONTEKST: Følgende informasjon kan brukes for å begrunne eller forbedre svaret:\n\n---\n{combined_context}\n---"
+                )
             )
 
         # Legg til brukerens spørsmål
@@ -529,6 +417,7 @@ class GeminiAPIClient:
         except Exception as e:
             logger.error("Failed to send sync chat message to Gemini API: %s", e)
             raise
+
 
 # Runs ONCE when the django server process loads this module
 GEMINI_CHAT_SERVICE = GeminiAPIClient()

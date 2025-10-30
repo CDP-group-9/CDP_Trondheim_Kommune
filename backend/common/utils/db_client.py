@@ -5,17 +5,17 @@ import sys
 import time
 
 import psycopg2
+from bs4 import BeautifulSoup
 from fastembed import TextEmbedding
 from tqdm import tqdm
-from bs4 import BeautifulSoup
 
 
 logging.basicConfig(
-    level=logging.INFO,  
+    level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.StreamHandler(sys.stdout),  
-        logging.FileHandler("process_laws.log"),  
+        logging.StreamHandler(sys.stdout),
+        logging.FileHandler("process_laws.log"),
     ],
 )
 
@@ -30,11 +30,12 @@ def get_model():
         _model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
     return _model
 
+
 DB_CONFIG = {
     "dbname": "CDP_Trondheim_Kommune",
     "user": "CDP_Trondheim_Kommune",
     "password": "password",
-    "host": "db",  
+    "host": "db",
     "port": "5432",
 }
 
@@ -70,48 +71,6 @@ def create_table_if_not_exists(conn):
     logging.info("Tabellene 'laws' og 'paragraphs' er klare i databasen.")
 
 
-def html_to_json(html_path):
-    with open(html_path, encoding="utf-8") as f:
-        soup = BeautifulSoup(f, "html.parser")
-
-    header = soup.find("header", class_="documentHeader")
-    main = soup.find("main", class_="documentBody")
-
-    data = {
-        "title": (header.find("dd", class_="title").text.strip()
-                  if header.find("dd", class_="title") else None),
-        "ministry": (header.find("dd", class_="ministry").text.strip()
-                     if header.find("dd", class_="ministry") else None),
-        "date_in_force": (header.find("dd", class_="dateInForce").text.strip()
-                          if header.find("dd", class_="dateInForce") else None),
-        "published": (header.find("dd", class_="dateOfPublication").text.strip()
-                      if header.find("dd", class_="dateOfPublication") else None),
-        "based_on": [li.text.strip() for li in header.select("dd.basedOn li")],
-        "changes_to": [li.text.strip() for li in header.select("dd.changesToDocuments li")],
-        "chapters": [],
-    }
-
-    for section in main.find_all("section", class_="section"):
-        chapter = {
-            "name": section.find("h2").text.strip() if section.find("h2") else None,
-            "articles": [],
-        }
-        for article in section.find_all("article"):
-            text = article.get_text(" ", strip=True)
-            title = None
-            para = article.find(class_="legalArticleTitle")
-            if para:
-                title = para.text.strip()
-            article_id = article.get("id")
-            chapter["articles"].append({
-                "id": article_id,
-                "title": title,
-                "text": text,
-            })
-        data["chapters"].append(chapter)
-
-    return data
-
 def extract_text_from_json(data):
     """
     Slår sammen all tekst fra JSON til én streng for embedding.
@@ -122,15 +81,13 @@ def extract_text_from_json(data):
     # Metadata-felter hvis ønskelig, f.eks. title
     if "Title" in data.get("metadata", {}):
         parts.append(data["metadata"]["Title"])
-    
+
     # Gå gjennom artiklene
     for article in data.get("articles", []):
         for para in article.get("paragraphs", []):
             if para and para not in parts:  # unngå duplikater
                 parts.append(para)
-
     return "\n".join(parts)
-
 
 
 def create_embedding(text):
@@ -150,12 +107,14 @@ def insert_law_record(conn, law_id, text, metadata, embedding):
                 (law_id, text, json.dumps(metadata), embedding),
             )
         conn.commit()
-        logging.info(f"Lagret lov: {law_id}")
+        logging.info("Lagret lov: %s", law_id)
     except Exception as e:
-        logging.error(f"Kunne ikke lagre lov {law_id}: {e}", exc_info=True)
+        logging.exception("Kunne ikke lagre lov %s: %s", law_id, e)
 
 
-def insert_paragraph_record(conn, law_id, paragraph_id, paragraph_number, text, metadata, embedding):
+def insert_paragraph_record(
+    conn, law_id, paragraph_id, paragraph_number, text, metadata, embedding
+):
     try:
         with conn.cursor() as cur:
             cur.execute(
@@ -166,9 +125,9 @@ def insert_paragraph_record(conn, law_id, paragraph_id, paragraph_number, text, 
                 (paragraph_id, law_id, paragraph_number, text, json.dumps(metadata), embedding),
             )
         conn.commit()
-        logging.info(f"Lagret paragraf {paragraph_id} for lov {law_id}")
+        logging.info("Lagret paragraf %s for lov %s", paragraph_id, law_id)
     except Exception as e:
-        logging.error(f"Kunne ikke lagre paragraf {paragraph_id} for lov {law_id}: {e}", exc_info=True)
+        logging.exception("Kunne ikke lagre paragraf %s for lov %s: %s", paragraph_id, law_id, e)
 
 
 def clear_table(conn):
@@ -176,7 +135,7 @@ def clear_table(conn):
         cur.execute("TRUNCATE TABLE paragraphs;")
         cur.execute("TRUNCATE TABLE laws;")
     conn.commit()
-    logging.info("🧹 Tabellene 'laws' og 'paragraphs' er tømt.")
+    logging.info("Tabellene 'laws' og 'paragraphs' er tømt.")
 
 
 def process_laws(input_dir):
@@ -188,8 +147,8 @@ def process_laws(input_dir):
             logging.info("Koblet til databasen!")
             break
         except Exception as e:
-            logging.warning(f"Kan ikke koble til databasen (forsøk {attempt+1}/5): {e}")
-            time.sleep(3)  
+            logging.exception("Kan ikke koble til databasen (forsøk %s/5): %s", attempt + 1, e)
+            time.sleep(3)
     else:
         raise Exception("Kunne ikke koble til databasen etter flere forsøk")
 
@@ -204,7 +163,11 @@ def process_laws(input_dir):
 
         # === Metadata ===
         metadata = {}
-        for dt, dd in zip(soup.select("dl.data-document-key-info dt"), soup.select("dl.data-document-key-info dd")):
+        for dt, dd in zip(
+            soup.select("dl.data-document-key-info dt"),
+            soup.select("dl.data-document-key-info dd"),
+            strict=False,
+        ):
             key = dt.get_text(strip=True)
             if dd.find("ul"):
                 metadata[key] = [li.get_text(strip=True) for li in dd.select("li")]
@@ -230,13 +193,13 @@ def process_laws(input_dir):
             article_data = {
                 "title": legal_article.get("data-name", ""),
                 "url": legal_article.get("data-lovdata-url", ""),
-                "paragraphs": []
+                "paragraphs": [],
             }
 
             # Samle all tekst fra alle p-elementer i artikkelen til én streng
             full_paragraph_text = " ".join(
-                p.get_text(" ", strip=True) 
-                for p in legal_article.select("article.legalP") 
+                p.get_text(" ", strip=True)
+                for p in legal_article.select("article.legalP")
                 if p.get_text(strip=True)
             )
 
@@ -245,12 +208,8 @@ def process_laws(input_dir):
 
             articles.append(article_data)
 
-        return {
-            "metadata": metadata,
-            "table_of_contents": table_of_contents,
-            "articles": articles
-        }
-    
+        return {"metadata": metadata, "table_of_contents": table_of_contents, "articles": articles}
+
     for file in tqdm(os.listdir(input_dir), desc="Processing XML"):
         if not file.endswith(".xml"):
             continue
@@ -260,14 +219,14 @@ def process_laws(input_dir):
 
         try:
             json_data = html_to_json_structured(xml_path)
-        except Exception as e:
-            logging.error(f"Kunne ikke lese XML {file}: {e}", exc_info=True)
+        except (FileNotFoundError, UnicodeDecodeError, OSError) as e:
+            logging.exception("Kunne ikke lese XML %s: %s", file, e)
             continue
 
         # --- LAGRE LOVEN MED EGEN EMBEDDING ---
         law_text = extract_text_from_json(json_data)
         if not law_text.strip():
-            logging.warning(f"Ingen tekst funnet i {file}")
+            logging.warning("Ingen tekst funnet i %s", file)
             continue
 
         law_embedding = create_embedding(law_text)
