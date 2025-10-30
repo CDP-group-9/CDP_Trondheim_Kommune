@@ -1,7 +1,8 @@
-import { Check, History, DockIcon, Info, Plus } from "lucide-react";
+import { Check, DockIcon, Info, Plus, History, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import tkLogo from "../../../assets/images/tk-logo-wide.svg";
+import { useAppState } from "../../contexts/AppStateContext";
 import {
   SidebarTrigger,
   Sidebar,
@@ -21,6 +22,7 @@ const items = [
     title: "Ny samtale",
     url: "/",
     icon: Plus,
+    action: "newChat" as const,
   },
   {
     title: "Om personvern",
@@ -40,6 +42,14 @@ const items = [
 ];
 
 export function DssSidebar() {
+  const {
+    chatSessions,
+    currentChatId,
+    createNewChat,
+    switchToChat,
+    deleteChat,
+  } = useAppState();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -68,7 +78,14 @@ export function DssSidebar() {
               <SidebarMenu>
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton
+                      asChild
+                      onClick={() => {
+                        if (item.action === "newChat") {
+                          createNewChat();
+                        }
+                      }}
+                    >
                       <Link to={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
@@ -77,12 +94,48 @@ export function DssSidebar() {
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
-              <SidebarGroupLabel className="gap-2 mt-4 mb-2">
-                <History />
-                <span> Tidligere samtaler</span>
-              </SidebarGroupLabel>
             </SidebarGroupContent>
           </SidebarGroup>
+
+          {chatSessions.length > 0 && (
+            <SidebarGroup>
+              <SidebarGroupLabel className="gap-2">
+                <History className="h-4 w-4" />
+                <span>Tidligere samtaler</span>
+              </SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {chatSessions.map((session) => (
+                    <SidebarMenuItem key={session.id}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={currentChatId === session.id}
+                        onClick={() => switchToChat(session.id)}
+                      >
+                        <div className="flex items-center justify-between w-full group">
+                          <Link className="flex-1 truncate" to="/">
+                            {session.title}
+                          </Link>
+                          <button
+                            aria-label="Slett samtale"
+                            className="opacity-0 group-hover:opacity-100 ml-2 text-muted-foreground hover:text-destructive transition-opacity"
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              deleteChat(session.id);
+                            }}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          )}
         </SidebarContent>
       </SidebarHeader>
     </Sidebar>
