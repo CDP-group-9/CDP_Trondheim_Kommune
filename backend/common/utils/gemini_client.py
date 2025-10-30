@@ -372,6 +372,67 @@ class GeminiAPIClient:
         """
         Henter relevante lover via RAG og sender dem som kontekst til Gemini.
         """
+        # law_retriever = LawRetriever()
+
+        # if system_instruction is None:
+        #     system_instruction = self.system_instructions
+
+        # config = GenerateContentConfig(system_instruction=system_instruction) if system_instruction else None
+        # user_parts = []
+
+        # model_name = model_name or self.standard_model
+
+        # # Get relevant laws
+        # laws = law_retriever.get_relevant_laws(prompt)
+        # rag_context = "\n\n".join(laws) if laws else None
+
+        # max_words = 400
+
+        # # Combine given context with RAG retrieved laws
+        # combined_context = ""
+        # if context_text:
+        #     combined_context += context_text
+
+        # if rag_context:
+        #     words = rag_context.split()
+        #     if len(words) > max_words:
+        #         truncated_words = words[:max_words]
+        #         rag_context = " ".join(truncated_words)
+
+        #     # Append RAG context to existing context
+        #     if combined_context:
+        #         combined_context += "\n\n---\nDette er lover som kan være relevante: " + rag_context
+        #     else:
+        #         combined_context = "Dette er lover som kan være relevante: "+rag_context
+
+        #     print(f"Antall ord sendt til Gemini: {len(words)}")
+        #     print("Lovtekster som ble sendt:\n", rag_context)
+
+        # # Add combined context
+        # if combined_context:
+        #     user_parts.append(
+        #         Part(text=f"KONTEKST: Følgende informasjon kan brukes for å begrunne eller forbedre svaret:\n\n---\n{combined_context}\n---")
+        #     )
+
+        # #Add users question
+        # user_parts.append(Part(text=f"USER QUESTION: {prompt}"))
+
+        # try:
+        #     self.start_client()
+        #     chat_session = self.client.chats.create(
+        #         model=model_name,
+        #         history=current_history,
+        #         config=config,
+        #     )
+        #     response = chat_session.send_message(user_parts)
+        #     updated_history = chat_session.get_history()
+        #     full_response = response.text
+        #     if combined_context:
+        #         full_response += "\n\n---\nKontekst som ble sendt til Gemini:\n" + combined_context
+        #     return full_response, updated_history
+        # except Exception as e:
+        #     logger.error("Failed to send sync chat message to Gemini API: %s", e)
+        #     raise
         law_retriever = LawRetriever()
 
         if system_instruction is None:
@@ -382,39 +443,46 @@ class GeminiAPIClient:
 
         model_name = model_name or self.standard_model
 
-        # Get relevant laws
-        laws = law_retriever.get_relevant_laws(prompt)
-        rag_context = "\n\n".join(laws) if laws else None
+        # Hent relevante lover og paragraftekster
+        laws_data = law_retriever.retrieve(prompt, k_paragraphs=5)
 
+        rag_context = ""
+
+        # Inkluder lovtekst (valgfritt)
+        # if laws_data.get("law"):
+            # rag_context += f"Loven {laws_data['law']['law_id']}:\n{laws_data['law'].get('summary','')}\n\n"
+
+        # Inkluder de mest relevante paragrafene
+        if laws_data.get("paragraphs_text"):
+            if rag_context:
+                rag_context += "\n---\n"
+            rag_context += "Relevante paragrafer:\n" + laws_data["paragraphs_text"]
+
+        # Trunkering
         max_words = 400
-
-        # Combine given context with RAG retrieved laws
-        combined_context = ""
-        if context_text:
-            combined_context += context_text
-
         if rag_context:
             words = rag_context.split()
             if len(words) > max_words:
-                truncated_words = words[:max_words]
-                rag_context = " ".join(truncated_words)
-
-            # Append RAG context to existing context
-            if combined_context:
-                combined_context += "\n\n---\nDette er lover som kan være relevante: " + rag_context
-            else:
-                combined_context = "Dette er lover som kan være relevante: "+rag_context
+                rag_context = " ".join(words[:max_words])
 
             print(f"Antall ord sendt til Gemini: {len(words)}")
-            print("Lovtekster som ble sendt:\n", rag_context)
+            print("Lovtekster og paragraftekster som ble sendt:\n", rag_context)
 
-        # Add combined context
+        # Kombiner med eventuell eksisterende kontekst
+        combined_context = context_text or ""
+        if rag_context:
+            if combined_context:
+                combined_context += "\n\n---\nDette er lover og relevante paragrafer: " + rag_context
+            else:
+                combined_context = "Dette er lover og relevante paragrafer: " + rag_context
+
+        # Legg til kontekst i user_parts
         if combined_context:
             user_parts.append(
                 Part(text=f"KONTEKST: Følgende informasjon kan brukes for å begrunne eller forbedre svaret:\n\n---\n{combined_context}\n---")
             )
 
-        #Add users question
+        # Legg til brukerens spørsmål
         user_parts.append(Part(text=f"USER QUESTION: {prompt}"))
 
         try:
@@ -427,9 +495,12 @@ class GeminiAPIClient:
             response = chat_session.send_message(user_parts)
             updated_history = chat_session.get_history()
             full_response = response.text
+
             if combined_context:
                 full_response += "\n\n---\nKontekst som ble sendt til Gemini:\n" + combined_context
+
             return full_response, updated_history
+
         except Exception as e:
             logger.error("Failed to send sync chat message to Gemini API: %s", e)
             raise

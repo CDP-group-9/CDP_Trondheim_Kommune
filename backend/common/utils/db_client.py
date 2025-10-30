@@ -44,9 +44,22 @@ def create_table_if_not_exists(conn):
         cur.execute(
             """
             CREATE EXTENSION IF NOT EXISTS vector;
+
+            -- Tabell for lover
             CREATE TABLE IF NOT EXISTS laws (
                 id SERIAL PRIMARY KEY,
-                law_id TEXT,
+                law_id TEXT UNIQUE,
+                text TEXT,
+                metadata JSONB,
+                embedding VECTOR(384)
+            );
+
+            -- Tabell for paragrafer relatert til lover
+            CREATE TABLE IF NOT EXISTS paragraphs (
+                id SERIAL PRIMARY KEY,
+                paragraph_id TEXT,
+                law_id TEXT,  -- peker til laws.law_id (men uten FK-begrensning)
+                paragraph_number TEXT,
                 text TEXT,
                 metadata JSONB,
                 embedding VECTOR(384)
@@ -54,7 +67,7 @@ def create_table_if_not_exists(conn):
         """
         )
     conn.commit()
-    logging.info(" Tabell 'laws' er klar i databasen.")
+    logging.info("Tabellene 'laws' og 'paragraphs' er klare i databasen.")
 
 
 def html_to_json(html_path):
@@ -142,11 +155,28 @@ def insert_law_record(conn, law_id, text, metadata, embedding):
         logging.error(f"Kunne ikke lagre lov {law_id}: {e}", exc_info=True)
 
 
+def insert_paragraph_record(conn, law_id, paragraph_id, paragraph_number, text, metadata, embedding):
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO paragraphs (paragraph_id, law_id, paragraph_number, text, metadata, embedding)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                """,
+                (paragraph_id, law_id, paragraph_number, text, json.dumps(metadata), embedding),
+            )
+        conn.commit()
+        logging.info(f"Lagret paragraf {paragraph_id} for lov {law_id}")
+    except Exception as e:
+        logging.error(f"Kunne ikke lagre paragraf {paragraph_id} for lov {law_id}: {e}", exc_info=True)
+
+
 def clear_table(conn):
     with conn.cursor() as cur:
+        cur.execute("TRUNCATE TABLE paragraphs;")
         cur.execute("TRUNCATE TABLE laws;")
     conn.commit()
-    logging.info("🧹 Tabellen 'laws' er tømt.")
+    logging.info("🧹 Tabellene 'laws' og 'paragraphs' er tømt.")
 
 
 def process_laws(input_dir):
@@ -202,8 +232,17 @@ def process_laws(input_dir):
                 "url": legal_article.get("data-lovdata-url", ""),
                 "paragraphs": []
             }
-            for p in legal_article.select("article.legalP"):
-                article_data["paragraphs"].append(p.get_text(strip=True))
+
+            # Samle all tekst fra alle p-elementer i artikkelen til én streng
+            full_paragraph_text = " ".join(
+                p.get_text(" ", strip=True) 
+                for p in legal_article.select("article.legalP") 
+                if p.get_text(strip=True)
+            )
+
+            if full_paragraph_text:
+                article_data["paragraphs"].append(full_paragraph_text)
+
             articles.append(article_data)
 
         return {
@@ -213,29 +252,55 @@ def process_laws(input_dir):
         }
     
     for file in tqdm(os.listdir(input_dir), desc="Processing XML"):
-        if file.endswith(".xml"):
-            xml_path = os.path.join(input_dir, file)
-            try:
-                json_data = html_to_json_structured(xml_path)
-            except Exception as e:
-                logging.error(f"Kunne ikke lese XML {file}: {e}", exc_info=True)
-                continue
+        if not file.endswith(".xml"):
+            continue
 
-            # Lag tekst for embedding
-            text = extract_text_from_json(json_data)
-            if not text:
-                logging.warning(f"Ingen tekst funnet i {file}")
-                continue
+        xml_path = os.path.join(input_dir, file)
+        law_id = os.path.splitext(file)[0]
 
-            embedding = create_embedding(text)
-            law_id = os.path.splitext(file)[0]
+        try:
+            json_data = html_to_json_structured(xml_path)
+        except Exception as e:
+            logging.error(f"Kunne ikke lese XML {file}: {e}", exc_info=True)
+            continue
 
-            insert_law_record(conn, law_id, text, json_data["metadata"], embedding)
+        # --- LAGRE LOVEN MED EGEN EMBEDDING ---
+        law_text = extract_text_from_json(json_data)
+        if not law_text.strip():
+            logging.warning(f"Ingen tekst funnet i {file}")
+            continue
 
-            # Lagre JSON lokalt
-            json_output_path = os.path.join("json_output", f"{law_id}.json")
-            with open(json_output_path, "w", encoding="utf-8") as f:
-                json.dump(json_data, f, ensure_ascii=False, indent=2)
+        law_embedding = create_embedding(law_text)
+        insert_law_record(conn, law_id, law_text, json_data["metadata"], law_embedding)
+
+        # --- LAGRE HVER PARAGRAF MED EGEN EMBEDDING ---
+        for idx, article in enumerate(json_data.get("articles", []), start=1):
+            article_title = article.get("title") or f"§{idx}"
+
+            for p_idx, paragraph_text in enumerate(article.get("paragraphs", []), start=1):
+                if not paragraph_text.strip():
+                    continue
+
+                paragraph_id = f"{law_id}_p{idx}_{p_idx}"
+                paragraph_embedding = create_embedding(paragraph_text)
+
+                insert_paragraph_record(
+                    conn=conn,
+                    law_id=law_id,
+                    paragraph_id=paragraph_id,
+                    paragraph_number=article_title,
+                    text=paragraph_text,
+                    metadata={
+                        "article_title": article.get("title"),
+                        "paragraph_index": p_idx,
+                    },
+                    embedding=paragraph_embedding,
+                )
+
+        # --- Lagre JSON lokalt for referanse ---
+        json_output_path = os.path.join("json_output", f"{law_id}.json")
+        with open(json_output_path, "w", encoding="utf-8") as f:
+            json.dump(json_data, f, ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":
