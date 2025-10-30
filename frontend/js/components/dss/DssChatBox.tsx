@@ -1,5 +1,5 @@
 import { FC } from "react";
-
+import ReactMarkdown from "react-markdown";
 import trondheimKommuneAvatar from "../../../assets/images/tk-avatar.svg";
 import brukerAvatar from "../../../assets/images/user-avatar.svg";
 
@@ -32,7 +32,25 @@ export const DssChatBox: FC<ChatBoxProps> = ({ type, message }) => {
             />
           </div>
           <div className="max-w-2xl p-4 rounded-lg bg-muted mr-12 whitespace-pre-wrap">
-            {message}
+            <ReactMarkdown
+              components={{
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: 'blue',
+                      textDecoration: 'underline',
+                    }}
+                  >
+                    {children}
+                  </a>
+                ),
+              }}
+            >
+              {message}
+            </ReactMarkdown>
           </div>
         </>
       )}
