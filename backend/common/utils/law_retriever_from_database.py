@@ -182,6 +182,12 @@ class LawRetriever:
                     (query_vec, query_vec, k_paragraphs),
                 )
             results = cur.fetchall()
+        
+        # Removes first chapter "lovens formål og virkeområde" 
+        results = [
+            r for r in results
+            if not re.match(r"^§\s*1\b", str(r[1]))
+        ]
 
         return [
             {
