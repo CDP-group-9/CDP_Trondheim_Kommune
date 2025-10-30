@@ -89,7 +89,7 @@ class LawRetriever:
     #     if len(text.split()) > 600:
     #         text = " ".join(text.split()[:600])
     #     return text
-    def retrieve(self, prompt: str, k_laws: int = 3, k_paragraphs: int = 5, law_id: int = None, skip_law_search: bool = False) -> dict:
+    def retrieve(self, prompt: str, k_laws: int = 3, k_paragraphs: int = None, law_id: int = None, skip_law_search: bool = False) -> dict:
         """
         Hovedmetode for å hente relevante lover og/eller paragrafer.
         Hvis skip_law_search=True, hopper den over lov-søk og søker direkte i alle paragrafer.

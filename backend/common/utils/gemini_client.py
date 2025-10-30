@@ -1,5 +1,6 @@
 import logging
 import time
+import re
 
 from django.conf import settings
 
@@ -444,7 +445,7 @@ class GeminiAPIClient:
         model_name = model_name or self.standard_model
 
         # Hent relevante lover og paragraftekster
-        laws_data = law_retriever.retrieve(prompt, k_paragraphs=5)
+        laws_data = law_retriever.retrieve(prompt, k_paragraphs=20)
 
         rag_context = ""
 
@@ -458,14 +459,29 @@ class GeminiAPIClient:
                 rag_context += "\n---\n"
             rag_context += "Relevante paragrafer:\n" + laws_data["paragraphs_text"]
 
-        # Trunkering
+        # # Trunkering
         max_words = 400
-        if rag_context:
-            words = rag_context.split()
-            if len(words) > max_words:
-                rag_context = " ".join(words[:max_words])
+        rag_context = ""
+        if laws_data.get("paragraphs_text"):
+            paragraphs = laws_data["paragraphs_text"].split("\n\n")
+            selected_paragraphs = []
+            total_words = 0
 
-            print(f"Antall ord sendt til Gemini: {len(words)}")
+            for para in paragraphs:
+                # Tell ord i dette paragrafet
+                para_words = len(re.findall(r'\w+', para))
+                
+                # Hvis å legge til dette paragrafet overskrider maksgrensen – stopp
+                if total_words + para_words > max_words:
+                    break
+                
+                selected_paragraphs.append(para)
+                total_words += para_words
+
+            # Sett sammen de valgte paragrafene
+            rag_context = "\n\n".join(selected_paragraphs)
+
+            print(f"🧾 Sendte {len(selected_paragraphs)} paragrafer ({total_words} ord) til Gemini.")
             print("Lovtekster og paragraftekster som ble sendt:\n", rag_context)
 
         # Kombiner med eventuell eksisterende kontekst
