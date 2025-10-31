@@ -141,13 +141,15 @@
   /* Links must be visually distinct from body text */
   body a { color: var(--brand-blue); text-decoration: underline; text-underline-offset: 2px; }
   body a:hover { text-decoration-thickness: 2px; }
-  body a:visited {
-    color: var(--brand-purple); /* pick whatever visited colour you prefer */
-  }
 }
 
 /* ---------- 5) Utilities & component glue ---------- */
 @layer utilities {
+  .tk-link-visited {
+    .external-link-visited:visited {
+      color: var(--brand-purple);
+    } 
+  }
   /* Logo alignment helpers (logo should align to left text margin) */
   .tk-logo-left { display: block; margin-inline-start: 0; }
   /* Optional white box behind crest when placed on colored backgrounds */

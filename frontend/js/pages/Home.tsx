@@ -49,7 +49,7 @@ const Home = () => {
   }
 
   return (
-    <div className="flex min-h-full w-full flex-col gap-6 tk-readable p-6">
+    <div className="flex min-h-full w-full flex-col tk-readable p-6">
       <section className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
         <h1 className="text-4xl font-semibold">ASQ</h1>
         <p className="text-lg font-semibold">
