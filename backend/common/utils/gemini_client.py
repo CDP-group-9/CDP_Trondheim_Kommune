@@ -343,6 +343,7 @@ class GeminiAPIClient:
             paragraphs_with_law_info = []
             total_words = 0
             max_words = 400
+            law_links = []
 
             for p in laws_data["paragraphs"]:
                 law_info = None
@@ -361,21 +362,43 @@ class GeminiAPIClient:
 
                 print(f"Cosine Distance: {p['cosine_distance']:.4f} - {p['paragraph_number']}")
 
-                para_text = f"Fra {law_title} - {p['paragraph_number']}: {p['text']}"
-                para_words = len(re.findall(r"\w+", para_text))
+                # Bygg Lovdata-lenke
+                lov_id = p["law_id"]
+                formatted_1 = f"{lov_id[3:7]}-{lov_id[7:9]}-{lov_id[9:12]}"
+                formtatted_2 = lov_id[12:].lstrip("0")
+                formatted = formatted_1 + formtatted_2
+                paragraph_number = p.get("paragraph_number", "").replace("§", "").strip()
+                lov_link = f"https://lovdata.no/dokument/LTI/lov/{formatted}"
+                if paragraph_number:
+                    lov_link += f"/§{paragraph_number}"
 
+                # Lag paragraftekst (uten lenke i kontekst)
+                para_text = f"Fra {law_title} - §{paragraph_number}: {p['text']}"
+
+                para_words = len(re.findall(r'\w+', para_text))
                 if total_words + para_words > max_words:
                     break
 
                 paragraphs_with_law_info.append(para_text)
+                law_links.append(f"{law_title} §{paragraph_number}: {lov_link}")
                 total_words += para_words
 
+            # Kun paragraftekstene sendes til Gemini
             rag_context = "Relevante paragrafer:\n" + "\n\n".join(paragraphs_with_law_info)
 
             print(
                 f":receipt: Sendte {len(paragraphs_with_law_info)} paragrafer ({total_words} ord) til Gemini."
             )
             print("Paragraftekster som ble sendt:\n", rag_context)
+
+            # Men vi skriver også ut lenkene her
+            if law_links:
+                print("\n📎 Lenker til relevante lover:")
+                for link in law_links:
+                    print(" -", link)
+
+        else:
+            law_links = []
 
         # Combine contexts
         if context_text and rag_context:
@@ -409,8 +432,20 @@ class GeminiAPIClient:
             updated_history = chat_session.get_history()
             full_response = response.text
 
-            if combined_context:
-                full_response += "\n\n---\nKontekst som ble sendt til Gemini:\n" + combined_context
+            # if combined_context:
+            #     full_response += "\n\n---\nKontekst som ble sendt til Gemini:\n" + combined_context
+
+            #if any(re.search(r"\blov\b|\b§\b", full_response, re.IGNORECASE) for _ in [0]):
+            if law_links:
+
+                md_links = []
+                for l in law_links:
+                    if ": " in l:
+                        text, url = l.split(": ", 1)
+                        md_links.append(f"[{text}]({url})")
+                    else:
+                        md_links.append(l)
+                full_response += "\n\n Relevante Lovdata-lenker:\n" + "\n".join(f"- {link}" for link in md_links)
 
             return full_response, updated_history
 

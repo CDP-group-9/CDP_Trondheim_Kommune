@@ -14,8 +14,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler("process_laws.log"),
+        logging.StreamHandler(sys.stdout)
     ],
 )
 
@@ -107,7 +106,7 @@ def insert_law_record(conn, law_id, text, metadata, embedding):
                 (law_id, text, json.dumps(metadata), embedding),
             )
         conn.commit()
-        logging.info("Lagret lov: %s", law_id)
+
     except Exception as e:
         logging.exception("Kunne ikke lagre lov %s: %s", law_id, e)
 
@@ -125,7 +124,7 @@ def insert_paragraph_record(
                 (paragraph_id, law_id, paragraph_number, text, json.dumps(metadata), embedding),
             )
         conn.commit()
-        logging.info("Lagret paragraf %s for lov %s", paragraph_id, law_id)
+
     except Exception as e:
         logging.exception("Kunne ikke lagre paragraf %s for lov %s: %s", paragraph_id, law_id, e)
 
@@ -196,15 +195,10 @@ def process_laws(input_dir):
                 "paragraphs": [],
             }
 
-            # Samle all tekst fra alle p-elementer i artikkelen til én streng
-            full_paragraph_text = " ".join(
-                p.get_text(" ", strip=True)
-                for p in legal_article.select("article.legalP")
-                if p.get_text(strip=True)
-            )
-
-            if full_paragraph_text:
-                article_data["paragraphs"].append(full_paragraph_text)
+            # Hent hele teksten i artikkelen, ikke bare <article.legalP>
+            full_text = legal_article.get_text(" ", strip=True)
+            if full_text:
+                article_data["paragraphs"].append(full_text)
 
             articles.append(article_data)
 
@@ -255,12 +249,6 @@ def process_laws(input_dir):
                     },
                     embedding=paragraph_embedding,
                 )
-
-        # --- Lagre JSON lokalt for referanse ---
-        json_output_path = os.path.join("json_output", f"{law_id}.json")
-        with open(json_output_path, "w", encoding="utf-8") as f:
-            json.dump(json_data, f, ensure_ascii=False, indent=2)
-
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
