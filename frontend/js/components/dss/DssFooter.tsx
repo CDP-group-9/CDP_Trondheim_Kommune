@@ -40,7 +40,7 @@ export const DssFooter = forwardRef<HTMLElement, DssFooterProps>(
       <footer
         ref={ref}
         className={cn(
-          "bg-card border-t border-border flex justify-center p-2",
+          "bg-card border-t border-border fixed z-10 bottom-0 flex justify-center p-2",
           className,
         )}
         data-collapsed={isCollapsed ? "true" : "false"}
