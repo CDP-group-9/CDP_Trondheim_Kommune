@@ -1,7 +1,7 @@
 import { Send } from "lucide-react";
 import { useEffect } from "react";
 
-import { DssFourButtons, DssChatBox } from "components/dss";
+import { DssChatBox } from "components/dss";
 import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
@@ -15,7 +15,7 @@ const Home = () => {
     setInputValue,
     isSending,
     sendMessage,
-  } = useChat("http://localhost:8000/api/chat/chat/");
+  } = useChat("/api/chat/chat/");
 
   useEffect(() => {
     const shouldSend = localStorage.getItem("shouldSendChecklistContext");
@@ -29,13 +29,17 @@ const Home = () => {
   }, [sendMessage]);
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="flex flex-col h-full w-full gap-20 mx-auto tk-readable">
       {messages.length === 0 && (
-        <div className="flex-1 flex items-center justify-center p-6">
-          <div className="max-w-lg mx-auto">
-            <DssFourButtons submitPromptFunction={sendMessage} />
-          </div>
-        </div>
+        <section className="flex-1 flex flex-col gap-1.5 items-center text-center">
+          <h1 className="text-4xl font-semibold mb-4 text-center">ASQ</h1>
+          <p className="text-lg text-center">
+            Still spørsmål på vanlig norsk. Få veiledning om GDPR, DPIA
+            (personvernkonsekvensvurdering), anonymisering og juridiske
+            vurderinger.
+          </p>
+          <a href="/personvern">Lær det grunnleggende om personvern (5 min)</a>
+        </section>
       )}
 
       {messages.length > 0 && (
@@ -91,6 +95,17 @@ const Home = () => {
             </Button>
           </InputGroup>
         </div>
+      </div>
+      <div className="flex flex-col text-center text-sm text-muted-foreground mx-auto mb-4 space-y-2 max-w-md tk-readable">
+        <p className="text-sm">
+          Ikke skriv inn sensitive eller identifiserbare personopplysninger.
+          Personvernsassistenten kan gi juridisk veiledning, men erstatter ikke
+          profesjonell juridisk rådgivning.
+        </p>
+        <p className="text-sm">
+          Vil du heller gjøre en full personvernvurdering?{" "}
+          <a href="/sjekkliste">Start her</a>
+        </p>
       </div>
     </div>
   );
