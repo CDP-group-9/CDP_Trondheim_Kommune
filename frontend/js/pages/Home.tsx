@@ -41,14 +41,14 @@ const Home = () => {
         inputValue={inputValue}
         isSending={isSending}
         messages={messages}
-        onSend={handleSendMessage}
         setInputValue={setInputValue}
+        onSend={handleSendMessage}
       />
     );
   }
 
   return (
-    <div className="flex min-h-full w-full flex-col justify-evenly tk-readable bg-red-300 p-6">
+    <div className="flex min-h-full w-full flex-col justify-evenly tk-readable p-6">
       <section className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
         <h1 className="text-4xl font-semibold">ASQ</h1>
         <p className="text-lg">
