@@ -16,8 +16,9 @@ const Home = () => {
     isSending,
     sendMessage,
   } = useChat("/api/chat/chat/");
-  const hasMessages = messages.length > 0;
 
+  const hasMessages = messages.length > 0;
+    
   useEffect(() => {
     const shouldSend = localStorage.getItem("shouldSendChecklistContext");
 
@@ -109,6 +110,17 @@ const Home = () => {
           <a className="underline" href="/sjekkliste">
             Start her
           </a>
+        </p>
+      </div>
+      <div className="flex flex-col text-center text-sm text-muted-foreground mx-auto mb-4 space-y-2 max-w-md tk-readable">
+        <p className="text-sm">
+          Ikke skriv inn sensitive eller identifiserbare personopplysninger.
+          Personvernsassistenten kan gi juridisk veiledning, men erstatter ikke
+          profesjonell juridisk rådgivning.
+        </p>
+        <p className="text-sm">
+          Vil du heller gjøre en full personvernvurdering?{" "}
+          <a href="/sjekkliste">Start her</a>
         </p>
       </div>
     </div>
