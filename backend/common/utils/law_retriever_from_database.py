@@ -82,7 +82,6 @@ class LawRetriever:
             return cur.fetchall()
 
     def _retrieve_paragraphs_from_laws(self, prompt: str, law_ids: list, k_paragraphs: int):
-        """Retrieve paragraphs from multiple laws with similarity scores."""
         query_vec = next(iter(self.model.embed([prompt]))).tolist()
         with self.conn.cursor() as cur:
             if law_ids:
@@ -92,10 +91,10 @@ class LawRetriever:
                            embedding <=> (%s)::vector(384) as cosine_distance
                     FROM paragraphs
                     WHERE law_id = ANY(%s) AND embedding IS NOT NULL
-                    ORDER BY embedding <=> (%s)::vector(384)
+                    ORDER BY cosine_distance
                     LIMIT %s;
                 """,
-                    (query_vec, law_ids, query_vec, k_paragraphs),
+                    (query_vec, law_ids, k_paragraphs),
                 )
             else:
                 cur.execute(
@@ -104,18 +103,15 @@ class LawRetriever:
                            embedding <=> (%s)::vector(384) as cosine_distance
                     FROM paragraphs
                     WHERE embedding IS NOT NULL
-                    ORDER BY embedding <=> (%s)::vector(384)
+                    ORDER BY cosine_distance
                     LIMIT %s;
                 """,
-                    (query_vec, query_vec, k_paragraphs),
+                    (query_vec, k_paragraphs),
                 )
             results = cur.fetchall()
 
         # Removes first chapter "lovens formål og virkeområde"
-        results = [
-            r for r in results
-            if not re.match(r"^§\s*1\b", str(r[1]))
-        ]
+        results = [r for r in results if not re.match(r"^§\s*1\b", str(r[1]))]
 
         return [
             {

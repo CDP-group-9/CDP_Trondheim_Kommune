@@ -38,18 +38,11 @@ class GeminiAPIClient:
         self.client = None
         self.async_client = None
 
-        # # Initialize the Gemini client
-        # self.client = genai.Client(
-        #     api_key=self.api_key, http_options=types.HttpOptions(timeout=10000)
-        # )
-
-        # self.async_client = self.client.aio
-        self.standard_model = "gemini-2.5-flash-lite"
+        self.standard_model = "gemini-2.5-flash"
         self.system_instructions = "You are a law assistant. Answer the questions based on Norwegian law and as concise as possible, but provide examples. If given additional context that are laws, refer to them when relevant. No more than 250 words. Answer in Norwegian."
 
     def start_client(self) -> None:
         if self.client is None:
-            # Initialize the Gemini client
             self.client = genai.Client(
                 api_key=self.api_key, http_options=types.HttpOptions(timeout=50000)
             )
@@ -358,13 +351,17 @@ class GeminiAPIClient:
 
                 print(f"Cosine Distance: {p['cosine_distance']:.4f} - {p['paragraph_number']}")
 
-                # build links to lovdata
+                # Build links to lovdata
                 lov_id = p["law_id"]
+
                 formatted_1 = f"{lov_id[3:7]}-{lov_id[7:9]}-{lov_id[9:12]}"
                 formtatted_2 = lov_id[12:].lstrip("0")
                 formatted = formatted_1 + formtatted_2
                 paragraph_number = p.get("paragraph_number", "").replace("§", "").strip()
-                lov_link = f"https://lovdata.no/dokument/LTI/lov/{formatted}"
+                if "sf" in lov_id:
+                    lov_link = f"https://lovdata.no/dokument/LTI/forskrift/{formatted}"
+                else:
+                    lov_link = f"https://lovdata.no/dokument/LTI/lov/{formatted}"
                 if paragraph_number:
                     lov_link += f"/§{paragraph_number}"
 
@@ -388,7 +385,6 @@ class GeminiAPIClient:
         else:
             law_links = []
 
-        # Combine contexts
         if context_text and rag_context:
             combined_context = context_text + "\n\n---\n\n" + rag_context
         elif context_text:
@@ -429,7 +425,6 @@ class GeminiAPIClient:
                 full_response += "\n\n Relevante Lovdata-lenker:\n" + "\n".join(
                     f"- {md_link}" for md_link in md_links
                 )
-
             return full_response, updated_history
 
         except Exception as e:
