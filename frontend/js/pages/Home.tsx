@@ -1,11 +1,11 @@
 import { Send } from "lucide-react";
 import { useEffect } from "react";
 
-import { DssFourButtons, DssChatBox } from "components/dss";
 import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
-import { ChatMessage } from "types/ChatMessage";
+
+import Chat from "./Chat";
 
 const Home = () => {
   const {
@@ -15,7 +15,9 @@ const Home = () => {
     setInputValue,
     isSending,
     sendMessage,
-  } = useChat("http://localhost:8000/api/chat/chat/");
+  } = useChat("/api/chat/chat/");
+
+  const hasMessages = messages.length > 0;
 
   useEffect(() => {
     const shouldSend = localStorage.getItem("shouldSendChecklistContext");
@@ -28,69 +30,93 @@ const Home = () => {
     }
   }, [sendMessage]);
 
-  return (
-    <div className="h-full w-full flex flex-col">
-      {messages.length === 0 && (
-        <div className="flex-1 flex items-center justify-center p-6">
-          <div className="max-w-lg mx-auto">
-            <DssFourButtons submitPromptFunction={sendMessage} />
-          </div>
-        </div>
-      )}
+  const handleSendMessage = () => {
+    if (!inputValue.trim() || isSending) return;
+    sendMessage(inputValue);
+  };
 
-      {messages.length > 0 && (
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          {messages.map((msg: ChatMessage) => (
-            <DssChatBox key={msg.id} message={msg.message} type={msg.type} />
-          ))}
-        </div>
-      )}
+  if (hasMessages) {
+    return (
+      <Chat
+        errorMsg={errorMsg}
+        inputValue={inputValue}
+        isSending={isSending}
+        messages={messages}
+        setInputValue={setInputValue}
+        onSend={handleSendMessage}
+      />
+    );
+  }
+
+  return (
+    <div className="flex min-h-full w-full flex-col tk-readable p-6">
+      <section className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
+        <h1 className="text-4xl font-semibold">ASQ</h1>
+        <p className="text-lg font-semibold">
+          ASQ veileder deg om alt du trenger å vite når du skal motta, dele
+          eller behandle data.
+          <br />
+        </p>
+        <p className="text-lg">
+          <br /> Få veiledning om hvordan du følger personvernsprinsippene,
+          GDPR, DPIA eller hva enn du måtte lure på av personvernrelaterte
+          spørsmål. Du kan starte en samtale med ASQ ved å skrive inn spørsmålet
+          ditt i tekstfeltet nedenfor.
+        </p>
+        <p className="mt-4">
+          Usikker på hvor du skal begynne?{" "}
+          <a className="underline" href="/personvern">
+            Lær det grunnleggende om personvern (5 min)
+          </a>
+        </p>
+      </section>
 
       {errorMsg && (
-        <div className="p-4 bg-red-50 text-destructive-foreground text-center">
+        <div className="mx-auto w-full max-w-2xl rounded-md bg-red-50 p-4 text-center text-destructive-foreground">
           {errorMsg}
         </div>
       )}
-      <div className="border-t border-brand-gray bg-background p-4">
-        <div className="mx-auto flex gap-2">
-          <InputGroup
-            className="rounded-4xl p-2 shadow-sm
-            focus-within:border-brand-primary
-            focus-within:ring-2
-            focus-within:ring-brand-blue/30
-            transition-all
-          "
-          >
-            <InputGroupTextarea
-              autoFocus
-              className="flex-1 min-h-8 rounded-4xl bg-transparent border-none outline-transparent focus:outline-none"
-              id="user-input"
-              placeholder="Spør om GDPR, DPIA eller personvernspørsmål..."
-              rows={
-                inputValue.length < 144 ? (inputValue.length < 72 ? 2 : 4) : 6
+
+      <div className="mx-auto w-full max-w-3xl mt-6">
+        <InputGroup className="rounded-4xl p-2 shadow-sm transition-all focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-blue/30">
+          <InputGroupTextarea
+            autoFocus
+            className="min-h-8 flex-1 rounded-4xl border-none bg-transparent outline-transparent focus:outline-none"
+            id="user-input"
+            placeholder="Spør om GDPR, DPIA eller personvernspørsmål..."
+            rows={
+              inputValue.length < 144 ? (inputValue.length < 72 ? 2 : 4) : 6
+            }
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                handleSendMessage();
               }
-              value={inputValue}
-              onChange={(event) => setInputValue(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" && !event.shiftKey) {
-                  event.preventDefault(); // Prevent newline
-                  if (inputValue.trim() && !isSending) {
-                    sendMessage(inputValue);
-                  }
-                }
-              }}
-            />
-            <Button
-              aria-label="Submit"
-              className="rounded-4xl"
-              disabled={!inputValue.trim() || isSending}
-              size="icon"
-              onClick={() => sendMessage(inputValue)}
-            >
-              <Send className="size-4" />
-            </Button>
-          </InputGroup>
-        </div>
+            }}
+          />
+          <Button
+            aria-label="Send melding"
+            className="rounded-4xl"
+            disabled={!inputValue.trim() || isSending}
+            size="icon"
+            onClick={handleSendMessage}
+          >
+            <Send className="size-4" />
+          </Button>
+        </InputGroup>
+      </div>
+      <div className="flex flex-col text-center text-sm text-muted-foreground mx-auto mb-4 space-y-2 max-w-md tk-readable">
+        <p className="text-sm">
+          Ikke skriv inn sensitive eller identifiserbare personopplysninger.
+          Personvernsassistenten kan gi juridisk veiledning, men erstatter ikke
+          profesjonell juridisk rådgivning.
+        </p>
+        <p className="text-md mt-4">
+          Vil du heller gjøre en full personvernvurdering?{" "}
+          <a href="/sjekkliste">Start her</a>
+        </p>
       </div>
     </div>
   );

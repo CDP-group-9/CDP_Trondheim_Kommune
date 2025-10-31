@@ -11,11 +11,11 @@ interface ChatBoxProps {
 export const DssChatBox: FC<ChatBoxProps> = ({ type, message }) => {
   return (
     <div
-      className={`flex gap-3 px-3 ${type === "user" ? "justify-end" : "justify-start"}`}
+      className={`flex flex-1 overflow-y-scroll align-bottom gap-3 px-3 ${type === "user" ? "justify-end" : "justify-start"}`}
     >
       {type === "user" ? (
         <>
-          <div className="max-w-2xl p-4 rounded-lg bg-[#002d52] text-white ml-12 whitespace-pre-wrap">
+          <div className="max-w-2xl p-4 rounded-lg bg-brand-blue text-accent-foreground ml-12 whitespace-pre-wrap">
             {message}
           </div>
           <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center flex-shrink-0">

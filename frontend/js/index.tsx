@@ -3,8 +3,8 @@ import * as Sentry from "@sentry/browser";
 import { createRoot } from "react-dom/client";
 
 import App from "./App";
-import "../css/trk-theme.css";
 import "../css/style.css";
+import "../css/trk-theme.css";
 
 Sentry.init({
   dsn: window.SENTRY_DSN,

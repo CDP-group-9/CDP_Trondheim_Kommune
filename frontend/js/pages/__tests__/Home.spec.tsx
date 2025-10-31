@@ -1,54 +1,7 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 
 import Home from "../Home";
-
-jest.mock("components/dss/DssFourButtons", () => ({
-  DssFourButtons: ({
-    submitPromptFunction,
-  }: {
-    submitPromptFunction: (input: string) => void;
-  }) => (
-    <div data-testid="four-buttons">
-      <button
-        type="button"
-        onClick={() =>
-          submitPromptFunction(
-            "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
-          )
-        }
-      >
-        Hjelp meg med å starte en DPIA for et nytt prosjekt.
-      </button>
-      <button
-        type="button"
-        onClick={() =>
-          submitPromptFunction(
-            "Hvordan skal jeg anonymisere personvernopplysninger?",
-          )
-        }
-      >
-        Hvordan skal jeg anonymisere personvernopplysninger?
-      </button>
-      <button
-        type="button"
-        onClick={() =>
-          submitPromptFunction("Hvilke GDPR-krav gjelder for datainnsamling?")
-        }
-      >
-        Hvilke GDPR-krav gjelder for datainnsamling?
-      </button>
-      <button
-        type="button"
-        onClick={() =>
-          submitPromptFunction("Gi meg en sjekkliste for personvernvurdering.")
-        }
-      >
-        Gi meg en sjekkliste for personvernvurdering.
-      </button>
-    </div>
-  ),
-}));
 
 jest.mock("components/dss/DssChatBox", () => ({
   DssChatBox: ({
@@ -83,12 +36,11 @@ describe("Home", () => {
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
     );
-    const submitButton = screen.getByRole("button", { name: "Submit" });
+    const submitButton = screen.getByRole("button", { name: "Send melding" });
 
     expect(textarea).toBeInTheDocument();
     expect(submitButton).toBeInTheDocument();
     expect(submitButton).toBeDisabled();
-    expect(screen.getByTestId("four-buttons")).toBeInTheDocument();
   });
 
   test("enables submit button when input has text", async () => {
@@ -98,29 +50,33 @@ describe("Home", () => {
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
     );
-    const submitButton = screen.getByRole("button", { name: "Submit" });
+    const submitButton = screen.getByRole("button", { name: "Send melding" });
 
     await user.type(textarea, "Test input");
     expect(textarea).toHaveValue("Test input");
     expect(submitButton).toBeEnabled();
   });
 
-  test("clicking FourButtons action button submits prompt and displays messages", async () => {
+  test("sending a prompt displays user and bot messages", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ response: "Bot response" }),
     } as Response);
 
+    const user = userEvent.setup();
     render(<Home />);
 
-    const actionButton = screen.getByText(
-      "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
+    const textarea = screen.getByPlaceholderText(
+      "Spør om GDPR, DPIA eller personvernspørsmål...",
     );
-    fireEvent.click(actionButton);
+    const submitButton = screen.getByRole("button", { name: "Send melding" });
+
+    await user.type(textarea, "Hjelp meg med å starte en DPIA for et nytt prosjekt.");
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-        "http://localhost:8000/api/chat/chat/",
+        "/api/chat/chat/",
         expect.objectContaining({
           method: "POST",
           headers: expect.objectContaining({
@@ -139,7 +95,6 @@ describe("Home", () => {
       expect(screen.getByTestId("chatbox-user")).toBeInTheDocument();
       expect(screen.getByTestId("chatbox-bot")).toBeInTheDocument();
       expect(screen.getByText("Bot response")).toBeInTheDocument();
-      expect(screen.queryByTestId("four-buttons")).not.toBeInTheDocument();
     });
   });
 
@@ -149,12 +104,16 @@ describe("Home", () => {
       json: async () => ({ error: "API Error" }),
     } as Response);
 
+    const user = userEvent.setup();
     render(<Home />);
 
-    const actionButton = screen.getByText(
-      "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
+    const textarea = screen.getByPlaceholderText(
+      "Spør om GDPR, DPIA eller personvernspørsmål...",
     );
-    fireEvent.click(actionButton);
+    const submitButton = screen.getByRole("button", { name: "Send melding" });
+
+    await user.type(textarea, "Hjelp meg med å starte en DPIA for et nytt prosjekt.");
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText("API Error")).toBeInTheDocument();
@@ -164,12 +123,16 @@ describe("Home", () => {
   test("displays connection error when fetch fails", async () => {
     mockFetch.mockRejectedValueOnce(new Error("Network error"));
 
+    const user = userEvent.setup();
     render(<Home />);
 
-    const actionButton = screen.getByText(
-      "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
+    const textarea = screen.getByPlaceholderText(
+      "Spør om GDPR, DPIA eller personvernspørsmål...",
     );
-    fireEvent.click(actionButton);
+    const submitButton = screen.getByRole("button", { name: "Send melding" });
+
+    await user.type(textarea, "Hjelp meg med å starte en DPIA for et nytt prosjekt.");
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText("No connection to server.")).toBeInTheDocument();
@@ -192,13 +155,17 @@ describe("Home", () => {
     await user.type(textarea, "Test question");
     expect(textarea).toHaveValue("Test question");
 
-    const submitButton = screen.getByRole("button", { name: "Submit" });
+    const submitButton = screen.getByRole("button", { name: "Send melding" });
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(textarea).toHaveValue("");
+      expect(
+        screen.getByPlaceholderText(
+          "Spør om GDPR, DPIA eller personvernspørsmål...",
+        ),
+      ).toHaveValue("");
       expect(mockFetch).toHaveBeenCalledWith(
-        "http://localhost:8000/api/chat/chat/",
+        "/api/chat/chat/",
         expect.objectContaining({
           method: "POST",
           body: JSON.stringify({
