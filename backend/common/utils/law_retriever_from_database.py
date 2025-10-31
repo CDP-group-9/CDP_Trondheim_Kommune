@@ -49,10 +49,7 @@ class LawRetriever:
             result["laws"] = [
                 {"law_id": law_id, "metadata": law_metadata} for law_id, law_metadata in law_results
             ]
-            print("law_results:", law_results)
-            print("result['laws']:", result["laws"])
 
-            # Get law_ids for paragraph retrieval
             law_ids = [law_id for law_id, _ in law_results]
         else:
             result["laws"] = [{"law_id": law_id}]
@@ -113,8 +110,8 @@ class LawRetriever:
                     (query_vec, query_vec, k_paragraphs),
                 )
             results = cur.fetchall()
-        
-        # Removes first chapter "lovens formål og virkeområde" 
+
+        # Removes first chapter "lovens formål og virkeområde"
         results = [
             r for r in results
             if not re.match(r"^§\s*1\b", str(r[1]))

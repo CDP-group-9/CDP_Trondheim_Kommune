@@ -77,14 +77,12 @@ def extract_text_from_json(data):
     """
     parts = []
 
-    # Metadata-felter hvis ønskelig, f.eks. title
     if "Title" in data.get("metadata", {}):
         parts.append(data["metadata"]["Title"])
 
-    # Gå gjennom artiklene
     for article in data.get("articles", []):
         for para in article.get("paragraphs", []):
-            if para and para not in parts:  # unngå duplikater
+            if para and para not in parts:
                 parts.append(para)
     return "\n".join(parts)
 
@@ -153,14 +151,12 @@ def process_laws(input_dir):
 
     create_table_if_not_exists(conn)
     clear_table(conn)
-    os.makedirs("json_output", exist_ok=True)
 
     def html_to_json_structured(html_path):
         """Konverter HTML/XML fra Lovdata til strukturert JSON med metadata, toc og artikler."""
         with open(html_path, encoding="utf-8") as f:
             soup = BeautifulSoup(f, "html.parser")
 
-        # === Metadata ===
         metadata = {}
         for dt, dd in zip(
             soup.select("dl.data-document-key-info dt"),
@@ -173,7 +169,6 @@ def process_laws(input_dir):
             else:
                 metadata[key] = dd.get_text(strip=True)
 
-        # === Innholdsfortegnelse ===
         def parse_toc(ul):
             items = []
             for li in ul.find_all("li", recursive=False):
@@ -195,7 +190,6 @@ def process_laws(input_dir):
                 "paragraphs": [],
             }
 
-            # Hent hele teksten i artikkelen, ikke bare <article.legalP>
             full_text = legal_article.get_text(" ", strip=True)
             if full_text:
                 article_data["paragraphs"].append(full_text)
@@ -217,7 +211,6 @@ def process_laws(input_dir):
             logging.exception("Kunne ikke lese XML %s: %s", file, e)
             continue
 
-        # --- LAGRE LOVEN MED EGEN EMBEDDING ---
         law_text = extract_text_from_json(json_data)
         if not law_text.strip():
             logging.warning("Ingen tekst funnet i %s", file)
@@ -226,7 +219,7 @@ def process_laws(input_dir):
         law_embedding = create_embedding(law_text)
         insert_law_record(conn, law_id, law_text, json_data["metadata"], law_embedding)
 
-        # --- LAGRE HVER PARAGRAF MED EGEN EMBEDDING ---
+        # paragraph embeddings
         for idx, article in enumerate(json_data.get("articles", []), start=1):
             article_title = article.get("title") or f"§{idx}"
 
