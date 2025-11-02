@@ -1,78 +1,32 @@
 import { useState, useEffect } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { useAppState } from "../contexts/AppStateContext";
+import { ChecklistService, ChecklistServiceError } from "../services";
+import type {
+  ChecklistOption,
+  ChecklistPayload,
+  ContextData,
+  HandlingData,
+  InvolvedPartiesData,
+  LegalBasisData,
+  RiskConcernData,
+  TechData,
+} from "../types/Checklist";
 
 import { useCookie } from "./useCookie";
 
-export type ChecklistOption = "motta" | "dele" | null;
-
-export type ContextData = {
-  projectSummary: string;
-  department: string;
-  status: string;
-  purpose: string;
-};
-
-export type InvolvedPartiesData = {
-  registeredGroups: string[];
-  usesExternalProcessors: boolean;
-  externalProcessors: string;
-  employeeAccess: string;
-  sharesWithOthers: boolean;
-  sharedWith: string;
-};
-
-export type LegalBasisData = {
-  legalBasis: string;
-  handlesSensitiveData: boolean;
-  selectedSensitiveDataReason: string[];
-  statutoryTasks: string;
-};
-
-export type RiskConcernData = {
-  privacyRisk: number;
-  unauthAccess: number;
-  dataLoss: number;
-  reidentification: number;
-  employeeConcern: boolean;
-  writtenConcern: string;
-  regulatoryConcern: string;
-};
-
-export type TechData = {
-  storage: string;
-  security: string[];
-  integrations: boolean;
-  integrationDetails: string;
-  automated: boolean;
-  automatedDescription: string;
-};
-
-export type HandlingData = {
-  purpose: string;
-  selectedDataTypes: string[];
-  personCount: number | "";
-  retentionTime: number | "";
-  collectionMethods: string[];
-  recipient: string;
-  recipientType: string;
-  sharingLegalBasis: string;
-  shareFrequency: number | "";
-  dataTransferMethods: string[];
-  selectedDataSources: string[];
-};
-
-export type ChecklistPayload = {
-  selectedOption: ChecklistOption;
-  contextData: ContextData;
-  handlingData: HandlingData;
-  legalBasisData: LegalBasisData;
-  involvedPartiesData: InvolvedPartiesData;
-  techData: TechData;
-  riskConcernData: RiskConcernData;
-};
+// Re-export all Checklist types for backwards compatibility
+export type {
+  ChecklistPayload,
+  ChecklistOption,
+  ContextData,
+  HandlingData,
+  InvolvedPartiesData,
+  LegalBasisData,
+  RiskConcernData,
+  TechData,
+} from "../types/Checklist";
 
 export type UseChecklistReturn = {
   selectedOption: ChecklistOption;
@@ -93,6 +47,8 @@ export type UseChecklistReturn = {
   downloadAsTextFile: () => void;
   sendToBackend: () => Promise<void>;
   resetChecklist: () => void;
+  isSubmitting: boolean;
+  submitError: string | null;
 };
 
 const DEFAULT_CONTEXT_DATA: ContextData = {
@@ -152,13 +108,13 @@ const DEFAULT_RISK_CONCERN_DATA: RiskConcernData = {
 };
 
 export const useChecklist = (): UseChecklistReturn => {
-  const navigate = useNavigate();
   const {
     currentChecklistId,
     saveCurrentChecklist,
     createNewChecklist,
     getCurrentChecklistData,
     createChatFromChecklist,
+    setPendingChecklistContext,
   } = useAppState();
 
   const csrftoken = useCookie("csrftoken");
@@ -178,6 +134,8 @@ export const useChecklist = (): UseChecklistReturn => {
   const [handlingData, setHandlingData] = useState<HandlingData>(
     DEFAULT_HANDLING_DATA,
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!currentChecklistId) {
@@ -222,6 +180,7 @@ export const useChecklist = (): UseChecklistReturn => {
       };
     }
     return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selectedOption,
     contextData,
@@ -231,6 +190,7 @@ export const useChecklist = (): UseChecklistReturn => {
     techData,
     riskConcernData,
     currentChecklistId,
+    // createPayload and saveCurrentChecklist are stable from useAppState
   ]);
 
   const createPayload = (): ChecklistPayload => ({
@@ -301,35 +261,29 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
   const sendToBackend = async () => {
     const payload = createPayload();
 
-    try {
-      const response = await fetch(
-        "http://localhost:8000/api/checklist/json_to_string/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFTOKEN": csrftoken || "",
-          },
-          credentials: "include",
-          body: JSON.stringify(payload),
-        },
-      );
+    setIsSubmitting(true);
+    setSubmitError(null);
 
-      const data: { response?: string; error?: string } = await response.json();
-      const contextString = data.response;
+    try {
+      const checklistService = ChecklistService.getInstance();
+      const contextString = await checklistService.convertToString(payload, {
+        csrfToken: csrftoken || undefined,
+      });
 
       await createChatFromChecklist();
 
-      localStorage.setItem("checklistContext", contextString || "");
-      localStorage.setItem("shouldSendChecklistContext", "true");
+      setPendingChecklistContext(contextString);
 
       createNewChecklist();
-
-      navigate("/");
-
-      if (!response.ok) console.error(data.error || "Unknown error");
-    } catch {
-      console.error("No connection to server.");
+    } catch (error) {
+      if (error instanceof ChecklistServiceError) {
+        setSubmitError(error.message);
+      } else {
+        setSubmitError("An unexpected error occurred");
+      }
+      throw error; // Re-throw so component can handle navigation
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -365,5 +319,8 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
     downloadAsTextFile,
     sendToBackend,
     resetChecklist,
+
+    isSubmitting,
+    submitError,
   };
 };

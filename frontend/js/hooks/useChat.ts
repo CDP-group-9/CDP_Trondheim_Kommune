@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import { useAppState } from "../contexts/AppStateContext";
+import { ChatService, ChatServiceError } from "../services";
 import { ChatMessage } from "../types/ChatMessage";
 
 import { useCookie } from "./useCookie";
@@ -100,51 +101,47 @@ export function useChat(apiUrl: string) {
     abortControllerRef.current = controller;
 
     try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFTOKEN": csrftoken || "",
-        },
-        credentials: "include",
-        signal: controller.signal,
-        body: JSON.stringify({
+      const chatService = ChatService.getInstance(apiUrl);
+      const response = await chatService.sendMessage(
+        {
           prompt,
           history: [],
           // eslint-disable-next-line camelcase
           context_text: context || "",
-        }),
-      });
-
-      const data: { response?: string; error?: string } = await response.json();
+        },
+        {
+          signal: controller.signal,
+          csrfToken: csrftoken || undefined,
+        },
+      );
 
       if (currentChatId !== chatIdForThisRequest) {
         console.log("Chat switched during request, discarding response");
         return;
       }
 
-      if (response.ok && data.response !== undefined) {
-        const botMessage: ChatMessage = {
-          id: `bot-${Date.now()}`,
-          type: "bot",
-          message: data.response,
-        };
-        setMessages((prev) => {
-          const updated = [...prev, botMessage];
-          if (currentChatId === chatIdForThisRequest) {
-            saveChatMessages(chatIdForThisRequest, updated);
-          }
-          return updated;
-        });
-      } else {
-        setErrorMsg(data.error || "Unknown error");
-      }
+      const botMessage: ChatMessage = {
+        id: `bot-${Date.now()}`,
+        type: "bot",
+        message: response,
+      };
+      setMessages((prev) => {
+        const updated = [...prev, botMessage];
+        if (currentChatId === chatIdForThisRequest) {
+          saveChatMessages(chatIdForThisRequest, updated);
+        }
+        return updated;
+      });
     } catch (error) {
-      if (error instanceof Error && error.name === "AbortError") {
-        console.log("Request aborted due to chat switch");
-        return;
+      if (error instanceof ChatServiceError) {
+        if (error.code === "ABORTED") {
+          console.log("Request aborted due to chat switch");
+          return;
+        }
+        setErrorMsg(error.message);
+      } else {
+        setErrorMsg("An unexpected error occurred");
       }
-      setErrorMsg("No connection to server.");
     } finally {
       if (currentChatId === chatIdForThisRequest) {
         setIsSending(false);
