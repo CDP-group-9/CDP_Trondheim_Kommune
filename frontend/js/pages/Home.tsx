@@ -62,17 +62,14 @@ const Home = () => {
 
   if (hasMessages) {
     return (
-      <>
-        <DssChecklistLink />
-        <Chat
-          errorMsg={errorMsg}
-          inputValue={inputValue}
-          isSending={isSending}
-          messages={messages}
-          setInputValue={setInputValue}
-          onSend={handleSendMessage}
-        />
-      </>
+      <Chat
+        errorMsg={errorMsg}
+        inputValue={inputValue}
+        isSending={isSending}
+        messages={messages}
+        setInputValue={setInputValue}
+        onSend={handleSendMessage}
+      />
     );
   }
 
