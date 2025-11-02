@@ -40,6 +40,9 @@ type SidebarContextProps = {
   setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
+  hoveredAny: boolean;
+  hoverStart: (id: string) => void;
+  hoverStop: (id: string) => void;
 };
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
@@ -68,6 +71,9 @@ function SidebarProvider({
 }) {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
+  const [, setHoveredItems] = React.useState<Set<string>>(new Set());
+  const [hoveredAny, setHoveredAny] = React.useState(false);
+  const hoverClearTimeout = React.useRef<number | null>(null);
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -113,6 +119,36 @@ function SidebarProvider({
   // This makes it easier to style the sidebar with Tailwind classes.
   const state = open ? "expanded" : "collapsed";
 
+  const hoverStart = React.useCallback((id: string) => {
+    if (hoverClearTimeout.current) {
+      window.clearTimeout(hoverClearTimeout.current);
+      hoverClearTimeout.current = null;
+    }
+
+    setHoveredItems((prev) => {
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
+    setHoveredAny(true);
+  }, []);
+
+  const hoverStop = React.useCallback((id: string) => {
+    setHoveredItems((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+
+      if (next.size === 0) {
+        hoverClearTimeout.current = window.setTimeout(() => {
+          setHoveredAny(false);
+          hoverClearTimeout.current = null;
+        }, 120);
+      }
+
+      return next;
+    });
+  }, []);
+
   const contextValue = React.useMemo<SidebarContextProps>(
     () => ({
       state,
@@ -122,8 +158,22 @@ function SidebarProvider({
       openMobile,
       setOpenMobile,
       toggleSidebar,
+      hoveredAny,
+      hoverStart,
+      hoverStop,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
+    [
+      state,
+      open,
+      setOpen,
+      isMobile,
+      openMobile,
+      setOpenMobile,
+      toggleSidebar,
+      hoveredAny,
+      hoverStart,
+      hoverStop,
+    ],
   );
 
   return (
@@ -217,7 +267,7 @@ function Sidebar({
       {/* This is what handles the sidebar gap on desktop */}
       <div
         className={cn(
-          "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear",
+          "relative w-(--sidebar-width) bg-transparent transition-[width] duration-75 ease-linear",
           "group-data-[collapsible=offcanvas]:w-0",
           "group-data-[side=right]:rotate-180",
           variant === "floating" || variant === "inset"
@@ -228,7 +278,7 @@ function Sidebar({
       />
       <div
         className={cn(
-          "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
+          "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-75 ease-linear md:flex",
           side === "left"
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -263,7 +313,11 @@ function SidebarTrigger({
   return (
     <Button
       className={cn(
-        "flex items-center justify-start px-1.5 py-2 w-auto",
+        // Shared base styles
+        "flex items-center w-auto text-foreground hover:text-foreground",
+
+        state === "collapsed" ? "justify-center" : "justify-start px-1.5 py-2",
+
         className,
       )}
       data-sidebar="trigger"
@@ -279,9 +333,11 @@ function SidebarTrigger({
       {state === "collapsed" ? (
         <ChevronRight className="!w-5 !h-5" />
       ) : (
-        <ChevronLeft className="!w-5 !h-5" />
+        <>
+          <ChevronLeft className="!w-5 !h-5" />
+          <span className="ml-1">Skjul</span>
+        </>
       )}
-      <span>{state === "collapsed" ? "" : "Skjul"}</span>
     </Button>
   );
 }
@@ -352,6 +408,10 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
+  const { state } = useSidebar();
+
+  if (state === "collapsed") return null;
+
   return (
     <div
       className={cn("flex flex-col gap-2 p-2", className)}
@@ -368,7 +428,7 @@ function SidebarSeparator({
 }: React.ComponentProps<typeof Separator>) {
   return (
     <Separator
-      className={cn("bg-sidebar-border mx-2 w-auto", className)}
+      className={cn("bg-sidebar-border mx-2 w-fill", className)}
       data-sidebar="separator"
       data-slot="sidebar-separator"
       {...props}
@@ -411,8 +471,7 @@ function SidebarGroupLabel({
   return (
     <Comp
       className={cn(
-        "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
-        "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
+        "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-75 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         className,
       )}
       data-sidebar="group-label"
@@ -462,7 +521,7 @@ function SidebarGroupContent({
 function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   return (
     <ul
-      className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+      className={cn("flex w-full min-w-0 flex-col gap-3", className)}
       data-sidebar="menu"
       data-slot="sidebar-menu"
       {...props}
@@ -471,9 +530,17 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
 }
 
 function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
+  const { state } = useSidebar();
+
   return (
     <li
-      className={cn("group/menu-item relative", className)}
+      className={cn(
+        "group/menu-item relative",
+
+        state === "collapsed" ? "flex justify-center" : "",
+
+        className,
+      )}
       data-sidebar="menu-item"
       data-slot="sidebar-menu-item"
       {...props}
@@ -517,16 +584,40 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : "button";
-  const { isMobile, state } = useSidebar();
+  const { isMobile, state, hoveredAny, hoverStart, hoverStop } = useSidebar();
+
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  const effectiveIsActive = isActive && (!hoveredAny || isHovered);
+
+  const idRef = React.useId();
+
+  const handleMouseEnter = (e: React.MouseEvent) => {
+    setIsHovered(true);
+    hoverStart(idRef);
+    if (typeof props.onMouseEnter === "function") {
+      (props.onMouseEnter as unknown as (ev: React.MouseEvent) => void)(e);
+    }
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent) => {
+    setIsHovered(false);
+    hoverStop(idRef);
+    if (typeof props.onMouseLeave === "function") {
+      (props.onMouseLeave as unknown as (ev: React.MouseEvent) => void)(e);
+    }
+  };
 
   const button = (
     <Comp
       className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-      data-active={isActive}
+      data-active={effectiveIsActive}
       data-sidebar="menu-button"
       data-size={size}
       data-slot="sidebar-menu-button"
       {...props}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     />
   );
 
