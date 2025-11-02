@@ -19,7 +19,7 @@ type Props = {
 export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
   const toggleGroup = (value: string) => {
     const updatedGroup = involvedPartiesData.registeredGroups.includes(value)
-      ? involvedPartiesData.registeredGroups.filter((v) => v !== value)
+      ? involvedPartiesData.registeredGroups.filter((v: string) => v !== value)
       : [...involvedPartiesData.registeredGroups, value];
     onChange({ ...involvedPartiesData, registeredGroups: updatedGroup });
   };

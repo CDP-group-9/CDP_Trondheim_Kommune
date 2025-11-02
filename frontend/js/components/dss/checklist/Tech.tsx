@@ -39,7 +39,7 @@ export const Tech = ({ techData, onChange }: Props) => {
 
   const toggleSecurity = (value: string) => {
     const newSecurity = techData.security.includes(value)
-      ? techData.security.filter((item) => item !== value)
+      ? techData.security.filter((item: string) => item !== value)
       : [...techData.security, value];
     handleChange("security", newSecurity);
   };
