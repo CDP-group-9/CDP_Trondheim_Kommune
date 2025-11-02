@@ -77,6 +77,10 @@ This Project is setup using Django and React frameworks. If you're a Developer, 
     	```
       make docker_up
       ```
+	- Give the AI access to relevant laws regarding personal data:
+    	```
+      make docker_insert_laws
+      ```
 	- Access `http://localhost:8000` on your browser and the project should be running there. If it doesn't, try with IP `127.0.0.1`
 
 	- To stop the project, run:

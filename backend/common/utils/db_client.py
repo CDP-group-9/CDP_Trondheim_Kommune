@@ -13,9 +13,7 @@ from tqdm import tqdm
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        logging.StreamHandler(sys.stdout)
-    ],
+    handlers=[logging.StreamHandler(sys.stdout)],
 )
 
 _model = None
@@ -77,8 +75,8 @@ def extract_text_from_json(data):
     """
     parts = []
 
-    if "Title" in data.get("metadata", {}):
-        parts.append(data["metadata"]["Title"])
+    if "Tittel" in data.get("metadata", {}):
+        parts.append(data["metadata"]["Tittel"])
 
     for article in data.get("articles", []):
         for para in article.get("paragraphs", []):
@@ -242,6 +240,7 @@ def process_laws(input_dir):
                     },
                     embedding=paragraph_embedding,
                 )
+
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))

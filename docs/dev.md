@@ -138,6 +138,14 @@ For VSCode or other IDE: Install the Extensions for the following;
   ```
   make docker_up
   ```
+- Give the AI access to relevant laws regarding personal data:
+  ```
+  make docker_insert_laws
+  ```
+  To inspect the data inserted you can use the PostgreSQL shell:
+  ```
+  make docker_open_pg_shell
+  ```
 - Access `http://localhost:8000` on your browser and the project should be running there
 
 - To stop the project, run:
@@ -219,6 +227,35 @@ For VSCode or other IDE: Install the Extensions for the following;
 In order to manually add data to the database, one must be logged in as an admin user. An admin user can be created with: `docker compose exec backend python manage.py createsuperuser`. After an admin user is created, log in to Djangos user interface.
 
 After this is completed, go to `localhost:8000/api/schema/swagger-ui/#`. Under `test-response`, make sure to select the POST alternative. Select the `Try it out`button and edit the response string. Clicking the `Execute` button adds the new string to the database.
+
+## Retrieval Augmented Generation (RAG) setup
+
+The system extracts data from XML files downloaded from Lovdata and converts it into a structured JSON format for easier processing. The system creates two types of embeddings:
+
+1. **Law embeddings**: Generated from the law title and all paragraphs
+2. **Paragraph embeddings**: Generated from individual paragraphs
+
+Two tables are created in the PostgreSQL database:
+
+- **Laws table**: Contains law_id, law text, metadata, and embedding vector
+- **Paragraphs table**: Contains paragraph_id, law_id reference (without FK constraint), paragraph number, paragraph text, metadata, and embedding vector
+
+### RAG Process Flow
+
+1. **Initial Law Search**: The user prompt is embedded and compared against all laws using cosine distance. The k=3 most similar laws are selected.
+
+2. **Paragraph Retrieval**: From the selected laws, a similarity search is performed on their paragraphs. The 20 most relevant paragraphs are retrieved.
+
+3. **Context Window Management**: As many paragraphs as possible are included within the 400-word context window limit.
+
+4. **Relevance Filtering**: Cosine distances are logged and can be used as thresholds to filter which paragraphs to include as context.
+
+### Technical Details
+
+- **Embedding Model**: BAAI/bge-small-en-v1.5 (384 dimensions)
+- **Distance Metric**: Cosine distance (smaller values indicate higher similarity)
+- **Database**: PostgreSQL with pgvector extension
+- **Context Limit**: 400 words maximum for optimal AI performance
 
 ## Testing
 
