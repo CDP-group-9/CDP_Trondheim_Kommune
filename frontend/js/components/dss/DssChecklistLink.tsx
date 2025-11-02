@@ -1,12 +1,13 @@
 import { FileText } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useAppState } from "../../contexts/AppStateContext";
 import { storage } from "../../utils/storage";
 import { Button } from "../ui/button";
 
 export function DssChecklistLink() {
+  const navigate = useNavigate();
   const { currentChatId, switchToChecklist } = useAppState();
   const [checklistId, setChecklistId] = useState<string | null>(null);
 
@@ -36,16 +37,16 @@ export function DssChecklistLink() {
           </span>
         </div>
         <Button
-          asChild
           className="flex-shrink-0"
           size="sm"
           variant="outline"
-          onClick={() => switchToChecklist(checklistId)}
+          onClick={() => {
+            switchToChecklist(checklistId);
+            navigate("/sjekkliste");
+          }}
         >
-          <Link to="/sjekkliste">
-            <FileText className="h-4 w-4 mr-2" />
-            Rediger sjekkliste
-          </Link>
+          <FileText className="h-4 w-4 mr-2" />
+          Rediger sjekkliste
         </Button>
       </div>
     </div>

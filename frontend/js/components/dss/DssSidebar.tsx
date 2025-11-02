@@ -10,7 +10,9 @@ import {
   History,
   Trash2,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import { cn } from "js/lib/utils";
 
 import { useAppState } from "../../contexts/AppStateContext";
 import {
@@ -54,6 +56,7 @@ const items = [
 
 export function DssSidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const {
     chatSessions,
     currentChatId,
@@ -93,21 +96,20 @@ export function DssSidebar() {
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
-                      asChild
+                      className={cn(
+                        isActive &&
+                          "bg-primary/10 text-primary font-medium hover:bg-primary/15 data-[active=true]:bg-primary/10 data-[active=true]:text-primary",
+                      )}
                       isActive={isActive}
                       onClick={() => {
                         if (item.action === "newChat") {
                           createNewChat();
                         }
+                        navigate(item.url);
                       }}
                     >
-                      <Link
-                        aria-current={isActive ? "page" : undefined}
-                        to={item.url}
-                      >
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
+                      <item.icon />
+                      <span>{item.title}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
@@ -127,17 +129,23 @@ export function DssSidebar() {
                 {chatSessions.map((session) => (
                   <SidebarMenuItem key={session.id}>
                     <SidebarMenuButton
-                      asChild
+                      className={cn(
+                        currentChatId === session.id &&
+                          "bg-primary/10 text-primary font-medium hover:bg-primary/15 data-[active=true]:bg-primary/10 data-[active=true]:text-primary",
+                      )}
                       isActive={currentChatId === session.id}
-                      onClick={() => switchToChat(session.id)}
+                      onClick={() => {
+                        switchToChat(session.id);
+                        navigate("/");
+                      }}
                     >
-                      <div className="flex items-center justify-between w-full group">
-                        <Link className="flex-1 truncate" to="/">
+                      <div className="flex items-center justify-between w-full group min-w-0">
+                        <span className="flex-1 truncate text-left">
                           {session.title}
-                        </Link>
+                        </span>
                         <button
                           aria-label="Slett samtale"
-                          className="opacity-0 group-hover:opacity-100 ml-2 text-muted-foreground hover:text-destructive transition-opacity"
+                          className="opacity-0 group-hover:opacity-100 ml-2 p-1 rounded-sm text-foreground/60 hover:text-destructive hover:bg-destructive/20 transition-all flex-shrink-0"
                           type="button"
                           onClick={(e) => {
                             e.preventDefault();
@@ -145,7 +153,7 @@ export function DssSidebar() {
                             deleteChat(session.id);
                           }}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     </SidebarMenuButton>
