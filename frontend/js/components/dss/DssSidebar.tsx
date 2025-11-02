@@ -27,6 +27,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarFooter,
+  useSidebar,
 } from "../ui/sidebar";
 
 // Menu items.
@@ -57,6 +58,7 @@ const items = [
 export function DssSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { state } = useSidebar();
   const {
     chatSessions,
     currentChatId,
@@ -118,7 +120,7 @@ export function DssSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {chatSessions.length > 0 && (
+        {chatSessions.length > 0 && state === "expanded" && (
           <SidebarGroup>
             <SidebarGroupLabel className="gap-2">
               <History className="h-4 w-4" />
