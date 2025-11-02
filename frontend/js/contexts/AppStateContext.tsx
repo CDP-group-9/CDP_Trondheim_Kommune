@@ -6,8 +6,8 @@ import React, {
   useCallback,
 } from "react";
 
-import type { ChecklistPayload } from "../hooks/useChecklist";
 import type { ChatMessage } from "../types/ChatMessage";
+import type { ChecklistPayload } from "../types/Checklist";
 import { storage, ChatSession, ChecklistSession } from "../utils/storage";
 
 interface AppState {
@@ -17,6 +17,7 @@ interface AppState {
 
   // Checklist state
   currentChecklistId: string | null;
+  pendingChecklistContext: string | null;
 
   // Chat actions
   createNewChat: (checklistId?: string) => Promise<string>;
@@ -24,6 +25,7 @@ interface AppState {
   saveChatMessages: (chatId: string, messages: ChatMessage[]) => Promise<void>;
   deleteChat: (chatId: string) => Promise<void>;
   loadChatMessages: (chatId: string) => Promise<ChatMessage[]>;
+  getChatChecklistId: (chatId: string) => string | null;
 
   // Checklist actions
   createNewChecklist: () => void;
@@ -35,6 +37,8 @@ interface AppState {
   deleteChecklist: (checklistId: string) => Promise<void>;
   getCurrentChecklistData: () => Promise<ChecklistPayload | null>;
   createChatFromChecklist: () => Promise<string>;
+  setPendingChecklistContext: (context: string | null) => void;
+  consumePendingChecklistContext: () => string | null;
 
   // Loading state
   isLoading: boolean;
@@ -50,6 +54,9 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentChecklistId, setCurrentChecklistId] = useState<string | null>(
     null,
   );
+  const [pendingChecklistContext, setPendingChecklistContextState] = useState<
+    string | null
+  >(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -247,23 +254,45 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
     return newChatId;
   }, [currentChecklistId]);
 
+  const setPendingChecklistContext = useCallback((context: string | null) => {
+    setPendingChecklistContextState(context);
+  }, []);
+
+  const consumePendingChecklistContext = useCallback((): string | null => {
+    const context = pendingChecklistContext;
+    setPendingChecklistContextState(null);
+    return context;
+  }, [pendingChecklistContext]);
+
+  const getChatChecklistId = useCallback(
+    (chatId: string): string | null => {
+      const session = chatSessions.find((s) => s.id === chatId);
+      return session?.checklistId || null;
+    },
+    [chatSessions],
+  );
+
   return (
     <AppStateContext.Provider
       value={{
         currentChatId,
         chatSessions,
         currentChecklistId,
+        pendingChecklistContext,
         createNewChat,
         switchToChat,
         loadChatMessages,
         saveChatMessages,
         deleteChat,
+        getChatChecklistId,
         createNewChecklist,
         switchToChecklist,
         saveCurrentChecklist,
         deleteChecklist,
         getCurrentChecklistData,
         createChatFromChecklist,
+        setPendingChecklistContext,
+        consumePendingChecklistContext,
         isLoading,
       }}
     >
