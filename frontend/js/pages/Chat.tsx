@@ -136,7 +136,11 @@ const Chat = ({
 
             <div className="border-t border-border px-4 py-4 sm:px-6">
               {errorMsg && (
-                <div className="mb-3 rounded-md bg-red-50 p-3 text-center text-sm text-destructive-foreground">
+                <div
+                  aria-live="polite"
+                  className="mb-3 rounded-md bg-red-50 p-3 text-center text-sm text-destructive-foreground"
+                  role="alert"
+                >
                   {errorMsg}
                 </div>
               )}
@@ -170,7 +174,7 @@ const Chat = ({
                   size="icon"
                   onClick={onSend}
                 >
-                  <Send className="size-4" />
+                  <Send aria-hidden="true" className="size-4" />
                 </Button>
               </InputGroup>
             </div>

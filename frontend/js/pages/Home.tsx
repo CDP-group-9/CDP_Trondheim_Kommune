@@ -11,7 +11,8 @@ import { useAppState } from "../contexts/AppStateContext";
 import Chat from "./Chat";
 
 const Home = () => {
-  const { currentChatId, createNewChat } = useAppState();
+  const { currentChatId, createNewChat, consumePendingChecklistContext } =
+    useAppState();
   const {
     messages,
     errorMsg,
@@ -35,13 +36,9 @@ const Home = () => {
     if (hasHandledChecklistContext.current) return;
     if (!currentChatId || !isReady) return;
 
-    const shouldSend = localStorage.getItem("shouldSendChecklistContext");
-    const checklistContext = localStorage.getItem("checklistContext");
+    const checklistContext = consumePendingChecklistContext();
 
-    if (shouldSend === "true" && checklistContext) {
-      localStorage.removeItem("shouldSendChecklistContext");
-      localStorage.removeItem("checklistContext");
-
+    if (checklistContext) {
       sendMessage(
         "Kan du hjelpe meg med personvernvurdering basert på denne informasjonen?",
         checklistContext,
@@ -49,7 +46,7 @@ const Home = () => {
 
       hasHandledChecklistContext.current = true;
     }
-  }, [currentChatId, isReady, sendMessage]);
+  }, [currentChatId, isReady, sendMessage, consumePendingChecklistContext]);
 
   useEffect(() => {
     hasHandledChecklistContext.current = false;
@@ -92,14 +89,22 @@ const Home = () => {
         </p>
         <p className="mt-4">
           Usikker på hvor du skal begynne?{" "}
-          <a className="underline" href="/personvern">
+          <a
+            aria-label="Lær det grunnleggende om personvern, estimert lesetid 5 minutter"
+            className="underline"
+            href="/personvern"
+          >
             Lær det grunnleggende om personvern (5 min)
           </a>
         </p>
       </section>
 
       {errorMsg && (
-        <div className="mx-auto w-full max-w-2xl rounded-md bg-red-50 p-4 text-center text-destructive-foreground">
+        <div
+          aria-live="polite"
+          className="mx-auto w-full max-w-2xl rounded-md bg-red-50 p-4 text-center text-destructive-foreground"
+          role="alert"
+        >
           {errorMsg}
         </div>
       )}
@@ -130,7 +135,7 @@ const Home = () => {
             size="icon"
             onClick={handleSendMessage}
           >
-            <Send className="size-4" />
+            <Send aria-hidden="true" className="size-4" />
           </Button>
         </InputGroup>
       </div>
@@ -142,7 +147,9 @@ const Home = () => {
         </p>
         <p className="text-md mt-4">
           Vil du heller gjøre en full personvernvurdering?{" "}
-          <a href="/sjekkliste">Start her</a>
+          <a aria-label="Start personvernsjekkliste" href="/sjekkliste">
+            Start her
+          </a>
         </p>
       </div>
     </div>
