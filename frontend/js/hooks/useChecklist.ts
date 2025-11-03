@@ -1,74 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import { useNavigate } from "react-router-dom";
 
-export type ChecklistOption = "motta" | "dele" | null;
+import { useAppState } from "../contexts/AppStateContext";
+import { ChecklistService, ChecklistServiceError } from "../services";
+import type {
+  ChecklistOption,
+  ChecklistPayload,
+  ContextData,
+  HandlingData,
+  InvolvedPartiesData,
+  LegalBasisData,
+  RiskConcernData,
+  TechData,
+} from "../types/Checklist";
 
-export type ContextData = {
-  projectSummary: string;
-  department: string;
-  status: string;
-  purpose: string;
-};
+import { useCookie } from "./useCookie";
 
-export type InvolvedPartiesData = {
-  registeredGroups: string[];
-  usesExternalProcessors: boolean;
-  externalProcessors: string;
-  employeeAccess: string;
-  sharesWithOthers: boolean;
-  sharedWith: string;
-};
-
-export type LegalBasisData = {
-  legalBasis: string;
-  handlesSensitiveData: boolean;
-  selectedSensitiveDataReason: string[];
-  statutoryTasks: string;
-};
-
-export type RiskConcernData = {
-  privacyRisk: number;
-  unauthAccess: number;
-  dataLoss: number;
-  reidentification: number;
-  employeeConcern: boolean;
-  writtenConcern: string;
-  regulatoryConcern: string;
-};
-
-export type TechData = {
-  storage: string;
-  security: string[];
-  integrations: boolean;
-  integrationDetails: string;
-  automated: boolean;
-  automatedDescription: string;
-};
-
-export type HandlingData = {
-  purpose: string;
-  selectedDataTypes: string[];
-  personCount: number | "";
-  retentionTime: number | "";
-  collectionMethods: string[];
-  recipient: string;
-  recipientType: string;
-  sharingLegalBasis: string;
-  shareFrequency: number | "";
-  dataTransferMethods: string[];
-  selectedDataSources: string[];
-};
-
-export type ChecklistPayload = {
-  selectedOption: ChecklistOption;
-  contextData: ContextData;
-  handlingData: HandlingData;
-  legalBasisData: LegalBasisData;
-  involvedPartiesData: InvolvedPartiesData;
-  techData: TechData;
-  riskConcernData: RiskConcernData;
-};
+// Re-export all Checklist types for backwards compatibility
+export type {
+  ChecklistPayload,
+  ChecklistOption,
+  ContextData,
+  HandlingData,
+  InvolvedPartiesData,
+  LegalBasisData,
+  RiskConcernData,
+  TechData,
+} from "../types/Checklist";
 
 export type UseChecklistReturn = {
   selectedOption: ChecklistOption;
@@ -89,69 +47,149 @@ export type UseChecklistReturn = {
   downloadAsTextFile: () => void;
   sendToBackend: () => Promise<void>;
   resetChecklist: () => void;
+  isSubmitting: boolean;
+  submitError: string | null;
+};
+
+const DEFAULT_CONTEXT_DATA: ContextData = {
+  projectSummary: "",
+  department: "",
+  status: "",
+  purpose: "",
+};
+
+const DEFAULT_HANDLING_DATA: HandlingData = {
+  purpose: "",
+  selectedDataTypes: [],
+  personCount: 1,
+  retentionTime: 0,
+  collectionMethods: [],
+  recipient: "",
+  recipientType: "",
+  sharingLegalBasis: "",
+  shareFrequency: 0,
+  dataTransferMethods: [],
+  selectedDataSources: [],
+};
+
+const DEFAULT_LEGAL_BASIS_DATA: LegalBasisData = {
+  legalBasis: "",
+  handlesSensitiveData: false,
+  selectedSensitiveDataReason: [],
+  statutoryTasks: "",
+};
+
+const DEFAULT_INVOLVED_PARTIES_DATA: InvolvedPartiesData = {
+  registeredGroups: [],
+  usesExternalProcessors: false,
+  externalProcessors: "",
+  employeeAccess: "",
+  sharesWithOthers: false,
+  sharedWith: "",
+};
+
+const DEFAULT_TECH_DATA: TechData = {
+  storage: "",
+  security: [],
+  integrations: false,
+  integrationDetails: "",
+  automated: false,
+  automatedDescription: "",
+};
+
+const DEFAULT_RISK_CONCERN_DATA: RiskConcernData = {
+  privacyRisk: 1,
+  unauthAccess: 1,
+  dataLoss: 1,
+  reidentification: 1,
+  employeeConcern: false,
+  writtenConcern: "",
+  regulatoryConcern: "",
 };
 
 export const useChecklist = (): UseChecklistReturn => {
-  const navigate = useNavigate();
+  const {
+    currentChecklistId,
+    saveCurrentChecklist,
+    createNewChecklist,
+    getCurrentChecklistData,
+    createChatFromChecklist,
+    setPendingChecklistContext,
+  } = useAppState();
+
+  const csrftoken = useCookie("csrftoken");
 
   const [selectedOption, setSelectedOption] = useState<ChecklistOption>(null);
-
-  const [contextData, setContextData] = useState<ContextData>({
-    projectSummary: "",
-    department: "",
-    status: "",
-    purpose: "",
-  });
-
+  const [contextData, setContextData] =
+    useState<ContextData>(DEFAULT_CONTEXT_DATA);
   const [involvedPartiesData, setInvolvedPartiesData] =
-    useState<InvolvedPartiesData>({
-      registeredGroups: [],
-      usesExternalProcessors: false,
-      externalProcessors: "",
-      employeeAccess: "",
-      sharesWithOthers: false,
-      sharedWith: "",
-    });
+    useState<InvolvedPartiesData>(DEFAULT_INVOLVED_PARTIES_DATA);
+  const [legalBasisData, setLegalBasisData] = useState<LegalBasisData>(
+    DEFAULT_LEGAL_BASIS_DATA,
+  );
+  const [riskConcernData, setRiskConcernData] = useState<RiskConcernData>(
+    DEFAULT_RISK_CONCERN_DATA,
+  );
+  const [techData, setTechData] = useState<TechData>(DEFAULT_TECH_DATA);
+  const [handlingData, setHandlingData] = useState<HandlingData>(
+    DEFAULT_HANDLING_DATA,
+  );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const [legalBasisData, setLegalBasisData] = useState<LegalBasisData>({
-    legalBasis: "",
-    handlesSensitiveData: false,
-    selectedSensitiveDataReason: [],
-    statutoryTasks: "",
-  });
+  useEffect(() => {
+    if (!currentChecklistId) {
+      return;
+    }
 
-  const [riskConcernData, setRiskConcernData] = useState<RiskConcernData>({
-    privacyRisk: 1,
-    unauthAccess: 1,
-    dataLoss: 1,
-    reidentification: 1,
-    employeeConcern: false,
-    writtenConcern: "",
-    regulatoryConcern: "",
-  });
+    const loadData = async () => {
+      const savedData = await getCurrentChecklistData();
+      if (savedData) {
+        setSelectedOption(savedData.selectedOption || null);
+        setContextData(savedData.contextData || DEFAULT_CONTEXT_DATA);
+        setHandlingData(savedData.handlingData || DEFAULT_HANDLING_DATA);
+        setLegalBasisData(savedData.legalBasisData || DEFAULT_LEGAL_BASIS_DATA);
+        setInvolvedPartiesData(
+          savedData.involvedPartiesData || DEFAULT_INVOLVED_PARTIES_DATA,
+        );
+        setTechData(savedData.techData || DEFAULT_TECH_DATA);
+        setRiskConcernData(
+          savedData.riskConcernData || DEFAULT_RISK_CONCERN_DATA,
+        );
+      }
+    };
 
-  const [techData, setTechData] = useState<TechData>({
-    storage: "",
-    security: [],
-    integrations: false,
-    integrationDetails: "",
-    automated: false,
-    automatedDescription: "",
-  });
+    loadData();
+  }, [currentChecklistId, getCurrentChecklistData]);
 
-  const [handlingData, setHandlingData] = useState<HandlingData>({
-    purpose: "",
-    selectedDataTypes: [],
-    personCount: 1,
-    retentionTime: 0,
-    collectionMethods: [],
-    recipient: "",
-    recipientType: "",
-    sharingLegalBasis: "",
-    shareFrequency: 0,
-    dataTransferMethods: [],
-    selectedDataSources: [],
-  });
+  useEffect(() => {
+    if (currentChecklistId && selectedOption) {
+      const payload = createPayload();
+      const title = contextData.projectSummary
+        ? contextData.projectSummary.slice(0, 50) +
+          (contextData.projectSummary.length > 50 ? "..." : "")
+        : "Ny sjekkliste";
+
+      const timeoutId = setTimeout(() => {
+        saveCurrentChecklist(payload, title);
+      }, 500);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    selectedOption,
+    contextData,
+    handlingData,
+    legalBasisData,
+    involvedPartiesData,
+    techData,
+    riskConcernData,
+    currentChecklistId,
+  ]);
 
   const createPayload = (): ChecklistPayload => ({
     selectedOption,
@@ -171,9 +209,7 @@ export const useChecklist = (): UseChecklistReturn => {
       let result = "";
 
       for (const [key, value] of Object.entries(data)) {
-        if (value === null || value === undefined) {
-          // skip null/undefined values
-        } else {
+        if (value !== null && value !== undefined) {
           const formattedKey = key
             .replace(/([A-Z])/g, " $1")
             .toLowerCase()
@@ -223,41 +259,41 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
   const sendToBackend = async () => {
     const payload = createPayload();
 
-    function getCookie(name: string) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop()!.split(";").shift();
-      return "";
-    }
+    setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/checklist/json_to_string/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFTOKEN": getCookie("csrftoken") || "",
-          },
-          credentials: "include",
-          body: JSON.stringify(payload),
-        },
-      );
+      const checklistService = ChecklistService.getInstance();
+      const contextString = await checklistService.convertToString(payload, {
+        csrfToken: csrftoken || undefined,
+      });
 
-      const data: { response?: string; error?: string } = await response.json();
-      const contextString = data.response;
+      await createChatFromChecklist();
 
-      localStorage.setItem("checklistContext", contextString || "");
-      localStorage.setItem("shouldSendChecklistContext", "true");
-      navigate("/");
+      setPendingChecklistContext(contextString);
 
-      if (!response.ok) console.error(data.error || "Unknown error");
-    } catch {
-      console.error("No connection to server.");
+      createNewChecklist();
+    } catch (error) {
+      if (error instanceof ChecklistServiceError) {
+        setSubmitError(error.message);
+      } else {
+        setSubmitError("An unexpected error occurred");
+      }
+      throw error; // Re-throw so component can handle navigation
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const resetChecklist = () => window.location.reload();
+  const resetChecklist = () => {
+    setSelectedOption(null);
+    setContextData(DEFAULT_CONTEXT_DATA);
+    setHandlingData(DEFAULT_HANDLING_DATA);
+    setLegalBasisData(DEFAULT_LEGAL_BASIS_DATA);
+    setInvolvedPartiesData(DEFAULT_INVOLVED_PARTIES_DATA);
+    setTechData(DEFAULT_TECH_DATA);
+    setRiskConcernData(DEFAULT_RISK_CONCERN_DATA);
+  };
 
   return {
     selectedOption,
@@ -280,5 +316,8 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
     downloadAsTextFile,
     sendToBackend,
     resetChecklist,
+
+    isSubmitting,
+    submitError,
   };
 };

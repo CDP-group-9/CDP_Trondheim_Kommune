@@ -40,7 +40,9 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
   const toggleSensitive = (value: string) => {
     const updatedSensitive =
       legalBasisData.selectedSensitiveDataReason.includes(value)
-        ? legalBasisData.selectedSensitiveDataReason.filter((v) => v !== value)
+        ? legalBasisData.selectedSensitiveDataReason.filter(
+            (v: string) => v !== value,
+          )
         : [...legalBasisData.selectedSensitiveDataReason, value];
     onChange({
       ...legalBasisData,

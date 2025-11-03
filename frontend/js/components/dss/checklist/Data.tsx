@@ -30,7 +30,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
   const toggleInArray = <K extends ArrayField>(field: K, value: string) => {
     const current = handlingData[field];
     const updated = current.includes(value)
-      ? current.filter((v) => v !== value)
+      ? current.filter((v: string) => v !== value)
       : [...current, value];
     handleChange(field, updated as HandlingData[K]);
   };

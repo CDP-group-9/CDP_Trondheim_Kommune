@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { OpenAPI } from "api";
 import { DssFooter, DssHeader, DssMain, DssSidebar } from "components/dss";
 import { SidebarInset, SidebarProvider } from "components/ui/sidebar";
+import { AppStateProvider } from "contexts/AppStateContext";
 
 import { Checklist, Examples, Home, Privacy } from "./routes";
 
@@ -74,21 +75,23 @@ const App = () => {
           v7_relativeSplatPath: true,
         }}
       >
-        <SidebarProvider>
-          <DssSidebar />
-          <DssHeader ref={headerRef} />
-          <SidebarInset className="scroll-smooth">
-            <DssMain className="flex justify-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] min-w-200 overflow-x-hidden p-4 mx-auto overflow-hidden">
-              <Routes>
-                <Route element={<Home />} path="/" />
-                <Route element={<Privacy />} path="/personvern" />
-                <Route element={<Checklist />} path="/sjekkliste" />
-                <Route element={<Examples />} path="/eksempel" />
-              </Routes>
-            </DssMain>
-          </SidebarInset>
-          <DssFooter ref={footerRef} className="" />
-        </SidebarProvider>
+        <AppStateProvider>
+          <SidebarProvider>
+            <DssSidebar />
+            <DssHeader ref={headerRef} />
+            <SidebarInset className="scroll-smooth">
+              <DssMain className="flex justify-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] min-w-200 overflow-x-hidden p-4 pb-[calc(var(--footer-height)+0.1rem)] mx-auto overflow-hidden">
+                <Routes>
+                  <Route element={<Home />} path="/" />
+                  <Route element={<Privacy />} path="/personvern" />
+                  <Route element={<Checklist />} path="/sjekkliste" />
+                  <Route element={<Examples />} path="/eksempel" />
+                </Routes>
+              </DssMain>
+            </SidebarInset>
+            <DssFooter ref={footerRef} className="" />
+          </SidebarProvider>
+        </AppStateProvider>
       </BrowserRouter>
     </Sentry.ErrorBoundary>
   );

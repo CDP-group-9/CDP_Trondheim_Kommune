@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   Context,
   Data,
@@ -13,6 +16,9 @@ import { Button } from "components/ui/button";
 import { useChecklist } from "../hooks/useChecklist";
 
 const Checklist = () => {
+  const navigate = useNavigate();
+  const [isNavigating, setIsNavigating] = useState(false);
+
   const {
     selectedOption,
     setSelectedOption,
@@ -31,7 +37,22 @@ const Checklist = () => {
     sendToBackend,
     downloadAsTextFile,
     resetChecklist,
+    isSubmitting,
+    submitError,
   } = useChecklist();
+
+  const handleSendToBackend = async () => {
+    try {
+      setIsNavigating(true);
+      await sendToBackend();
+      navigate("/");
+    } catch (error) {
+      setIsNavigating(false);
+      // Error is already captured in submitError from the hook
+    }
+  };
+
+  const isLoading = isSubmitting || isNavigating;
 
   return (
     <div>
@@ -76,15 +97,29 @@ const Checklist = () => {
               riskConcernData={riskConcernData}
               onChange={setRiskConcernData}
             />
+
+            {submitError && (
+              <div
+                aria-live="polite"
+                className="mx-auto max-w-2xl rounded-md bg-red-50 p-4 text-center text-destructive-foreground"
+                role="alert"
+              >
+                {submitError}
+              </div>
+            )}
+
             <div className="flex justify-center space-x-4 pb-1">
               <Button
-                className="bg-gray-200 text-gray-900 hover:bg-gray-300"
+                className="bg-muted text-foreground hover:bg-muted/80"
+                disabled={isLoading}
                 onClick={resetChecklist}
               >
                 Nullstill skjema
               </Button>
-              <Button onClick={sendToBackend}>Generer veiledning</Button>
-              <Button onClick={downloadAsTextFile}>
+              <Button disabled={isLoading} onClick={handleSendToBackend}>
+                {isLoading ? "Sender..." : "Generer veiledning"}
+              </Button>
+              <Button disabled={isLoading} onClick={downloadAsTextFile}>
                 Eksporter til tekstfil
               </Button>
             </div>

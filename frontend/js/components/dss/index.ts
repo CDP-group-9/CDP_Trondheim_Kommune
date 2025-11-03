@@ -1,4 +1,5 @@
 export { DssChatBox } from "./DssChatBox";
+export { DssChecklistLink } from "./DssChecklistLink";
 export { DssDynamicBreadcrumb } from "./DssDynamicBreadcrumb";
 export { DssHeader } from "./DssHeader";
 export { DssFooter } from "./DssFooter";

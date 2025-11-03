@@ -71,7 +71,10 @@ describe("Home", () => {
     );
     const submitButton = screen.getByRole("button", { name: "Send melding" });
 
-    await user.type(textarea, "Hjelp meg med å starte en DPIA for et nytt prosjekt.");
+    await user.type(
+      textarea,
+      "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
+    );
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -112,7 +115,10 @@ describe("Home", () => {
     );
     const submitButton = screen.getByRole("button", { name: "Send melding" });
 
-    await user.type(textarea, "Hjelp meg med å starte en DPIA for et nytt prosjekt.");
+    await user.type(
+      textarea,
+      "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
+    );
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -131,7 +137,10 @@ describe("Home", () => {
     );
     const submitButton = screen.getByRole("button", { name: "Send melding" });
 
-    await user.type(textarea, "Hjelp meg med å starte en DPIA for et nytt prosjekt.");
+    await user.type(
+      textarea,
+      "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
+    );
     await user.click(submitButton);
 
     await waitFor(() => {

@@ -1,7 +1,7 @@
 import { Send } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from "react";
 
-import { DssChatBox } from "components/dss";
+import { DssChatBox, DssChecklistLink } from "components/dss";
 import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useSidebar } from "js/components/ui/sidebar";
@@ -113,12 +113,14 @@ const Chat = ({
         }}
       >
         <div className="flex h-full w-full justify-center">
-          <div className="grid h-full w-full min-w-md grid-rows-[1fr_auto]">
+          <div className="flex h-full w-full min-w-md flex-col">
+            <DssChecklistLink />
+
             <div
               ref={scrollContainerRef}
               aria-live="polite"
               aria-relevant="additions text"
-              className="overflow-y-auto justify-center px-4 py-6 sm:px-6"
+              className="flex-1 overflow-y-auto justify-center px-4 py-6 sm:px-6"
             >
               <div className="flex mx-auto min-h-full max-w-6xl flex-col justify-end gap-4">
                 {messages.map((msg, index) => {
@@ -134,7 +136,11 @@ const Chat = ({
 
             <div className="border-t border-border px-4 py-4 sm:px-6">
               {errorMsg && (
-                <div className="mb-3 rounded-md bg-red-50 p-3 text-center text-sm text-destructive-foreground">
+                <div
+                  aria-live="polite"
+                  className="mb-3 rounded-md bg-red-50 p-3 text-center text-sm text-destructive-foreground"
+                  role="alert"
+                >
                   {errorMsg}
                 </div>
               )}
@@ -168,7 +174,7 @@ const Chat = ({
                   size="icon"
                   onClick={onSend}
                 >
-                  <Send className="size-4" />
+                  <Send aria-hidden="true" className="size-4" />
                 </Button>
               </InputGroup>
             </div>
