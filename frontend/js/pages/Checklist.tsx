@@ -110,7 +110,7 @@ const Checklist = () => {
 
             <div className="flex justify-center space-x-4 pb-1">
               <Button
-                className="bg-gray-200 text-gray-900 hover:bg-gray-300"
+                className="bg-muted text-foreground hover:bg-muted/80"
                 disabled={isLoading}
                 onClick={resetChecklist}
               >

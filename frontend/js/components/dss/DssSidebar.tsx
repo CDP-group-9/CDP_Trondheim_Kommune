@@ -77,7 +77,7 @@ export function DssSidebar() {
         >
           <a
             aria-label="Gå til ASQ forsiden"
-            className="font-medium text-gray-900 hover:text-gray-900/75 transition-colors cursor-pointer rounded-md px-1 py-1"
+            className="font-medium text-foreground hover:text-foreground/75 transition-colors cursor-pointer rounded-md px-1 py-1"
             href="/"
           >
             <h4>ASQ</h4>
