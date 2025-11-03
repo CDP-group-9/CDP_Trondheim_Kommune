@@ -57,6 +57,9 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
   const [pendingChecklistContext, setPendingChecklistContextState] = useState<
     string | null
   >(null);
+  const [pendingChecklistId, setPendingChecklistId] = useState<string | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -80,16 +83,9 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
   const createNewChat = useCallback(
     async (checklistId?: string): Promise<string> => {
       const newChatId = `chat-${Date.now()}`;
-      const newSession: ChatSession = {
-        id: newChatId,
-        title: "Ny samtale",
-        messages: [],
-        checklistId,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      };
-
-      await storage.saveChatSession(newSession);
+      if (checklistId) {
+        setPendingChecklistId(checklistId);
+      }
       setCurrentChatId(newChatId);
 
       return newChatId;
@@ -111,10 +107,18 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const saveChatMessages = useCallback(
     async (chatId: string, messages: ChatMessage[]) => {
-      const session = await storage.getChatSession(chatId);
+      let session = await storage.getChatSession(chatId);
 
       if (!session) {
-        return;
+        session = {
+          id: chatId,
+          title: "Ny samtale",
+          messages: [],
+          checklistId: pendingChecklistId || undefined,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        };
+        setPendingChecklistId(null);
       }
 
       let { title } = session;
@@ -143,7 +147,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
         });
       }
     },
-    [],
+    [pendingChecklistId],
   );
 
   const deleteChat = useCallback(
