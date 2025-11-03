@@ -87,7 +87,7 @@ export function DssSidebar() {
 
       <SidebarTrigger className="ml-2 mr-2 mt-2 mb-1 hover:bg-muted transition" />
 
-      <SidebarContent>
+      <SidebarContent className="flex flex-col">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -126,12 +126,12 @@ export function DssSidebar() {
         </SidebarGroup>
 
         {chatSessions.length > 0 && state === "expanded" && (
-          <SidebarGroup>
+          <SidebarGroup className="flex-1 min-h-0">
             <SidebarGroupLabel className="gap-2">
               <History aria-hidden="true" className="h-4 w-4" />
               <span>Tidligere samtaler</span>
             </SidebarGroupLabel>
-            <SidebarGroupContent>
+            <SidebarGroupContent className="overflow-y-auto">
               <SidebarMenu>
                 {chatSessions.map((session) => (
                   <SidebarMenuItem key={session.id}>
