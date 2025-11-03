@@ -143,7 +143,7 @@ export function DssSidebar() {
                           navigate("/");
                         }}
                       >
-                        <span className="flex-1 truncate text-left">
+                        <span className="flex-1 truncate text-left pr-8">
                           {session.title}
                         </span>
                       </SidebarMenuButton>
