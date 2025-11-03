@@ -30,6 +30,7 @@ interface AppState {
   // Checklist actions
   createNewChecklist: () => void;
   switchToChecklist: (checklistId: string) => void;
+  restoreCurrentChecklist: () => void;
   saveCurrentChecklist: (
     data: ChecklistPayload,
     title?: string,
@@ -70,6 +71,39 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
         const allChats = await storage.getAllChatSessions();
         const chatsWithMessages = allChats.filter((c) => c.messages.length > 0);
         setChatSessions(chatsWithMessages);
+
+        const savedChecklistId = localStorage.getItem("currentChecklistId");
+        if (savedChecklistId) {
+          const existingChecklist =
+            await storage.getChecklistSession(savedChecklistId);
+          if (existingChecklist) {
+            setCurrentChecklistId(savedChecklistId);
+          } else {
+            const newChecklistId = `checklist-${Date.now()}`;
+            const newSession: ChecklistSession = {
+              id: newChecklistId,
+              title: "Ny sjekkliste",
+              data: {},
+              createdAt: Date.now(),
+              updatedAt: Date.now(),
+            };
+            await storage.saveChecklistSession(newSession);
+            setCurrentChecklistId(newChecklistId);
+            localStorage.setItem("currentChecklistId", newChecklistId);
+          }
+        } else {
+          const newChecklistId = `checklist-${Date.now()}`;
+          const newSession: ChecklistSession = {
+            id: newChecklistId,
+            title: "Ny sjekkliste",
+            data: {},
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+          };
+          await storage.saveChecklistSession(newSession);
+          setCurrentChecklistId(newChecklistId);
+          localStorage.setItem("currentChecklistId", newChecklistId);
+        }
       } catch (error) {
         console.error("Storage init error:", error);
       } finally {
@@ -162,7 +196,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
     [currentChatId],
   );
 
-  const createNewChecklist = useCallback(() => {
+  const createNewChecklist = useCallback(async () => {
     const newChecklistId = `checklist-${Date.now()}`;
     const newSession: ChecklistSession = {
       id: newChecklistId,
@@ -172,12 +206,21 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
       updatedAt: Date.now(),
     };
 
-    storage.saveChecklistSession(newSession);
+    await storage.saveChecklistSession(newSession);
     setCurrentChecklistId(newChecklistId);
+    localStorage.setItem("currentChecklistId", newChecklistId);
   }, []);
 
   const switchToChecklist = useCallback((checklistId: string) => {
     setCurrentChecklistId(checklistId);
+  }, []);
+
+  const restoreCurrentChecklist = useCallback(() => {
+    // Restore the persistent current checklist from localStorage
+    const savedChecklistId = localStorage.getItem("currentChecklistId");
+    if (savedChecklistId) {
+      setCurrentChecklistId(savedChecklistId);
+    }
   }, []);
 
   const getCurrentChecklistData =
@@ -292,6 +335,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
         createNewChecklist,
         switchToChecklist,
         saveCurrentChecklist,
+        restoreCurrentChecklist,
         deleteChecklist,
         getCurrentChecklistData,
         createChatFromChecklist,

@@ -139,7 +139,6 @@ export const useChecklist = (): UseChecklistReturn => {
 
   useEffect(() => {
     if (!currentChecklistId) {
-      createNewChecklist();
       return;
     }
 
@@ -161,7 +160,7 @@ export const useChecklist = (): UseChecklistReturn => {
     };
 
     loadData();
-  }, [currentChecklistId, createNewChecklist, getCurrentChecklistData]);
+  }, [currentChecklistId, getCurrentChecklistData]);
 
   useEffect(() => {
     if (currentChecklistId && selectedOption) {
@@ -190,7 +189,6 @@ export const useChecklist = (): UseChecklistReturn => {
     techData,
     riskConcernData,
     currentChecklistId,
-    // createPayload and saveCurrentChecklist are stable from useAppState
   ]);
 
   const createPayload = (): ChecklistPayload => ({
@@ -288,7 +286,6 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
   };
 
   const resetChecklist = () => {
-    createNewChecklist();
     setSelectedOption(null);
     setContextData(DEFAULT_CONTEXT_DATA);
     setHandlingData(DEFAULT_HANDLING_DATA);

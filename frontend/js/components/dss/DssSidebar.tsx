@@ -65,6 +65,7 @@ export function DssSidebar() {
     createNewChat,
     switchToChat,
     deleteChat,
+    restoreCurrentChecklist,
   } = useAppState();
 
   return (
@@ -107,6 +108,9 @@ export function DssSidebar() {
                       onClick={() => {
                         if (item.action === "newChat") {
                           createNewChat();
+                        }
+                        if (item.url === "/sjekkliste") {
+                          restoreCurrentChecklist();
                         }
                         navigate(item.url);
                       }}
