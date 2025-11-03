@@ -1,7 +1,8 @@
 import { Send } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { DssChecklistLink } from "components/dss";
+import { DssExternalVsInternal } from "components/dss/DssExternalVsInternal";
 import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
@@ -11,6 +12,20 @@ import { useAppState } from "../contexts/AppStateContext";
 import Chat from "./Chat";
 
 const Home = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const hasSeenModal = localStorage.getItem("hasSeenDssModal");
+
+    if (!hasSeenModal) {
+      setShowModal(true);
+    }
+  }, []);
+
+  const handleCloseModal = () => {
+    localStorage.setItem("hasSeenDssModal", "true");
+    setShowModal(false);
+  };
   const { currentChatId, createNewChat, consumePendingChecklistContext } =
     useAppState();
   const {
@@ -73,7 +88,9 @@ const Home = () => {
   return (
     <div className="flex min-h-full w-full flex-col tk-readable p-6">
       <DssChecklistLink />
-
+      {showModal && (
+        <DssExternalVsInternal autoOpen onClose={handleCloseModal} />
+      )}
       <section className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
         <h1 className="text-4xl font-semibold">ASQ</h1>
         <p className="text-lg font-semibold">
