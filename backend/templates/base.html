@@ -1,15 +1,17 @@
+{% load static %}
 {% load render_bundle from webpack_loader %}
 
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="nb">
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>{% block title %}{% endblock %}</title>
-  <meta name="description" content="" />
+  <title>{% block title %}ASQ – Personvernveileder{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}ASQ er en personvernveileder som hjelper deg med å navigere i komplekse personvernspørsmål.{% endblock %}" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <link rel="shortcut icon" href="#" />
+  <meta name="theme-color" content="#0b4fad">
+  <link rel="icon" type="image/png" href="{% static 'common/trondheim_kommune_favicon.png' %}" />
+  <link rel="apple-touch-icon" href="{% static 'common/trondheim_kommune_favicon.png' %}">
 
   <!-- Webpack rendered CSS -->
   {% render_bundle 'main' 'css' %}
