@@ -1,5 +1,5 @@
 {% load static %}
-{% load render_bundle from webpack_loader %}
+{% load render_bundle get_files from webpack_loader %}
 
 <!DOCTYPE html>
 <html class="no-js" lang="nb">
@@ -14,8 +14,22 @@
   <link rel="apple-touch-icon" href="{% static 'common/trondheim_kommune_favicon.png' %}">
   <link rel="manifest" href="{% static 'common/manifest.webmanifest' %}">
   <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+  </noscript>
   <!-- Webpack rendered CSS -->
-  {% render_bundle 'main' 'css' %}
+  {% get_files 'main' 'css' as main_css_files %}
+  {% if main_css_files %}
+    {% for css in main_css_files %}
+      <link rel="preload" href="{{ css.url }}" as="style">
+      <link rel="stylesheet" href="{{ css.url }}">
+    {% endfor %}
+  {% else %}
+    {% render_bundle 'main' 'css' %}
+  {% endif %}
 </head>
 
 <body>
