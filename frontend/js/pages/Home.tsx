@@ -172,7 +172,7 @@ const Home = () => {
           </Button>
         </InputGroup>
       </div>
-      <div className="flex flex-col text-center text-sm text-muted-foreground mx-auto mb-4 space-y-2 max-w-md tk-readable">
+      <div className="flex flex-col mt-4 text-center text-sm text-muted-foreground mx-auto mb-4 space-y-2 max-w-md tk-readable">
         <p className="text-sm">
           Ikke skriv inn sensitive eller identifiserbare personopplysninger.
           Personvernsassistenten kan gi juridisk veiledning, men erstatter ikke

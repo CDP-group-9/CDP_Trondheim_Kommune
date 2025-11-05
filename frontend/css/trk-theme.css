@@ -11,6 +11,7 @@
   --brand-purple: #a91c8e;
   --brand-pink:   #e6007e;
   --brand-blue:   #005aa7; /* Trondheim Kommune Blue */
+  --brand-blue-gray: #e5eef6;
   --brand-cyan:   #009bdf;
   --brand-green:  #00953b;
   --brand-lime:   #c3d600;
@@ -19,6 +20,7 @@
   --brand-white:  #ffffff;
 
   --background: var(--brand-white);
+  --secondary-background: var(--brand-blue-gray);
   --foreground: #111111;
   --card: var(--brand-white);
   --card-foreground: #111111;
