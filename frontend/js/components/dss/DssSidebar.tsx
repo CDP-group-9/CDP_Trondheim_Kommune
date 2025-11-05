@@ -126,7 +126,10 @@ export function DssSidebar() {
         </SidebarGroup>
 
         {chatSessions.length > 0 && state === "expanded" && (
-          <SidebarGroup className="flex-1 min-h-0">
+          <SidebarGroup
+            aria-label="Tidligere samtaler"
+            className="flex-1 min-h-0"
+          >
             <SidebarGroupLabel className="gap-2">
               <History aria-hidden="true" className="h-4 w-4" />
               <span>Tidligere samtaler</span>
