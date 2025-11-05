@@ -180,7 +180,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
         </div>
 
         {involvedPartiesData.sharesWithOthers && (
-          <div className="inputGroup space-y-2">
+          <div className="inputGroup space-y-2 bg-background">
             <label className="block text-sm font-medium" htmlFor={sharedWithId}>
               Hvem deles det data med?
             </label>

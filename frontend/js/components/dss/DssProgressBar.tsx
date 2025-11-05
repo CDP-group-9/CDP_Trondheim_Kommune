@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 
 import { Progress } from "../ui/progress";
 
 export const DssProgressBar: React.FC = () => {
+  const labelId = useId();
   const [progress, setProgress] = useState(0);
 
   React.useEffect(() => {
@@ -24,7 +25,14 @@ export const DssProgressBar: React.FC = () => {
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-transparent">
-      <Progress className="h-2 w-full rounded-none" value={progress} />
+      <span className="sr-only" id={labelId}>
+        Lesefremdrift for sjekklisten
+      </span>
+      <Progress
+        aria-labelledby={labelId}
+        className="h-2 w-full rounded-none"
+        value={progress}
+      />
     </div>
   );
 };

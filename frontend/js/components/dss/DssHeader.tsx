@@ -44,7 +44,7 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
       <header
         ref={ref}
         className={cn(
-          "sticky top-0 z-50 bg-card border-b border-border shadow-sm flex flex-col gap-0",
+          "bg-popover border-t border-border fixed z-10 top-0 flex-col justify-start",
           className,
         )}
         data-collapsed={isCollapsed ? "true" : "false"}

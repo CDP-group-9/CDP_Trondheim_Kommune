@@ -12,6 +12,15 @@ function Slider({
   max = 100,
   ...props
 }: React.ComponentProps<typeof SliderPrimitive.Root>) {
+  const sliderProps = props as typeof props & {
+    "aria-label"?: string;
+    "aria-labelledby"?: string;
+    "aria-describedby"?: string;
+  };
+  const ariaLabel = sliderProps["aria-label"];
+  const ariaLabelledBy = sliderProps["aria-labelledby"];
+  const ariaDescribedBy = sliderProps["aria-describedby"];
+
   const _values = React.useMemo(
     () =>
       Array.isArray(value)
@@ -28,12 +37,15 @@ function Slider({
         "relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
         className,
       )}
+      aria-describedby={ariaDescribedBy}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
       data-slot="slider"
       defaultValue={defaultValue}
       max={max}
       min={min}
       value={value}
-      {...props}
+      {...sliderProps}
     >
       <SliderPrimitive.Track
         className={cn(
@@ -52,6 +64,9 @@ function Slider({
         <SliderPrimitive.Thumb
           key={index}
           className="border-primary ring-ring/50 block size-4 shrink-0 rounded-full border bg-white shadow-sm transition-[color,box-shadow] hover:ring-4 focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
+          aria-describedby={ariaDescribedBy}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
           data-slot="slider-thumb"
         />
       ))}
