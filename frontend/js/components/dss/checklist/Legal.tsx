@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 import { Switch } from "js/components/ui/switch";
@@ -11,6 +12,12 @@ type Props = {
 };
 
 export const Legal = ({ legalBasisData, onChange }: Props) => {
+  const baseId = useId();
+  const legalBasisGroupId = `${baseId}-legal-basis`;
+  const sensitiveSwitchId = `${baseId}-sensitive-switch`;
+  const sensitiveGroupId = `${baseId}-sensitive-reasons`;
+  const statutoryTasksId = `${baseId}-statutory-tasks`;
+
   const handleChange = <K extends keyof LegalBasisData>(
     field: K,
     value: LegalBasisData[K],
@@ -65,10 +72,18 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
 
       {/* Legal basis radio buttons */}
       <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div
+          aria-labelledby={legalBasisGroupId}
+          className="buttonGroup space-y-2"
+          role="radiogroup"
+        >
+          <span
+            className="block text-sm font-medium"
+            id={legalBasisGroupId}
+            role="presentation"
+          >
             Hvilket rettsgrunnlag planlegges brukt?
-          </label>
+          </span>
           {[
             [
               "offentlig_oppgave",
@@ -89,8 +104,10 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
             <label
               key={value}
               className="flex items-center gap-2 cursor-pointer"
+              htmlFor={`${legalBasisGroupId}-${value}`}
             >
               <input
+                id={`${legalBasisGroupId}-${value}`}
                 checked={legalBasisData.legalBasis === value}
                 name="legalBasis"
                 type="radio"
@@ -102,14 +119,17 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
           ))}
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label
+            className="block text-sm font-medium"
+            htmlFor={sensitiveSwitchId}
+          >
             Behandles sensitive personopplysninger?
           </label>
           <div className="flex items-center gap-2">
             <Switch
               checked={legalBasisData.handlesSensitiveData}
-              id="sensitive-data-switch"
+              id={sensitiveSwitchId}
               onCheckedChange={(value) =>
                 handleChange("handlesSensitiveData", value)
               }
@@ -119,17 +139,27 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
         </div>
 
         {legalBasisData.handlesSensitiveData && (
-          <div>
-            <label className="block text-sm font-medium mb-2">
+          <div
+            aria-labelledby={sensitiveGroupId}
+            className="buttonGroup space-y-2"
+            role="group"
+          >
+            <span
+              className="block text-sm font-medium"
+              id={sensitiveGroupId}
+              role="presentation"
+            >
               Rettsgrunnlag for sensitive opplysninger (GDPR art. 9)
-            </label>
+            </span>
             <div className="flex flex-col space-y-2">
               {sensitiveDataReasons.map(({ value, label }) => (
                 <label
                   key={value}
                   className="inline-flex items-center space-x-2 cursor-pointer"
+                  htmlFor={`${sensitiveGroupId}-${value}`}
                 >
                   <input
+                    id={`${sensitiveGroupId}-${value}`}
                     checked={legalBasisData.selectedSensitiveDataReason.includes(
                       value,
                     )}
@@ -144,12 +174,17 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
           </div>
         )}
 
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label
+            className="block text-sm font-medium"
+            htmlFor={statutoryTasksId}
+          >
             Lovpålagte oppgaver eller krav?
           </label>
           <Textarea
+            id={statutoryTasksId}
             placeholder="Referanser til lover som krever databehandlingen..."
+            value={legalBasisData.statutoryTasks || ""}
             onChange={(e) => handleChange("statutoryTasks", e.target.value)}
           />
         </div>
