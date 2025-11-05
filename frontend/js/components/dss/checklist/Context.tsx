@@ -120,6 +120,7 @@ export const Context = ({ contextData, onChange }: Props) => {
             Formål og mål med prosjektet:
           </label>
           <Textarea
+            className="bg-white"
             id={purposeId}
             placeholder="Beskriv hva dere ønsker å oppnå og hvorfor..."
             value={contextData.purpose || ""}

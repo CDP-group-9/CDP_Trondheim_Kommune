@@ -18,7 +18,7 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
   return (
     <section
       aria-labelledby={headingId}
-      className="bg-primary/5 border border-primary/20 rounded-lg p-6 max-w-4xl mx-auto"
+      className="bg-card border border-primary/20 rounded-lg p-6 max-w-4xl mx-auto"
     >
       <h2
         className="text-xl font-medium mb-1 flex items-center gap-2"
@@ -39,7 +39,7 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
       >
         <ButtonGroup className="grid gap-4" orientation="grid">
           <label
-            className="relative block cursor-pointer"
+            className="relative block cursor-pointer hover:shadow-md bg-muted selected:bg-brand-cyan"
             htmlFor={receiveId}
           >
             <input
@@ -74,7 +74,10 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
             </div>
           </label>
 
-          <label className="relative block cursor-pointer" htmlFor={shareId}>
+          <label
+            className="relative h-full block cursor-pointer hover:shadow-md bg-muted selected:bg-brand-cyan"
+            htmlFor={shareId}
+          >
             <input
               checked={selected === "dele"}
               className="peer sr-only"
@@ -85,7 +88,7 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
               onChange={() => onSelect("dele")}
             />
             <div
-              className="border-primary/20 bg-muted/10 peer-focus-visible:ring-ring/50 peer-focus-visible:ring-[3px] peer-focus-visible:border-ring peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-sm border rounded-lg p-4 transition"
+              className="border-primary/20 h-full bg-muted/10 peer-focus-visible:ring-ring/50 peer-focus-visible:ring-[3px] peer-focus-visible:border-ring peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-sm border rounded-lg p-4 transition"
               role="presentation"
             >
               <div className="flex items-start gap-3">
@@ -96,11 +99,11 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
                   <h3 className="font-medium">Dele/utlevere data</h3>
                   <p className="text-sm text-muted-foreground mt-1">
                     Jeg skal dele, utlevere eller overføre personopplysninger
-                    til andre organisasjoner eller systemer
+                    til andre organisasjoner eller systemer.
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
                     Eksempler: rapportering til Helsedirektoratet, dele data med
-                    andre kommuner, eksport til leverandør
+                    andre kommuner, eksport til leverandør.
                   </p>
                 </div>
               </div>

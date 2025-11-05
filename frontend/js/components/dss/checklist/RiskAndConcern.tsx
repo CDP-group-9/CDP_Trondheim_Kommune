@@ -14,10 +14,14 @@ type Props = {
 
 export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
   const baseId = useId();
-  const privacyRiskId = `${baseId}-privacy-risk`;
-  const unauthAccessId = `${baseId}-unauth-access`;
-  const dataLossId = `${baseId}-data-loss`;
-  const reidentificationId = `${baseId}-reidentification`;
+  const privacyRiskLabelId = `${baseId}-privacy-risk-label`;
+  const privacyRiskSliderId = `${baseId}-privacy-risk-slider`;
+  const unauthAccessLabelId = `${baseId}-unauth-access-label`;
+  const unauthAccessSliderId = `${baseId}-unauth-access-slider`;
+  const dataLossLabelId = `${baseId}-data-loss-label`;
+  const dataLossSliderId = `${baseId}-data-loss-slider`;
+  const reidentificationLabelId = `${baseId}-reidentification-label`;
+  const reidentificationSliderId = `${baseId}-reidentification-slider`;
   const employeeConcernSwitchId = `${baseId}-employee-concern`;
   const concernDetailsId = `${baseId}-concern-details`;
   const regulatoryConcernId = `${baseId}-regulatory-concern`;
@@ -48,7 +52,11 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
       <div className="space-y-6">
         {/* Privacy risk */}
         <div className="inputGroup space-y-2">
-          <label className="block text-sm font-medium" htmlFor={privacyRiskId}>
+          <label
+            className="block text-sm font-medium"
+            htmlFor={privacyRiskSliderId}
+            id={privacyRiskLabelId}
+          >
             Samlet vurdering av personvernsrisiko
           </label>
           <div className="flex justify-between text-xs text-muted-foreground">
@@ -57,7 +65,8 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
           </div>
           <Slider
             className="w-full p-1"
-            aria-labelledby={privacyRiskId}
+            aria-labelledby={privacyRiskLabelId}
+            id={privacyRiskSliderId}
             max={5}
             min={1}
             step={1}
@@ -71,7 +80,11 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
 
         {/* Unauthorized access */}
         <div className="inputGroup space-y-2">
-          <label className="block text-sm font-medium" htmlFor={unauthAccessId}>
+          <label
+            className="block text-sm font-medium"
+            htmlFor={unauthAccessSliderId}
+            id={unauthAccessLabelId}
+          >
             Risiko for uautorisert tilgang
           </label>
           <div className="flex justify-between text-xs text-muted-foreground">
@@ -80,7 +93,8 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
           </div>
           <Slider
             className="w-full p-1"
-            aria-labelledby={unauthAccessId}
+            aria-labelledby={unauthAccessLabelId}
+            id={unauthAccessSliderId}
             max={5}
             min={1}
             step={1}
@@ -94,7 +108,11 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
 
         {/* Data loss */}
         <div className="inputGroup space-y-2">
-          <label className="block text-sm font-medium" htmlFor={dataLossId}>
+          <label
+            className="block text-sm font-medium"
+            htmlFor={dataLossSliderId}
+            id={dataLossLabelId}
+          >
             Risiko for datatap
           </label>
           <div className="flex justify-between text-xs text-muted-foreground">
@@ -103,7 +121,8 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
           </div>
           <Slider
             className="w-full p-1"
-            aria-labelledby={dataLossId}
+            aria-labelledby={dataLossLabelId}
+            id={dataLossSliderId}
             max={5}
             min={1}
             step={1}
@@ -119,7 +138,8 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         <div className="inputGroup space-y-2">
           <label
             className="block text-sm font-medium"
-            htmlFor={reidentificationId}
+            htmlFor={reidentificationSliderId}
+            id={reidentificationLabelId}
           >
             Risiko for re-identifisering av anonymiserte data
           </label>
@@ -129,7 +149,8 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
           </div>
           <Slider
             className="w-full p-1"
-            aria-labelledby={reidentificationId}
+            aria-labelledby={reidentificationLabelId}
+            id={reidentificationSliderId}
             max={5}
             min={1}
             step={1}
