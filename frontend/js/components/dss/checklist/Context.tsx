@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 import {
@@ -18,6 +19,12 @@ type Props = {
 };
 
 export const Context = ({ contextData, onChange }: Props) => {
+  const baseId = useId();
+  const projectSummaryId = `${baseId}-project-summary`;
+  const departmentId = `${baseId}-department`;
+  const statusGroupId = `${baseId}-status`;
+  const purposeId = `${baseId}-purpose`;
+
   const handleChange = <K extends keyof ContextData>(
     field: K,
     value: ContextData[K],
@@ -39,26 +46,28 @@ export const Context = ({ contextData, onChange }: Props) => {
       </p>
 
       <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label className="block text-sm font-medium" htmlFor={projectSummaryId}>
             Prosjektnavn og kort beskrivelse:
           </label>
           <Input
+            id={projectSummaryId}
             placeholder="F.eks. 'Digital Skoleportal - ny løsning for elevdata'"
             value={contextData.projectSummary || ""}
             onChange={(e) => handleChange("projectSummary", e.target.value)}
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label className="block text-sm font-medium" htmlFor={departmentId}>
             Ansvarlig avdeling/enhet:
           </label>
           <Select
+            aria-labelledby={departmentId}
             value={contextData.department}
             onValueChange={(value) => handleChange("department", value)}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full" id={departmentId}>
               <SelectValue placeholder="Velg et alternativ..." />
             </SelectTrigger>
             <SelectContent>
@@ -68,10 +77,18 @@ export const Context = ({ contextData, onChange }: Props) => {
           </Select>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div
+          aria-labelledby={statusGroupId}
+          className="buttonGroup space-y-2"
+          role="radiogroup"
+        >
+          <span
+            className="block text-sm font-medium"
+            id={statusGroupId}
+            role="presentation"
+          >
             Prosjektstatus:
-          </label>
+          </span>
           <div className="space-y-2">
             {[
               ["planning", "Planlegging"],
@@ -80,9 +97,14 @@ export const Context = ({ contextData, onChange }: Props) => {
               ["implementation", "Implementering"],
               ["production", "Produksjon"],
             ].map(([value, label]) => (
-              <label key={value} className="flex items-center gap-2">
+              <label
+                key={value}
+                className="flex items-center gap-2 cursor-pointer"
+                htmlFor={`${statusGroupId}-${value}`}
+              >
                 <input
                   checked={contextData.status === value}
+                  id={`${statusGroupId}-${value}`}
                   name="status"
                   type="radio"
                   value={value}
@@ -93,11 +115,12 @@ export const Context = ({ contextData, onChange }: Props) => {
             ))}
           </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label className="block text-sm font-medium" htmlFor={purposeId}>
             Formål og mål med prosjektet:
           </label>
           <Textarea
+            id={purposeId}
             placeholder="Beskriv hva dere ønsker å oppnå og hvorfor..."
             value={contextData.purpose || ""}
             onChange={(e) => handleChange("purpose", e.target.value)}

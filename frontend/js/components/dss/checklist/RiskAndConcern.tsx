@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 import { Slider } from "js/components/ui/slider";
@@ -12,6 +13,15 @@ type Props = {
 };
 
 export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
+  const baseId = useId();
+  const privacyRiskId = `${baseId}-privacy-risk`;
+  const unauthAccessId = `${baseId}-unauth-access`;
+  const dataLossId = `${baseId}-data-loss`;
+  const reidentificationId = `${baseId}-reidentification`;
+  const employeeConcernSwitchId = `${baseId}-employee-concern`;
+  const concernDetailsId = `${baseId}-concern-details`;
+  const regulatoryConcernId = `${baseId}-regulatory-concern`;
+
   const riskLabels = ["Svært lav", "Lav", "Moderat", "Høy", "Svært høy"];
 
   const getRiskLabel = (value: number) => `${riskLabels[value - 1]} (${value})`;
@@ -37,16 +47,17 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
 
       <div className="space-y-6">
         {/* Privacy risk */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="inputGroup space-y-2">
+          <label className="block text-sm font-medium" htmlFor={privacyRiskId}>
             Samlet vurdering av personvernsrisiko
           </label>
-          <div className="flex justify-between text-xs text-muted-foreground mb-1">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>Svært lav</span>
             <span>Svært høy</span>
           </div>
           <Slider
             className="w-full p-1"
+            aria-labelledby={privacyRiskId}
             max={5}
             min={1}
             step={1}
@@ -59,16 +70,17 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         </div>
 
         {/* Unauthorized access */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="inputGroup space-y-2">
+          <label className="block text-sm font-medium" htmlFor={unauthAccessId}>
             Risiko for uautorisert tilgang
           </label>
-          <div className="flex justify-between text-xs text-muted-foreground mb-1">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>Svært lav</span>
             <span>Svært høy</span>
           </div>
           <Slider
             className="w-full p-1"
+            aria-labelledby={unauthAccessId}
             max={5}
             min={1}
             step={1}
@@ -81,16 +93,17 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         </div>
 
         {/* Data loss */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="inputGroup space-y-2">
+          <label className="block text-sm font-medium" htmlFor={dataLossId}>
             Risiko for datatap
           </label>
-          <div className="flex justify-between text-xs text-muted-foreground mb-1">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>Svært lav</span>
             <span>Svært høy</span>
           </div>
           <Slider
             className="w-full p-1"
+            aria-labelledby={dataLossId}
             max={5}
             min={1}
             step={1}
@@ -103,16 +116,20 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         </div>
 
         {/* Re-identification */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
+        <div className="inputGroup space-y-2">
+          <label
+            className="block text-sm font-medium"
+            htmlFor={reidentificationId}
+          >
             Risiko for re-identifisering av anonymiserte data
           </label>
-          <div className="flex justify-between text-xs text-muted-foreground mb-1">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>Svært lav</span>
             <span>Svært høy</span>
           </div>
           <Slider
             className="w-full p-1"
+            aria-labelledby={reidentificationId}
             max={5}
             min={1}
             step={1}
@@ -125,14 +142,17 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         </div>
 
         {/* Employee/registered concern */}
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label
+            className="block text-sm font-medium"
+            htmlFor={employeeConcernSwitchId}
+          >
             Er det bekymringer fra registrerte eller ansatte?
           </label>
           <div className="flex items-center gap-2">
             <Switch
               checked={riskConcernData.employeeConcern}
-              id="employee-concern"
+              id={employeeConcernSwitchId}
               onCheckedChange={(value) =>
                 handleChange("employeeConcern", value)
               }
@@ -142,11 +162,12 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         </div>
 
         {riskConcernData.employeeConcern && (
-          <div>
-            <label className="block text-sm font-medium mb-2">
+          <div className="inputGroup space-y-2">
+            <label className="block text-sm font-medium" htmlFor={concernDetailsId}>
               Beskriv bekymringene:
             </label>
             <Textarea
+              id={concernDetailsId}
               placeholder="Innspill eller bekymringer som er reist..."
               value={riskConcernData.writtenConcern || ""}
               onChange={(e) => handleChange("writtenConcern", e.target.value)}
@@ -155,11 +176,15 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         )}
 
         {/* Regulatory concern */}
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label
+            className="block text-sm font-medium"
+            htmlFor={regulatoryConcernId}
+          >
             Bekymringer om regelverksetterlevelse:
           </label>
           <Textarea
+            id={regulatoryConcernId}
             placeholder="Områder hvor dere er usikre på lovlighet..."
             value={riskConcernData.regulatoryConcern || ""}
             onChange={(e) => handleChange("regulatoryConcern", e.target.value)}

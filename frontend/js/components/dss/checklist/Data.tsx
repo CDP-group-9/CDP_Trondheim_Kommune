@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 import type { ChecklistOption, HandlingData } from "js/hooks/useChecklist";
@@ -20,6 +21,19 @@ type NumericField = {
 }[keyof HandlingData];
 
 export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
+  const baseId = useId();
+  const purposeId = `${baseId}-purpose`;
+  const dataTypesGroupId = `${baseId}-data-types`;
+  const dataSourcesGroupId = `${baseId}-data-sources`;
+  const personCountId = `${baseId}-person-count`;
+  const retentionId = `${baseId}-retention`;
+  const collectionGroupId = `${baseId}-collection-methods`;
+  const recipientId = `${baseId}-recipient`;
+  const recipientTypeGroupId = `${baseId}-recipient-type`;
+  const sharingBasisId = `${baseId}-sharing-basis`;
+  const shareFrequencyId = `${baseId}-share-frequency`;
+  const transferGroupId = `${baseId}-transfer-methods`;
+
   const handleChange = <K extends keyof HandlingData>(
     field: K,
     value: HandlingData[K],
@@ -114,28 +128,39 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
 
       <div className="space-y-6">
         {/* Both */}
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label className="block text-sm font-medium" htmlFor={purposeId}>
             Hva er formålet med dataen som skal hånteres?
           </label>
           <Textarea
+            id={purposeId}
             placeholder="Beskriv hva dataen skal brukes til..."
             value={handlingData.purpose || ""}
             onChange={(e) => handleChange("purpose", e.target.value)}
           />
         </div>
         {/* Both */}
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div
+          aria-labelledby={dataTypesGroupId}
+          className="buttonGroup space-y-2"
+          role="group"
+        >
+          <span
+            className="block text-sm font-medium"
+            id={dataTypesGroupId}
+            role="presentation"
+          >
             Hvilke typer personopplysninger skal behandles?
-          </label>
+          </span>
           <div className="flex flex-col space-y-2">
             {datatypes.map(({ value, label }) => (
               <label
                 key={value}
                 className="inline-flex items-center space-x-2 cursor-pointer"
+                htmlFor={`${dataTypesGroupId}-${value}`}
               >
                 <input
+                  id={`${dataTypesGroupId}-${value}`}
                   checked={handlingData.selectedDataTypes.includes(value)}
                   className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                   type="checkbox"
@@ -149,17 +174,27 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
 
         {selectedOption === "motta" && (
           <>
-            <div>
-              <label className="block text-sm font-medium mb-2">
+            <div
+              aria-labelledby={dataSourcesGroupId}
+              className="buttonGroup space-y-2"
+              role="group"
+            >
+              <span
+                className="block text-sm font-medium"
+                id={dataSourcesGroupId}
+                role="presentation"
+              >
                 Hvor kommer dataene fra?
-              </label>
+              </span>
               <div className="flex flex-col space-y-2">
                 {dataSources.map(({ value, label }) => (
                   <label
                     key={value}
                     className="inline-flex items-center space-x-2 cursor-pointer"
+                    htmlFor={`${dataSourcesGroupId}-${value}`}
                   >
                     <input
+                      id={`${dataSourcesGroupId}-${value}`}
                       checked={handlingData.selectedDataSources.includes(value)}
                       className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                       type="checkbox"
@@ -172,11 +207,12 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 ))}
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">
+            <div className="inputGroup space-y-2">
+              <label className="block text-sm font-medium" htmlFor={personCountId}>
                 Hvor mange personer er inkludert i dataen?
               </label>
               <Input
+                id={personCountId}
                 min={0}
                 placeholder="Oppgi svaret som et heltall"
                 step={1}
@@ -187,11 +223,12 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 }
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">
+            <div className="inputGroup space-y-2">
+              <label className="block text-sm font-medium" htmlFor={retentionId}>
                 Hvor lenge skal dataene oppbevares?
               </label>
               <Input
+                id={retentionId}
                 min={0}
                 placeholder="Oppgi svaret i antall år (bruk desimaltall om nødvendig)"
                 type="number"
@@ -201,17 +238,27 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 }
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">
+            <div
+              aria-labelledby={collectionGroupId}
+              className="buttonGroup space-y-2"
+              role="group"
+            >
+              <span
+                className="block text-sm font-medium"
+                id={collectionGroupId}
+                role="presentation"
+              >
                 Hvordan skal dataene samles inn?
-              </label>
+              </span>
               <div className="flex flex-col space-y-2">
                 {collectionMethodTypes.map(({ value, label }) => (
                   <label
                     key={value}
                     className="inline-flex items-center space-x-2 cursor-pointer"
+                    htmlFor={`${collectionGroupId}-${value}`}
                   >
                     <input
+                      id={`${collectionGroupId}-${value}`}
                       checked={handlingData.collectionMethods.includes(value)}
                       className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                       type="checkbox"
@@ -227,20 +274,29 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
 
         {selectedOption === "dele" && (
           <>
-            <div>
-              <label className="block text-sm font-medium mb-2">
+            <div className="inputGroup space-y-2">
+              <label className="block text-sm font-medium" htmlFor={recipientId}>
                 Hvem skal motta dataen?
               </label>
               <Input
+                id={recipientId}
                 placeholder="F.eks. 'Helsedirektoratet', 'Annen kommune', 'Privat leverandør'..."
                 value={handlingData.recipient || ""}
                 onChange={(e) => handleChange("recipient", e.target.value)}
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">
+            <div
+              aria-labelledby={recipientTypeGroupId}
+              className="buttonGroup space-y-2"
+              role="radiogroup"
+            >
+              <span
+                className="block text-sm font-medium"
+                id={recipientTypeGroupId}
+                role="presentation"
+              >
                 Mottaker type:
-              </label>
+              </span>
               <div className="space-y-2">
                 {[
                   ["govtN", "Offentlig myndighet (Norge)"],
@@ -250,8 +306,13 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                   ["privateEU", "Privat aktør (EU/EØS)"],
                   ["private3rd", "Privat aktør (tredjeland)"],
                 ].map(([value, label]) => (
-                  <label key={value} className="flex items-center gap-2">
+                  <label
+                    key={value}
+                    className="flex items-center gap-2 cursor-pointer"
+                    htmlFor={`${recipientTypeGroupId}-${value}`}
+                  >
                     <input
+                      id={`${recipientTypeGroupId}-${value}`}
                       checked={handlingData.recipientType === value}
                       name="recipientType"
                       type="radio"
@@ -265,11 +326,12 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 ))}
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">
+            <div className="inputGroup space-y-2">
+              <label className="block text-sm font-medium" htmlFor={sharingBasisId}>
                 Rettsgrunnlag for utlevering:
               </label>
               <Textarea
+                id={sharingBasisId}
                 placeholder="Angi lovhjemmel eller annet grunnlag for å dele dataene..."
                 value={handlingData.sharingLegalBasis || ""}
                 onChange={(e) =>
@@ -277,11 +339,15 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 }
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">
+            <div className="inputGroup space-y-2">
+              <label
+                className="block text-sm font-medium"
+                htmlFor={shareFrequencyId}
+              >
                 Hvor manger ganger skal data deles?
               </label>
               <Input
+                id={shareFrequencyId}
                 min={0}
                 placeholder="Oppgi som et heltall"
                 step={1}
@@ -292,17 +358,27 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 }
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">
+            <div
+              aria-labelledby={transferGroupId}
+              className="buttonGroup space-y-2"
+              role="group"
+            >
+              <span
+                className="block text-sm font-medium"
+                id={transferGroupId}
+                role="presentation"
+              >
                 Hvordan skal dataene overføres?
-              </label>
+              </span>
               <div className="flex flex-col space-y-2">
                 {datatransferMethods.map(({ value, label }) => (
                   <label
                     key={value}
                     className="inline-flex items-center space-x-2 cursor-pointer"
+                    htmlFor={`${transferGroupId}-${value}`}
                   >
                     <input
+                      id={`${transferGroupId}-${value}`}
                       checked={handlingData.dataTransferMethods.includes(value)}
                       className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                       type="checkbox"

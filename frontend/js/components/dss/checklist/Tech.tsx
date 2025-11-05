@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 import { Switch } from "js/components/ui/switch";
@@ -10,6 +11,14 @@ type Props = {
 };
 
 export const Tech = ({ techData, onChange }: Props) => {
+  const baseId = useId();
+  const storageGroupId = `${baseId}-storage`;
+  const securityGroupId = `${baseId}-security`;
+  const integrationsSwitchId = `${baseId}-integrations`;
+  const integrationsDetailsId = `${baseId}-integration-details`;
+  const automatedSwitchId = `${baseId}-automated`;
+  const automatedDetailsId = `${baseId}-automated-details`;
+
   const storageOptions = [
     { value: "onprem", label: "Kommunens egne servere (on-premise)" },
     { value: "cloudNO", label: "Sky-løsning i Norge" },
@@ -58,17 +67,27 @@ export const Tech = ({ techData, onChange }: Props) => {
 
       <div className="space-y-6">
         {/* Storage location */}
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div
+          aria-labelledby={storageGroupId}
+          className="buttonGroup space-y-2"
+          role="radiogroup"
+        >
+          <span
+            className="block text-sm font-medium"
+            id={storageGroupId}
+            role="presentation"
+          >
             Hvor lagres/behandles dataene?
-          </label>
+          </span>
           <div className="flex flex-col space-y-2">
             {storageOptions.map(({ value, label }) => (
               <label
                 key={value}
                 className="flex items-center gap-2 cursor-pointer"
+                htmlFor={`${storageGroupId}-${value}`}
               >
                 <input
+                  id={`${storageGroupId}-${value}`}
                   checked={techData.storage === value}
                   name="storage"
                   type="radio"
@@ -82,17 +101,27 @@ export const Tech = ({ techData, onChange }: Props) => {
         </div>
 
         {/* Security measures */}
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div
+          aria-labelledby={securityGroupId}
+          className="buttonGroup space-y-2"
+          role="group"
+        >
+          <span
+            className="block text-sm font-medium"
+            id={securityGroupId}
+            role="presentation"
+          >
             Planlagte sikkerhetstiltak:
-          </label>
+          </span>
           <div className="flex flex-col space-y-2">
             {securityOptions.map(({ value, label }) => (
               <label
                 key={value}
                 className="inline-flex items-center space-x-2 cursor-pointer"
+                htmlFor={`${securityGroupId}-${value}`}
               >
                 <input
+                  id={`${securityGroupId}-${value}`}
                   checked={techData.security.includes(value)}
                   className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
                   type="checkbox"
@@ -105,14 +134,17 @@ export const Tech = ({ techData, onChange }: Props) => {
         </div>
 
         {/* Integrations */}
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label
+            className="block text-sm font-medium"
+            htmlFor={integrationsSwitchId}
+          >
             Integrasjoner med andre systemer?
           </label>
           <div className="flex items-center gap-2">
             <Switch
               checked={techData.integrations}
-              id="integrations"
+              id={integrationsSwitchId}
               onCheckedChange={(v) => handleChange("integrations", v)}
             />
             <span>{techData.integrations ? "Ja" : "Nei"}</span>
@@ -120,11 +152,15 @@ export const Tech = ({ techData, onChange }: Props) => {
         </div>
 
         {techData.integrations && (
-          <div>
-            <label className="block text-sm font-medium mb-2">
+          <div className="inputGroup space-y-2">
+            <label
+              className="block text-sm font-medium"
+              htmlFor={integrationsDetailsId}
+            >
               Hvilke systemer?
             </label>
             <Textarea
+              id={integrationsDetailsId}
               placeholder="Beskriv hvilke systemer som skal kommunisere sammen..."
               value={techData.integrationDetails || ""}
               onChange={(e) =>
@@ -135,14 +171,17 @@ export const Tech = ({ techData, onChange }: Props) => {
         )}
 
         {/* Automated decisions */}
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label
+            className="block text-sm font-medium"
+            htmlFor={automatedSwitchId}
+          >
             Brukes automatiserte beslutninger eller profilering?
           </label>
           <div className="flex items-center gap-2">
             <Switch
               checked={techData.automated}
-              id="automated"
+              id={automatedSwitchId}
               onCheckedChange={(v) => handleChange("automated", v)}
             />
             <span>{techData.automated ? "Ja" : "Nei"}</span>
@@ -150,11 +189,15 @@ export const Tech = ({ techData, onChange }: Props) => {
         </div>
 
         {techData.automated && (
-          <div>
-            <label className="block text-sm font-medium mb-2">
+          <div className="inputGroup space-y-2">
+            <label
+              className="block text-sm font-medium"
+              htmlFor={automatedDetailsId}
+            >
               Beskriv automatiserte beslutninger:
             </label>
             <Textarea
+              id={automatedDetailsId}
               placeholder="F.eks. algoritmer for tildeling, scoring, profiling..."
               value={techData.automatedDescription || ""}
               onChange={(e) =>
