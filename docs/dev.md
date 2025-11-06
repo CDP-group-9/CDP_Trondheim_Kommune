@@ -299,3 +299,33 @@ For example the branch for issue 2.1 should be called `2.1-short-descriptive-tit
 
 ## Naming Conventions and file structure
 see [this document](naming_conventions.md).
+
+## Updating laws used for LLM context
+Creating embedding and insertion to the database need only to be done by one computer. The embedded laws and paragraphs need to be imported to other computers afterwards. To do so, follow these steps:
+
+- **Insertion of laws (one computer):**
+
+1 - Update the list of laws in [law_extractor.py](../backend/common/utils/law_extractor.py) 
+
+2 - Run this command in the terminal `docker compose run --rm backend python common/utils/db_client.py`
+
+3 - Run this command in the terminal `docker compose exec db pg_dump -U CDP_Trondheim_Kommune -d CDP_Trondheim_Kommune -F p -f /tmp/db_embeddings.sql`
+
+4 - Run this command in the terminal `docker compose cp db:/tmp/db_embeddings.sql backend/common/db_init/db_embeddings.sql`
+
+5 - Commit and push the change in [db_embeddings.sql](../backend/common/db_init/db_embeddings.sql) to git
+
+
+- **Load the updated laws (all other computers):**
+
+6 - Pull the changes done in 5
+
+7 - Run this command in the terminal `docker compose down -v`
+
+8 - Run this command in the terminal `docker volume rm CDP_Trondheim_Kommune_dbdata`
+
+9 - Run this command in the terminal `docker volume create CDP_Trondheim_Kommune_dbdata`
+
+10 - Run this command in the terminal `docker compose up -d`
+
+
