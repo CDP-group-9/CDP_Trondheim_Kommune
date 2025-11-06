@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
+const INTERNAL_STATUS_EVENT = "internalStatusChanged";
+
 export function useInternalStatus(): {
   isInternal: boolean | null;
   updateInternalStatus: (value: boolean) => Promise<void>;
@@ -15,11 +17,25 @@ export function useInternalStatus(): {
         setIsInternal(null);
       }
     }
+
+    const handleCustomEvent = (event: Event) => {
+      const customEvent = event as CustomEvent<boolean>;
+      setIsInternal(customEvent.detail);
+    };
+
+    window.addEventListener(INTERNAL_STATUS_EVENT, handleCustomEvent);
+
+    return () => {
+      window.removeEventListener(INTERNAL_STATUS_EVENT, handleCustomEvent);
+    };
   }, []);
 
   const updateInternalStatus = useCallback(async (value: boolean) => {
     setIsInternal(value);
     localStorage.setItem("isInternal", JSON.stringify(value));
+    window.dispatchEvent(
+      new CustomEvent(INTERNAL_STATUS_EVENT, { detail: value }),
+    );
 
     try {
       const res = await fetch("/api/internal-status/set_system_instruction/", {

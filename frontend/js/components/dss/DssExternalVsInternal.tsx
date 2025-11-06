@@ -27,8 +27,13 @@ export function DssExternalVsInternal({
     if (autoOpen) setOpen(true);
   }, [autoOpen]);
 
-  const handleSelect = (isInternal: boolean) => {
-    if (onSelect) onSelect(isInternal);
+  const handleSelect = (value: boolean) => {
+    localStorage.setItem("isInternal", JSON.stringify(value));
+    window.dispatchEvent(
+      new CustomEvent("internalStatusChanged", { detail: value }),
+    );
+
+    if (onSelect) onSelect(value);
     setOpen(false);
     if (onClose) onClose();
   };
