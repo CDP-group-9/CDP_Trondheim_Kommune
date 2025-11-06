@@ -88,7 +88,6 @@ classDiagram
         +checklistEndpoint : POST /api/checklist/
         +jsonToStringEndpoint : POST /api/checklist/json-to-string/
         +mockEndpoint : POST /api/mock/fetch-by-keyword/
-        +restCheckEndpoint : GET /api/rest/rest-check/
     }
     class ChatViewSet {
         +chat_api_view(prompt, history)
@@ -99,9 +98,6 @@ classDiagram
     }
     class MockResponseViewSet {
         +fetch_by_keyword(input)
-    }
-    class RestViewSet {
-        +rest_check()
     }
     class GeminiAPIClient {
         +send_question_with_laws(prompt, history, context)
@@ -165,7 +161,6 @@ classDiagram
     ApiRouter --> ChatViewSet
     ApiRouter --> ChecklistViewSet
     ApiRouter --> MockResponseViewSet
-    ApiRouter --> RestViewSet
 
     MiddlewareStack --> DjangoApp : wrapsRequests
     DjangoApp --> ApiRouter : includeUrls
@@ -209,6 +204,7 @@ stateDiagram-v2
     Reviewing --> Support : Unresolved issues
     Support --> WrapUp : Escalate to legal team
     WrapUp --> [*]
+```
 
 ## Process View
 ```mermaid
@@ -228,12 +224,12 @@ sequenceDiagram
     API->>Chat: Validate payload
     Chat->>GeminiSvc: send_question_with_laws(prompt, history)
     GeminiSvc->>Retriever: retrieve(prompt)
-    Retriever->>Embed: generate embedding(prompt)
-    Embed-->>Retriever: prompt embedding vector
-    Retriever->>DB: vector similarity search
-    DB-->>Retriever: relevant laws & paragraphs
-    Retriever-->>GeminiSvc: contextual excerpts
-    GeminiSvc->>Gemini: Send chat turn + context
+    Retriever->>Embed: Generate embedding(prompt)
+    Embed-->>Retriever: Prompt embedding vector
+    Retriever->>DB: Vector similarity search
+    DB-->>Retriever: Relevant laws & paragraphs
+    Retriever-->>GeminiSvc: Contextual excerpts
+    GeminiSvc->>Gemini: Send chat prompt + context
     Gemini-->>GeminiSvc: Response text
     GeminiSvc-->>Chat: Formatted answer + history
     Chat-->>API: HTTP 200 {response, history}
@@ -278,8 +274,8 @@ flowchart TD
     Router --> MockAPI
     ChatController --> GeminiService
     GeminiService --> LawService
+    GeminiService --> GeminiAPI
     LawService --> Pg
-    ChecklistController --> Pg
     Backend --> Redis
     Backend --> Rabbit
 
