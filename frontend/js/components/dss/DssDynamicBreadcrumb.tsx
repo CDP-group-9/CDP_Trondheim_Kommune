@@ -25,9 +25,9 @@ export function DssDynamicBreadcrumb({ className }: DynamicBreadcrumbProps) {
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link to="/">
-              <span className="flex items-center gap-1">
-                <House className="h-4 w-4" />
-                <span className="text-sm">Home</span>
+              <span className="flex items-center gap-1 leading-none align-middle">
+                <House className="h-4 w-4 relative top-[1px]" />
+                <span className="text-sm leading-none">Home</span>
               </span>
             </Link>
           </BreadcrumbLink>

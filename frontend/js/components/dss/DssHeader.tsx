@@ -79,16 +79,18 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
           </div>
         </div>
         <div className="border-t border-border px-4 py-2 flex items-center justify-between">
-          <DssDynamicBreadcrumb />
+          <div className="flex items-center h-full">
+            <DssDynamicBreadcrumb className="relative top-[2px]" />
+          </div>
           <div className="flex items-center gap-2">
             <Switch
               checked={!!isInternal}
               onCheckedChange={handleSwitchChange}
             />
-            <span className="inline-block w-[240px]">
+            <span className="inline-block w-[260px] whitespace-nowrap">
               {isInternal
-                ? "Jobber i Trondheim kommune"
-                : "Jobber ikke i Trondheim kommune"}
+                ? "Jeg jobber i Trondheim kommune"
+                : "Jeg jobber ikke i Trondheim kommune"}
             </span>
           </div>
         </div>
