@@ -128,6 +128,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
               Eksterne leverandører/databehandlere:
             </label>
             <Textarea
+              className="bg-white"
               id={externalTextId}
               placeholder="Liste over eksterne som behandler data på kommunens vegne..."
               value={involvedPartiesData.externalProcessors || ""}
@@ -180,11 +181,12 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
         </div>
 
         {involvedPartiesData.sharesWithOthers && (
-          <div className="inputGroup space-y-2 bg-background">
+          <div className="inputGroup space-y-2">
             <label className="block text-sm font-medium" htmlFor={sharedWithId}>
               Hvem deles det data med?
             </label>
             <Textarea
+              className="bg-white"
               id={sharedWithId}
               placeholder="F.eks. andre kommuner, statlige etater, private aktører..."
               value={involvedPartiesData.sharedWith || ""}

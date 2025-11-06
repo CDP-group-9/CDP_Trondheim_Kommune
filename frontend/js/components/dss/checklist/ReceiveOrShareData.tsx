@@ -115,23 +115,20 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
       <div className="flex items-center justify-between">
         {!selected && (
           <div
-            className="flex items-center gap-2 text-sm rounded px-4 py-2"
+            className="flex items-center gap-2 text-sm rounded px-4 py-2 text-brand-orange bg-brand-yellow/50"
             style={{
-              color: "#894B00",
-              backgroundColor: "#FEFCE8",
               border: "1px solid #FFF085",
             }}
           >
-            <span aria-label="warning icon" role="img">
-              ⚠️
-            </span>{" "}
-            Vennligst velg ett alternativ for å fortsette med sjekklisten
+            <p aria-label="warning message" role="note">
+              Vennligst velg ett alternativ for å fortsette med sjekklisten
+            </p>{" "}
           </div>
         )}
         <Button
           className="ml-auto"
           type="button"
-          variant="ghost"
+          variant="secondary"
           onClick={() => onSelect(null)}
         >
           Nullstill valg

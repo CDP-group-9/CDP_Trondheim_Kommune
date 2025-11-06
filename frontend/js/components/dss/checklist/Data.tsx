@@ -133,6 +133,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
             Hva er formålet med dataen som skal hånteres?
           </label>
           <Textarea
+            className="bg-white"
             id={purposeId}
             placeholder="Beskriv hva dataen skal brukes til..."
             value={handlingData.purpose || ""}
@@ -212,6 +213,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 Hvor mange personer er inkludert i dataen?
               </label>
               <Input
+                className="bg-white"
                 id={personCountId}
                 min={0}
                 placeholder="Oppgi svaret som et heltall"
@@ -228,6 +230,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 Hvor lenge skal dataene oppbevares?
               </label>
               <Input
+                className="bg-white"
                 id={retentionId}
                 min={0}
                 placeholder="Oppgi svaret i antall år (bruk desimaltall om nødvendig)"
@@ -279,6 +282,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 Hvem skal motta dataen?
               </label>
               <Input
+                className="bg-white"
                 id={recipientId}
                 placeholder="F.eks. 'Helsedirektoratet', 'Annen kommune', 'Privat leverandør'..."
                 value={handlingData.recipient || ""}
@@ -331,6 +335,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 Rettsgrunnlag for utlevering:
               </label>
               <Textarea
+                className="bg-white"
                 id={sharingBasisId}
                 placeholder="Angi lovhjemmel eller annet grunnlag for å dele dataene..."
                 value={handlingData.sharingLegalBasis || ""}
@@ -347,6 +352,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
                 Hvor manger ganger skal data deles?
               </label>
               <Input
+                className="bg-white"
                 id={shareFrequencyId}
                 min={0}
                 placeholder="Oppgi som et heltall"

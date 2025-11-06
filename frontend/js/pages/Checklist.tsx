@@ -112,6 +112,7 @@ const Checklist = () => {
               <Button
                 className="bg-muted text-foreground hover:bg-muted/80"
                 disabled={isLoading}
+                variant="surfaceMuted"
                 onClick={resetChecklist}
               >
                 Nullstill skjema

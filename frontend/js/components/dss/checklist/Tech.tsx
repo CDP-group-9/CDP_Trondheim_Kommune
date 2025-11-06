@@ -160,6 +160,7 @@ export const Tech = ({ techData, onChange }: Props) => {
               Hvilke systemer?
             </label>
             <Textarea
+              className="bg-white"
               id={integrationsDetailsId}
               placeholder="Beskriv hvilke systemer som skal kommunisere sammen..."
               value={techData.integrationDetails || ""}
@@ -197,6 +198,7 @@ export const Tech = ({ techData, onChange }: Props) => {
               Beskriv automatiserte beslutninger:
             </label>
             <Textarea
+              className="bg-white"
               id={automatedDetailsId}
               placeholder="F.eks. algoritmer for tildeling, scoring, profiling..."
               value={techData.automatedDescription || ""}

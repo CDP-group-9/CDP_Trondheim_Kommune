@@ -92,8 +92,8 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
             <span>Svært høy</span>
           </div>
           <Slider
-            className="w-full p-1"
             aria-labelledby={unauthAccessLabelId}
+            className="w-full p-1"
             id={unauthAccessSliderId}
             max={5}
             min={1}
@@ -120,8 +120,8 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
             <span>Svært høy</span>
           </div>
           <Slider
-            className="w-full p-1"
             aria-labelledby={dataLossLabelId}
+            className="w-full p-1"
             id={dataLossSliderId}
             max={5}
             min={1}
@@ -148,8 +148,8 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
             <span>Svært høy</span>
           </div>
           <Slider
-            className="w-full p-1"
             aria-labelledby={reidentificationLabelId}
+            className="w-full p-1"
             id={reidentificationSliderId}
             max={5}
             min={1}
@@ -184,10 +184,14 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
 
         {riskConcernData.employeeConcern && (
           <div className="inputGroup space-y-2">
-            <label className="block text-sm font-medium" htmlFor={concernDetailsId}>
+            <label
+              className="block text-sm font-medium"
+              htmlFor={concernDetailsId}
+            >
               Beskriv bekymringene:
             </label>
             <Textarea
+              className="bg-white"
               id={concernDetailsId}
               placeholder="Innspill eller bekymringer som er reist..."
               value={riskConcernData.writtenConcern || ""}
@@ -205,6 +209,7 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
             Bekymringer om regelverksetterlevelse:
           </label>
           <Textarea
+            className="bg-white"
             id={regulatoryConcernId}
             placeholder="Områder hvor dere er usikre på lovlighet..."
             value={riskConcernData.regulatoryConcern || ""}

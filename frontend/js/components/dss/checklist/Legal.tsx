@@ -182,6 +182,7 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
             Lovpålagte oppgaver eller krav?
           </label>
           <Textarea
+            className="bg-white"
             id={statutoryTasksId}
             placeholder="Referanser til lover som krever databehandlingen..."
             value={legalBasisData.statutoryTasks || ""}
