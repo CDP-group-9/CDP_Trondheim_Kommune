@@ -14,12 +14,12 @@ import {
 
 export function DssExternalVsInternal({
   autoOpen = false,
-
   onClose,
+  onSelect,
 }: {
   autoOpen?: boolean;
-
   onClose?: () => void;
+  onSelect?: (isInternal: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -27,32 +27,28 @@ export function DssExternalVsInternal({
     if (autoOpen) setOpen(true);
   }, [autoOpen]);
 
-  const handleClose = () => {
+  const handleSelect = (isInternal: boolean) => {
+    if (onSelect) onSelect(isInternal);
     setOpen(false);
-
     if (onClose) onClose();
   };
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       {!autoOpen && <AlertDialogTrigger>Open</AlertDialogTrigger>}
-
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Jobber du i Trondheim kommune?</AlertDialogTitle>
         </AlertDialogHeader>
-
         <AlertDialogDescription>
           For å kunne gi best mulig anbefaling må verktøyet vite om du jobber i
           Trondheim kommune eller ikke.
         </AlertDialogDescription>
-
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleClose}>
+          <AlertDialogCancel onClick={() => handleSelect(true)}>
             Jobber i Trondheim kommune
           </AlertDialogCancel>
-
-          <AlertDialogAction onClick={handleClose}>
+          <AlertDialogAction onClick={() => handleSelect(false)}>
             Jobber IKKE i Trondheim kommune
           </AlertDialogAction>
         </AlertDialogFooter>

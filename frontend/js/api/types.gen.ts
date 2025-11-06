@@ -54,6 +54,11 @@ export type Counter = {
   value?: number;
 };
 
+export type InternalStatus = {
+  readonly id: number;
+  is_internal?: boolean;
+};
+
 export type Message = {
   message: string;
 };
@@ -68,6 +73,13 @@ export type PaginatedChecklistList = {
   next?: string | null;
   previous?: string | null;
   results: Array<Checklist>;
+};
+
+export type PaginatedInternalStatusList = {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: Array<InternalStatus>;
 };
 
 export type PaginatedMockResponseList = {
@@ -87,6 +99,11 @@ export type PaginatedUserList = {
 export type PatchedChecklist = {
   readonly id?: number;
   result?: string;
+};
+
+export type PatchedInternalStatus = {
+  readonly id?: number;
+  is_internal?: boolean;
 };
 
 export type PatchedMockResponse = {
@@ -208,6 +225,69 @@ export type CounterIncrementCreateData = {
 };
 
 export type CounterIncrementCreateResponse = Counter;
+
+export type InternalStatusListData = {
+  /**
+   * Number of results to return per page.
+   */
+  limit?: number;
+  /**
+   * The initial index from which to return the results.
+   */
+  offset?: number;
+};
+
+export type InternalStatusListResponse = PaginatedInternalStatusList;
+
+export type InternalStatusCreateData = {
+  requestBody?: InternalStatus;
+};
+
+export type InternalStatusCreateResponse = InternalStatus;
+
+export type InternalStatusRetrieveData = {
+  /**
+   * A unique integer value identifying this internal status.
+   */
+  id: number;
+};
+
+export type InternalStatusRetrieveResponse = InternalStatus;
+
+export type InternalStatusUpdateData = {
+  /**
+   * A unique integer value identifying this internal status.
+   */
+  id: number;
+  requestBody?: InternalStatus;
+};
+
+export type InternalStatusUpdateResponse = InternalStatus;
+
+export type InternalStatusPartialUpdateData = {
+  /**
+   * A unique integer value identifying this internal status.
+   */
+  id: number;
+  requestBody?: PatchedInternalStatus;
+};
+
+export type InternalStatusPartialUpdateResponse = InternalStatus;
+
+export type InternalStatusDestroyData = {
+  /**
+   * A unique integer value identifying this internal status.
+   */
+  id: number;
+};
+
+export type InternalStatusDestroyResponse = void;
+
+export type InternalStatusSetSystemInstructionCreateData = {
+  requestBody?: InternalStatus;
+};
+
+export type InternalStatusSetSystemInstructionCreateResponse = InternalStatus;
 
 export type RestRestCheckRetrieveResponse = Message;
 
@@ -396,6 +476,57 @@ export type $OpenApiTs = {
       req: CounterIncrementCreateData;
       res: {
         200: Counter;
+      };
+    };
+  };
+  "/api/internal-status/": {
+    get: {
+      req: InternalStatusListData;
+      res: {
+        200: PaginatedInternalStatusList;
+      };
+    };
+    post: {
+      req: InternalStatusCreateData;
+      res: {
+        201: InternalStatus;
+      };
+    };
+  };
+  "/api/internal-status/{id}/": {
+    get: {
+      req: InternalStatusRetrieveData;
+      res: {
+        200: InternalStatus;
+      };
+    };
+    put: {
+      req: InternalStatusUpdateData;
+      res: {
+        200: InternalStatus;
+      };
+    };
+    patch: {
+      req: InternalStatusPartialUpdateData;
+      res: {
+        200: InternalStatus;
+      };
+    };
+    delete: {
+      req: InternalStatusDestroyData;
+      res: {
+        /**
+         * No response body
+         */
+        204: void;
+      };
+    };
+  };
+  "/api/internal-status/set_system_instruction/": {
+    post: {
+      req: InternalStatusSetSystemInstructionCreateData;
+      res: {
+        200: InternalStatus;
       };
     };
   };

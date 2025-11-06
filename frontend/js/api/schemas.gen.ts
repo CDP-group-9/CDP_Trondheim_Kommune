@@ -92,6 +92,20 @@ export const $Counter = {
   required: ["id"],
 } as const;
 
+export const $InternalStatus = {
+  type: "object",
+  properties: {
+    id: {
+      type: "integer",
+      readOnly: true,
+    },
+    is_internal: {
+      type: "boolean",
+    },
+  },
+  required: ["id"],
+} as const;
+
 export const $Message = {
   type: "object",
   properties: {
@@ -140,6 +154,35 @@ export const $PaginatedChecklistList = {
       type: "array",
       items: {
         $ref: "#/components/schemas/Checklist",
+      },
+    },
+  },
+} as const;
+
+export const $PaginatedInternalStatusList = {
+  type: "object",
+  required: ["count", "results"],
+  properties: {
+    count: {
+      type: "integer",
+      example: 123,
+    },
+    next: {
+      type: "string",
+      nullable: true,
+      format: "uri",
+      example: "http://api.example.org/accounts/?offset=400&limit=100",
+    },
+    previous: {
+      type: "string",
+      nullable: true,
+      format: "uri",
+      example: "http://api.example.org/accounts/?offset=200&limit=100",
+    },
+    results: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/InternalStatus",
       },
     },
   },
@@ -212,6 +255,19 @@ export const $PatchedChecklist = {
     },
     result: {
       type: "string",
+    },
+  },
+} as const;
+
+export const $PatchedInternalStatus = {
+  type: "object",
+  properties: {
+    id: {
+      type: "integer",
+      readOnly: true,
+    },
+    is_internal: {
+      type: "boolean",
     },
   },
 } as const;
