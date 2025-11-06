@@ -181,7 +181,7 @@ export function DssSidebar() {
               <a
                 aria-label="Send e-post til dasq@trondheim.kommune.no"
                 className="hover:underline"
-                href="mailto:dasq@trondheim.kommune.no"
+                href="mailto:asq@trondheim.kommune.no"
               >
                 dasq@trondheim.kommune.no
               </a>

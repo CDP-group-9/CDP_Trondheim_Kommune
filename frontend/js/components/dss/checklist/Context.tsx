@@ -33,7 +33,7 @@ export const Context = ({ contextData, onChange }: Props) => {
   };
 
   return (
-    <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
+    <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto text-md">
       <h2 className="text-xl font-medium mb-1 flex items-center gap-2">
         <span aria-label="target icon" role="img">
           🎯
@@ -41,16 +41,20 @@ export const Context = ({ contextData, onChange }: Props) => {
         Prosjekt/Initiativ Kontekst
       </h2>
 
-      <p className="text-sm text-muted-foreground mb-4">
+      <p className="text-md text-muted-foreground mb-4">
         Grunnleggende informasjon om ditt prosjekt
       </p>
 
       <div className="space-y-6">
         <div className="inputGroup space-y-2">
-          <label className="block text-sm font-medium" htmlFor={projectSummaryId}>
+          <label
+            className="block text-md font-medium"
+            htmlFor={projectSummaryId}
+          >
             Prosjektnavn og kort beskrivelse:
           </label>
           <Input
+            className="bg-white"
             id={projectSummaryId}
             placeholder="F.eks. 'Digital Skoleportal - ny løsning for elevdata'"
             value={contextData.projectSummary || ""}
@@ -59,7 +63,7 @@ export const Context = ({ contextData, onChange }: Props) => {
         </div>
 
         <div className="inputGroup space-y-2">
-          <label className="block text-sm font-medium" htmlFor={departmentId}>
+          <label className="block text-md font-medium" htmlFor={departmentId}>
             Ansvarlig avdeling/enhet:
           </label>
           <Select
@@ -83,7 +87,7 @@ export const Context = ({ contextData, onChange }: Props) => {
           role="radiogroup"
         >
           <span
-            className="block text-sm font-medium"
+            className="block text-md font-medium"
             id={statusGroupId}
             role="presentation"
           >
@@ -99,7 +103,7 @@ export const Context = ({ contextData, onChange }: Props) => {
             ].map(([value, label]) => (
               <label
                 key={value}
-                className="flex items-center gap-2 cursor-pointer"
+                className="flex items-center gap-2 cursor-pointer font-normal"
                 htmlFor={`${statusGroupId}-${value}`}
               >
                 <input

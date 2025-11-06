@@ -18,16 +18,15 @@
   --brand-white:  #ffffff;
 
   --background: var(--brand-white);
-  --secondary-background: var(--brand-blue-gray);
-  --foreground: #111111;
+  --foreground: var(--brand-black);
   --card: var(--brand-blue-gray);
-  --card-foreground: #111111;
+  --card-foreground: var(--brand-black);
   --popover: var(--brand-white);
-  --popover-foreground: #111111;
+  --popover-foreground: var(--brand-black);
   --primary: var(--brand-blue);
   --primary-foreground: var(--brand-white);
-  --secondary: #f5f7fa; 
-  --secondary-foreground: #1a1a1a;
+  --secondary: var(--brand-blue); 
+  --secondary-foreground: var(--brand-white);
   --muted: #f3f4f6; /* neutral */
   --muted-foreground: #586072; /* subtle text */
   --accent: var(--brand-blue);
@@ -112,7 +111,13 @@
 /* ---------- Base + Typography from handbook ---------- */
 @layer base {
   html { font-size: 100%; } /* 16px */
-  body { @apply bg-background text-foreground antialiased; font-family: var(--font-sans); }
+  body { 
+    @apply bg-background text-foreground 
+    antialiased; 
+    font-family: var(--font-sans);
+    letter-spacing: 0.01em;
+    word-spacing: 0.025em;
+  }
 
   /* Use font-size-adjust for better x-height rendering (per guide) */
   body, h1, h2, h3, h4, h5, h6 { font-size-adjust: 0.5; }
