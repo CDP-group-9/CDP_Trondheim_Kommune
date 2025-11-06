@@ -174,8 +174,8 @@ export function DssSidebar() {
           </SidebarGroup>
         )}
 
-        <SidebarFooter className="mt-auto border-t border-sidebar-border pt-3">
-          <div className="flex flex-col gap-2 text-sm text-sidebar-foreground/80">
+        <SidebarFooter className="mt-auto border-t border-sidebar-border p-3">
+          <div className="flex flex-col gap-2 text-sidebar-foreground/80 text-sm">
             <div className="flex items-center gap-2">
               <Mail aria-hidden="true" className="size-4" />
               <a
@@ -198,7 +198,7 @@ export function DssSidebar() {
             </div>
             <div className="flex items-start gap-2">
               <MapPin aria-hidden="true" className="size-4 mt-0.5" />
-              <span>Munkegata 1, 7013 Trondheim</span>
+              <span className="text-sm">Munkegata 1, 7013 Trondheim</span>
             </div>
             <Link
               aria-label="Les mer om personvern på Trondheim kommunes nettside, åpner i ny fane"

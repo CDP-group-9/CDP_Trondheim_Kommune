@@ -57,9 +57,9 @@ const Checklist = () => {
   return (
     <div>
       <DssProgressBar />
-      <div className="flex justify-start mb-4 border-b border-gray-300">
+      <div className="mt-8 flex justify-start mb-4 border-b border-gray-300">
         <div className="flex-1 space-y-6 max-w-4xl px-6 py-4">
-          <h1 className="text-3xl font-medium mb-1">Personvernsjekkliste</h1>
+          <h1 className="font-medium mb-1">Personvernsjekkliste</h1>
           <p className="text-muted-foreground text-left tk-readable">
             Systematisk gjennomgang av alle personvernkrav for ditt prosjekt
           </p>
@@ -110,17 +110,25 @@ const Checklist = () => {
 
             <div className="flex justify-center space-x-4 pb-1">
               <Button
-                className="bg-muted text-foreground hover:bg-muted/80"
+                className="bg-muted text-foreground hover:bg-muted/80 text-lg"
                 disabled={isLoading}
                 variant="surfaceMuted"
                 onClick={resetChecklist}
               >
                 Nullstill skjema
               </Button>
-              <Button disabled={isLoading} onClick={handleSendToBackend}>
+              <Button
+                className="text-lg"
+                disabled={isLoading}
+                onClick={handleSendToBackend}
+              >
                 {isLoading ? "Sender..." : "Generer veiledning"}
               </Button>
-              <Button disabled={isLoading} onClick={downloadAsTextFile}>
+              <Button 
+              className="text-lg"
+                disabled={isLoading}
+                onClick={downloadAsTextFile}
+              >
                 Eksporter til tekstfil
               </Button>
             </div>

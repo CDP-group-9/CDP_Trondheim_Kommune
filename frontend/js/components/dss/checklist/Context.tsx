@@ -12,6 +12,7 @@ import type { ContextData } from "js/hooks/useChecklist";
 
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
+import { Label } from "@radix-ui/react-label";
 
 type Props = {
   contextData: ContextData;
@@ -34,27 +35,21 @@ export const Context = ({ contextData, onChange }: Props) => {
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto text-md">
-      <h2 className="text-xl font-medium mb-1 flex items-center gap-2">
-        <span aria-label="target icon" role="img">
-          🎯
-        </span>
+      <h3 className="mb-1 flex items-center gap-2">
         Prosjekt/Initiativ Kontekst
-      </h2>
+      </h3>
 
-      <p className="text-md text-muted-foreground mb-4">
+      <p className="text-base text-muted-foreground mb-4">
         Grunnleggende informasjon om ditt prosjekt
       </p>
 
-      <div className="space-y-6">
+      <div className="space-y-6 p-2">
         <div className="inputGroup space-y-2">
-          <label
-            className="block text-md font-medium"
-            htmlFor={projectSummaryId}
-          >
+          <label htmlFor={projectSummaryId}>
             Prosjektnavn og kort beskrivelse:
           </label>
           <Input
-            className="bg-white"
+            className="bg-white text-base"
             id={projectSummaryId}
             placeholder="F.eks. 'Digital Skoleportal - ny løsning for elevdata'"
             value={contextData.projectSummary || ""}
@@ -63,18 +58,16 @@ export const Context = ({ contextData, onChange }: Props) => {
         </div>
 
         <div className="inputGroup space-y-2">
-          <label className="block text-md font-medium" htmlFor={departmentId}>
-            Ansvarlig avdeling/enhet:
-          </label>
+          <label htmlFor={departmentId}>Ansvarlig avdeling/enhet:</label>
           <Select
             aria-labelledby={departmentId}
             value={contextData.department}
             onValueChange={(value) => handleChange("department", value)}
           >
-            <SelectTrigger className="w-full" id={departmentId}>
+            <SelectTrigger className="w-full text-base" id={departmentId}>
               <SelectValue placeholder="Velg et alternativ..." />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="text-base">
               <SelectItem value="tk">Trondheim Kommune</SelectItem>
               <SelectItem value="ntnuidi">NTNU IDI</SelectItem>
             </SelectContent>
@@ -86,11 +79,7 @@ export const Context = ({ contextData, onChange }: Props) => {
           className="buttonGroup space-y-2"
           role="radiogroup"
         >
-          <span
-            className="block text-md font-medium"
-            id={statusGroupId}
-            role="presentation"
-          >
+          <span id={statusGroupId} role="presentation">
             Prosjektstatus:
           </span>
           <div className="space-y-2">
@@ -103,7 +92,7 @@ export const Context = ({ contextData, onChange }: Props) => {
             ].map(([value, label]) => (
               <label
                 key={value}
-                className="flex items-center gap-2 cursor-pointer font-normal"
+                className="flex items-center gap-2 cursor-pointer text-base font-normal"
                 htmlFor={`${statusGroupId}-${value}`}
               >
                 <input
@@ -120,11 +109,9 @@ export const Context = ({ contextData, onChange }: Props) => {
           </div>
         </div>
         <div className="inputGroup space-y-2">
-          <label className="block text-sm font-medium" htmlFor={purposeId}>
-            Formål og mål med prosjektet:
-          </label>
+          <label htmlFor={purposeId}>Formål og mål med prosjektet:</label>
           <Textarea
-            className="bg-white"
+            className="bg-white text-base"
             id={purposeId}
             placeholder="Beskriv hva dere ønsker å oppnå og hvorfor..."
             value={contextData.purpose || ""}

@@ -20,16 +20,10 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
       aria-labelledby={headingId}
       className="bg-card border border-primary/20 rounded-lg p-6 max-w-4xl mx-auto"
     >
-      <h2
-        className="text-xl font-medium mb-1 flex items-center gap-2"
-        id={headingId}
-      >
-        <span aria-label="Floppy disk icon" role="img">
-          💾
-        </span>
+      <h3 className="mb-1 flex items-center gap-2" id={headingId}>
         Hva skal du gjøre med personopplysninger?
-      </h2>
-      <p className="text-sm text-muted-foreground mb-4" id={descriptionId}>
+      </h3>
+      <p className="text-muted-foreground mb-4" id={descriptionId}>
         Velg ett alternativ for å få relevante spørsmål
       </p>
 
@@ -57,15 +51,38 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
             >
               <div className="flex items-start gap-3">
                 <span aria-hidden="true" className="mt-1 text-lg">
-                  📥
+                  <svg
+                    className="size-6"
+                    height="24"
+                    role="presentation"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <g fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path
+                        d="M6 6c0 1.1 2.7 2 6 2s6-.9 6-2-2.7-2-6-2-6 .9-6 2z"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M6 6v4c0 1.1 2.7 2 6 2s6-.9 6-2V6"
+                        strokeLinecap="round"
+                      />
+                      <path d="M12 14v4" strokeLinecap="round" />
+                      <path
+                        d="M9.5 16.5 12 19l2.5-2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </g>
+                  </svg>
                 </span>
-                <div className="flex flex-col">
+                <div className="flex flex-col justify-evenly gap-2">
                   <h3 className="font-medium">Motta/samle inn data</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-base text-muted-foreground mt-1">
                     Jeg skal samle inn, motta eller behandle personopplysninger
                     fra registrerte personer eller andre kilder
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-sm text-muted-foreground mt-1">
                     Eksempler: innsamling via skjema, motta data fra andre
                     etater, registrere nye brukere
                   </p>
@@ -75,7 +92,7 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
           </label>
 
           <label
-            className="relative h-full block cursor-pointer hover:shadow-md bg-muted selected:bg-brand-cyan"
+            className="relative h-full block cursor-pointer hover:shadow-md bg-muted"
             htmlFor={shareId}
           >
             <input
@@ -93,15 +110,38 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
             >
               <div className="flex items-start gap-3">
                 <span aria-hidden="true" className="mt-1 text-lg">
-                  📤
+                  <svg
+                    className="size-6"
+                    height="24"
+                    role="presentation"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <g fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M12 6v7" strokeLinecap="round" />
+                      <path
+                        d="M9.5 8.5 12 6l2.5 2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M6 14c0 1.1 2.7 2 6 2s6-.9 6-2-2.7-2-6-2-6 .9-6 2z"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M6 14v4c0 1.1 2.7 2 6 2s6-.9 6-2v-4"
+                        strokeLinecap="round"
+                      />
+                    </g>
+                  </svg>
                 </span>
-                <div className="flex flex-col">
+                <div className="flex flex-col justify-evenly gap-2">
                   <h3 className="font-medium">Dele/utlevere data</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-base text-muted-foreground mt-1">
                     Jeg skal dele, utlevere eller overføre personopplysninger
                     til andre organisasjoner eller systemer.
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-sm text-muted-foreground mt-1">
                     Eksempler: rapportering til Helsedirektoratet, dele data med
                     andre kommuner, eksport til leverandør.
                   </p>
@@ -114,12 +154,7 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
 
       <div className="flex items-center justify-between">
         {!selected && (
-          <div
-            className="flex items-center gap-2 text-sm rounded px-4 py-2 text-brand-orange bg-brand-yellow/50"
-            style={{
-              border: "1px solid #FFF085",
-            }}
-          >
+          <div className="flex items-center gap-2 text-sm rounded px-4 py-2 text-brand-orange bg-brand-yellow/50">
             <p aria-label="warning message" role="note">
               Vennligst velg ett alternativ for å fortsette med sjekklisten
             </p>{" "}
