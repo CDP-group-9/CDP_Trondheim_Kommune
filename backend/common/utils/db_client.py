@@ -226,6 +226,8 @@ def process_laws(input_dir):
         law_embedding = create_embedding(law_text)
         insert_law_record(conn, law_id, law_text, json_data["metadata"], law_embedding)
 
+        paragraph_count = 0
+
         # paragraph embeddings
         for idx, article in enumerate(json_data.get("articles", []), start=1):
             article_title = article.get("title") or f"§{idx}"
@@ -249,6 +251,10 @@ def process_laws(input_dir):
                     },
                     embedding=paragraph_embedding,
                 )
+                paragraph_count += 1
+                
+        print(f" Added {paragraph_count} paragraphs from {law_id}")
+        os.remove(xml_path)
 
 
 if __name__ == "__main__":
