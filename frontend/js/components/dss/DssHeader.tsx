@@ -1,10 +1,12 @@
 import { forwardRef } from "react";
 import type { CSSProperties, ReactNode } from "react";
 
+import { useInternalStatus } from "js/hooks/useInternalStatus"; // adjust path if needed
 import { cn } from "js/lib/utils";
 
 import tkLogo from "../../../assets/images/tk-logo-wide.svg";
 import { SidebarHeader, useSidebar } from "../ui/sidebar";
+import { Switch } from "../ui/switch";
 
 import { DssDynamicBreadcrumb } from "./DssDynamicBreadcrumb";
 
@@ -40,6 +42,12 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
       computedStyle.width = "100%";
     }
 
+    const { isInternal, updateInternalStatus } = useInternalStatus();
+
+    const handleSwitchChange = (checked: boolean) => {
+      updateInternalStatus(checked);
+    };
+
     return (
       <header
         ref={ref}
@@ -70,8 +78,21 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
             )}
           </div>
         </div>
-        <div className="border-t border-border px-4 py-2">
-          <DssDynamicBreadcrumb />
+        <div className="border-t border-border px-4 py-2 flex items-center justify-between">
+          <div className="flex items-center h-full">
+            <DssDynamicBreadcrumb className="relative top-[2px]" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Switch
+              checked={!!isInternal}
+              onCheckedChange={handleSwitchChange}
+            />
+            <span className="inline-block w-[260px] whitespace-nowrap">
+              {isInternal
+                ? "Jeg jobber i Trondheim kommune"
+                : "Jeg jobber ikke i Trondheim kommune"}
+            </span>
+          </div>
         </div>
       </header>
     );

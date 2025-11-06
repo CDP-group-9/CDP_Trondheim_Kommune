@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import ChecklistResult, Counter, MockResponse
+from .models import ChecklistResult, Counter, InternalStatus, MockResponse
 
 
 class MessageSerializer(serializers.Serializer):
@@ -64,3 +64,9 @@ class ChatResponseSerializer(serializers.Serializer):
         child=serializers.DictField(),
         help_text="The full, updated conversation history (including the latest turn).",
     )
+
+
+class InternalStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InternalStatus
+        fields = ("id", "is_internal")

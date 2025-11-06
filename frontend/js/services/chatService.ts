@@ -2,16 +2,7 @@
  * Chat Service - Handles all chat-related API communications
  */
 
-export interface ChatRequest {
-  prompt: string;
-  history: Array<{ role: string; content: string }>;
-  context_text?: string;
-}
-
-export interface ChatResponse {
-  response?: string;
-  error?: string;
-}
+import type { ChatRequest, ChatResponse } from "../api/types.gen";
 
 export class ChatServiceError extends Error {
   constructor(
@@ -63,10 +54,7 @@ export class ChatService {
       const data: ChatResponse = await response.json();
 
       if (!response.ok) {
-        throw new ChatServiceError(
-          data.error || "Failed to send message",
-          "API_ERROR",
-        );
+        throw new ChatServiceError("Failed to send message", "API_ERROR");
       }
 
       if (data.response === undefined) {

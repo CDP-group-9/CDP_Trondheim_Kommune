@@ -1,5 +1,6 @@
 import { FC } from "react";
 import ReactMarkdown from "react-markdown";
+
 import trondheimKommuneAvatar from "../../../assets/images/tk-avatar.svg";
 import brukerAvatar from "../../../assets/images/user-avatar.svg";
 

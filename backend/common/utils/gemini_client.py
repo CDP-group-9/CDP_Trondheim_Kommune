@@ -39,7 +39,7 @@ class GeminiAPIClient:
         self.async_client = None
 
         self.standard_model = "gemini-2.5-flash"
-        self.system_instructions = "You are a law assistant. Answer the questions based on Norwegian law and as concise as possible, but provide examples. If given additional context that are laws, refer to them when relevant. No more than 250 words. Answer in Norwegian."
+        self.system_instructions = "You are a law assistant. Answer the questions based on Norwegian law and as concise as possible, but provide examples. Treat the question as if it comes from an external user, not employed in Trondheim kommune. If given additional context that are laws, refer to them when relevant. No more than 250 words. Answer in Norwegian."
 
     def start_client(self) -> None:
         if self.client is None:

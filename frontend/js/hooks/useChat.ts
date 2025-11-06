@@ -100,6 +100,19 @@ export function useChat(apiUrl: string) {
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
+    let systemInstructions: string | undefined;
+    try {
+      const stored = localStorage.getItem("isInternal");
+      const isInternal = stored ? JSON.parse(stored) : false;
+
+      if (isInternal) {
+        systemInstructions =
+          "You are a law assistant. Answer the questions based on Norwegian law and as concise as possible, but provide examples. Treat the question as if it comes from an internal Trondheim kommune employee. If given additional context that are laws, refer to them when relevant. No more than 250 words. Answer in Norwegian.";
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
     try {
       const chatService = ChatService.getInstance(apiUrl);
       const response = await chatService.sendMessage(
@@ -108,6 +121,10 @@ export function useChat(apiUrl: string) {
           history: [],
           // eslint-disable-next-line camelcase
           context_text: context || "",
+          ...(systemInstructions && {
+            // eslint-disable-next-line camelcase
+            system_instructions: systemInstructions,
+          }),
         },
         {
           signal: controller.signal,

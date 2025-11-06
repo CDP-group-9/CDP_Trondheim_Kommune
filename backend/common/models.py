@@ -31,3 +31,10 @@ class ChecklistResult(models.Model):
 
     def __str__(self):
         return self.result
+
+
+class InternalStatus(models.Model):
+    is_internal = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.is_internal)

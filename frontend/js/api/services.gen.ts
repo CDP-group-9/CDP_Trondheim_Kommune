@@ -22,6 +22,20 @@ import type {
   ChecklistJsonToStringCreateResponse,
   CounterIncrementCreateData,
   CounterIncrementCreateResponse,
+  InternalStatusListData,
+  InternalStatusListResponse,
+  InternalStatusCreateData,
+  InternalStatusCreateResponse,
+  InternalStatusRetrieveData,
+  InternalStatusRetrieveResponse,
+  InternalStatusUpdateData,
+  InternalStatusUpdateResponse,
+  InternalStatusPartialUpdateData,
+  InternalStatusPartialUpdateResponse,
+  InternalStatusDestroyData,
+  InternalStatusDestroyResponse,
+  InternalStatusSetSystemInstructionCreateData,
+  InternalStatusSetSystemInstructionCreateResponse,
   RestRestCheckRetrieveResponse,
   TestResponseListData,
   TestResponseListResponse,
@@ -219,6 +233,140 @@ export class CounterService {
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/counter/increment/",
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+}
+
+export class InternalStatusService {
+  /**
+   * @param data The data for the request.
+   * @param data.limit Number of results to return per page.
+   * @param data.offset The initial index from which to return the results.
+   * @returns PaginatedInternalStatusList
+   * @throws ApiError
+   */
+  public static internalStatusList(
+    data: InternalStatusListData = {},
+  ): CancelablePromise<InternalStatusListResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/internal-status/",
+      query: {
+        limit: data.limit,
+        offset: data.offset,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns InternalStatus
+   * @throws ApiError
+   */
+  public static internalStatusCreate(
+    data: InternalStatusCreateData = {},
+  ): CancelablePromise<InternalStatusCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/internal-status/",
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this internal status.
+   * @returns InternalStatus
+   * @throws ApiError
+   */
+  public static internalStatusRetrieve(
+    data: InternalStatusRetrieveData,
+  ): CancelablePromise<InternalStatusRetrieveResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/internal-status/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this internal status.
+   * @param data.requestBody
+   * @returns InternalStatus
+   * @throws ApiError
+   */
+  public static internalStatusUpdate(
+    data: InternalStatusUpdateData,
+  ): CancelablePromise<InternalStatusUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/internal-status/{id}/",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this internal status.
+   * @param data.requestBody
+   * @returns InternalStatus
+   * @throws ApiError
+   */
+  public static internalStatusPartialUpdate(
+    data: InternalStatusPartialUpdateData,
+  ): CancelablePromise<InternalStatusPartialUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PATCH",
+      url: "/api/internal-status/{id}/",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this internal status.
+   * @returns void No response body
+   * @throws ApiError
+   */
+  public static internalStatusDestroy(
+    data: InternalStatusDestroyData,
+  ): CancelablePromise<InternalStatusDestroyResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/internal-status/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns InternalStatus
+   * @throws ApiError
+   */
+  public static internalStatusSetSystemInstructionCreate(
+    data: InternalStatusSetSystemInstructionCreateData = {},
+  ): CancelablePromise<InternalStatusSetSystemInstructionCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/internal-status/set_system_instruction/",
       body: data.requestBody,
       mediaType: "application/json",
     });
