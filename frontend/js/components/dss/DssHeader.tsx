@@ -1,10 +1,11 @@
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 
 import { cn } from "js/lib/utils";
 
 import tkLogo from "../../../assets/images/tk-logo-wide.svg";
 import { SidebarHeader, useSidebar } from "../ui/sidebar";
+import { Switch } from "../ui/switch";
 
 import { DssDynamicBreadcrumb } from "./DssDynamicBreadcrumb";
 
@@ -40,6 +41,8 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
       computedStyle.width = "100%";
     }
 
+    const [isToggled, setIsToggled] = useState(false);
+
     return (
       <header
         ref={ref}
@@ -70,8 +73,19 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
             )}
           </div>
         </div>
-        <div className="border-t border-border px-4 py-2">
+        <div className="border-t border-border px-4 py-2 flex items-center justify-between">
           <DssDynamicBreadcrumb />
+          <div className="flex items-center gap-2">
+            <Switch
+              checked={isToggled}
+              onCheckedChange={(checked) => setIsToggled(checked)}
+            />
+            <span className="inline-block w-[240px]">
+              {isToggled
+                ? "Jobber i Trondheim kommune"
+                : "Jobber ikke i Trondheim kommune"}
+            </span>
+          </div>
         </div>
       </header>
     );
