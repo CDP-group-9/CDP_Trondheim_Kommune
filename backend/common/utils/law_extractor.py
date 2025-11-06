@@ -4,8 +4,10 @@ import requests
 import tarfile
 from typing import List, Set
 
+# Base url for lovdata
 BASE_URL = "https://api.lovdata.no/v1/publicData"
 
+# List of laws for insertion in db
 standard_format_laws: List[str] = [
     "LOV-2018-06-15-038",
     "LOV-2000-04-14-031",
@@ -27,19 +29,21 @@ standard_format_laws: List[str] = [
     "LOV-2018-06-22-083",
 ]
 
+# Convert standard format laws into Lovdata API filenames
 def format_laws_to_lovdata_format(laws: List[str]) -> Set[str]:
     api_formatted_laws: Set[str] = set()
     for law in laws:
         parts = law.split("-")
         if len(parts) < 4:
-            raise ValueError(f"Ugyldig lov/forskrift-format: {law}")
+            raise ValueError(f"Illegal law/paragraph-format: {law}")
 
+        # Determine prefix based on law type
         if parts[0] == "LOV":
             formatted_law = "nl-"
         elif parts[0] == "FOR":
             formatted_law = "sf-"
         else:
-            raise ValueError(f"Ukjent type (må være LOV eller FOR): {law}")
+            raise ValueError(f"Unknown value (need to be LOV or FOR): {law}")
 
         formatted_law += f"{parts[1]}{parts[2]}{parts[3]}"
 
@@ -54,6 +58,7 @@ def format_laws_to_lovdata_format(laws: List[str]) -> Set[str]:
 
     return api_formatted_laws
 
+# Get a list of all public files from Lovdata API
 def list_public_files(timeout: float = 30.0):
     url = f"{BASE_URL}/list"
     r = requests.get(url, headers={"accept": "application/json"}, timeout=timeout)
@@ -61,17 +66,16 @@ def list_public_files(timeout: float = 30.0):
     data = r.json()
     return [item for item in data if isinstance(item, dict) and "filename" in item]
 
-
+# Download a specific file from Lovdata API
 def download_lovdata_file(filename: str, out_dir: str = "lovdataxml", timeout: float = 180.0):
     if not re.fullmatch(r"[A-Za-z0-9._-]+\.(zip|tar\.bz2)", filename):
-        raise ValueError(f"Ugyldig filnavn: {filename}")
+        raise ValueError(f"Illegal filename: {filename}")
 
     os.makedirs(out_dir, exist_ok=True)
     url = f"{BASE_URL}/get/download"
     params = {"filename": filename}
 
-    print(f"📥 Laster ned {filename} fra Lovdata...")
-
+    # Stream download to local file
     with requests.get(url, params=params, stream=True, timeout=timeout) as r:
         r.raise_for_status()
         file_path = os.path.join(out_dir, filename)
@@ -79,10 +83,9 @@ def download_lovdata_file(filename: str, out_dir: str = "lovdataxml", timeout: f
             for chunk in r.iter_content(chunk_size=8192):
                 if chunk:
                     f.write(chunk)
-
-    print(f"✅ Lagret: {file_path}")
     return file_path
 
+# Extract selected files from a tar.bz2 archive
 def extract_selected_files(file_path: str, selected_filenames: Set[str], extract_to: str):
     os.makedirs(extract_to, exist_ok=True)
     with tarfile.open(file_path, "r:bz2") as tar:
@@ -96,16 +99,13 @@ def extract_selected_files(file_path: str, selected_filenames: Set[str], extract
                     with open(out_path, "wb") as f_out:
                         f_out.write(extracted_file.read())
                     count += 1
-        if count == 0:
-            print(f"🚫 Ingen ønskede filer funnet i {file_path}")
-        else:
-            print(f"📂 Pakket ut {count} filer fra {file_path}")
 
-def fetch_lovdata_laws(standard_format_laws: List[str], out_dir: str):
-    
+# Fetch and extract all desired laws from Lovdata
+def fetch_lovdata_laws(standard_format_laws: List[str], out_dir: str, show_progress=False):
+    print("Looking for laws ...")
     os.makedirs(out_dir, exist_ok=True)
 
-    ønskede_filer = format_laws_to_lovdata_format(standard_format_laws)
+    wanted_files = format_laws_to_lovdata_format(standard_format_laws)
     files = list_public_files()
 
     for item in files:
@@ -115,14 +115,14 @@ def fetch_lovdata_laws(standard_format_laws: List[str], out_dir: str):
             if not os.path.exists(file_path):
                 download_lovdata_file(filename, out_dir=out_dir)
 
-            extract_selected_files(file_path, ønskede_filer, extract_to=out_dir)
+            extract_selected_files(file_path, wanted_files, extract_to=out_dir)
             os.remove(file_path)
     
-    tilgjengelige_filnavn = set(f for f in os.listdir(out_dir) if f in ønskede_filer)
-    mangler = ønskede_filer - tilgjengelige_filnavn
+    available_filenames = set(f for f in os.listdir(out_dir) if f in wanted_files)
+    missing = wanted_files - available_filenames
 
-    print(f"✅ Fant {len(tilgjengelige_filnavn)} av {len(ønskede_filer)} ønskede filer.")
-    if mangler:
-        print("🚫 Følgende filer ble ikke funnet:")
-        for navn in sorted(mangler):
-            print(f"  - {navn}")
+    print(f" Found {len(available_filenames)} of {len(wanted_files)} wanted files.")
+    if missing:
+        print(" These files were not found:")
+        for name in sorted(missing):
+            print(f"  - {name}")
