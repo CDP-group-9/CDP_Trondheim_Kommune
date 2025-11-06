@@ -209,6 +209,59 @@ export type CounterIncrementCreateData = {
 
 export type CounterIncrementCreateResponse = Counter;
 
+export type InternalStatusListData = {
+  /**
+   * Number of results to return per page.
+   */
+  limit?: number;
+  /**
+   * The initial index from which to return the results.
+   */
+  offset?: number;
+};
+
+export type InternalStatusListResponse = unknown;
+
+export type InternalStatusCreateResponse = unknown;
+
+export type InternalStatusRetrieveData = {
+  /**
+   * A unique integer value identifying this internal status.
+   */
+  id: number;
+};
+
+export type InternalStatusRetrieveResponse = unknown;
+
+export type InternalStatusUpdateData = {
+  /**
+   * A unique integer value identifying this internal status.
+   */
+  id: number;
+};
+
+export type InternalStatusUpdateResponse = unknown;
+
+export type InternalStatusPartialUpdateData = {
+  /**
+   * A unique integer value identifying this internal status.
+   */
+  id: number;
+};
+
+export type InternalStatusPartialUpdateResponse = unknown;
+
+export type InternalStatusDestroyData = {
+  /**
+   * A unique integer value identifying this internal status.
+   */
+  id: number;
+};
+
+export type InternalStatusDestroyResponse = void;
+
+export type InternalStatusSetSystemInstructionCreateResponse = unknown;
+
 export type RestRestCheckRetrieveResponse = Message;
 
 export type TestResponseListData = {
@@ -396,6 +449,73 @@ export type $OpenApiTs = {
       req: CounterIncrementCreateData;
       res: {
         200: Counter;
+      };
+    };
+  };
+  "/api/internal-status/": {
+    get: {
+      req: InternalStatusListData;
+      res: {
+        /**
+         * No response body
+         */
+        200: unknown;
+      };
+    };
+    post: {
+      res: {
+        /**
+         * No response body
+         */
+        201: unknown;
+      };
+    };
+  };
+  "/api/internal-status/{id}/": {
+    get: {
+      req: InternalStatusRetrieveData;
+      res: {
+        /**
+         * No response body
+         */
+        200: unknown;
+      };
+    };
+    put: {
+      req: InternalStatusUpdateData;
+      res: {
+        /**
+         * No response body
+         */
+        200: unknown;
+      };
+    };
+    patch: {
+      req: InternalStatusPartialUpdateData;
+      res: {
+        /**
+         * No response body
+         */
+        200: unknown;
+      };
+    };
+    delete: {
+      req: InternalStatusDestroyData;
+      res: {
+        /**
+         * No response body
+         */
+        204: void;
+      };
+    };
+  };
+  "/api/internal-status/set_system_instruction/": {
+    post: {
+      res: {
+        /**
+         * No response body
+         */
+        200: unknown;
       };
     };
   };

@@ -6,6 +6,7 @@ import { DssExternalVsInternal } from "components/dss/DssExternalVsInternal";
 import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
+import { useInternalStatus } from "js/hooks/useInternalStatus";
 
 import { useAppState } from "../contexts/AppStateContext";
 
@@ -13,10 +14,10 @@ import Chat from "./Chat";
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
+  const { isInternal, updateInternalStatus } = useInternalStatus();
 
   useEffect(() => {
     const hasSeenModal = localStorage.getItem("hasSeenDssModal");
-
     if (!hasSeenModal) {
       setShowModal(true);
     }
@@ -26,6 +27,15 @@ const Home = () => {
     localStorage.setItem("hasSeenDssModal", "true");
     setShowModal(false);
   };
+
+  useEffect(() => {
+    if (isInternal === true) {
+      console.log("User works in Trondheim kommune");
+    } else if (isInternal === false) {
+      console.log("User does NOT work in Trondheim kommune");
+    }
+  }, [isInternal]);
+
   const { currentChatId, createNewChat, consumePendingChecklistContext } =
     useAppState();
   const {
@@ -58,7 +68,6 @@ const Home = () => {
         "Kan du hjelpe meg med personvernvurdering basert på denne informasjonen?",
         checklistContext,
       );
-
       hasHandledChecklistContext.current = true;
     }
   }, [currentChatId, isReady, sendMessage, consumePendingChecklistContext]);
@@ -89,7 +98,14 @@ const Home = () => {
     <div className="flex min-h-full w-full flex-col tk-readable p-6">
       <DssChecklistLink />
       {showModal && (
-        <DssExternalVsInternal autoOpen onClose={handleCloseModal} />
+        <DssExternalVsInternal
+          autoOpen
+          onClose={handleCloseModal}
+          onSelect={(value) => {
+            updateInternalStatus(value);
+            handleCloseModal();
+          }}
+        />
       )}
       <section className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
         <h1 className="text-4xl font-semibold">ASQ</h1>

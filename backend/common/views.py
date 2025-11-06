@@ -9,12 +9,13 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .models import ChecklistResult, Counter, MockResponse
+from .models import ChecklistResult, Counter, InternalStatus, MockResponse
 from .serializers import (
     ChatRequestSerializer,
     ChatResponseSerializer,
     ChecklistSerializer,
     CounterSerializer,
+    InternalStatusSerializer,
     MessageSerializer,
     MockResponseSerializer,
 )
@@ -92,6 +93,17 @@ class MockResponseViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(mock)
             return Response(serializer.data)
         return Response({"error": "No mock response found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+class InternalStatusViewSet(viewsets.ModelViewSet):
+    queryset = InternalStatus.objects.all()
+    serializer_class = InternalStatusSerializer
+    permission_classes: ClassVar[list] = [AllowAny]
+
+    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
+    def set_system_instruction(self, request):
+        print(request.data)
+        return Response({"response": "Hello World"}, status=status.HTTP_200_OK)
 
 
 class ChecklistViewSet(viewsets.ModelViewSet):

@@ -22,6 +22,18 @@ import type {
   ChecklistJsonToStringCreateResponse,
   CounterIncrementCreateData,
   CounterIncrementCreateResponse,
+  InternalStatusListData,
+  InternalStatusListResponse,
+  InternalStatusCreateResponse,
+  InternalStatusRetrieveData,
+  InternalStatusRetrieveResponse,
+  InternalStatusUpdateData,
+  InternalStatusUpdateResponse,
+  InternalStatusPartialUpdateData,
+  InternalStatusPartialUpdateResponse,
+  InternalStatusDestroyData,
+  InternalStatusDestroyResponse,
+  InternalStatusSetSystemInstructionCreateResponse,
   RestRestCheckRetrieveResponse,
   TestResponseListData,
   TestResponseListResponse,
@@ -221,6 +233,122 @@ export class CounterService {
       url: "/api/counter/increment/",
       body: data.requestBody,
       mediaType: "application/json",
+    });
+  }
+}
+
+export class InternalStatusService {
+  /**
+   * @param data The data for the request.
+   * @param data.limit Number of results to return per page.
+   * @param data.offset The initial index from which to return the results.
+   * @returns unknown No response body
+   * @throws ApiError
+   */
+  public static internalStatusList(
+    data: InternalStatusListData = {},
+  ): CancelablePromise<InternalStatusListResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/internal-status/",
+      query: {
+        limit: data.limit,
+        offset: data.offset,
+      },
+    });
+  }
+
+  /**
+   * @returns unknown No response body
+   * @throws ApiError
+   */
+  public static internalStatusCreate(): CancelablePromise<InternalStatusCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/internal-status/",
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this internal status.
+   * @returns unknown No response body
+   * @throws ApiError
+   */
+  public static internalStatusRetrieve(
+    data: InternalStatusRetrieveData,
+  ): CancelablePromise<InternalStatusRetrieveResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/internal-status/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this internal status.
+   * @returns unknown No response body
+   * @throws ApiError
+   */
+  public static internalStatusUpdate(
+    data: InternalStatusUpdateData,
+  ): CancelablePromise<InternalStatusUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/internal-status/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this internal status.
+   * @returns unknown No response body
+   * @throws ApiError
+   */
+  public static internalStatusPartialUpdate(
+    data: InternalStatusPartialUpdateData,
+  ): CancelablePromise<InternalStatusPartialUpdateResponse> {
+    return __request(OpenAPI, {
+      method: "PATCH",
+      url: "/api/internal-status/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @param data The data for the request.
+   * @param data.id A unique integer value identifying this internal status.
+   * @returns void No response body
+   * @throws ApiError
+   */
+  public static internalStatusDestroy(
+    data: InternalStatusDestroyData,
+  ): CancelablePromise<InternalStatusDestroyResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/internal-status/{id}/",
+      path: {
+        id: data.id,
+      },
+    });
+  }
+
+  /**
+   * @returns unknown No response body
+   * @throws ApiError
+   */
+  public static internalStatusSetSystemInstructionCreate(): CancelablePromise<InternalStatusSetSystemInstructionCreateResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/internal-status/set_system_instruction/",
     });
   }
 }
