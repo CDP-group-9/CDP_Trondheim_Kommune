@@ -39,33 +39,28 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
-      <h2 className="text-xl font-medium mb-1 flex items-center gap-2">
-        <span aria-label="warning icon" role="img">
-          🚨
-        </span>
-        Risikoer og Bekymringer
-      </h2>
-      <p className="text-sm text-muted-foreground mb-4">
+      <h3 className="mb-1 flex items-center gap-2">Risikoer og Bekymringer</h3>
+      <p className="text-muted-foreground mb-4">
         Identifiserte utfordringer og risikoer
       </p>
 
-      <div className="space-y-6">
+      <div className="space-y-6 p-2">
         {/* Privacy risk */}
         <div className="inputGroup space-y-2">
           <label
-            className="block text-sm font-medium"
+            className="text-md"
             htmlFor={privacyRiskSliderId}
             id={privacyRiskLabelId}
           >
             Samlet vurdering av personvernsrisiko
           </label>
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span>Svært lav</span>
-            <span>Svært høy</span>
+            <span className="text-base">Svært lav</span>
+            <span className="text-base">Svært høy</span>
           </div>
           <Slider
-            className="w-full p-1"
             aria-labelledby={privacyRiskLabelId}
+            className="w-full p-1"
             id={privacyRiskSliderId}
             max={5}
             min={1}
@@ -81,15 +76,15 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         {/* Unauthorized access */}
         <div className="inputGroup space-y-2">
           <label
-            className="block text-sm font-medium"
+            className="text-md"
             htmlFor={unauthAccessSliderId}
             id={unauthAccessLabelId}
           >
             Risiko for uautorisert tilgang
           </label>
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span>Svært lav</span>
-            <span>Svært høy</span>
+            <span className="text-base">Svært lav</span>
+            <span className="text-base">Svært høy</span>
           </div>
           <Slider
             aria-labelledby={unauthAccessLabelId}
@@ -109,15 +104,15 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         {/* Data loss */}
         <div className="inputGroup space-y-2">
           <label
-            className="block text-sm font-medium"
+            className="text-md"
             htmlFor={dataLossSliderId}
             id={dataLossLabelId}
           >
             Risiko for datatap
           </label>
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span>Svært lav</span>
-            <span>Svært høy</span>
+            <span className="text-base">Svært lav</span>
+            <span className="text-base">Svært høy</span>
           </div>
           <Slider
             aria-labelledby={dataLossLabelId}
@@ -137,15 +132,15 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
         {/* Re-identification */}
         <div className="inputGroup space-y-2">
           <label
-            className="block text-sm font-medium"
+            className="text-md"
             htmlFor={reidentificationSliderId}
             id={reidentificationLabelId}
           >
             Risiko for re-identifisering av anonymiserte data
           </label>
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span>Svært lav</span>
-            <span>Svært høy</span>
+            <span className="text-base">Svært lav</span>
+            <span className="text-base">Svært høy</span>
           </div>
           <Slider
             aria-labelledby={reidentificationLabelId}
@@ -164,10 +159,7 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
 
         {/* Employee/registered concern */}
         <div className="inputGroup space-y-2">
-          <label
-            className="block text-sm font-medium"
-            htmlFor={employeeConcernSwitchId}
-          >
+          <label htmlFor={employeeConcernSwitchId}>
             Er det bekymringer fra registrerte eller ansatte?
           </label>
           <div className="flex items-center gap-2">
@@ -178,18 +170,15 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
                 handleChange("employeeConcern", value)
               }
             />
-            <span>{riskConcernData.employeeConcern ? "Ja" : "Nei"}</span>
+            <span className="text-base">
+              {riskConcernData.employeeConcern ? "Ja" : "Nei"}
+            </span>
           </div>
         </div>
 
         {riskConcernData.employeeConcern && (
           <div className="inputGroup space-y-2">
-            <label
-              className="block text-sm font-medium"
-              htmlFor={concernDetailsId}
-            >
-              Beskriv bekymringene:
-            </label>
+            <label htmlFor={concernDetailsId}>Beskriv bekymringene:</label>
             <Textarea
               className="bg-white"
               id={concernDetailsId}
@@ -202,10 +191,7 @@ export const RiskAndConcern = ({ riskConcernData, onChange }: Props) => {
 
         {/* Regulatory concern */}
         <div className="inputGroup space-y-2">
-          <label
-            className="block text-sm font-medium"
-            htmlFor={regulatoryConcernId}
-          >
+          <label htmlFor={regulatoryConcernId}>
             Bekymringer om regelverksetterlevelse:
           </label>
           <Textarea

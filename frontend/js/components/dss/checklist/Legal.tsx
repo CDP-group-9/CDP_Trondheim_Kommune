@@ -59,29 +59,22 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
-      <h2 className="text-xl font-medium mb-1 flex items-center gap-2">
-        <span aria-label="scale icon" role="img">
-          ⚖️
-        </span>
+      <h3 className="font-medium mb-1 flex items-center gap-2">
         Rettsgrunnlag og Formål
-      </h2>
+      </h3>
 
-      <p className="text-sm text-muted-foreground mb-4">
+      <p className="text-muted-foreground mb-4">
         Juridisk grunnlag for databehandlingen
       </p>
 
       {/* Legal basis radio buttons */}
-      <div className="space-y-6">
+      <div className="space-y-6 p-2">
         <div
           aria-labelledby={legalBasisGroupId}
           className="buttonGroup space-y-2"
           role="radiogroup"
         >
-          <span
-            className="block text-sm font-medium"
-            id={legalBasisGroupId}
-            role="presentation"
-          >
+          <span id={legalBasisGroupId} role="presentation">
             Hvilket rettsgrunnlag planlegges brukt?
           </span>
           {[
@@ -103,27 +96,24 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
           ].map(([value, label]) => (
             <label
               key={value}
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer text-base font-normal"
               htmlFor={`${legalBasisGroupId}-${value}`}
             >
               <input
-                id={`${legalBasisGroupId}-${value}`}
                 checked={legalBasisData.legalBasis === value}
+                id={`${legalBasisGroupId}-${value}`}
                 name="legalBasis"
                 type="radio"
                 value={value}
                 onChange={(e) => handleChange("legalBasis", e.target.value)}
               />
-              <span>{label}</span>
+              <span className="text-base">{label}</span>
             </label>
           ))}
         </div>
 
         <div className="inputGroup space-y-2">
-          <label
-            className="block text-sm font-medium"
-            htmlFor={sensitiveSwitchId}
-          >
+          <label htmlFor={sensitiveSwitchId}>
             Behandles sensitive personopplysninger?
           </label>
           <div className="flex items-center gap-2">
@@ -134,7 +124,9 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
                 handleChange("handlesSensitiveData", value)
               }
             />
-            <span>{legalBasisData.handlesSensitiveData ? "Ja" : "Nei"}</span>
+            <span className="text-base">
+              {legalBasisData.handlesSensitiveData ? "Ja" : "Nei"}
+            </span>
           </div>
         </div>
 
@@ -144,30 +136,26 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
             className="buttonGroup space-y-2"
             role="group"
           >
-            <span
-              className="block text-sm font-medium"
-              id={sensitiveGroupId}
-              role="presentation"
-            >
+            <span id={sensitiveGroupId} role="presentation">
               Rettsgrunnlag for sensitive opplysninger (GDPR art. 9)
             </span>
             <div className="flex flex-col space-y-2">
               {sensitiveDataReasons.map(({ value, label }) => (
                 <label
                   key={value}
-                  className="inline-flex items-center space-x-2 cursor-pointer"
+                  className="inline-flex items-center space-x-2 cursor-pointer text-base font-medium"
                   htmlFor={`${sensitiveGroupId}-${value}`}
                 >
                   <input
-                    id={`${sensitiveGroupId}-${value}`}
                     checked={legalBasisData.selectedSensitiveDataReason.includes(
                       value,
                     )}
                     className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
+                    id={`${sensitiveGroupId}-${value}`}
                     type="checkbox"
                     onChange={() => toggleSensitive(value)}
                   />
-                  <span>{label}</span>
+                  <span className="text-base">{label}</span>
                 </label>
               ))}
             </div>
@@ -175,10 +163,7 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
         )}
 
         <div className="inputGroup space-y-2">
-          <label
-            className="block text-sm font-medium"
-            htmlFor={statutoryTasksId}
-          >
+          <label htmlFor={statutoryTasksId}>
             Lovpålagte oppgaver eller krav?
           </label>
           <Textarea

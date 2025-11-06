@@ -52,36 +52,27 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
-      <h2 className="text-xl font-medium mb-1 flex items-center gap-2">
-        <span aria-label="people icon" role="img">
-          🧑‍🤝‍🧑
-        </span>
-        Involverte Parter
-      </h2>
+      <h3 className="mb-1 flex items-center gap-2">Involverte Parter</h3>
 
-      <p className="text-sm text-muted-foreground mb-4">
-        Hvem er involvert i databehandlingen
+      <p className="text-base text-muted-foreground mb-4">
+        Kryss av de gruppene som er involvert i datasettet som behandles
       </p>
 
-      <div className="space-y-6">
+      <div className="space-y-6 p-2">
         {/* Registered Groups */}
         <div
           aria-labelledby={registeredGroupId}
           className="buttonGroup space-y-2"
           role="group"
         >
-          <span
-            className="block text-sm font-medium"
-            id={registeredGroupId}
-            role="presentation"
-          >
+          <label id={registeredGroupId} role="presentation">
             Hvem er de registrerte?
-          </span>
+          </label>
           <div className="flex flex-col space-y-2">
             {groupOptions.map((label) => (
               <label
                 key={label}
-                className="inline-flex items-center space-x-2 cursor-pointer"
+                className="inline-flex items-center space-x-2 cursor-pointer text-base font-medium"
                 htmlFor={`${registeredGroupId}-${label}`}
               >
                 <input
@@ -91,7 +82,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
                   type="checkbox"
                   onChange={() => toggleGroup(label)}
                 />
-                <span>{label}</span>
+                <span className="text-base">{label}</span>
               </label>
             ))}
           </div>
@@ -99,10 +90,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
 
         {/* External Processors */}
         <div className="inputGroup space-y-2">
-          <label
-            className="block text-sm font-medium"
-            htmlFor={externalSwitchId}
-          >
+          <label htmlFor={externalSwitchId}>
             Brukes eksterne leverandører/databehandlere?
           </label>
           <div className="flex items-center gap-2">
@@ -113,7 +101,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
                 handleChange("usesExternalProcessors", value)
               }
             />
-            <span>
+            <span className="text-base">
               {involvedPartiesData.usesExternalProcessors ? "Ja" : "Nei"}
             </span>
           </div>
@@ -121,10 +109,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
 
         {involvedPartiesData.usesExternalProcessors && (
           <div className="inputGroup space-y-2">
-            <label
-              className="block text-sm font-medium"
-              htmlFor={externalTextId}
-            >
+            <label htmlFor={externalTextId}>
               Eksterne leverandører/databehandlere:
             </label>
             <Textarea
@@ -141,10 +126,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
 
         {/* Employee Access */}
         <div className="inputGroup space-y-2">
-          <label
-            className="block text-sm font-medium"
-            htmlFor={employeeAccessId}
-          >
+          <label htmlFor={employeeAccessId}>
             Hvor mange ansatte skal ha tilgang?
           </label>
           <Select
@@ -165,7 +147,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
 
         {/* Share with other orgs */}
         <div className="inputGroup space-y-2">
-          <label className="block text-sm font-medium" htmlFor={shareSwitchId}>
+          <label htmlFor={shareSwitchId}>
             Deles data med andre organisasjoner?
           </label>
           <div className="flex items-center gap-2">
@@ -182,9 +164,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
 
         {involvedPartiesData.sharesWithOthers && (
           <div className="inputGroup space-y-2">
-            <label className="block text-sm font-medium" htmlFor={sharedWithId}>
-              Hvem deles det data med?
-            </label>
+            <label htmlFor={sharedWithId}>Hvem deles det data med?</label>
             <Textarea
               className="bg-white"
               id={sharedWithId}
