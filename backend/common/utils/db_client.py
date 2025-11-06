@@ -8,7 +8,7 @@ import psycopg2
 from bs4 import BeautifulSoup
 from fastembed import TextEmbedding
 from tqdm import tqdm
-
+from law_extractor import fetch_lovdata_laws, standard_format_laws
 
 logging.basicConfig(
     level=logging.INFO,
@@ -170,14 +170,23 @@ def process_laws(input_dir):
         def parse_toc(ul):
             items = []
             for li in ul.find_all("li", recursive=False):
-                item = {"title": li.contents[0].strip()}
-                sub_ul = li.find("ul")
+                parts = []
+                for child in li.contents:
+                    if getattr(child, "name", None) == "ul":
+                        continue
+                    if hasattr(child, "get_text"):
+                        parts.append(child.get_text(strip=True))
+                    else:
+                        parts.append(str(child).strip())
+                title_text = " ".join(parts).strip()
+                item = {"title": title_text}
+                sub_ul = li.find("ul", recursive=False)
                 if sub_ul:
                     item["subsections"] = parse_toc(sub_ul)
                 items.append(item)
             return items
 
-        toc_ul = soup.select_one("dd.table-of-contents > ul.tocTopUl")
+        toc_ul = soup.select_one("dd.table-of-contents > ul")
         table_of_contents = parse_toc(toc_ul) if toc_ul else []
 
         articles = []
@@ -243,6 +252,8 @@ def process_laws(input_dir):
 
 
 if __name__ == "__main__":
+    law_dir = "common/utils/lovdataxml"
+    fetch_lovdata_laws(standard_format_laws, out_dir=law_dir)
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    lovdata_path = os.path.join(current_dir, "lovdataxml")
-    process_laws(lovdata_path)
+    #lovdata_path = os.path.join(current_dir, law_dir)
+    process_laws(law_dir)
