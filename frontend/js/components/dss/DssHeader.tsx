@@ -1,6 +1,7 @@
-import { forwardRef, useState } from "react";
+import { forwardRef } from "react";
 import type { CSSProperties, ReactNode } from "react";
 
+import { useInternalStatus } from "js/hooks/useInternalStatus"; // adjust path if needed
 import { cn } from "js/lib/utils";
 
 import tkLogo from "../../../assets/images/tk-logo-wide.svg";
@@ -41,7 +42,11 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
       computedStyle.width = "100%";
     }
 
-    const [isToggled, setIsToggled] = useState(false);
+    const { isInternal, updateInternalStatus } = useInternalStatus();
+
+    const handleSwitchChange = (checked: boolean) => {
+      updateInternalStatus(checked);
+    };
 
     return (
       <header
@@ -77,11 +82,11 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
           <DssDynamicBreadcrumb />
           <div className="flex items-center gap-2">
             <Switch
-              checked={isToggled}
-              onCheckedChange={(checked) => setIsToggled(checked)}
+              checked={!!isInternal}
+              onCheckedChange={handleSwitchChange}
             />
             <span className="inline-block w-[240px]">
-              {isToggled
+              {isInternal
                 ? "Jobber i Trondheim kommune"
                 : "Jobber ikke i Trondheim kommune"}
             </span>
