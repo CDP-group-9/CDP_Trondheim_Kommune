@@ -274,9 +274,11 @@ Pre-processing and embedding the laws only needs to be done by one computer. The
 1. Pull the changes done in the step 5 above.
 
 2. Run the following commands to prepare your docker volumes:
-    - `docker compose down -v`
+    - `docker compose stop db`
+    - `docker compose rm -f db`
     - `docker volume rm CDP_Trondheim_Kommune_dbdata`
     - `docker volume create CDP_Trondheim_Kommune_dbdata`
+    - `docker compose up -d`
 
 3. Run the project again `docker compose up -d` to initialize the volume with the imported data.
 ## Testing
