@@ -268,7 +268,7 @@ If you want others to recieve your updated list:
 
 ### Import the pre-processed laws (all other computers):
 
-1. Pull the changes done in the step 5 above.
+1. Pull the changes done in the step above.
 
 2. Run [make docker_update_law_database](../Makefile)
 
