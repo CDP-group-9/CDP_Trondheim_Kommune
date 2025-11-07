@@ -4,6 +4,23 @@ import { MemoryRouter } from "react-router-dom";
 
 import Checklist from "../Checklist";
 
+const mockSaveCurrentChecklist = jest.fn();
+const mockCreateNewChecklist = jest.fn();
+const mockGetCurrentChecklistData = jest.fn(async () => null);
+const mockCreateChatFromChecklist = jest.fn(async () => "chat-1");
+const mockSetPendingChecklistContext = jest.fn();
+
+jest.mock("../../contexts/AppStateContext", () => ({
+  useAppState: () => ({
+    currentChecklistId: "checklist-1",
+    saveCurrentChecklist: mockSaveCurrentChecklist,
+    createNewChecklist: mockCreateNewChecklist,
+    getCurrentChecklistData: mockGetCurrentChecklistData,
+    createChatFromChecklist: mockCreateChatFromChecklist,
+    setPendingChecklistContext: mockSetPendingChecklistContext,
+  }),
+}));
+
 const originalFetch = global.fetch;
 const mockFetch = jest.fn();
 
@@ -92,6 +109,11 @@ describe("Checklist", () => {
       ok: true,
       json: async () => ({}),
     } as Response);
+    mockSaveCurrentChecklist.mockClear();
+    mockCreateNewChecklist.mockClear();
+    mockGetCurrentChecklistData.mockClear();
+    mockCreateChatFromChecklist.mockClear();
+    mockSetPendingChecklistContext.mockClear();
     (global as typeof globalThis & { fetch: typeof fetch }).fetch =
       mockFetch as unknown as typeof fetch;
 
@@ -214,7 +236,7 @@ describe("Checklist", () => {
     expect(screen.getByText("Generer veiledning")).toBeInTheDocument();
   });
 
-  test("nullstill skjema button reloads the page", () => {
+  test("nullstill skjema button resets the form", () => {
     renderChecklist();
 
     const receiveButton = screen.getByText("Motta");
@@ -223,7 +245,7 @@ describe("Checklist", () => {
     const resetButton = screen.getByText("Nullstill skjema");
     fireEvent.click(resetButton);
 
-    expect(window.location.reload).toHaveBeenCalledWith();
+    expect(screen.queryByText(/Selected:/)).not.toBeInTheDocument();
   });
 
   test("generer veiledning button is clickable", () => {

@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom";
 import "jest-axe/extend-expect";
+import React from "react";
+
+jest.mock("react-markdown", () => ({
+  __esModule: true,
+  default: ({ children }) => <>{children}</>,
+}));
 
 if (typeof window !== "undefined" && !window.matchMedia) {
   Object.defineProperty(window, "matchMedia", {

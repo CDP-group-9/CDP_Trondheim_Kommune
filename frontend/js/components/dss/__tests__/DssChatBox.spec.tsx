@@ -4,11 +4,6 @@ import { DssChatBox } from "../DssChatBox";
 
 jest.mock("../../../../assets/images/tk-avatar.png", () => "dss-avatar.png");
 
-jest.mock("react-markdown", () => ({
-  __esModule: true,
-  default: ({ children }: { children: any }) => children,
-}));
-
 describe("DssChatBox", () => {
   test("renders user message with correct avatar", () => {
     const { container } = render(

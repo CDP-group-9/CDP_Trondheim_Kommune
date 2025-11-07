@@ -1,7 +1,21 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
+import { MemoryRouter } from "react-router-dom";
 
 import Home from "../Home";
+
+const mockCreateNewChat = jest.fn();
+const mockConsumePendingChecklistContext = jest.fn(() => null);
+
+jest.mock("../../contexts/AppStateContext", () => ({
+  useAppState: () => ({
+    currentChatId: "chat-1",
+    createNewChat: mockCreateNewChat,
+    consumePendingChecklistContext: mockConsumePendingChecklistContext,
+    loadChatMessages: jest.fn(async () => []),
+    saveChatMessages: jest.fn(async () => undefined),
+  }),
+}));
 
 jest.mock("components/dss/DssChatBox", () => ({
   DssChatBox: ({
@@ -25,13 +39,29 @@ const mockFetch = jest.fn();
 (global as typeof globalThis & { fetch: jest.Mock }).fetch = mockFetch;
 
 describe("Home", () => {
+  const renderHome = () =>
+    render(
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+      >
+        <Home />
+      </MemoryRouter>,
+    );
+
   beforeEach(() => {
     mockFetch.mockClear();
+    mockCreateNewChat.mockClear();
+    mockConsumePendingChecklistContext.mockClear();
     localStorage.clear();
   });
 
   test("renders the textarea and submit button with correct initial state", () => {
-    render(<Home />);
+    renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -45,7 +75,7 @@ describe("Home", () => {
 
   test("enables submit button when input has text", async () => {
     const user = userEvent.setup();
-    render(<Home />);
+    renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -64,7 +94,7 @@ describe("Home", () => {
     } as Response);
 
     const user = userEvent.setup();
-    render(<Home />);
+    renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -108,7 +138,7 @@ describe("Home", () => {
     } as Response);
 
     const user = userEvent.setup();
-    render(<Home />);
+    renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -130,7 +160,7 @@ describe("Home", () => {
     mockFetch.mockRejectedValueOnce(new Error("Network error"));
 
     const user = userEvent.setup();
-    render(<Home />);
+    renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -155,7 +185,7 @@ describe("Home", () => {
     } as Response);
 
     const user = userEvent.setup();
-    render(<Home />);
+    renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
