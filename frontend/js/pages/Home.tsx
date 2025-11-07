@@ -36,8 +36,7 @@ const Home = () => {
     }
   }, [isInternal]);
 
-  const { currentChatId, createNewChat, consumePendingChecklistContext } =
-    useAppState();
+  const { currentChatId, createNewChat, getChecklistContext } = useAppState();
   const {
     messages,
     errorMsg,
@@ -58,19 +57,35 @@ const Home = () => {
   }, [currentChatId, createNewChat]);
 
   useEffect(() => {
-    if (hasHandledChecklistContext.current) return;
-    if (!currentChatId || !isReady) return;
+    const handleChecklistContext = async () => {
+      if (hasHandledChecklistContext.current) return;
+      if (!currentChatId || !isReady) return;
 
-    const checklistContext = consumePendingChecklistContext();
-
-    if (checklistContext) {
-      sendMessage(
-        "Kan du hjelpe meg med personvernvurdering basert på denne informasjonen?",
-        checklistContext,
+      const shouldSendMessage = localStorage.getItem(
+        "shouldSendChecklistMessage",
       );
+      if (!shouldSendMessage) return;
+
+      // Set flag immediately to prevent double triggers
       hasHandledChecklistContext.current = true;
-    }
-  }, [currentChatId, isReady, sendMessage, consumePendingChecklistContext]);
+      localStorage.removeItem("shouldSendChecklistMessage");
+
+      try {
+        // Fetch context once and pass it to the first send
+        const ctx = await getChecklistContext(currentChatId);
+        await sendMessage(
+          "Kan du hjelpe meg med personvernvurdering basert på denne informasjonen?",
+          ctx || undefined,
+        );
+      } catch (error) {
+        console.error("Failed to send checklist message with context:", error);
+        // eslint-disable-next-line require-atomic-updates
+        hasHandledChecklistContext.current = false; // allow retry
+      }
+    };
+
+    handleChecklistContext();
+  }, [currentChatId, isReady, sendMessage]);
 
   useEffect(() => {
     hasHandledChecklistContext.current = false;

@@ -34,21 +34,28 @@ const Checklist = () => {
     setTechData,
     riskConcernData,
     setRiskConcernData,
-    sendToBackend,
+    redirectToChat,
     downloadAsTextFile,
     resetChecklist,
+    createNewChecklist,
     isSubmitting,
     submitError,
   } = useChecklist();
 
-  const handleSendToBackend = async () => {
+  const handleRedirectToChat = async () => {
     try {
       setIsNavigating(true);
-      await sendToBackend();
+      // Save the checklist and create/link a chat
+      await redirectToChat();
       navigate("/");
+      // Create new checklist after successful navigation
+      // Small delay to ensure navigation completes
+      setTimeout(() => {
+        createNewChecklist();
+        setIsNavigating(false);
+      }, 100);
     } catch (error) {
       setIsNavigating(false);
-      // Error is already captured in submitError from the hook
     }
   };
 
@@ -117,10 +124,10 @@ const Checklist = () => {
               >
                 Nullstill skjema
               </Button>
-              <Button
+              <Button 
                 className="text-lg"
                 disabled={isLoading}
-                onClick={handleSendToBackend}
+                onClick={handleRedirectToChat}
               >
                 {isLoading ? "Sender..." : "Generer veiledning"}
               </Button>

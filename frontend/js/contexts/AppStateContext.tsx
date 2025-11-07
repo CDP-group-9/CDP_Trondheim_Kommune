@@ -6,6 +6,9 @@ import React, {
   useCallback,
 } from "react";
 
+import { useCookie } from "js/hooks/useCookie";
+
+import { ChecklistService } from "../services/checklistService";
 import type { ChatMessage } from "../types/ChatMessage";
 import type { ChecklistPayload } from "../types/Checklist";
 import { storage, ChatSession, ChecklistSession } from "../utils/storage";
@@ -17,7 +20,6 @@ interface AppState {
 
   // Checklist state
   currentChecklistId: string | null;
-  pendingChecklistContext: string | null;
 
   // Chat actions
   createNewChat: (checklistId?: string) => Promise<string>;
@@ -38,8 +40,7 @@ interface AppState {
   deleteChecklist: (checklistId: string) => Promise<void>;
   getCurrentChecklistData: () => Promise<ChecklistPayload | null>;
   createChatFromChecklist: () => Promise<string>;
-  setPendingChecklistContext: (context: string | null) => void;
-  consumePendingChecklistContext: () => string | null;
+  getChecklistContext: (chatId: string) => Promise<string | null>;
 
   // Loading state
   isLoading: boolean;
@@ -55,13 +56,11 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentChecklistId, setCurrentChecklistId] = useState<string | null>(
     null,
   );
-  const [pendingChecklistContext, setPendingChecklistContextState] = useState<
-    string | null
-  >(null);
   const [pendingChecklistId, setPendingChecklistId] = useState<string | null>(
     null,
   );
   const [isLoading, setIsLoading] = useState(true);
+  const csrftoken = useCookie("csrftoken");
 
   useEffect(() => {
     const loadData = async () => {
@@ -298,18 +297,10 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
 
     setCurrentChatId(newChatId);
 
+    localStorage.setItem("shouldSendChecklistMessage", "true");
+
     return newChatId;
   }, [currentChecklistId]);
-
-  const setPendingChecklistContext = useCallback((context: string | null) => {
-    setPendingChecklistContextState(context);
-  }, []);
-
-  const consumePendingChecklistContext = useCallback((): string | null => {
-    const context = pendingChecklistContext;
-    setPendingChecklistContextState(null);
-    return context;
-  }, [pendingChecklistContext]);
 
   const getChatChecklistId = useCallback(
     (chatId: string): string | null => {
@@ -319,13 +310,36 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
     [chatSessions],
   );
 
+  const getChecklistContext = useCallback(
+    async (chatId: string): Promise<string | null> => {
+      // Prefer reading the chat session directly from storage (works for new/empty chats)
+      const chatSession = await storage.getChatSession(chatId);
+      const checklistId =
+        chatSession?.checklistId || getChatChecklistId(chatId);
+      if (!checklistId) return null;
+
+      try {
+        const checklistSession = await storage.getChecklistSession(checklistId);
+        if (!checklistSession?.data) return null;
+
+        const checklistService = ChecklistService.getInstance();
+        return await checklistService.convertToString(checklistSession.data, {
+          csrfToken: csrftoken || undefined,
+        });
+      } catch (error) {
+        console.error("Failed to get checklist context:", error);
+        return null;
+      }
+    },
+    [getChatChecklistId, csrftoken],
+  );
+
   return (
     <AppStateContext.Provider
       value={{
         currentChatId,
         chatSessions,
         currentChecklistId,
-        pendingChecklistContext,
         createNewChat,
         switchToChat,
         loadChatMessages,
@@ -339,8 +353,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({
         deleteChecklist,
         getCurrentChecklistData,
         createChatFromChecklist,
-        setPendingChecklistContext,
-        consumePendingChecklistContext,
+        getChecklistContext,
         isLoading,
       }}
     >

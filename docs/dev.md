@@ -138,11 +138,7 @@ For VSCode or other IDE: Install the Extensions for the following;
   ```
   make docker_up
   ```
-- Give the AI access to relevant laws regarding personal data:
-  ```
-  make docker_insert_laws
-  ```
-  To inspect the data inserted you can use the PostgreSQL shell:
+- To inspect the data inserted you can use the PostgreSQL shell:
   ```
   make docker_open_pg_shell
   ```
@@ -257,6 +253,26 @@ Two tables are created in the PostgreSQL database:
 - **Database**: PostgreSQL with pgvector extension
 - **Context Limit**: 400 words maximum for optimal AI performance
 
+## Updating laws used for LLM context
+Pre-processing and embedding the laws only needs to be done by one computer. The embedded laws and paragraphs need to be imported by other computers afterwards. To do so, follow these steps:
+
+### Pre-processing of laws (one computer):
+
+1. Add the law you want to insert into [law_extractor.py](../backend/common/utils/law_extractor.py). Use whats written in Dato field (e.g. LOV-1989-06-02-27 for [alkoholloven](https://lovdata.no/dokument/NL/lov/1989-06-02-27)).
+
+2. Run [make docker_insert_laws](../Makefile)
+
+If you want others to recieve your updated list:
+1. Commit and push the change in [db_embeddings.sql](../backend/common/db_init/db_embeddings.sql) to git.
+
+
+### Import the pre-processed laws (all other computers):
+
+1. Pull the changes done in the step above.
+
+2. Run [make docker_update_law_database](../Makefile)
+
+3. Now the DB should be updated
 ## Testing
 
 ### Frontend:
@@ -299,3 +315,5 @@ For example the branch for issue 2.1 should be called `2.1-short-descriptive-tit
 
 ## Naming Conventions and file structure
 see [this document](naming_conventions.md).
+
+
