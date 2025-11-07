@@ -6,6 +6,8 @@ import Home from "../Home";
 
 const mockCreateNewChat = jest.fn();
 const mockConsumePendingChecklistContext = jest.fn(() => null);
+const mockSwitchToChecklist = jest.fn();
+const mockGetChatChecklistId = jest.fn(() => null);
 
 jest.mock("../../contexts/AppStateContext", () => ({
   useAppState: () => ({
@@ -14,6 +16,8 @@ jest.mock("../../contexts/AppStateContext", () => ({
     consumePendingChecklistContext: mockConsumePendingChecklistContext,
     loadChatMessages: jest.fn(async () => []),
     saveChatMessages: jest.fn(async () => undefined),
+    switchToChecklist: mockSwitchToChecklist,
+    getChatChecklistId: mockGetChatChecklistId,
   }),
 }));
 
@@ -35,12 +39,20 @@ jest.mock("lucide-react", () => ({
   Send: () => <div>Send Icon</div>,
 }));
 
+jest.mock("components/dss/DssExternalVsInternal", () => ({
+  DssExternalVsInternal: () => null,
+}));
+
+jest.mock("../../components/dss/DssExternalVsInternal", () => ({
+  DssExternalVsInternal: () => null,
+}));
+
 const mockFetch = jest.fn();
 (global as typeof globalThis & { fetch: jest.Mock }).fetch = mockFetch;
 
 describe("Home", () => {
-  const renderHome = () =>
-    render(
+  const renderHome = async () => {
+    const utils = render(
       <MemoryRouter
         future={{
           // eslint-disable-next-line camelcase
@@ -53,15 +65,33 @@ describe("Home", () => {
       </MemoryRouter>,
     );
 
+    const modalUser = userEvent.setup();
+    await screen
+      .findByRole(
+        "button",
+        { name: /ikke ansatt i trondheim kommune/i },
+        { timeout: 300 },
+      )
+      .then(async (closeButton) => {
+        await modalUser.click(closeButton);
+      })
+      .catch(() => undefined);
+
+    return utils;
+  };
+
   beforeEach(() => {
     mockFetch.mockClear();
     mockCreateNewChat.mockClear();
     mockConsumePendingChecklistContext.mockClear();
+    mockSwitchToChecklist.mockClear();
+    mockGetChatChecklistId.mockClear();
     localStorage.clear();
+    localStorage.setItem("hasSeenDssModal", "true");
   });
 
-  test("renders the textarea and submit button with correct initial state", () => {
-    renderHome();
+  test("renders the textarea and submit button with correct initial state", async () => {
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -75,7 +105,7 @@ describe("Home", () => {
 
   test("enables submit button when input has text", async () => {
     const user = userEvent.setup();
-    renderHome();
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -94,7 +124,7 @@ describe("Home", () => {
     } as Response);
 
     const user = userEvent.setup();
-    renderHome();
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -114,7 +144,6 @@ describe("Home", () => {
           method: "POST",
           headers: expect.objectContaining({
             "Content-Type": "application/json",
-            "X-CSRFTOKEN": "",
           }),
           credentials: "include",
           body: JSON.stringify({
@@ -138,7 +167,7 @@ describe("Home", () => {
     } as Response);
 
     const user = userEvent.setup();
-    renderHome();
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -152,7 +181,7 @@ describe("Home", () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText("API Error")).toBeInTheDocument();
+      expect(screen.getByText("Failed to send message")).toBeInTheDocument();
     });
   });
 
@@ -160,7 +189,7 @@ describe("Home", () => {
     mockFetch.mockRejectedValueOnce(new Error("Network error"));
 
     const user = userEvent.setup();
-    renderHome();
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -174,7 +203,7 @@ describe("Home", () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText("No connection to server.")).toBeInTheDocument();
+      expect(screen.getByText("No connection to server")).toBeInTheDocument();
     });
   });
 
@@ -185,7 +214,7 @@ describe("Home", () => {
     } as Response);
 
     const user = userEvent.setup();
-    renderHome();
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",

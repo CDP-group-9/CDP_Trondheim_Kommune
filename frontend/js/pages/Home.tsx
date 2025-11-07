@@ -95,7 +95,7 @@ const Home = () => {
   }
 
   return (
-    <div className="flex min-h-full w-full flex-col tk-readable p-6">
+    <div className="flex min-h-full w-full flex-col tk-readable p-6 pt-[var(--header-height)]">
       <DssChecklistLink />
       {showModal && (
         <DssExternalVsInternal

@@ -33,7 +33,7 @@ export const DssMain = forwardRef<HTMLDivElement, DssMainProps>(
     }
 
     return (
-      <main
+      <section
         ref={ref}
         className={cn("flex-1 scroll-smooth", className)}
         data-collapsed={isCollapsed ? "true" : "false"}
