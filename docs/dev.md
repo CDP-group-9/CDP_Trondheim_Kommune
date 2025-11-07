@@ -258,11 +258,12 @@ Pre-processing and embedding the laws only needs to be done by one computer. The
 
 ### Pre-processing of laws (one computer):
 
-1. Update the list of laws in [law_extractor.py](../backend/common/utils/law_extractor.py) if you want new laws to be added.
+1. Add the law you want to insert into [law_extractor.py](../backend/common/utils/law_extractor.py). Use whats written in Dato field (e.g. LOV-1989-06-02-27 for alkoholloven).
 
 2. Run [make docker_insert_laws](../Makefile)
 
-3. Commit and push the change in [db_embeddings.sql](../backend/common/db_init/db_embeddings.sql) to git.
+If you want others to recieve your updated list:
+1. Commit and push the change in [db_embeddings.sql](../backend/common/db_init/db_embeddings.sql) to git.
 
 
 ### Import the pre-processed laws (all other computers):

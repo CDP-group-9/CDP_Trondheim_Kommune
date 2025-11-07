@@ -49,7 +49,7 @@ def format_laws_to_lovdata_format(laws: List[str]) -> Set[str]:
 
         if len(parts) > 4:
             if parts[0] == "LOV":
-                formatted_law += f"-{parts[4]}"
+                formatted_law += f"-{parts[4].zfill(3)}"
             elif parts[0] == "FOR":
                 formatted_law += f"-{parts[4].zfill(4)}"
 
