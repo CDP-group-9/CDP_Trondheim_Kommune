@@ -3,7 +3,11 @@ import { render, screen } from "@testing-library/react";
 import { DssChatBox } from "../DssChatBox";
 
 jest.mock("../../../../assets/images/tk-avatar.png", () => "dss-avatar.png");
-jest.mock("../../../../assets/images/user-avatar.svg", () => "user-avatar.svg");
+
+jest.mock("react-markdown", () => ({
+  __esModule: true,
+  default: ({ children }: { children: any }) => children,
+}));
 
 describe("DssChatBox", () => {
   test("renders user message with correct avatar", () => {
@@ -13,8 +17,8 @@ describe("DssChatBox", () => {
 
     expect(screen.getByText("Hello from user")).toBeInTheDocument();
 
-    const avatar = screen.getByAltText("bruker avatar");
-    expect(avatar).toHaveAttribute("src", "user-avatar.svg");
+    const avatar = screen.getByLabelText("bruker avatar");
+    expect(avatar).toBeInTheDocument();
 
     expect(container.querySelector(".justify-end")).toBeInTheDocument();
   });

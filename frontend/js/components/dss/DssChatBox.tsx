@@ -1,8 +1,8 @@
+import { UserRound } from "lucide-react";
 import { FC } from "react";
 import ReactMarkdown from "react-markdown";
 
 import trondheimKommuneAvatar from "../../../assets/images/tk-avatar.svg";
-import brukerAvatar from "../../../assets/images/user-avatar.svg";
 
 interface ChatBoxProps {
   type: "user" | "bot";
@@ -19,13 +19,17 @@ export const DssChatBox: FC<ChatBoxProps> = ({ type, message }) => {
           <div className="max-w-2xl p-4 rounded-lg bg-brand-blue text-accent-foreground ml-12 whitespace-pre-wrap">
             {message}
           </div>
-          <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center flex-shrink-0">
-            <img alt="bruker avatar" className="w-8" src={brukerAvatar} />
+          <div
+            aria-label="bruker avatar"
+            className="w-16 h-16 bg-card rounded-full flex items-center justify-center flex-shrink-0"
+            role="img"
+          >
+            <UserRound aria-hidden="true" className="w-7 h-7" />
           </div>
         </>
       ) : (
         <>
-          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center flex-shrink-0 p-3">
+          <div className="w-16 h-16 bg-card rounded-full flex items-center justify-center flex-shrink-0 p-3">
             <img
               alt="Trondheim Kommune avatar"
               className="w-full h-full object-contain"
@@ -37,7 +41,7 @@ export const DssChatBox: FC<ChatBoxProps> = ({ type, message }) => {
               components={{
                 a: ({ href, children }) => (
                   <a
-                    className="text-blue-600 underline hover:text-blue-800"
+                    className="text-brand-blue underline hover:text-brand-cyan transition-colors"
                     href={href}
                     rel="noopener noreferrer"
                     target="_blank"

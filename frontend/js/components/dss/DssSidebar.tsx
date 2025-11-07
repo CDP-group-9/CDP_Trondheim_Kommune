@@ -69,7 +69,7 @@ export function DssSidebar() {
   } = useAppState();
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar className="z-50" collapsible="icon">
       <SidebarHeader>
         <SidebarGroupLabel
           className="mt-3"
@@ -87,7 +87,7 @@ export function DssSidebar() {
 
       <SidebarTrigger className="ml-2 mr-2 mt-2 mb-1 hover:bg-muted transition" />
 
-      <SidebarContent className="flex flex-col">
+      <SidebarContent className="flex flex-col mt-6">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -174,16 +174,16 @@ export function DssSidebar() {
           </SidebarGroup>
         )}
 
-        <SidebarFooter className="mt-auto border-t border-sidebar-border p-3">
+        <SidebarFooter className="mt-auto border-t border-sidebar-border p-3 pb-6">
           <div className="flex flex-col gap-2 text-sidebar-foreground/80 text-sm">
             <div className="flex items-center gap-2">
               <Mail aria-hidden="true" className="size-4" />
               <a
-                aria-label="Send e-post til dasq@trondheim.kommune.no"
+                aria-label="Send e-post til asq@trondheim.kommune.no"
                 className="hover:underline"
                 href="mailto:asq@trondheim.kommune.no"
               >
-                dasq@trondheim.kommune.no
+                asq@trondheim.kommune.no
               </a>
             </div>
             <div className="flex items-center gap-2">
