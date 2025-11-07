@@ -20,9 +20,9 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
       aria-labelledby={headingId}
       className="bg-card border border-primary/20 rounded-lg p-6 max-w-4xl mx-auto"
     >
-      <h3 className="mb-1 flex items-center gap-2" id={headingId}>
+      <h2 className="mb-1 flex items-center gap-2" id={headingId}>
         Hva skal du gjøre med personopplysninger?
-      </h3>
+      </h2>
       <p className="text-muted-foreground mb-4" id={descriptionId}>
         Velg ett alternativ for å få relevante spørsmål
       </p>

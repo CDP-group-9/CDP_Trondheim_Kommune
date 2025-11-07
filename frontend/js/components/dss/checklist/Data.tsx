@@ -115,7 +115,7 @@ export const Data = ({ selectedOption, handlingData, onChange }: Props) => {
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
-      <h3 className="mb-1 flex items-center gap-2">Datahåndtering</h3>
+      <h2 className="mb-1 flex items-center gap-2">Datahåndtering</h2>
       <p className="text-muted-foreground mb-4">
         Informasjon om data du skal motta eller levere
       </p>

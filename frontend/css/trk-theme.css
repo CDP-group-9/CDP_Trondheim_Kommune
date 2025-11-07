@@ -126,11 +126,11 @@
   .tk-readable { max-width: 72ch; }
 
   /* Headings scale — responsive as per handbook */
-  h1 { font-weight: 700; line-height: 1.25; font-size: 2rem; }
+  h1 { font-weight: 500; line-height: 1.25; font-size: 2rem; }
   @media (min-width: 700px) { h1 { font-size: 2.5rem; line-height: 1.125; } }
   @media (min-width: 900px) { h1 { font-size: 3rem;   line-height: 1.05;  } }
 
-  h2 { font-weight: 600; line-height: 1.154; font-size: 1.625rem; }
+  h2 { font-weight: 400; line-height: 1.154; font-size: 1.625rem; }
   @media (min-width: 700px) { h2 { font-size: 2rem;   line-height: 1.25;  } }
   @media (min-width: 900px) { h2 { font-size: 2.25rem; line-height: 1.25;  } }
 

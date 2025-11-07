@@ -52,7 +52,7 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
-      <h3 className="mb-1 flex items-center gap-2">Involverte Parter</h3>
+      <h2 className="mb-1 flex items-center gap-2">Involverte Parter</h2>
 
       <p className="text-base text-muted-foreground mb-4">
         Kryss av de gruppene som er involvert i datasettet som behandles
@@ -65,9 +65,9 @@ export const InvolvedParties = ({ involvedPartiesData, onChange }: Props) => {
           className="buttonGroup space-y-2"
           role="group"
         >
-          <label id={registeredGroupId} role="presentation">
+          <p className="font-medium" id={registeredGroupId}>
             Hvem er de registrerte?
-          </label>
+          </p>
           <div className="flex flex-col space-y-2">
             {groupOptions.map((label) => (
               <label

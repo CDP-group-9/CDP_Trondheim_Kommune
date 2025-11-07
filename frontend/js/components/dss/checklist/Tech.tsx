@@ -55,7 +55,7 @@ export const Tech = ({ techData, onChange }: Props) => {
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
-      <h3 className="mb-1 flex items-center gap-2">Teknisk Løsning</h3>
+      <h2 className="mb-1 flex items-center gap-2">Teknisk Løsning</h2>
       <p className="text-base text-muted-foreground mb-4 tk-readable">
         Velg hvor data behandles, hvilke sikkerhetstiltak som brukes, og
         integrasjoner eller automatiserte beslutninger.

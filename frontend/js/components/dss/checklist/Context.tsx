@@ -35,9 +35,9 @@ export const Context = ({ contextData, onChange }: Props) => {
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto text-md">
-      <h3 className="mb-1 flex items-center gap-2">
+      <h2 className="mb-1 flex items-center gap-2">
         Prosjekt/Initiativ Kontekst
-      </h3>
+      </h2>
 
       <p className="text-base text-muted-foreground mb-4">
         Grunnleggende informasjon om ditt prosjekt
