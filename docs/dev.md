@@ -260,27 +260,18 @@ Pre-processing and embedding the laws only needs to be done by one computer. The
 
 1. Update the list of laws in [law_extractor.py](../backend/common/utils/law_extractor.py) if you want new laws to be added.
 
-2. Run this command in the terminal to insert the laws into the database: `docker compose run --rm backend python common/utils/db_client.py`.
+2. Run [make docker_insert_laws](../Makefile)
 
-3. Run this command in the terminal to export the processed laws in docker `docker compose exec db pg_dump -U CDP_Trondheim_Kommune -d CDP_Trondheim_Kommune -F p -f /tmp/db_embeddings.sql`.
-
-4. Run this command in the terminal in order to get the file locally so it can be shared easily `docker compose cp db:/tmp/db_embeddings.sql backend/common/db_init/db_embeddings.sql`.
-
-5. Commit and push the change in [db_embeddings.sql](../backend/common/db_init/db_embeddings.sql) to git.
+3. Commit and push the change in [db_embeddings.sql](../backend/common/db_init/db_embeddings.sql) to git.
 
 
 ### Import the pre-processed laws (all other computers):
 
 1. Pull the changes done in the step 5 above.
 
-2. Run the following commands to prepare your docker volumes:
-    - `docker compose stop db`
-    - `docker compose rm -f db`
-    - `docker volume rm CDP_Trondheim_Kommune_dbdata`
-    - `docker volume create CDP_Trondheim_Kommune_dbdata`
-    - `docker compose up -d`
+2. Run [make docker_update_law_database](../Makefile)
 
-3. Run the project again `docker compose up -d` to initialize the volume with the imported data.
+3. Now the DB should be updated
 ## Testing
 
 ### Frontend:
