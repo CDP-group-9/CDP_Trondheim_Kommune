@@ -51,10 +51,10 @@ export function DssExternalVsInternal({
         </AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => handleSelect(true)}>
-            Jobber i Trondheim kommune
+            Jeg jobber i Trondheim kommune
           </AlertDialogCancel>
           <AlertDialogAction onClick={() => handleSelect(false)}>
-            Jobber IKKE i Trondheim kommune
+            Jeg jobber IKKE i Trondheim kommune
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

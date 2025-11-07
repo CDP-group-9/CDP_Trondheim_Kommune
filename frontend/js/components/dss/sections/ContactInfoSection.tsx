@@ -1,6 +1,5 @@
-import { ExternalLink } from "lucide-react";
-
-import { Button } from "components/ui/button";
+import { SquareArrowOutUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const ContactInfoSection = () => (
   <section className="bg-primary/5 border border-primary/20 rounded-lg p-6">
@@ -8,7 +7,7 @@ export const ContactInfoSection = () => (
       <span aria-label="Phone" role="img">
         📞
       </span>{" "}
-      Trenger du mer hjelp?
+      Har du andre spørsmål?
     </h2>
     <div className="space-y-3">
       <p className="tk-readable">
@@ -20,19 +19,40 @@ export const ContactInfoSection = () => (
         <p>
           <strong>Personvernombud Trondheim Kommune</strong>
         </p>
-        <p>E-post: personvernombud@trondheim.kommune.no</p>
-        <p>Telefon: 73 83 00 00</p>
-        <div className="flex items-center">
-          <p>Lov om personvern</p>
+        <div className="flex items-center gap-1">
+          <p>E-post: </p>
           <a
-            href="https://lovdata.no/dokument/NL/lov/2018-06-15-38"
+            aria-label="Send e-post til personvernombud@trondheim.kommune.no"
+            className="text-base font-medium text-primary hover:underline inline-flex items-center gap-1 whitespace-nowrap"
+            href="mailto:personvernombud@trondheim.kommune.no"
+          >
+            personvernombud@trondheim.kommune.no
+          </a>
+        </div>
+        <div className="flex items-center gap-1">
+          <p>Telefon:</p>
+          <a
+            aria-label="Ring 73 83 00 00"
+            className="text-base font-medium text-primary hover:underline inline-flex items-center gap-1 whitespace-nowrap"
+            href="tel:+4773830000"
+          >
+            73 83 00 00
+          </a>
+        </div>
+        <div className="flex items-center">
+          <Link
+            aria-label="Les mer om personvernlovigning på Lovdata sine nettsider, åpner i ny fane"
+            className="text-base font-medium text-primary hover:underline inline-flex items-center gap-1 whitespace-nowrap"
             rel="noopener noreferrer"
             target="_blank"
+            to="https://lovdata.no/dokument/NL/lov/2018-06-15-38"
           >
-            <Button className="h-auto p-1" size="sm" variant="ghost">
-              <ExternalLink size={14} />
-            </Button>
-          </a>
+            Lov om personvern{" "}
+            <SquareArrowOutUpRight
+              aria-hidden="true"
+              className="mt-0.5 size-3.5"
+            />
+          </Link>
         </div>
       </div>
       <p className="text-sm text-muted-foreground">
