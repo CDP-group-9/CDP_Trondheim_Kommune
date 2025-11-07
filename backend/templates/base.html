@@ -30,6 +30,12 @@
   {% else %}
     {% render_bundle 'main' 'css' %}
   {% endif %}
+  {% get_files 'main' 'js' as main_js_files %}
+  {% if main_js_files %}
+    {% for js in main_js_files %}
+      <link rel="preload" href="{{ js.url }}" as="script">
+    {% endfor %}
+  {% endif %}
 </head>
 
 <body>
@@ -39,10 +45,16 @@
   {% block body %}{% endblock %}
 
   <!-- django-js-reverse -->
-  <script src="{% url 'js_reverse' %}" type="text/javascript"></script>
+  <script src="{% url 'js_reverse' %}" type="text/javascript" defer></script>
 
   <!-- Webpack rendered Javascript -->
-  {% render_bundle 'main' 'js' 'DEFAULT' %}
+  {% if main_js_files %}
+    {% for js in main_js_files %}
+      <script src="{{ js.url }}" defer></script>
+    {% endfor %}
+  {% else %}
+    {% render_bundle 'main' 'js' 'DEFAULT' %}
+  {% endif %}
   {% block scripts %}{% endblock %}
 </body>
 </html>
