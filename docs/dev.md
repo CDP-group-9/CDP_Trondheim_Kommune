@@ -258,7 +258,7 @@ Pre-processing and embedding the laws only needs to be done by one computer. The
 
 ### Pre-processing of laws (one computer):
 
-1. Add the law you want to insert into [law_extractor.py](../backend/common/utils/law_extractor.py). Use whats written in Dato field (e.g. LOV-1989-06-02-27 for alkoholloven).
+1. Add the law you want to insert into [law_extractor.py](../backend/common/utils/law_extractor.py). Use whats written in Dato field (e.g. LOV-1989-06-02-27 for [alkoholloven](https://lovdata.no/dokument/NL/lov/1989-06-02-27)).
 
 2. Run [make docker_insert_laws](../Makefile)
 
