@@ -63,8 +63,17 @@ docker_backend_update_schema:
 docker_frontend_update_api:
 	docker compose run --rm frontend npm run openapi-ts
 
-docker_insert_laws:
-	docker compose run --rm backend python common/utils/db_client.py
-
 docker_open_pg_shell:
 	docker compose exec db psql -U CDP_Trondheim_Kommune -d CDP_Trondheim_Kommune
+
+docker_insert_laws:
+	docker compose run --rm backend python common/utils/db_client.py
+	docker compose exec db pg_dump -U CDP_Trondheim_Kommune -d CDP_Trondheim_Kommune -F p -f /tmp/db_embeddings.sql
+	docker compose cp db:/tmp/db_embeddings.sql backend/common/db_init/db_embeddings.sql
+
+docker_update_law_database:
+	docker compose stop db
+	docker compose rm -f db
+	docker volume rm CDP_Trondheim_Kommune_dbdata
+	docker volume create CDP_Trondheim_Kommune_dbdata
+	docker compose up -d
