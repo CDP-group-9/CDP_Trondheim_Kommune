@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 import { useAppState } from "../contexts/AppStateContext";
-import { ChecklistService, ChecklistServiceError } from "../services";
 import type {
   ChecklistOption,
   ChecklistPayload,
@@ -13,8 +12,6 @@ import type {
   RiskConcernData,
   TechData,
 } from "../types/Checklist";
-
-import { useCookie } from "./useCookie";
 
 // Re-export all Checklist types for backwards compatibility
 export type {
@@ -45,8 +42,9 @@ export type UseChecklistReturn = {
   setRiskConcernData: Dispatch<SetStateAction<RiskConcernData>>;
   createPayload: () => ChecklistPayload;
   downloadAsTextFile: () => void;
-  sendToBackend: () => Promise<void>;
+  redirectToChat: () => Promise<string>;
   resetChecklist: () => void;
+  createNewChecklist: () => void;
   isSubmitting: boolean;
   submitError: string | null;
 };
@@ -114,10 +112,7 @@ export const useChecklist = (): UseChecklistReturn => {
     createNewChecklist,
     getCurrentChecklistData,
     createChatFromChecklist,
-    setPendingChecklistContext,
   } = useAppState();
-
-  const csrftoken = useCookie("csrftoken");
 
   const [selectedOption, setSelectedOption] = useState<ChecklistOption>(null);
   const [contextData, setContextData] =
@@ -256,30 +251,25 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
     URL.revokeObjectURL(url);
   };
 
-  const sendToBackend = async () => {
-    const payload = createPayload();
-
+  const redirectToChat = async () => {
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
-      const checklistService = ChecklistService.getInstance();
-      const contextString = await checklistService.convertToString(payload, {
-        csrfToken: csrftoken || undefined,
-      });
+      const payload = createPayload();
+      const title = contextData.projectSummary
+        ? contextData.projectSummary.slice(0, 50) +
+          (contextData.projectSummary.length > 50 ? "..." : "")
+        : "Ny sjekkliste";
 
-      await createChatFromChecklist();
+      await saveCurrentChecklist(payload, title);
 
-      setPendingChecklistContext(contextString);
+      const newChatId = await createChatFromChecklist();
 
-      createNewChecklist();
+      return newChatId;
     } catch (error) {
-      if (error instanceof ChecklistServiceError) {
-        setSubmitError(error.message);
-      } else {
-        setSubmitError("An unexpected error occurred");
-      }
-      throw error; // Re-throw so component can handle navigation
+      setSubmitError("An unexpected error occurred");
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -314,8 +304,9 @@ Eksportert fra Trondheim Kommune - Personvern AI-assistent
 
     createPayload,
     downloadAsTextFile,
-    sendToBackend,
+    redirectToChat,
     resetChecklist,
+    createNewChecklist,
 
     isSubmitting,
     submitError,

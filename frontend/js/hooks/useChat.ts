@@ -7,7 +7,13 @@ import { ChatMessage } from "../types/ChatMessage";
 import { useCookie } from "./useCookie";
 
 export function useChat(apiUrl: string) {
-  const { currentChatId, loadChatMessages, saveChatMessages } = useAppState();
+  const {
+    currentChatId,
+    loadChatMessages,
+    saveChatMessages,
+    getChecklistContext,
+  } = useAppState();
+  const [checklistContext, setChecklistContext] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState<string>("");
@@ -74,7 +80,34 @@ export function useChat(apiUrl: string) {
     saveChatMessages(currentChatId, messages);
   }, [currentChatId, messages, saveChatMessages]);
 
-  const sendMessage = async (prompt: string, context?: string) => {
+  // Load checklist context when chat changes
+  useEffect(() => {
+    let cancelled = false;
+    if (!currentChatId) {
+      setChecklistContext(null);
+      return;
+    }
+    // Immediate reset so old context isn't shown
+    setChecklistContext(null);
+
+    (async () => {
+      try {
+        const ctx = await getChecklistContext(currentChatId);
+        if (!cancelled) {
+          setChecklistContext(ctx || null);
+        }
+      } catch {
+        if (!cancelled) setChecklistContext(null);
+      }
+    })();
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      cancelled = true;
+    };
+  }, [currentChatId, getChecklistContext]);
+
+  const sendMessage = async (prompt: string, additionalContext?: string) => {
     if (!prompt.trim() || isSending || !currentChatId) return;
 
     const chatIdForThisRequest = currentChatId;
@@ -115,12 +148,18 @@ export function useChat(apiUrl: string) {
 
     try {
       const chatService = ChatService.getInstance(apiUrl);
+
+      // Combine additional context with persistent checklist context
+      const contexts = [additionalContext, checklistContext].filter(Boolean);
+      const combinedContext =
+        contexts.length > 0 ? contexts.join("\n\n---\n\n") : "";
+
       const response = await chatService.sendMessage(
         {
           prompt,
           history: [],
           // eslint-disable-next-line camelcase
-          context_text: context || "",
+          context_text: combinedContext,
           ...(systemInstructions && {
             // eslint-disable-next-line camelcase
             system_instructions: systemInstructions,
@@ -142,6 +181,7 @@ export function useChat(apiUrl: string) {
         type: "bot",
         message: response,
       };
+
       setMessages((prev) => {
         const updated = [...prev, botMessage];
         if (currentChatId === chatIdForThisRequest) {
