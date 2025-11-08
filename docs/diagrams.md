@@ -90,7 +90,7 @@ classDiagram
         +mockEndpoint : POST /api/mock/fetch-by-keyword/
     }
     class ChatViewSet {
-        +chat_api_view(prompt, history)
+        +chat_api_view(prompt, history, context, system_instructions)
     }
     class ChecklistViewSet {
         +create(result)
@@ -100,7 +100,7 @@ classDiagram
         +fetch_by_keyword(input)
     }
     class GeminiAPIClient {
-        +send_question_with_laws(prompt, history, context)
+        +send_question_with_laws(prompt, history, context, system_instructions)
         +async_send_chat_message(...)
     }
     class LawRetriever {
@@ -184,7 +184,9 @@ classDiagram
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Landing
+    [*] --> UserTypeSelect : Must choose user type
+    UserTypeSelect : Selects "Internal (Trondheim kommune)" or "External"
+    UserTypeSelect --> Landing : User type stored for chat context
     Landing : User arrives on portal dashboard
     Landing --> Learning : Chooses "Om personvern"
     Learning --> Landing : Returns to dashboard
@@ -220,9 +222,9 @@ sequenceDiagram
     participant Gemini as Google Gemini API
 
     U->>UI: Type question & submit
-    UI->>API: POST /api/chat {prompt, history}
+    UI->>API: POST /api/chat {prompt, history, context, systemInstructions}
     API->>Chat: Validate payload
-    Chat->>GeminiSvc: send_question_with_laws(prompt, history)
+    Chat->>GeminiSvc: send_question_with_laws(prompt, history, context, systemInstructions)
     GeminiSvc->>Retriever: retrieve(prompt)
     Retriever->>Embed: Generate embedding(prompt)
     Embed-->>Retriever: Prompt embedding vector
@@ -352,4 +354,27 @@ flowchart TB
     ChecklistChoiceSupport -->|Download checklist| ChecklistSupport --> WrapUp
 
     WrapUp -->|Unresolved questions| Support
+```
+
+# Checklist functionality
+```mermaid
+flowchart TD
+    checklistPage["Start: User opens Checklist Page"] --> fillForm["User fills out checklist form"]
+    fillForm --> saveDB["Auto-save answers to IndexedDB"]
+    fillForm --> exportTxt["Optional: Export checklist to .txt file"]
+
+    saveDB --> connectChat["User clicks 'Generer veiledning' button"]
+    connectChat --> storeID["Store latest checklistID in localStorage"]
+    storeID --> initMsg["Send initial message: 'Kan du hjelpe meg med personvernvurdering basert på denne informasjonen?'"]
+    initMsg --> attachCtx["Attach checklist context from IndexedDB to chat session"]
+
+    attachCtx --> fetchData["Chat prompts fetch checklist data from IndexedDB"]
+    fetchData --> transformCtx["Backend transforms checklist data to context format"]
+    transformCtx --> chatResp["AI chat responds with context-based output"]
+
+    pageRefresh["Page refresh or revisit"] --> getID["Retrieve latest checklistID from localStorage"]
+    getID --> restoreSession["Restore checklist and chat session from IndexedDB"]
+
+    saveDB --> pageRefresh
+    attachCtx --> restoreSession
 ```
