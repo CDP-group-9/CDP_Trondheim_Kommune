@@ -149,15 +149,15 @@ export function useChat(apiUrl: string) {
     try {
       const chatService = ChatService.getInstance(apiUrl);
 
-      const maxHistory = 8;
-      const historyPayload = newMessages
-        .slice(-maxHistory)
-        .map(({ type, message }) => ({ type, message }));
-
       // Combine additional context with persistent checklist context
       const contexts = [additionalContext, checklistContext].filter(Boolean);
       const combinedContext =
         contexts.length > 0 ? contexts.join("\n\n---\n\n") : "";
+
+      const maxHistory = 8;
+      const historyPayload = newMessages
+        .slice(-maxHistory)
+        .map(({ type, message }) => ({ type, message }));
 
       const response = await chatService.sendMessage(
         {
