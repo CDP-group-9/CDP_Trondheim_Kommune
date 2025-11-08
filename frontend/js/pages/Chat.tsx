@@ -134,7 +134,7 @@ const Chat = ({
               </div>
             </div>
 
-            <div className="border-t border-border px-4 py-4 sm:px-6 bg-primary shadow-2xl z-10">
+            <div className="border-t border-border px-4 py-4 sm:px-6 shadow-2xl z-10">
               {errorMsg && (
                 <div
                   aria-live="polite"

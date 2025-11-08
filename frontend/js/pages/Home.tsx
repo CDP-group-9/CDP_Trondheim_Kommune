@@ -158,10 +158,10 @@ const Home = () => {
       )}
 
       <div className="mx-auto w-full max-w-3xl mt-6">
-        <InputGroup className="rounded-4xl p-2 shadow-sm transition-all focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-blue/30">
+        <InputGroup className="rounded-4xl p-2 gap-2 shadow-sm transition-all focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-blue/30">
           <InputGroupTextarea
             autoFocus
-            className="min-h-8 flex-1 rounded-4xl border-none bg-transparent outline-transparent focus:outline-none"
+            className="min-h-8 flex-1 rounded-4xl border-1 bg-transparent outline-transparent focus:outline-none"
             id="user-input"
             placeholder="Spør om GDPR, DPIA eller personvernspørsmål..."
             rows={
