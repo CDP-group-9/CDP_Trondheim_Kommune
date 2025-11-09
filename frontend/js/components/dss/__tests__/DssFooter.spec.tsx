@@ -2,6 +2,10 @@ import { render, screen } from "@testing-library/react";
 
 import { DssFooter } from "../DssFooter";
 
+jest.mock("../../ui/sidebar", () => ({
+  useSidebar: () => ({ state: "expanded", isMobile: false }),
+}));
+
 describe("DssFooter", () => {
   test("renders footer with disclaimer text", () => {
     const { container } = render(<DssFooter />);

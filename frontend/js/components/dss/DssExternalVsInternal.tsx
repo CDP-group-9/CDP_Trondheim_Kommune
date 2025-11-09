@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import {
   AlertDialog,
@@ -22,6 +22,8 @@ export function DssExternalVsInternal({
   onSelect?: (isInternal: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const titleId = useId();
+  const descriptionId = useId();
 
   useEffect(() => {
     if (autoOpen) setOpen(true);
@@ -40,21 +42,31 @@ export function DssExternalVsInternal({
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      {!autoOpen && <AlertDialogTrigger>Open</AlertDialogTrigger>}
-      <AlertDialogContent>
+      {!autoOpen && (
+        <AlertDialogTrigger aria-label="Velg om du jobber i Trondheim kommune">
+          Velg internstatus
+        </AlertDialogTrigger>
+      )}
+      <AlertDialogContent
+        aria-describedby={descriptionId}
+        aria-labelledby={titleId}
+        role="alertdialog"
+      >
         <AlertDialogHeader>
-          <AlertDialogTitle>Jobber du i Trondheim kommune?</AlertDialogTitle>
+          <AlertDialogTitle id={titleId}>
+            Jobber du i Trondheim kommune?
+          </AlertDialogTitle>
         </AlertDialogHeader>
-        <AlertDialogDescription>
-          For å kunne gi best mulig anbefaling må verktøyet vite om du jobber i
-          Trondheim kommune eller ikke.
+        <AlertDialogDescription className="text-base" id={descriptionId}>
+          For å kunne gi best mulig anbefaling må verktøyet vite om du er ansatt
+          i Trondheim kommune eller ikke.
         </AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => handleSelect(true)}>
-            Jobber i Trondheim kommune
+            Ansatt i Trondheim kommune
           </AlertDialogCancel>
           <AlertDialogAction onClick={() => handleSelect(false)}>
-            Jobber IKKE i Trondheim kommune
+            Ikke ansatt i Trondheim kommune
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

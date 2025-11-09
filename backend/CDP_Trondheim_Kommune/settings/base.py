@@ -1,3 +1,4 @@
+import mimetypes
 import os
 
 from decouple import config
@@ -134,6 +135,8 @@ USE_I18N = True
 USE_TZ = True
 
 STATICFILES_DIRS = (base_dir_join("../frontend", "webpack_bundles"),)
+
+mimetypes.add_type("application/manifest+json", ".webmanifest", strict=False)
 
 # Webpack
 WEBPACK_LOADER = {

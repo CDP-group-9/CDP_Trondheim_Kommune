@@ -1,0 +1,17 @@
+{
+  "name": "ASQ – Personvernveileder",
+  "short_name": "ASQ",
+  "lang": "nb",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "e5eef6",
+  "theme_color": "#0b4fad",
+  "icons": [
+    {
+      "src": "/static/common/trondheim_kommune_favicon.png",
+      "sizes": "26x32",
+      "type": "image/png"
+    }
+  ]
+}

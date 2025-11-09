@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react";
 import { parse } from "cookie";
-import { useLayoutEffect, useRef } from "react";
+import { Suspense, useLayoutEffect, useRef } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { OpenAPI } from "api";
@@ -80,13 +80,21 @@ const App = () => {
             <DssSidebar />
             <DssHeader ref={headerRef} />
             <SidebarInset className="scroll-smooth">
-              <DssMain className="flex justify-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] min-w-200 overflow-x-hidden p-4 pb-[calc(var(--footer-height)+0.1rem)] mx-auto overflow-hidden">
-                <Routes>
-                  <Route element={<Home />} path="/" />
-                  <Route element={<Privacy />} path="/personvern" />
-                  <Route element={<Checklist />} path="/sjekkliste" />
-                  <Route element={<Examples />} path="/eksempel" />
-                </Routes>
+              <DssMain className="flex justify-center min-h-[calc(100vh-var(--header-height)-var(--footer-height))] min-w-200 overflow-x-hidden p-4 pb-[calc(var(--footer-height)+0.1rem)] mx-auto overflow-hidden bg-secondary-background pt-[var(--header-height)]">
+                <Suspense
+                  fallback={
+                    <div className="flex w-full justify-center py-10 text-secondary-text">
+                      Laster inn innhold ...
+                    </div>
+                  }
+                >
+                  <Routes>
+                    <Route element={<Home />} path="/" />
+                    <Route element={<Privacy />} path="/personvern" />
+                    <Route element={<Checklist />} path="/sjekkliste" />
+                    <Route element={<Examples />} path="/eksempel" />
+                  </Routes>
+                </Suspense>
               </DssMain>
             </SidebarInset>
             <DssFooter ref={footerRef} className="" />
