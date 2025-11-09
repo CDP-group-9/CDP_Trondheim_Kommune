@@ -414,7 +414,7 @@ class GeminiAPIClient:
             updated_history = chat_session.get_history()
             full_response = response.text
 
-            if law_links:
+            if law_links and "Relevante Lovdata-lenker" not in full_response:
                 md_links = []
                 for link in law_links:
                     if ": " in link:

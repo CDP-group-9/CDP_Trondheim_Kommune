@@ -154,10 +154,15 @@ export function useChat(apiUrl: string) {
       const combinedContext =
         contexts.length > 0 ? contexts.join("\n\n---\n\n") : "";
 
+      const maxHistory = 8;
+      const historyPayload = newMessages
+        .slice(-maxHistory)
+        .map(({ type, message }) => ({ type, message }));
+
       const response = await chatService.sendMessage(
         {
           prompt,
-          history: [],
+          history: historyPayload,
           // eslint-disable-next-line camelcase
           context_text: combinedContext,
           ...(systemInstructions && {
