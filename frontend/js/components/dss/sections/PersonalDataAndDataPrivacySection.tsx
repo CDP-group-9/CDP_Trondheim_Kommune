@@ -16,11 +16,11 @@ export const PersonalDataAndDataPrivacySection = () => (
           Formelt er dette definert i{" "}
           <a
             className="underline text-primary"
-            href="https://lovdata.no/dokument/NL/lov/2018-06-15-38#%C2%A74"
+            href="https://lovdata.no/lov/2018-06-15-38/gdpr/a4"
             rel="noopener noreferrer"
             target="_blank"
           >
-            personopplysningsloven § 4
+            personopplysningsloven kapittel 1 artikkel 4 - definisjoner
           </a>
           .
         </p>
@@ -36,16 +36,17 @@ export const PersonalDataAndDataPrivacySection = () => (
         </p>
         <p className="text-sm">
           Loven skal sikre at personopplysninger behandles i tråd med
-          grunnleggende prinsipper om verdighet, frihet og privatliv, slik det
-          også fremgår av{" "}
+          grunnleggende prinsipper om verdighet, frihet og privatliv. Mer
+          informasjon om personvern finner du hos{" "}
           <a
             className="underline text-primary"
-            href="https://lovdata.no/dokument/NL/lov/2018-06-15-38#%C2%A71"
+            href="https://www.datatilsynet.no/rettigheter-og-plikter/hva-er-personvern/"
             rel="noopener noreferrer"
             target="_blank"
           >
-            personopplysningsloven § 1
-          </a>{" "}
+            Datatilsynet
+          </a>
+          {", "}
           og mindre formelt i{" "}
           <a
             className="underline text-primary"

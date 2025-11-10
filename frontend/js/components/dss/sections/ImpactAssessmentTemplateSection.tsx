@@ -60,7 +60,7 @@ export const ImpactAssessmentTemplateSection = () => (
 
       <p className="text-sm mt-4">
         Her finner du et dokument og mal med utfylende informasjon fra
-        helsediraktoratet:{" "}
+        Helsedirektoratet:{" "}
         <a
           className="underline text-primary"
           href="https://www.helsedirektoratet.no/veiledere/personvernkonsekvensvurdering-dpia-mal/last-ned-mal-og-veiledning/_/attachment/inline/b5db3eff-5318-44e1-b790-5a83dbd4b0c9:1dbbab78b2b7347f35b167d80256fd839d692a9a/Veileder%20for%20utfylling%20av%20mal%20for%20personvernkonsekvensvurdering.pdf"

@@ -1,5 +1,4 @@
 import { SquareArrowOutUpRight } from "lucide-react";
-import { Link } from "react-router-dom";
 
 export const ContactInfoSection = () => (
   <section className="bg-primary/5 border border-primary/20 rounded-lg p-6">
@@ -32,27 +31,27 @@ export const ContactInfoSection = () => (
         <div className="flex items-center gap-1">
           <p>Telefon:</p>
           <a
-            aria-label="Ring 73 83 00 00"
+            aria-label="Ring 72 54 00 00"
             className="text-base font-medium text-primary hover:underline inline-flex items-center gap-1 whitespace-nowrap"
-            href="tel:+4773830000"
+            href="tel:+4772540000"
           >
-            73 83 00 00
+            72 54 00 00
           </a>
         </div>
         <div className="flex items-center">
-          <Link
+          <a
             aria-label="Les mer om personvernlovigning på Lovdata sine nettsider, åpner i ny fane"
             className="text-base font-medium text-primary hover:underline inline-flex items-center gap-1 whitespace-nowrap"
+            href="https://lovdata.no/dokument/NL/lov/2018-06-15-38"
             rel="noopener noreferrer"
             target="_blank"
-            to="https://lovdata.no/dokument/NL/lov/2018-06-15-38"
           >
             Lov om personvern{" "}
             <SquareArrowOutUpRight
               aria-hidden="true"
               className="mt-0.5 size-3.5"
             />
-          </Link>
+          </a>
         </div>
       </div>
       <p className="text-sm text-muted-foreground">
