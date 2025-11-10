@@ -93,10 +93,8 @@ describe("ReceiveOrShareData", () => {
     const onSelect = jest.fn();
     renderComponent(onSelect, null);
 
-    const receiveButton = screen
-      .getByText("Motta/samle inn data")
-      .closest("button");
-    fireEvent.click(receiveButton!);
+    const receiveInput = screen.getByLabelText(/Motta\/samle inn data/i);
+    fireEvent.click(receiveInput);
 
     expect(onSelect).toHaveBeenCalledWith("motta");
   });
@@ -105,22 +103,17 @@ describe("ReceiveOrShareData", () => {
     const onSelect = jest.fn();
     renderComponent(onSelect, null);
 
-    const shareButton = screen
-      .getByText("Dele/utlevere data")
-      .closest("button");
-    fireEvent.click(shareButton!);
+    const shareInput = screen.getByLabelText(/Dele\/utlevere data/i);
+    fireEvent.click(shareInput);
 
     expect(onSelect).toHaveBeenCalledWith("dele");
   });
 
-  test("calls onSelect with null when already selected option is clicked again", () => {
+  test("calls onSelect with null when Nullstill is clicked", () => {
     const onSelect = jest.fn();
     renderComponent(onSelect, "motta");
 
-    const receiveButton = screen
-      .getByText("Motta/samle inn data")
-      .closest("button");
-    fireEvent.click(receiveButton!);
+    fireEvent.click(screen.getByRole("button", { name: /Nullstill valg/i }));
 
     expect(onSelect).toHaveBeenCalledWith(null);
   });
@@ -128,22 +121,12 @@ describe("ReceiveOrShareData", () => {
   test("applies correct styling to selected receive option", () => {
     renderComponent(undefined, "motta");
 
-    const receiveButton = screen
-      .getByText("Motta/samle inn data")
-      .closest("button");
-
-    expect(receiveButton?.className).toContain("border-primary");
-    expect(receiveButton?.className).toContain("bg-white");
+    expect(screen.getByLabelText(/Motta\/samle inn data/i)).toBeChecked();
   });
 
   test("applies correct styling to selected share option", () => {
     renderComponent(undefined, "dele");
 
-    const shareButton = screen
-      .getByText("Dele/utlevere data")
-      .closest("button");
-
-    expect(shareButton?.className).toContain("border-primary");
-    expect(shareButton?.className).toContain("bg-white");
+    expect(screen.getByLabelText(/Dele\/utlevere data/i)).toBeChecked();
   });
 });

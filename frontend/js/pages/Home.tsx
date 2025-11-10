@@ -36,8 +36,7 @@ const Home = () => {
     }
   }, [isInternal]);
 
-  const { currentChatId, createNewChat, consumePendingChecklistContext } =
-    useAppState();
+  const { currentChatId, createNewChat, getChecklistContext } = useAppState();
   const {
     messages,
     errorMsg,
@@ -58,19 +57,35 @@ const Home = () => {
   }, [currentChatId, createNewChat]);
 
   useEffect(() => {
-    if (hasHandledChecklistContext.current) return;
-    if (!currentChatId || !isReady) return;
+    const handleChecklistContext = async () => {
+      if (hasHandledChecklistContext.current) return;
+      if (!currentChatId || !isReady) return;
 
-    const checklistContext = consumePendingChecklistContext();
-
-    if (checklistContext) {
-      sendMessage(
-        "Kan du hjelpe meg med personvernvurdering basert på denne informasjonen?",
-        checklistContext,
+      const shouldSendMessage = localStorage.getItem(
+        "shouldSendChecklistMessage",
       );
+      if (!shouldSendMessage) return;
+
+      // Set flag immediately to prevent double triggers
       hasHandledChecklistContext.current = true;
-    }
-  }, [currentChatId, isReady, sendMessage, consumePendingChecklistContext]);
+      localStorage.removeItem("shouldSendChecklistMessage");
+
+      try {
+        // Fetch context once and pass it to the first send
+        const ctx = await getChecklistContext(currentChatId);
+        await sendMessage(
+          "Kan du hjelpe meg med personvernvurdering basert på denne informasjonen?",
+          ctx || undefined,
+        );
+      } catch (error) {
+        console.error("Failed to send checklist message with context:", error);
+        // eslint-disable-next-line require-atomic-updates
+        hasHandledChecklistContext.current = false; // allow retry
+      }
+    };
+
+    handleChecklistContext();
+  }, [currentChatId, isReady, sendMessage]);
 
   useEffect(() => {
     hasHandledChecklistContext.current = false;
@@ -95,7 +110,7 @@ const Home = () => {
   }
 
   return (
-    <div className="flex min-h-full w-full flex-col tk-readable p-6">
+    <div className="flex min-h-full w-full flex-col tk-readable p-6 pt-[var(--header-height)]">
       <DssChecklistLink />
       {showModal && (
         <DssExternalVsInternal
@@ -143,10 +158,10 @@ const Home = () => {
       )}
 
       <div className="mx-auto w-full max-w-3xl mt-6">
-        <InputGroup className="rounded-4xl p-2 shadow-sm transition-all focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-blue/30">
+        <InputGroup className="rounded-4xl p-2 gap-2 shadow-sm transition-all focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-blue/30">
           <InputGroupTextarea
             autoFocus
-            className="min-h-8 flex-1 rounded-4xl border-none bg-transparent outline-transparent focus:outline-none"
+            className="min-h-8 flex-1 rounded-4xl border-1 bg-transparent outline-transparent focus:outline-none"
             id="user-input"
             placeholder="Spør om GDPR, DPIA eller personvernspørsmål..."
             rows={
@@ -172,7 +187,7 @@ const Home = () => {
           </Button>
         </InputGroup>
       </div>
-      <div className="flex flex-col text-center text-sm text-muted-foreground mx-auto mb-4 space-y-2 max-w-md tk-readable">
+      <div className="flex flex-col mt-4 text-center text-sm text-muted-foreground mx-auto mb-4 space-y-2 max-w-md tk-readable">
         <p className="text-sm">
           Ikke skriv inn sensitive eller identifiserbare personopplysninger.
           Personvernsassistenten kan gi juridisk veiledning, men erstatter ikke

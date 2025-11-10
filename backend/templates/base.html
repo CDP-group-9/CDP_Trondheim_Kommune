@@ -1,18 +1,41 @@
-{% load render_bundle from webpack_loader %}
+{% load static %}
+{% load render_bundle get_files from webpack_loader %}
 
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="nb">
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>{% block title %}{% endblock %}</title>
-  <meta name="description" content="" />
+  <title>{% block title %}ASQ – Personvernveileder{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}ASQ er en personvernveileder som hjelper deg med å navigere i komplekse personvernspørsmål.{% endblock %}" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <link rel="shortcut icon" href="#" />
-
+  <meta name="theme-color" content="#0b4fad">
+  <link rel="icon" type="image/png" href="{% static 'common/trondheim_kommune_favicon.png' %}" />
+  <link rel="apple-touch-icon" href="{% static 'common/trondheim_kommune_favicon.png' %}">
+  <link rel="manifest" href="{% static 'common/manifest.webmanifest' %}">
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+  </noscript>
   <!-- Webpack rendered CSS -->
-  {% render_bundle 'main' 'css' %}
+  {% get_files 'main' 'css' as main_css_files %}
+  {% if main_css_files %}
+    {% for css in main_css_files %}
+      <link rel="preload" href="{{ css.url }}" as="style">
+      <link rel="stylesheet" href="{{ css.url }}">
+    {% endfor %}
+  {% else %}
+    {% render_bundle 'main' 'css' %}
+  {% endif %}
+  {% get_files 'main' 'js' as main_js_files %}
+  {% if main_js_files %}
+    {% for js in main_js_files %}
+      <link rel="preload" href="{{ js.url }}" as="script">
+    {% endfor %}
+  {% endif %}
 </head>
 
 <body>
@@ -22,10 +45,16 @@
   {% block body %}{% endblock %}
 
   <!-- django-js-reverse -->
-  <script src="{% url 'js_reverse' %}" type="text/javascript"></script>
+  <script src="{% url 'js_reverse' %}" type="text/javascript" defer></script>
 
   <!-- Webpack rendered Javascript -->
-  {% render_bundle 'main' 'js' 'DEFAULT' %}
+  {% if main_js_files %}
+    {% for js in main_js_files %}
+      <script src="{{ js.url }}" defer></script>
+    {% endfor %}
+  {% else %}
+    {% render_bundle 'main' 'js' 'DEFAULT' %}
+  {% endif %}
   {% block scripts %}{% endblock %}
 </body>
 </html>

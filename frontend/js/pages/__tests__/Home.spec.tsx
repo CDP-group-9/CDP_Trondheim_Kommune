@@ -1,7 +1,25 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
+import { MemoryRouter } from "react-router-dom";
 
 import Home from "../Home";
+
+const mockCreateNewChat = jest.fn();
+const mockConsumePendingChecklistContext = jest.fn(() => null);
+const mockSwitchToChecklist = jest.fn();
+const mockGetChatChecklistId = jest.fn(() => null);
+
+jest.mock("../../contexts/AppStateContext", () => ({
+  useAppState: () => ({
+    currentChatId: "chat-1",
+    createNewChat: mockCreateNewChat,
+    consumePendingChecklistContext: mockConsumePendingChecklistContext,
+    loadChatMessages: jest.fn(async () => []),
+    saveChatMessages: jest.fn(async () => undefined),
+    switchToChecklist: mockSwitchToChecklist,
+    getChatChecklistId: mockGetChatChecklistId,
+  }),
+}));
 
 jest.mock("components/dss/DssChatBox", () => ({
   DssChatBox: ({
@@ -21,17 +39,60 @@ jest.mock("lucide-react", () => ({
   Send: () => <div>Send Icon</div>,
 }));
 
+jest.mock("components/dss/DssExternalVsInternal", () => ({
+  DssExternalVsInternal: () => null,
+}));
+
+jest.mock("../../components/dss/DssExternalVsInternal", () => ({
+  DssExternalVsInternal: () => null,
+}));
+
 const mockFetch = jest.fn();
 (global as typeof globalThis & { fetch: jest.Mock }).fetch = mockFetch;
 
 describe("Home", () => {
+  const renderHome = async () => {
+    const utils = render(
+      <MemoryRouter
+        future={{
+          // eslint-disable-next-line camelcase
+          v7_startTransition: true,
+          // eslint-disable-next-line camelcase
+          v7_relativeSplatPath: true,
+        }}
+      >
+        <Home />
+      </MemoryRouter>,
+    );
+
+    const modalUser = userEvent.setup();
+    await screen
+      .findByRole(
+        "button",
+        { name: /ikke ansatt i trondheim kommune/i },
+        { timeout: 300 },
+      )
+      // eslint-disable-next-line promise/always-return
+      .then(async (closeButton) => {
+        await modalUser.click(closeButton);
+      })
+      .catch(() => undefined);
+
+    return utils;
+  };
+
   beforeEach(() => {
     mockFetch.mockClear();
+    mockCreateNewChat.mockClear();
+    mockConsumePendingChecklistContext.mockClear();
+    mockSwitchToChecklist.mockClear();
+    mockGetChatChecklistId.mockClear();
     localStorage.clear();
+    localStorage.setItem("hasSeenDssModal", "true");
   });
 
-  test("renders the textarea and submit button with correct initial state", () => {
-    render(<Home />);
+  test("renders the textarea and submit button with correct initial state", async () => {
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -45,7 +106,7 @@ describe("Home", () => {
 
   test("enables submit button when input has text", async () => {
     const user = userEvent.setup();
-    render(<Home />);
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -64,7 +125,7 @@ describe("Home", () => {
     } as Response);
 
     const user = userEvent.setup();
-    render(<Home />);
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -84,7 +145,6 @@ describe("Home", () => {
           method: "POST",
           headers: expect.objectContaining({
             "Content-Type": "application/json",
-            "X-CSRFTOKEN": "",
           }),
           credentials: "include",
           body: JSON.stringify({
@@ -108,7 +168,7 @@ describe("Home", () => {
     } as Response);
 
     const user = userEvent.setup();
-    render(<Home />);
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -122,7 +182,7 @@ describe("Home", () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText("API Error")).toBeInTheDocument();
+      expect(screen.getByText("Failed to send message")).toBeInTheDocument();
     });
   });
 
@@ -130,7 +190,7 @@ describe("Home", () => {
     mockFetch.mockRejectedValueOnce(new Error("Network error"));
 
     const user = userEvent.setup();
-    render(<Home />);
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",
@@ -144,7 +204,7 @@ describe("Home", () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText("No connection to server.")).toBeInTheDocument();
+      expect(screen.getByText("No connection to server")).toBeInTheDocument();
     });
   });
 
@@ -155,7 +215,7 @@ describe("Home", () => {
     } as Response);
 
     const user = userEvent.setup();
-    render(<Home />);
+    await renderHome();
 
     const textarea = screen.getByPlaceholderText(
       "Spør om GDPR, DPIA eller personvernspørsmål...",

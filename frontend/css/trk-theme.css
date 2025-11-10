@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
 :root {
   /* Color palette */
   --brand-yellow: #ffed00;
@@ -11,6 +9,7 @@
   --brand-purple: #a91c8e;
   --brand-pink:   #e6007e;
   --brand-blue:   #005aa7; /* Trondheim Kommune Blue */
+  --brand-blue-gray: #e5eef6;
   --brand-cyan:   #009bdf;
   --brand-green:  #00953b;
   --brand-lime:   #c3d600;
@@ -19,15 +18,15 @@
   --brand-white:  #ffffff;
 
   --background: var(--brand-white);
-  --foreground: #111111;
-  --card: var(--brand-white);
-  --card-foreground: #111111;
+  --foreground: var(--brand-black);
+  --card: var(--brand-blue-gray);
+  --card-foreground: var(--brand-black);
   --popover: var(--brand-white);
-  --popover-foreground: #111111;
+  --popover-foreground: var(--brand-black);
   --primary: var(--brand-blue);
   --primary-foreground: var(--brand-white);
-  --secondary: #f5f7fa; 
-  --secondary-foreground: #1a1a1a;
+  --secondary: var(--brand-blue); 
+  --secondary-foreground: var(--brand-white);
   --muted: #f3f4f6; /* neutral */
   --muted-foreground: #586072; /* subtle text */
   --accent: var(--brand-blue);
@@ -112,7 +111,13 @@
 /* ---------- Base + Typography from handbook ---------- */
 @layer base {
   html { font-size: 100%; } /* 16px */
-  body { @apply bg-background text-foreground antialiased; font-family: var(--font-sans); }
+  body { 
+    @apply bg-background text-foreground 
+    antialiased; 
+    font-family: var(--font-sans);
+    letter-spacing: 0.01em;
+    word-spacing: 0.025em;
+  }
 
   /* Use font-size-adjust for better x-height rendering (per guide) */
   body, h1, h2, h3, h4, h5, h6 { font-size-adjust: 0.5; }
@@ -121,15 +126,15 @@
   .tk-readable { max-width: 72ch; }
 
   /* Headings scale — responsive as per handbook */
-  h1 { font-weight: 700; line-height: 1.25; font-size: 2rem; }
+  h1 { font-weight: 500; line-height: 1.25; font-size: 2rem; }
   @media (min-width: 700px) { h1 { font-size: 2.5rem; line-height: 1.125; } }
   @media (min-width: 900px) { h1 { font-size: 3rem;   line-height: 1.05;  } }
 
-  h2 { font-weight: 700; line-height: 1.154; font-size: 1.625rem; }
+  h2 { font-weight: 400; line-height: 1.154; font-size: 1.625rem; }
   @media (min-width: 700px) { h2 { font-size: 2rem;   line-height: 1.25;  } }
   @media (min-width: 900px) { h2 { font-size: 2.25rem; line-height: 1.25;  } }
 
-  h3 { font-weight: 700; line-height: 1.136; font-size: 1.375rem; }
+  h3 { font-weight: 500; line-height: 1.136; font-size: 1.375rem; }
   @media (min-width: 700px) { h3 { font-size: 1.5rem; line-height: 1.25; } }
   @media (min-width: 900px) { h3 { font-size: 1.75rem; line-height: 1.25; } }
 
@@ -137,6 +142,12 @@
   @media (min-width: 700px) { h4 { line-height: 1.222; } }
 
   p { font-size: 1rem; line-height: 1.5; }
+
+  label { @apply font-medium text-lg block; }
+  span { @apply text-lg font-medium block; }
+
+  label span { @apply text-base font-normal; }
+  switch label { @apply text-base font-normal; }
 
   /* Links must be visually distinct from body text */
   body a { color: var(--brand-blue); text-decoration: underline; text-underline-offset: 2px; }

@@ -3,7 +3,7 @@ from typing import ClassVar
 from django.views import generic
 
 from drf_spectacular.utils import OpenApiExample, extend_schema
-from google.genai.types import Content
+from google.genai.types import Content, Part
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
@@ -243,23 +243,16 @@ def history_to_json(history: list[Content]) -> list[dict]:
 def json_to_history(history_json: list[dict]) -> list[Content]:
     """Converts a list of history dictionaries back into Content objects."""
     # We must explicitly convert the dicts back to the google SDK's Content type
-    try:
-        return [Content(**data) for data in history_json]
-    except (TypeError, ValueError, KeyError):
-        # Fallback: create Content objects with basic structure
-        result = []
-        for data in history_json:
-            try:
-                result.append(Content(**data))
-            except (TypeError, ValueError, KeyError):
-                # Create a minimal Content object
-                result.append(
-                    Content(
-                        role=data.get("role", "user"),
-                        parts=data.get("parts", [data.get("text", "")]),
-                    )
-                )
-        return result
+    if not history_json:
+        return []
+    contents: list[Content] = []
+    for item in history_json:
+        msg_type = item.get("type")
+        msg_text = item.get("message")
+        if msg_type in ("user", "bot") and msg_text:
+            role = "user" if msg_type == "user" else "model"
+            contents.append(Content(role=role, parts=[Part(text=str(msg_text))]))
+    return contents
 
 
 class ChatViewSet(viewsets.ViewSet):

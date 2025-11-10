@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useId } from "react";
 import type { CSSProperties, ReactNode } from "react";
 
 import { useInternalStatus } from "js/hooks/useInternalStatus"; // adjust path if needed
@@ -24,6 +24,7 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
     { className, brand, style, isCollapsed: collapsedOverride, ...props },
     ref,
   ) => {
+    const internalStatusSwitchId = useId();
     const { state, isMobile } = useSidebar();
     const isCollapsed = collapsedOverride ?? state === "collapsed";
 
@@ -52,7 +53,7 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
       <header
         ref={ref}
         className={cn(
-          "sticky top-0 z-50 bg-card border-b border-border shadow-sm flex flex-col gap-0",
+          "bg-popover border-t border-border fixed z-10 top-0 flex-col justify-start shadow-md",
           className,
         )}
         data-collapsed={isCollapsed ? "true" : "false"}
@@ -85,13 +86,17 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
           <div className="flex items-center gap-2">
             <Switch
               checked={!!isInternal}
+              id={internalStatusSwitchId}
               onCheckedChange={handleSwitchChange}
             />
-            <span className="inline-block w-[260px] whitespace-nowrap">
+            <label
+              className="text-sm inline-block w-[260px] whitespace-nowrap cursor-pointer"
+              htmlFor={internalStatusSwitchId}
+            >
               {isInternal
-                ? "Jeg jobber i Trondheim kommune"
-                : "Jeg jobber ikke i Trondheim kommune"}
-            </span>
+                ? "Ansatt i Trondheim kommune"
+                : "Ikke ansatt i Trondheim kommune"}
+            </label>
           </div>
         </div>
       </header>

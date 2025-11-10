@@ -134,30 +134,31 @@ const Chat = ({
               </div>
             </div>
 
-            <div className="border-t border-border px-4 py-4 sm:px-6">
+            <div className="border-t border-border px-4 py-4 sm:px-6 shadow-2xl z-10">
               {errorMsg && (
                 <div
                   aria-live="polite"
-                  className="mb-3 rounded-md bg-red-50 p-3 text-center text-sm text-destructive-foreground"
+                  className="mb-3 rounded-md bg-destructive p-3 text-center text-sm text-destructive-foreground"
                   role="alert"
                 >
                   {errorMsg}
                 </div>
               )}
 
-              <InputGroup className="rounded-4xl p-2 shadow-sm transition-all focus-within:border-brand-primary focus-within:ring-2 focus-within:ring-brand-blue/30">
+              <InputGroup className="rounded-4xl p-2 shadow-sm transition-all gap-2 tk-readable mx-auto">
                 <InputGroupTextarea
                   autoFocus
-                  className="min-h-8 flex-1 rounded-4xl border-none bg-transparent outline-transparent focus:outline-none"
+                  className="min-h-8 flex-1 rounded-4xl border-1 overflow-y-auto max-h-[10rem]"
                   id="user-input"
                   placeholder="Spør om GDPR, DPIA eller personvernspørsmål..."
-                  rows={
+                  rows={Math.min(
                     inputValue.length < 144
                       ? inputValue.length < 72
                         ? 2
                         : 4
-                      : 6
-                  }
+                      : 6,
+                    4,
+                  )}
                   value={inputValue}
                   onChange={(event) => setInputValue(event.target.value)}
                   onKeyDown={(event) => {

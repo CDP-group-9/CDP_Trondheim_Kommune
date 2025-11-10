@@ -1,4 +1,6 @@
-export { default as Home } from "../pages/Home";
-export { default as Privacy } from "../pages/Privacy";
-export { default as Checklist } from "../pages/Checklist";
-export { default as Examples } from "../pages/Examples";
+import { lazy } from "react";
+
+export const Home = lazy(() => import("../pages/Home"));
+export const Privacy = lazy(() => import("../pages/Privacy"));
+export const Checklist = lazy(() => import("../pages/Checklist"));
+export const Examples = lazy(() => import("../pages/Examples"));

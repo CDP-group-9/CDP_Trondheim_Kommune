@@ -42,11 +42,15 @@ jest.mock("../../ui/sidebar", () => ({
   SidebarMenuItem: ({ children }: { children: React.ReactNode }) => (
     <li>{children}</li>
   ),
+  SidebarFooter: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
   SidebarTrigger: ({ className }: { className?: string }) => (
     <button className={className} type="button">
       Toggle
     </button>
   ),
+  useSidebar: () => ({ state: "expanded", isMobile: false }),
 }));
 
 jest.mock("lucide-react", () => ({
@@ -55,12 +59,31 @@ jest.mock("lucide-react", () => ({
   DockIcon: () => <div>DockIcon</div>,
   Info: () => <div>Info</div>,
   Plus: () => <div>Plus</div>,
+  Mail: () => <div>Mail</div>,
+  Phone: () => <div>Phone</div>,
+  MapPin: () => <div>MapPin</div>,
+  SquareArrowOutUpRight: () => <div>SquareArrowOutUpRight</div>,
+  Trash2: () => <div>Trash2</div>,
 }));
 
-jest.mock("../../../assets/images/tk-logo-wide.svg", () => "tk-logo-wide.svg");
+jest.mock("../../../contexts/AppStateContext", () => ({
+  useAppState: () => ({
+    chatSessions: [
+      {
+        id: "chat-1",
+        title: "Tidligere chat",
+      },
+    ],
+    currentChatId: null,
+    createNewChat: jest.fn(),
+    switchToChat: jest.fn(),
+    deleteChat: jest.fn(),
+    restoreCurrentChecklist: jest.fn(),
+  }),
+}));
 
 describe("DssSidebar", () => {
-  test("renders Trondheim Kommune logo", () => {
+  test("renders ASQ brand link", () => {
     render(
       <MemoryRouter
         future={{
@@ -73,8 +96,7 @@ describe("DssSidebar", () => {
         <DssSidebar />
       </MemoryRouter>,
     );
-    const logo = screen.getByAltText("Trondheim Kommunes logo");
-    expect(logo).toHaveAttribute("src", "tk-logo-wide.svg");
+    expect(screen.getByLabelText("Gå til ASQ forsiden")).toBeInTheDocument();
   });
 
   test("renders all menu items", () => {
@@ -114,7 +136,7 @@ describe("DssSidebar", () => {
     expect(screen.getByText("Tidligere samtaler")).toBeInTheDocument();
   });
 
-  test("menu items have correct links", () => {
+  test("menu items render as buttons with correct labels", () => {
     render(
       <MemoryRouter
         future={{
@@ -128,21 +150,12 @@ describe("DssSidebar", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("link", { name: /Ny samtale/i })).toHaveAttribute(
-      "href",
-      "/",
-    );
+    expect(screen.getByRole("button", { name: /Ny samtale/i })).toBeVisible();
     expect(
-      screen.getByRole("link", { name: /Om personvern/i }),
-    ).toHaveAttribute("href", "/personvern");
-    expect(screen.getByRole("link", { name: /Sjekkliste/i })).toHaveAttribute(
-      "href",
-      "/sjekkliste",
-    );
-    expect(screen.getByRole("link", { name: /Eksempler/i })).toHaveAttribute(
-      "href",
-      "/eksempel",
-    );
+      screen.getByRole("button", { name: /Om personvern/i }),
+    ).toBeVisible();
+    expect(screen.getByRole("button", { name: /Sjekkliste/i })).toBeVisible();
+    expect(screen.getByRole("button", { name: /Eksempler/i })).toBeVisible();
   });
 
   test("renders menu item icons", () => {

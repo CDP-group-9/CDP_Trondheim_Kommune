@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { Dispatch, SetStateAction } from "react";
 
 import { Switch } from "js/components/ui/switch";
@@ -11,6 +12,12 @@ type Props = {
 };
 
 export const Legal = ({ legalBasisData, onChange }: Props) => {
+  const baseId = useId();
+  const legalBasisGroupId = `${baseId}-legal-basis`;
+  const sensitiveSwitchId = `${baseId}-sensitive-switch`;
+  const sensitiveGroupId = `${baseId}-sensitive-reasons`;
+  const statutoryTasksId = `${baseId}-statutory-tasks`;
+
   const handleChange = <K extends keyof LegalBasisData>(
     field: K,
     value: LegalBasisData[K],
@@ -52,23 +59,24 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
 
   return (
     <section className="bg-card border border-border rounded-lg p-6 max-w-4xl mx-auto">
-      <h2 className="text-xl font-medium mb-1 flex items-center gap-2">
-        <span aria-label="scale icon" role="img">
-          ⚖️
-        </span>
+      <h2 className="font-medium mb-1 flex items-center gap-2">
         Rettsgrunnlag og Formål
       </h2>
 
-      <p className="text-sm text-muted-foreground mb-4">
+      <p className="text-muted-foreground mb-4">
         Juridisk grunnlag for databehandlingen
       </p>
 
       {/* Legal basis radio buttons */}
-      <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">
+      <div className="space-y-6 p-2">
+        <div
+          aria-labelledby={legalBasisGroupId}
+          className="buttonGroup space-y-2"
+          role="radiogroup"
+        >
+          <span id={legalBasisGroupId} role="presentation">
             Hvilket rettsgrunnlag planlegges brukt?
-          </label>
+          </span>
           {[
             [
               "offentlig_oppgave",
@@ -88,68 +96,81 @@ export const Legal = ({ legalBasisData, onChange }: Props) => {
           ].map(([value, label]) => (
             <label
               key={value}
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer text-base font-normal"
+              htmlFor={`${legalBasisGroupId}-${value}`}
             >
               <input
                 checked={legalBasisData.legalBasis === value}
+                id={`${legalBasisGroupId}-${value}`}
                 name="legalBasis"
                 type="radio"
                 value={value}
                 onChange={(e) => handleChange("legalBasis", e.target.value)}
               />
-              <span>{label}</span>
+              <span className="text-base">{label}</span>
             </label>
           ))}
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label htmlFor={sensitiveSwitchId}>
             Behandles sensitive personopplysninger?
           </label>
           <div className="flex items-center gap-2">
             <Switch
               checked={legalBasisData.handlesSensitiveData}
-              id="sensitive-data-switch"
+              id={sensitiveSwitchId}
               onCheckedChange={(value) =>
                 handleChange("handlesSensitiveData", value)
               }
             />
-            <span>{legalBasisData.handlesSensitiveData ? "Ja" : "Nei"}</span>
+            <span className="text-base">
+              {legalBasisData.handlesSensitiveData ? "Ja" : "Nei"}
+            </span>
           </div>
         </div>
 
         {legalBasisData.handlesSensitiveData && (
-          <div>
-            <label className="block text-sm font-medium mb-2">
+          <div
+            aria-labelledby={sensitiveGroupId}
+            className="buttonGroup space-y-2"
+            role="group"
+          >
+            <span id={sensitiveGroupId} role="presentation">
               Rettsgrunnlag for sensitive opplysninger (GDPR art. 9)
-            </label>
+            </span>
             <div className="flex flex-col space-y-2">
               {sensitiveDataReasons.map(({ value, label }) => (
                 <label
                   key={value}
-                  className="inline-flex items-center space-x-2 cursor-pointer"
+                  className="inline-flex items-center space-x-2 cursor-pointer text-base font-medium"
+                  htmlFor={`${sensitiveGroupId}-${value}`}
                 >
                   <input
                     checked={legalBasisData.selectedSensitiveDataReason.includes(
                       value,
                     )}
                     className="h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary"
+                    id={`${sensitiveGroupId}-${value}`}
                     type="checkbox"
                     onChange={() => toggleSensitive(value)}
                   />
-                  <span>{label}</span>
+                  <span className="text-base">{label}</span>
                 </label>
               ))}
             </div>
           </div>
         )}
 
-        <div>
-          <label className="block text-sm font-medium mb-2">
+        <div className="inputGroup space-y-2">
+          <label htmlFor={statutoryTasksId}>
             Lovpålagte oppgaver eller krav?
           </label>
           <Textarea
+            className="bg-white"
+            id={statutoryTasksId}
             placeholder="Referanser til lover som krever databehandlingen..."
+            value={legalBasisData.statutoryTasks || ""}
             onChange={(e) => handleChange("statutoryTasks", e.target.value)}
           />
         </div>
