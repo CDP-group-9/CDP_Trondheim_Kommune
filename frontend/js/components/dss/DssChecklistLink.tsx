@@ -2,7 +2,8 @@ import { FileText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAppState } from "../../contexts/AppStateContext";
+import { useAppState } from "contexts/AppStateContext";
+
 import { Button } from "../ui/button";
 
 export function DssChecklistLink() {
