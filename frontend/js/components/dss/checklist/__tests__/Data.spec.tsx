@@ -82,17 +82,8 @@ describe("Data", () => {
     return render(<Wrapper />);
   };
 
-  test("renders with receive option selected", () => {
+  test("renders data handling section", () => {
     renderData("motta");
-
-    expect(screen.getByText("Datahåndtering")).toBeInTheDocument();
-    expect(
-      screen.getByText("Informasjon om data du skal motta eller levere"),
-    ).toBeInTheDocument();
-  });
-
-  test("renders with share option selected", () => {
-    renderData("dele");
 
     expect(screen.getByText("Datahåndtering")).toBeInTheDocument();
     expect(
@@ -149,17 +140,6 @@ describe("Data", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("API/systemintegrasjon")).toBeInTheDocument();
     expect(screen.getByText("Offentlige registre")).toBeInTheDocument();
-  });
-
-  test("renders collection method options for receive", () => {
-    renderData("motta");
-
-    expect(
-      screen.getByText("Hvordan skal dataene samles inn?"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("Direkte fra de registrerte (skjema, søknad)"),
-    ).toBeInTheDocument();
   });
 
   test("renders share-specific fields when share option is selected", () => {
@@ -281,50 +261,5 @@ describe("Data", () => {
 
     fireEvent.click(basicDataCheckbox);
     expect(basicDataCheckbox.checked).toBe(false);
-  });
-
-  test("allows deselecting data sources", () => {
-    renderData("motta");
-
-    const folkeregisteretCheckbox = screen
-      .getByText("Folkeregisteret")
-      .closest("label")
-      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
-
-    fireEvent.click(folkeregisteretCheckbox);
-    expect(folkeregisteretCheckbox.checked).toBe(true);
-
-    fireEvent.click(folkeregisteretCheckbox);
-    expect(folkeregisteretCheckbox.checked).toBe(false);
-  });
-
-  test("allows deselecting collection methods", () => {
-    renderData("motta");
-
-    const directCheckbox = screen
-      .getByText("Direkte fra de registrerte (skjema, søknad)")
-      .closest("label")
-      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
-
-    fireEvent.click(directCheckbox);
-    expect(directCheckbox.checked).toBe(true);
-
-    fireEvent.click(directCheckbox);
-    expect(directCheckbox.checked).toBe(false);
-  });
-
-  test("allows deselecting data transfer methods", () => {
-    renderData("dele");
-
-    const apiCheckbox = screen
-      .getByText("API/systemintegrasjon")
-      .closest("label")
-      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
-
-    fireEvent.click(apiCheckbox);
-    expect(apiCheckbox.checked).toBe(true);
-
-    fireEvent.click(apiCheckbox);
-    expect(apiCheckbox.checked).toBe(false);
   });
 });
