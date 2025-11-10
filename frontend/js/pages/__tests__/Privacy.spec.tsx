@@ -2,29 +2,30 @@ import { render, screen } from "@testing-library/react";
 
 import Privacy from "../Privacy";
 
-jest.mock("components/dss/sections", () => ({
-  PersonalDataSection: () => (
-    <div data-testid="personal-data-section">PersonalDataSection</div>
-  ),
-  SensitiveDataSection: () => (
-    <div data-testid="sensitive-data-section">SensitiveDataSection</div>
-  ),
-  DataSubjectRightsSection: () => (
-    <div data-testid="data-subject-rights-section">
-      DataSubjectRightsSection
-    </div>
-  ),
-  KeyPrinciplesSection: () => (
-    <div data-testid="key-principles-section">KeyPrinciplesSection</div>
+jest.mock("components/dss", () => ({
+  DssProgressBar: () => (
+    <div data-testid="progressbar-component">ProgressBar Component</div>
   ),
   ContactInfoSection: () => (
     <div data-testid="contact-info-section">ContactInfoSection</div>
   ),
-}));
-
-jest.mock("components/dss/DssProgressBar", () => ({
-  DssProgressBar: () => (
-    <div data-testid="progressbar-component">ProgressBar Component</div>
+  ChecklistForHandlingPersonalDataSection: () => (
+    <div data-testid="checklist-section">ChecklistSection</div>
+  ),
+  PersonalDataAndDataPrivacySection: () => (
+    <div data-testid="personal-data-section">PersonalDataSection</div>
+  ),
+  ImpactAssessmentTemplateSection: () => (
+    <div data-testid="impact-assessment-section">ImpactAssessmentSection</div>
+  ),
+  TypesOfPersonalDataSection: () => (
+    <div data-testid="types-section">TypesSection</div>
+  ),
+  DataProtectionRightsSection: () => (
+    <div data-testid="rights-section">RightsSection</div>
+  ),
+  PrinciplesOfDataProtectionSection: () => (
+    <div data-testid="principles-section">PrinciplesSection</div>
   ),
 }));
 
@@ -33,7 +34,7 @@ describe("Privacy", () => {
     render(<Privacy />);
 
     expect(
-      screen.getByText("Generell informasjon om personopplysninger"),
+      screen.getByText("Informasjon om personvern og dette verktøyet"),
     ).toBeInTheDocument();
   });
 
@@ -42,58 +43,56 @@ describe("Privacy", () => {
 
     expect(
       screen.getByText(
-        /Grunnleggende informasjon om personopplysninger og personvern/,
+        /Her kan du finne informasjon om personopplysninger, personvern/,
       ),
     ).toBeInTheDocument();
   });
 
-  test("renders ProgressBarUpdated component", () => {
+  test("renders ProgressBar component", () => {
     render(<Privacy />);
 
     expect(screen.getByTestId("progressbar-component")).toBeInTheDocument();
   });
 
-  test("renders PersonalDataSection component", () => {
+  test("renders PersonalDataAndDataPrivacySection", () => {
     render(<Privacy />);
 
     expect(screen.getByTestId("personal-data-section")).toBeInTheDocument();
   });
 
-  test("renders SensitiveDataSection component", () => {
+  test("renders TypesOfPersonalDataSection", () => {
     render(<Privacy />);
 
-    expect(screen.getByTestId("sensitive-data-section")).toBeInTheDocument();
+    expect(screen.getByTestId("types-section")).toBeInTheDocument();
   });
 
-  test("renders DataSubjectRightsSection component", () => {
+  test("renders DataProtectionRightsSection", () => {
     render(<Privacy />);
 
-    expect(
-      screen.getByTestId("data-subject-rights-section"),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("rights-section")).toBeInTheDocument();
   });
 
-  test("renders KeyPrinciplesSection component", () => {
+  test("renders ChecklistForHandlingPersonalDataSection", () => {
     render(<Privacy />);
 
-    expect(screen.getByTestId("key-principles-section")).toBeInTheDocument();
+    expect(screen.getByTestId("checklist-section")).toBeInTheDocument();
   });
 
-  test("renders ContactInfoSection component", () => {
+  test("renders ImpactAssessmentTemplateSection", () => {
     render(<Privacy />);
 
-    expect(screen.getByTestId("contact-info-section")).toBeInTheDocument();
+    expect(screen.getByTestId("impact-assessment-section")).toBeInTheDocument();
   });
 
-  test("renders all five privacy sections", () => {
+  test("renders PrinciplesOfDataProtectionSection", () => {
     render(<Privacy />);
 
-    expect(screen.getByTestId("personal-data-section")).toBeInTheDocument();
-    expect(screen.getByTestId("sensitive-data-section")).toBeInTheDocument();
-    expect(
-      screen.getByTestId("data-subject-rights-section"),
-    ).toBeInTheDocument();
-    expect(screen.getByTestId("key-principles-section")).toBeInTheDocument();
+    expect(screen.getByTestId("principles-section")).toBeInTheDocument();
+  });
+
+  test("renders ContactInfoSection", () => {
+    render(<Privacy />);
+
     expect(screen.getByTestId("contact-info-section")).toBeInTheDocument();
   });
 });

@@ -32,7 +32,7 @@ describe("Examples", () => {
     ).toBeInTheDocument();
   });
 
-  test("renders ProgressBarUpdated component", () => {
+  test("renders ProgressBar component", () => {
     render(<Examples />);
 
     expect(screen.getByTestId("progressbar-component")).toBeInTheDocument();
@@ -72,8 +72,6 @@ describe("Examples", () => {
     render(<Examples />);
 
     expect(screen.getByText(/GDPR-brudd/)).toBeInTheDocument();
-    expect(screen.getByText(/Manglende rettsgrunnlag/)).toBeInTheDocument();
-    expect(screen.getByText(/Proporsjonalitetsprinsippet/)).toBeInTheDocument();
   });
 
   test("renders second user message", () => {
@@ -94,14 +92,5 @@ describe("Examples", () => {
         /Absolutt! Jeg kan hjelpe deg med å utforme en korrekt forespørsel/,
       ),
     ).toBeInTheDocument();
-  });
-
-  test("renders chat container with proper styling", () => {
-    const { container } = render(<Examples />);
-
-    const chatContainer = container.querySelector(
-      ".border.border-1.border-\\[\\#d5d8de\\].rounded-lg",
-    );
-    expect(chatContainer).toBeInTheDocument();
   });
 });

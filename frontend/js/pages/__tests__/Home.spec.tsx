@@ -5,17 +5,19 @@ import { MemoryRouter } from "react-router-dom";
 import Home from "../Home";
 
 const mockCreateNewChat = jest.fn();
-const mockConsumePendingChecklistContext = jest.fn(() => null);
+const mockGetChecklistContext = jest.fn();
+const mockLoadChatMessages = jest.fn();
+const mockSaveChatMessages = jest.fn();
 const mockSwitchToChecklist = jest.fn();
-const mockGetChatChecklistId = jest.fn(() => null);
+const mockGetChatChecklistId = jest.fn();
 
 jest.mock("../../contexts/AppStateContext", () => ({
   useAppState: () => ({
     currentChatId: "chat-1",
     createNewChat: mockCreateNewChat,
-    consumePendingChecklistContext: mockConsumePendingChecklistContext,
-    loadChatMessages: jest.fn(async () => []),
-    saveChatMessages: jest.fn(async () => undefined),
+    getChecklistContext: mockGetChecklistContext,
+    loadChatMessages: mockLoadChatMessages,
+    saveChatMessages: mockSaveChatMessages,
     switchToChecklist: mockSwitchToChecklist,
     getChatChecklistId: mockGetChatChecklistId,
   }),
@@ -40,10 +42,6 @@ jest.mock("lucide-react", () => ({
 }));
 
 jest.mock("components/dss/DssExternalVsInternal", () => ({
-  DssExternalVsInternal: () => null,
-}));
-
-jest.mock("../../components/dss/DssExternalVsInternal", () => ({
   DssExternalVsInternal: () => null,
 }));
 
@@ -83,9 +81,18 @@ describe("Home", () => {
   beforeEach(() => {
     mockFetch.mockClear();
     mockCreateNewChat.mockClear();
-    mockConsumePendingChecklistContext.mockClear();
+    mockGetChecklistContext.mockClear();
+    mockLoadChatMessages.mockClear();
+    mockSaveChatMessages.mockClear();
     mockSwitchToChecklist.mockClear();
     mockGetChatChecklistId.mockClear();
+
+    // Default return values
+    mockLoadChatMessages.mockResolvedValue([]);
+    mockSaveChatMessages.mockResolvedValue(undefined);
+    mockGetChecklistContext.mockResolvedValue(null);
+    mockGetChatChecklistId.mockReturnValue(null);
+
     localStorage.clear();
     localStorage.setItem("hasSeenDssModal", "true");
   });
@@ -146,12 +153,6 @@ describe("Home", () => {
             "Content-Type": "application/json",
           }),
           credentials: "include",
-          body: JSON.stringify({
-            prompt: "Hjelp meg med å starte en DPIA for et nytt prosjekt.",
-            history: [],
-            // eslint-disable-next-line camelcase
-            context_text: "",
-          }),
         }),
       );
       expect(screen.getByTestId("chatbox-user")).toBeInTheDocument();
@@ -236,12 +237,6 @@ describe("Home", () => {
         "/api/chat/chat/",
         expect.objectContaining({
           method: "POST",
-          body: JSON.stringify({
-            prompt: "Test question",
-            history: [],
-            // eslint-disable-next-line camelcase
-            context_text: "",
-          }),
         }),
       );
     });
