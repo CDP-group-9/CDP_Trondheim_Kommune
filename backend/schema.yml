@@ -59,173 +59,23 @@ paths:
                     type: string
           description: ''
   /api/checklist/:
-    get:
-      operationId: checklist_list
-      parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      tags:
-      - checklist
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedChecklistList'
-          description: ''
     post:
       operationId: checklist_create
+      description: Converts checklist JSON data into a Norwegian formatted string
+      summary: Convert checklist data to formatted string
       tags:
       - checklist
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Checklist'
+              $ref: '#/components/schemas/ChecklistRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Checklist'
+              $ref: '#/components/schemas/ChecklistRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Checklist'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Checklist'
-          description: ''
-  /api/checklist/{id}/:
-    get:
-      operationId: checklist_retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this checklist result.
-        required: true
-      tags:
-      - checklist
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Checklist'
-          description: ''
-    put:
-      operationId: checklist_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this checklist result.
-        required: true
-      tags:
-      - checklist
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Checklist'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Checklist'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Checklist'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Checklist'
-          description: ''
-    patch:
-      operationId: checklist_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this checklist result.
-        required: true
-      tags:
-      - checklist
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedChecklist'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedChecklist'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedChecklist'
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Checklist'
-          description: ''
-    delete:
-      operationId: checklist_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this checklist result.
-        required: true
-      tags:
-      - checklist
-      security:
-      - cookieAuth: []
-      responses:
-        '204':
-          description: No response body
-  /api/checklist/json_to_string/:
-    post:
-      operationId: checklist_json_to_string_create
-      tags:
-      - checklist
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Checklist'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Checklist'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Checklist'
+              $ref: '#/components/schemas/ChecklistRequest'
         required: true
       security:
       - cookieAuth: []
@@ -235,238 +85,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Checklist'
-          description: ''
-  /api/counter/increment/:
-    post:
-      operationId: counter_increment_create
-      tags:
-      - counter
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Counter'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Counter'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Counter'
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Counter'
-          description: ''
-  /api/internal-status/:
-    get:
-      operationId: internal_status_list
-      parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      tags:
-      - internal-status
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedInternalStatusList'
-          description: ''
-    post:
-      operationId: internal_status_create
-      tags:
-      - internal-status
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InternalStatus'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/InternalStatus'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/InternalStatus'
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalStatus'
-          description: ''
-  /api/internal-status/{id}/:
-    get:
-      operationId: internal_status_retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this internal status.
-        required: true
-      tags:
-      - internal-status
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalStatus'
-          description: ''
-    put:
-      operationId: internal_status_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this internal status.
-        required: true
-      tags:
-      - internal-status
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InternalStatus'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/InternalStatus'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/InternalStatus'
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalStatus'
-          description: ''
-    patch:
-      operationId: internal_status_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this internal status.
-        required: true
-      tags:
-      - internal-status
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedInternalStatus'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedInternalStatus'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedInternalStatus'
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalStatus'
-          description: ''
-    delete:
-      operationId: internal_status_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this internal status.
-        required: true
-      tags:
-      - internal-status
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '204':
-          description: No response body
-  /api/internal-status/set_system_instruction/:
-    post:
-      operationId: internal_status_set_system_instruction_create
-      tags:
-      - internal-status
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InternalStatus'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/InternalStatus'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/InternalStatus'
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalStatus'
-          description: ''
-  /api/rest/rest-check/:
-    get:
-      operationId: rest_rest_check_retrieve
-      description: This endpoint checks if the REST API is working.
-      summary: Check REST API
-      tags:
-      - rest
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-              examples:
-                SuccessfulResponse:
-                  value:
-                    message: This message comes from the backend. If you're seeing
-                      this, the REST API is working!
-                  summary: Successful Response
+                type: object
+                properties:
+                  response:
+                    type: string
           description: ''
   /api/test-response/:
     get:
@@ -855,46 +477,37 @@ components:
       required:
       - history
       - response
-    Checklist:
+    ChecklistRequest:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        result:
+        selectedOption:
           type: string
+        contextData:
+          type: object
+          additionalProperties: {}
+        handlingData:
+          type: object
+          additionalProperties: {}
+        legalBasisData:
+          type: object
+          additionalProperties: {}
+        involvedPartiesData:
+          type: object
+          additionalProperties: {}
+        techData:
+          type: object
+          additionalProperties: {}
+        riskConcernData:
+          type: object
+          additionalProperties: {}
       required:
-      - id
-      - result
-    Counter:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        value:
-          type: integer
-          maximum: 2147483647
-          minimum: -2147483648
-      required:
-      - id
-    InternalStatus:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_internal:
-          type: boolean
-      required:
-      - id
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
+      - contextData
+      - handlingData
+      - involvedPartiesData
+      - legalBasisData
+      - riskConcernData
+      - selectedOption
+      - techData
     MockResponse:
       type: object
       properties:
@@ -906,52 +519,6 @@ components:
       required:
       - id
       - response
-    PaginatedChecklistList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Checklist'
-    PaginatedInternalStatusList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/InternalStatus'
     PaginatedMockResponseList:
       type: object
       required:
@@ -998,22 +565,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
-    PatchedChecklist:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        result:
-          type: string
-    PatchedInternalStatus:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        is_internal:
-          type: boolean
     PatchedMockResponse:
       type: object
       properties:

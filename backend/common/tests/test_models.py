@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from common.models import Counter, IndexedTimeStampedModel, MockResponse
+from common.models import IndexedTimeStampedModel, MockResponse
 
 
 class MockResponseTest(TestCase):
@@ -29,46 +29,6 @@ class MockResponseTest(TestCase):
 
         anon_results = MockResponse.objects.filter(response__icontains="anonymisere")
         self.assertEqual(anon_results.count(), 1)
-
-
-class CounterTest(TestCase):
-    def test_create_counter(self):
-        """Test creating a Counter with default value"""
-        counter = Counter.objects.create()
-
-        self.assertEqual(counter.value, 0)
-        self.assertIsNotNone(counter.id)
-
-    def test_create_with_custom_value(self):
-        """Test creating a Counter with custom value"""
-        counter = Counter.objects.create(value=10)
-
-        self.assertEqual(counter.value, 10)
-
-    def test_increment(self):
-        """Test incrementing a Counter"""
-        counter = Counter.objects.create(value=5)
-        counter.value += 1
-        counter.save()
-
-        counter.refresh_from_db()
-        self.assertEqual(counter.value, 6)
-
-    def test_str_representation(self):
-        """Test string representation of Counter"""
-        counter = Counter.objects.create(value=42)
-
-        self.assertEqual(str(counter), "Counter: 42")
-
-    def test_get_or_create(self):
-        """Test get_or_create for Counter"""
-        counter1, created1 = Counter.objects.get_or_create(id=1)
-        self.assertTrue(created1)
-        self.assertEqual(counter1.value, 0)
-
-        counter2, created2 = Counter.objects.get_or_create(id=1)
-        self.assertFalse(created2)
-        self.assertEqual(counter1.id, counter2.id)
 
 
 class IndexedTimeStampedModelTest(TestCase):

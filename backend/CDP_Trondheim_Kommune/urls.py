@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 import django_js_reverse.views
 from common.routes import routes as common_routes
+from common.views import ChecklistAPIView
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -25,6 +26,7 @@ urlpatterns = [
     path("admin/defender/", include("defender.urls")),
     path("jsreverse/", django_js_reverse.views.urls_js, name="js_reverse"),
     path("api/", include(router.urls), name="api"),
+    path("api/checklist/", ChecklistAPIView.as_view(), name="checklist"),
     # drf-spectacular
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

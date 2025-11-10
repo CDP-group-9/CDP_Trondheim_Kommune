@@ -8,68 +8,20 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .models import ChecklistResult, Counter, InternalStatus, MockResponse
+from .models import MockResponse
 from .serializers import (
     ChatRequestSerializer,
     ChatResponseSerializer,
-    ChecklistSerializer,
-    CounterSerializer,
-    InternalStatusSerializer,
-    MessageSerializer,
+    ChecklistRequestSerializer,
     MockResponseSerializer,
 )
 from .utils.gemini_client import GEMINI_CHAT_SERVICE
 
 
-class CounterViewSet(viewsets.ViewSet):
-    serializer_class = CounterSerializer
-
-    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
-    def increment(self, request):
-        counter, created = Counter.objects.get_or_create(id=1)
-        counter.value += 1
-        counter.save()
-        return Response({"count": counter.value}, status=status.HTTP_200_OK)
-
-
 class IndexView(generic.TemplateView):
     template_name = "common/index.html"
-
-
-class RestViewSet(viewsets.ViewSet):
-    serializer_class = MessageSerializer
-
-    @extend_schema(
-        summary="Check REST API",
-        description="This endpoint checks if the REST API is working.",
-        examples=[
-            OpenApiExample(
-                "Successful Response",
-                value={
-                    "message": "This message comes from the backend. "
-                    "If you're seeing this, the REST API is working!"
-                },
-                response_only=True,
-            )
-        ],
-        methods=["GET"],
-    )
-    @action(
-        detail=False,
-        methods=["get"],
-        permission_classes=[AllowAny],
-        url_path="rest-check",
-    )
-    def rest_check(self, request):
-        serializer = self.serializer_class(
-            data={
-                "message": "This message comes from the backend. "
-                "If you're seeing this, the REST API is working!"
-            }
-        )
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class MockResponseViewSet(viewsets.ModelViewSet):
@@ -95,23 +47,17 @@ class MockResponseViewSet(viewsets.ModelViewSet):
         return Response({"error": "No mock response found."}, status=status.HTTP_404_NOT_FOUND)
 
 
-class InternalStatusViewSet(viewsets.ModelViewSet):
-    queryset = InternalStatus.objects.all()
-    serializer_class = InternalStatusSerializer
+class ChecklistAPIView(APIView):
     permission_classes: ClassVar[list] = [AllowAny]
 
-    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
-    def set_system_instruction(self, request):
-        print(request.data)
-        return Response({"response": "Hello World"}, status=status.HTTP_200_OK)
-
-
-class ChecklistViewSet(viewsets.ModelViewSet):
-    queryset = ChecklistResult.objects.all()
-    serializer_class = ChecklistSerializer
-
-    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
-    def json_to_string(self, request):
+    @extend_schema(
+        summary="Convert checklist data to formatted string",
+        description="Converts checklist JSON data into a Norwegian formatted string",
+        responses={200: {"type": "object", "properties": {"response": {"type": "string"}}}},
+        request=ChecklistRequestSerializer,
+    )
+    def post(self, request):
+        """Convert checklist JSON data to formatted string"""
         context_string = "Dette er informasjon fra en sjekkliste. "
         context_string += f"Jeg skal {request.data['selectedOption']} data. "
         context_string += (

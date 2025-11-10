@@ -7,74 +7,8 @@ from google.genai.types import Content
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from common.models import Counter, MockResponse
+from common.models import MockResponse
 from common.views import history_to_json, json_to_history
-
-
-class CounterViewSetTest(TestCase):
-    def setUp(self):
-        self.client = APIClient()
-
-    def test_increment_creates_counter(self):
-        """Test that increment endpoint creates a counter if it doesn't exist"""
-        url = reverse("counter-increment")
-
-        response = self.client.post(url)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["count"], 1)
-        counter = Counter.objects.get(id=1)
-        self.assertEqual(counter.value, 1)
-
-    def test_increment_existing_counter(self):
-        """Test that increment endpoint increments an existing counter"""
-        Counter.objects.create(id=1, value=5)
-        url = reverse("counter-increment")
-
-        response = self.client.post(url)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["count"], 6)
-
-    def test_increment_multiple_times(self):
-        """Test incrementing counter multiple times"""
-        url = reverse("counter-increment")
-
-        response1 = self.client.post(url)
-        self.assertEqual(response1.data["count"], 1)
-
-        response2 = self.client.post(url)
-        self.assertEqual(response2.data["count"], 2)
-
-        response3 = self.client.post(url)
-        self.assertEqual(response3.data["count"], 3)
-
-
-class RestViewSetTest(TestCase):
-    def setUp(self):
-        self.client = APIClient()
-
-    def test_rest_check_returns_message(self):
-        """Test that rest-check endpoint returns success message"""
-        url = reverse("Rest-rest-check")
-
-        response = self.client.get(url)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("message", response.data)
-        expected_message = (
-            "This message comes from the backend. If you're seeing this, the REST API is working!"
-        )
-        self.assertEqual(response.data["message"], expected_message)
-
-    def test_rest_check_serializer(self):
-        """Test that rest-check response is properly serialized"""
-        url = reverse("Rest-rest-check")
-
-        response = self.client.get(url)
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIsInstance(response.data, dict)
 
 
 class MockResponseViewSetTest(TestCase):
