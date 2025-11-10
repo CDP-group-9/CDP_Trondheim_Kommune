@@ -1,9 +1,8 @@
 import { forwardRef } from "react";
-import type { CSSProperties } from "react";
 
 import { cn } from "js/lib/utils";
 
-import { useSidebar } from "../ui/sidebar";
+import { useSidebarSectionLayout } from "js/hooks/useSidebarSectionLayout";
 
 type DssFooterProps = React.ComponentPropsWithoutRef<"footer"> & {
   /**
@@ -18,23 +17,10 @@ export const DssFooter = forwardRef<HTMLElement, DssFooterProps>(
     { className, style, isCollapsed: collapsedOverride, children, ...props },
     ref,
   ) => {
-    const { state, isMobile } = useSidebar();
-    const isCollapsed = collapsedOverride ?? state === "collapsed";
-
-    const sidebarWidthVar = isCollapsed
-      ? "var(--sidebar-width-icon, 4rem)"
-      : "var(--sidebar-width, 16rem)";
-
-    const computedStyle: CSSProperties = {
-      ...(style ?? {}),
-    };
-
-    if (!isMobile) {
-      computedStyle.marginLeft = sidebarWidthVar;
-      computedStyle.width = `calc(100% - ${sidebarWidthVar})`;
-    } else {
-      computedStyle.width = "100%";
-    }
+    const { computedStyle, isCollapsed } = useSidebarSectionLayout({
+      collapsedOverride,
+      style,
+    });
 
     return (
       <footer

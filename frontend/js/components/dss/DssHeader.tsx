@@ -1,14 +1,15 @@
 import { forwardRef, useId } from "react";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { useInternalStatus } from "js/hooks/useInternalStatus"; // adjust path if needed
 import { cn } from "js/lib/utils";
 
 import tkLogo from "../../../assets/images/tk-logo-wide.svg";
-import { SidebarHeader, useSidebar } from "../ui/sidebar";
+import { SidebarHeader } from "../ui/sidebar";
 import { Switch } from "../ui/switch";
 
 import { DssDynamicBreadcrumb } from "./DssDynamicBreadcrumb";
+import { useSidebarSectionLayout } from "js/hooks/useSidebarSectionLayout";
 
 type DssHeaderProps = React.ComponentPropsWithoutRef<typeof SidebarHeader> & {
   /**
@@ -25,23 +26,10 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
     ref,
   ) => {
     const internalStatusSwitchId = useId();
-    const { state, isMobile } = useSidebar();
-    const isCollapsed = collapsedOverride ?? state === "collapsed";
-
-    const sidebarWidthVar = isCollapsed
-      ? "var(--sidebar-width-icon, 4rem)"
-      : "var(--sidebar-width, 16rem)";
-
-    const computedStyle: CSSProperties = {
-      ...(style ?? {}),
-    };
-
-    if (!isMobile) {
-      computedStyle.marginLeft = sidebarWidthVar;
-      computedStyle.width = `calc(100% - ${sidebarWidthVar})`;
-    } else {
-      computedStyle.width = "100%";
-    }
+    const { computedStyle, isCollapsed } = useSidebarSectionLayout({
+      collapsedOverride,
+      style,
+    });
 
     const { isInternal, updateInternalStatus } = useInternalStatus();
 
