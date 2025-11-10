@@ -67,18 +67,18 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
             )}
           </div>
         </div>
-        <div className="border-t border-border px-4 py-2 flex items-center justify-between">
-          <div className="flex items-center h-full">
+        <div className="border-t border-border px-4 py-2 flex flex-row items-center justify-between">
+          <div className="">
             <DssDynamicBreadcrumb className="relative top-[2px]" />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex w-fit items-center gap-2 justify-between">
             <Switch
-              checked={!!isInternal}
+              checked={isInternal ?? false}
               id={internalStatusSwitchId}
               onCheckedChange={handleSwitchChange}
             />
             <label
-              className="text-sm inline-block w-[260px] whitespace-nowrap cursor-pointer"
+              className="text-sm text-right inline-block whitespace-nowrap"
               htmlFor={internalStatusSwitchId}
             >
               {isInternal

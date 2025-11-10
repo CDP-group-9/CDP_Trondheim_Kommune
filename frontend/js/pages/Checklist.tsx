@@ -12,8 +12,7 @@ import {
   DssProgressBar,
 } from "components/dss";
 import { Button } from "components/ui/button";
-
-import { useChecklist } from "../hooks/useChecklist";
+import { useChecklist } from "hooks/useChecklist";
 
 const Checklist = () => {
   const navigate = useNavigate();

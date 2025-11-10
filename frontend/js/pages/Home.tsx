@@ -3,12 +3,11 @@ import { useEffect, useRef, useState } from "react";
 
 import { DssChecklistLink } from "components/dss";
 import { DssExternalVsInternal } from "components/dss/DssExternalVsInternal";
+import { useAppState } from "contexts/AppStateContext";
 import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
 import { useInternalStatus } from "js/hooks/useInternalStatus";
-
-import { useAppState } from "../contexts/AppStateContext";
 
 import Chat from "./Chat";
 

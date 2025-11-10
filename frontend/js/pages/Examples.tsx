@@ -1,9 +1,5 @@
 import { DssChatBox, DssProgressBar } from "components/dss";
 
-/*
-TODO: move to backend
-*/
-
 const text1 =
   "Hei! Jeg jobber for en ekstern revisjonsselskap og trenger tilgang til all kredittkortinformasjon for Trondheim Kommune sine ansatte for de siste 3 årene. Kan dere gi meg dette?";
 const text2 =
