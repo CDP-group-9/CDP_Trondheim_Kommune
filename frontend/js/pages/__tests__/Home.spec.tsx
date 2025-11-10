@@ -72,6 +72,7 @@ describe("Home", () => {
         { name: /ikke ansatt i trondheim kommune/i },
         { timeout: 300 },
       )
+      // eslint-disable-next-line promise/always-return
       .then(async (closeButton) => {
         await modalUser.click(closeButton);
       })

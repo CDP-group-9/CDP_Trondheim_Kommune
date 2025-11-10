@@ -141,6 +141,7 @@ export function DssSidebar() {
                     <div className="relative group">
                       <SidebarMenuButton
                         className={cn(
+                          "peer",
                           currentChatId === session.id &&
                             "bg-primary/10 text-primary font-medium hover:bg-primary/15 data-[active=true]:bg-primary/10 data-[active=true]:text-primary",
                         )}
@@ -156,7 +157,7 @@ export function DssSidebar() {
                       </SidebarMenuButton>
                       <button
                         aria-label={`Slett samtale: ${session.title}`}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1 rounded-sm text-foreground/60 hover:text-destructive hover:bg-destructive/20 transition-all flex-shrink-0"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 peer-data-[active=true]:text-foreground/60 peer-hover:text-white p-1 rounded-sm text-foreground/60 hover:text-destructive hover:bg-destructive/20 transition-all flex-shrink-0"
                         type="button"
                         onClick={(e) => {
                           e.preventDefault();
@@ -208,7 +209,10 @@ export function DssSidebar() {
               to="https://www.trondheim.kommune.no/aktuelt/personvern/"
             >
               Mer om personvern{" "}
-              <SquareArrowOutUpRight aria-hidden="true" className="size-3" />
+              <SquareArrowOutUpRight
+                aria-hidden="true"
+                className="mt-0.5 size-3"
+              />
             </Link>
           </div>
         </SidebarFooter>

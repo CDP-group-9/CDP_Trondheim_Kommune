@@ -1,10 +1,9 @@
 import { render, screen } from "@testing-library/react";
 
 import {
-  PersonalDataSection,
-  SensitiveDataSection,
-  DataSubjectRightsSection,
-  KeyPrinciplesSection,
+  PersonalDataAndDataPrivacySection,
+  DataProtectionRightsSection,
+  PrinciplesOfDataProtectionSection,
   ContactInfoSection,
 } from "components/dss/sections";
 
@@ -15,7 +14,7 @@ jest.mock("lucide-react", () => ({
 describe("sections folder", () => {
   describe("PersonalDataSection", () => {
     test("renders section heading", () => {
-      render(<PersonalDataSection />);
+      render(<PersonalDataAndDataPrivacySection />);
 
       expect(
         screen.getByText("Hva er personopplysninger?"),
@@ -23,7 +22,7 @@ describe("sections folder", () => {
     });
 
     test("displays direct identifiable information", () => {
-      render(<PersonalDataSection />);
+      render(<PersonalDataAndDataPrivacySection />);
 
       expect(screen.getByText("Navn og personnummer")).toBeInTheDocument();
       expect(screen.getByText("Adresse og telefonnummer")).toBeInTheDocument();
@@ -31,7 +30,7 @@ describe("sections folder", () => {
     });
 
     test("displays indirect identifiable information", () => {
-      render(<PersonalDataSection />);
+      render(<PersonalDataAndDataPrivacySection />);
 
       expect(screen.getByText("IP-adresser og enhets-ID")).toBeInTheDocument();
       expect(
@@ -40,7 +39,7 @@ describe("sections folder", () => {
     });
 
     test("has correct structure with two columns", () => {
-      const { container } = render(<PersonalDataSection />);
+      const { container } = render(<PersonalDataAndDataPrivacySection />);
 
       const grid = container.querySelector(".md\\:grid-cols-2");
       expect(grid).toBeInTheDocument();
@@ -49,7 +48,7 @@ describe("sections folder", () => {
 
   describe("SensitiveDataSection", () => {
     test("renders section heading", () => {
-      render(<SensitiveDataSection />);
+      render(<PersonalDataAndDataPrivacySection />);
 
       expect(
         screen.getByText("Særlige kategorier personopplysninger"),
@@ -57,7 +56,7 @@ describe("sections folder", () => {
     });
 
     test("displays sensitive data categories", () => {
-      render(<SensitiveDataSection />);
+      render(<PersonalDataAndDataPrivacySection />);
 
       expect(
         screen.getByText(/Rase eller etnisk opprinnelse/i),
@@ -71,7 +70,7 @@ describe("sections folder", () => {
     });
 
     test("has warning styling", () => {
-      const { container } = render(<SensitiveDataSection />);
+      const { container } = render(<PersonalDataAndDataPrivacySection />);
 
       const warningBox = container.querySelector(".border-destructive\\/20");
       expect(warningBox).toBeInTheDocument();
@@ -80,7 +79,7 @@ describe("sections folder", () => {
 
   describe("DataSubjectRightsSection", () => {
     test("renders section heading", () => {
-      render(<DataSubjectRightsSection />);
+      render(<DataProtectionRightsSection />);
 
       expect(
         screen.getByText("De registrertes rettigheter"),
@@ -88,7 +87,7 @@ describe("sections folder", () => {
     });
 
     test("displays main description text", () => {
-      render(<DataSubjectRightsSection />);
+      render(<DataProtectionRightsSection />);
 
       expect(
         screen.getByText(/Personer har flere rettigheter/i),
@@ -98,7 +97,7 @@ describe("sections folder", () => {
 
   describe("KeyPrinciplesSection", () => {
     test("renders section heading", () => {
-      render(<KeyPrinciplesSection />);
+      render(<PrinciplesOfDataProtectionSection />);
 
       expect(
         screen.getByText("Grunnprinsipper for personvernbehandling"),
@@ -106,7 +105,7 @@ describe("sections folder", () => {
     });
 
     test("displays all seven GDPR principles", () => {
-      render(<KeyPrinciplesSection />);
+      render(<PrinciplesOfDataProtectionSection />);
 
       expect(
         screen.getByText("Lovlighet, rettferdighet og gjennomsiktig"),
@@ -122,7 +121,7 @@ describe("sections folder", () => {
     });
 
     test("displays GDPR principles description", () => {
-      render(<KeyPrinciplesSection />);
+      render(<PrinciplesOfDataProtectionSection />);
 
       expect(
         screen.getByText(/GDPR bygger på syv grunnprinsipper/i),

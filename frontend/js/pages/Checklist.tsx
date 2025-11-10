@@ -124,15 +124,15 @@ const Checklist = () => {
               >
                 Nullstill skjema
               </Button>
-              <Button 
+              <Button
                 className="text-lg"
                 disabled={isLoading}
                 onClick={handleRedirectToChat}
               >
                 {isLoading ? "Sender..." : "Generer veiledning"}
               </Button>
-              <Button 
-              className="text-lg"
+              <Button
+                className="text-lg"
                 disabled={isLoading}
                 onClick={downloadAsTextFile}
               >

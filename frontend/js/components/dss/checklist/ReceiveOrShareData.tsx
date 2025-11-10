@@ -169,7 +169,6 @@ export const ReceiveOrShareData = ({ selected, onSelect }: Props) => {
           Nullstill valg
         </Button>
       </div>
-
     </section>
   );
 };
