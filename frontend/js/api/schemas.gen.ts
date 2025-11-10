@@ -62,58 +62,46 @@ export const $ChatResponse = {
   required: ["history", "response"],
 } as const;
 
-export const $Checklist = {
+export const $ChecklistRequest = {
   type: "object",
   properties: {
-    id: {
-      type: "integer",
-      readOnly: true,
-    },
-    result: {
+    selectedOption: {
       type: "string",
     },
-  },
-  required: ["id", "result"],
-} as const;
-
-export const $Counter = {
-  type: "object",
-  properties: {
-    id: {
-      type: "integer",
-      readOnly: true,
+    contextData: {
+      type: "object",
+      additionalProperties: {},
     },
-    value: {
-      type: "integer",
-      maximum: 2147483647,
-      minimum: -2147483648,
+    handlingData: {
+      type: "object",
+      additionalProperties: {},
     },
-  },
-  required: ["id"],
-} as const;
-
-export const $InternalStatus = {
-  type: "object",
-  properties: {
-    id: {
-      type: "integer",
-      readOnly: true,
+    legalBasisData: {
+      type: "object",
+      additionalProperties: {},
     },
-    is_internal: {
-      type: "boolean",
+    involvedPartiesData: {
+      type: "object",
+      additionalProperties: {},
+    },
+    techData: {
+      type: "object",
+      additionalProperties: {},
+    },
+    riskConcernData: {
+      type: "object",
+      additionalProperties: {},
     },
   },
-  required: ["id"],
-} as const;
-
-export const $Message = {
-  type: "object",
-  properties: {
-    message: {
-      type: "string",
-    },
-  },
-  required: ["message"],
+  required: [
+    "contextData",
+    "handlingData",
+    "involvedPartiesData",
+    "legalBasisData",
+    "riskConcernData",
+    "selectedOption",
+    "techData",
+  ],
 } as const;
 
 export const $MockResponse = {
@@ -128,64 +116,6 @@ export const $MockResponse = {
     },
   },
   required: ["id", "response"],
-} as const;
-
-export const $PaginatedChecklistList = {
-  type: "object",
-  required: ["count", "results"],
-  properties: {
-    count: {
-      type: "integer",
-      example: 123,
-    },
-    next: {
-      type: "string",
-      nullable: true,
-      format: "uri",
-      example: "http://api.example.org/accounts/?offset=400&limit=100",
-    },
-    previous: {
-      type: "string",
-      nullable: true,
-      format: "uri",
-      example: "http://api.example.org/accounts/?offset=200&limit=100",
-    },
-    results: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/Checklist",
-      },
-    },
-  },
-} as const;
-
-export const $PaginatedInternalStatusList = {
-  type: "object",
-  required: ["count", "results"],
-  properties: {
-    count: {
-      type: "integer",
-      example: 123,
-    },
-    next: {
-      type: "string",
-      nullable: true,
-      format: "uri",
-      example: "http://api.example.org/accounts/?offset=400&limit=100",
-    },
-    previous: {
-      type: "string",
-      nullable: true,
-      format: "uri",
-      example: "http://api.example.org/accounts/?offset=200&limit=100",
-    },
-    results: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/InternalStatus",
-      },
-    },
-  },
 } as const;
 
 export const $PaginatedMockResponseList = {
@@ -242,32 +172,6 @@ export const $PaginatedUserList = {
       items: {
         $ref: "#/components/schemas/User",
       },
-    },
-  },
-} as const;
-
-export const $PatchedChecklist = {
-  type: "object",
-  properties: {
-    id: {
-      type: "integer",
-      readOnly: true,
-    },
-    result: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const $PatchedInternalStatus = {
-  type: "object",
-  properties: {
-    id: {
-      type: "integer",
-      readOnly: true,
-    },
-    is_internal: {
-      type: "boolean",
     },
   },
 } as const;

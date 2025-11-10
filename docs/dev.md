@@ -6,6 +6,7 @@
 
 - Make sure you have Python 3.12 installed
 - Install Django with `pip install django`, to have the `django-admin` command available
+- **Gemini API key**: If you do not currently have an API key, you can set one up for free at [ai.google.dev](https://ai.google.dev/gemini-api/docs/api-key)
 - Make sure you have `node.js` installed, so you can use `npm`
 
 ### Poetry installation
@@ -105,15 +106,15 @@ For VSCode or other IDE: Install the Extensions for the following;
    backend/.env.example backend/.env.example
    backend/.env.example backend/.env
    ```
-3. Ensure you have docker desktop installed and running on your computer and "WHATEVERISREQUIREDFORMAKEFILE".
+3. Ensure you have `docker desktop` installed and running on your computer:
+    - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
+    - If you are on Windows or for some reason do not have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](Makefile)
 
-   (If you don't have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](Makefile))
+4. Open the `backend/.env` file you created and fill in your Gemini API key.
 
-4. Open the `backend/.env` file you created and uncomment the line
-
-   ```
-   DATABASE_URL=postgres://CDP_Trondheim_Kommune:password@db:5432/CDP_Trondheim_Kommune
-   ```
+    ```
+    GEMINI_API_KEY=your-key-here
+    ```
 
 5. Open a new command line window and go to the project's directory
 
@@ -151,23 +152,31 @@ For VSCode or other IDE: Install the Extensions for the following;
 
 ### Every time there are changes
 
-1. Apply DB migrations inside containers
+1. Apply DB migrations inside containers:
+
    ```
    make docker_migrate
    ```
+
 2. If dependencies changed (lockfiles or Dockerfiles changed), rebuild/update:
+
    ```
    make docker_update_dependencies
    ```
-3. Any time a view is created, updated or moved, the schema must be updated: run
+
+3. Any time a view is created, updated or moved, the schema must be updated, run:
+
    ```
    make docker_backend_update_schema
    ```
-4. Any time the API schema is updated the Client code must be regenerated to reflect the changes. To update the client code, run:
+    Sync frontend's typed client with the backend, by running:
+
    ```
    make docker_frontend_update_api
    ```
-5. If `package.json` is changed: Go to root level and re-run
+
+5. If `package.json` is changed: Go to root level and re-run:
+
    ```
    npm install
    ```
@@ -175,41 +184,46 @@ For VSCode or other IDE: Install the Extensions for the following;
 ### Daily dev loop
 
 1. Start the stack:
-   ```bash
-     make docker_up
-   ```
+
+  ```bash
+    make docker_up
+  ```
+
 2. View logs as needed:
-   ```bash
-     make docker_logs backend
-     make docker_logs frontend
-   ```
+
+  ```bash
+    make docker_logs backend
+    make docker_logs frontend
+  ```
+
    - To access the logs for each docker service(either `backend`, `frontend`, etc), run:
+
      ```
      make docker_logs <service name>
      ```
 3. Stop docker when done:
-   ```
-     make docker_down
-   ```
+
+  ```
+    make docker_down
+  ```
 
 ## Adding new dependencies
 
 1. Open a new command line window and go to the project's directory
 2. Update the dependencies management files by performing the appropriate steps from the following list:
 
-   - To add a new **frontend dependency**, run
+   - To add a new **frontend dependency**, run:
+
      ```
      npm install <package name> --save
      ```
+
      The above command will update your `package.json`, but won't make the change effective inside the container yet
+     
    - To add a new **backend dependency**
 
      ```
-     # Add for all envs
      docker compose run --rm backend poetry add {dependency}
-
-     # Add only for dev env
-     docker compose run --rm backend poetry add {dependency} -G dev
      ```
 
    - After updating the desired file(s), to update the containers with the new dependencies run
@@ -218,21 +232,20 @@ For VSCode or other IDE: Install the Extensions for the following;
      ```
      The above command will stop and re-build the containers in order to make the new dependencies effective
 
-## Adding to the database
+## Testing endpoints
+In `swagger-ui` you can test the endpoints by clicking the various POST and GET request and click the `try out` button and then `execute` to test each endpoint.
 
-In order to manually add data to the database, one must be logged in as an admin user. An admin user can be created with: `docker compose exec backend python manage.py createsuperuser`. After an admin user is created, log in to Djangos user interface.
-
-After this is completed, go to `localhost:8000/api/schema/swagger-ui/#`. Under `test-response`, make sure to select the POST alternative. Select the `Try it out`button and edit the response string. Clicking the `Execute` button adds the new string to the database.
+Go to `localhost:8000/api/schema/swagger-ui/#`. Under `test-response`, make sure to select the POST alternative. Select the `Try it out`button and edit the response string. Clicking the `Execute` button adds the new string to the database.
 
 ## Retrieval Augmented Generation (RAG) setup
 
 The system extracts data from XML files downloaded from Lovdata and converts it into a structured JSON format for easier processing. The system creates two types of embeddings:
 
-1. **Law embeddings**: Generated from the law title and all paragraphs
-2. **Paragraph embeddings**: Generated from individual paragraphs
+- **Law embeddings**: Generated from the law title and all paragraphs
+- **Paragraph embeddings**: Generated from individual paragraphs
+
 
 Two tables are created in the PostgreSQL database:
-
 - **Laws table**: Contains law_id, law text, metadata, and embedding vector
 - **Paragraphs table**: Contains paragraph_id, law_id reference (without FK constraint), paragraph number, paragraph text, metadata, and embedding vector
 
@@ -295,6 +308,9 @@ If you want others to recieve your updated list:
 - Test configuration is defined in `test.py`
 - Coverage configuration is in `pyproject.toml` under `tool.coverage.run`
 
+## Admin users
+In order to access the [admin panel](http://localhost:8000/admin/login/?next=/admin/), one must be logged in as an admin user. An admin user can be created with: `docker compose exec backend python manage.py createsuperuser`. After an admin user is created, log in to Djangos Admin interface.
+
 # Conventions
 
 ## Commit messages
@@ -314,6 +330,4 @@ Generate branch from github issue, remove the first number and replace it with t
 For example the branch for issue 2.1 should be called `2.1-short-descriptive-title`.
 
 ## Naming Conventions and file structure
-see [this document](naming_conventions.md).
-
-
+The naming conventions for this project is documentet in [this document](naming_conventions.md).

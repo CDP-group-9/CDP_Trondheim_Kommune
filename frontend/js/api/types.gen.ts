@@ -44,42 +44,31 @@ export type ChatResponse = {
   }>;
 };
 
-export type Checklist = {
-  readonly id: number;
-  result: string;
-};
-
-export type Counter = {
-  readonly id: number;
-  value?: number;
-};
-
-export type InternalStatus = {
-  readonly id: number;
-  is_internal?: boolean;
-};
-
-export type Message = {
-  message: string;
+export type ChecklistRequest = {
+  selectedOption: string;
+  contextData: {
+    [key: string]: unknown;
+  };
+  handlingData: {
+    [key: string]: unknown;
+  };
+  legalBasisData: {
+    [key: string]: unknown;
+  };
+  involvedPartiesData: {
+    [key: string]: unknown;
+  };
+  techData: {
+    [key: string]: unknown;
+  };
+  riskConcernData: {
+    [key: string]: unknown;
+  };
 };
 
 export type MockResponse = {
   readonly id: number;
   response: string;
-};
-
-export type PaginatedChecklistList = {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: Array<Checklist>;
-};
-
-export type PaginatedInternalStatusList = {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: Array<InternalStatus>;
 };
 
 export type PaginatedMockResponseList = {
@@ -94,16 +83,6 @@ export type PaginatedUserList = {
   next?: string | null;
   previous?: string | null;
   results: Array<User>;
-};
-
-export type PatchedChecklist = {
-  readonly id?: number;
-  result?: string;
-};
-
-export type PatchedInternalStatus = {
-  readonly id?: number;
-  is_internal?: boolean;
 };
 
 export type PatchedMockResponse = {
@@ -157,139 +136,13 @@ export type ChatChatCreateData = {
 
 export type ChatChatCreateResponse = ChatResponse;
 
-export type ChecklistListData = {
-  /**
-   * Number of results to return per page.
-   */
-  limit?: number;
-  /**
-   * The initial index from which to return the results.
-   */
-  offset?: number;
-};
-
-export type ChecklistListResponse = PaginatedChecklistList;
-
 export type ChecklistCreateData = {
-  requestBody: Checklist;
+  requestBody: ChecklistRequest;
 };
 
-export type ChecklistCreateResponse = Checklist;
-
-export type ChecklistRetrieveData = {
-  /**
-   * A unique integer value identifying this checklist result.
-   */
-  id: number;
+export type ChecklistCreateResponse = {
+  response?: string;
 };
-
-export type ChecklistRetrieveResponse = Checklist;
-
-export type ChecklistUpdateData = {
-  /**
-   * A unique integer value identifying this checklist result.
-   */
-  id: number;
-  requestBody: Checklist;
-};
-
-export type ChecklistUpdateResponse = Checklist;
-
-export type ChecklistPartialUpdateData = {
-  /**
-   * A unique integer value identifying this checklist result.
-   */
-  id: number;
-  requestBody?: PatchedChecklist;
-};
-
-export type ChecklistPartialUpdateResponse = Checklist;
-
-export type ChecklistDestroyData = {
-  /**
-   * A unique integer value identifying this checklist result.
-   */
-  id: number;
-};
-
-export type ChecklistDestroyResponse = void;
-
-export type ChecklistJsonToStringCreateData = {
-  requestBody: Checklist;
-};
-
-export type ChecklistJsonToStringCreateResponse = Checklist;
-
-export type CounterIncrementCreateData = {
-  requestBody?: Counter;
-};
-
-export type CounterIncrementCreateResponse = Counter;
-
-export type InternalStatusListData = {
-  /**
-   * Number of results to return per page.
-   */
-  limit?: number;
-  /**
-   * The initial index from which to return the results.
-   */
-  offset?: number;
-};
-
-export type InternalStatusListResponse = PaginatedInternalStatusList;
-
-export type InternalStatusCreateData = {
-  requestBody?: InternalStatus;
-};
-
-export type InternalStatusCreateResponse = InternalStatus;
-
-export type InternalStatusRetrieveData = {
-  /**
-   * A unique integer value identifying this internal status.
-   */
-  id: number;
-};
-
-export type InternalStatusRetrieveResponse = InternalStatus;
-
-export type InternalStatusUpdateData = {
-  /**
-   * A unique integer value identifying this internal status.
-   */
-  id: number;
-  requestBody?: InternalStatus;
-};
-
-export type InternalStatusUpdateResponse = InternalStatus;
-
-export type InternalStatusPartialUpdateData = {
-  /**
-   * A unique integer value identifying this internal status.
-   */
-  id: number;
-  requestBody?: PatchedInternalStatus;
-};
-
-export type InternalStatusPartialUpdateResponse = InternalStatus;
-
-export type InternalStatusDestroyData = {
-  /**
-   * A unique integer value identifying this internal status.
-   */
-  id: number;
-};
-
-export type InternalStatusDestroyResponse = void;
-
-export type InternalStatusSetSystemInstructionCreateData = {
-  requestBody?: InternalStatus;
-};
-
-export type InternalStatusSetSystemInstructionCreateResponse = InternalStatus;
-
-export type RestRestCheckRetrieveResponse = Message;
 
 export type TestResponseListData = {
   /**
@@ -421,119 +274,12 @@ export type $OpenApiTs = {
     };
   };
   "/api/checklist/": {
-    get: {
-      req: ChecklistListData;
-      res: {
-        200: PaginatedChecklistList;
-      };
-    };
     post: {
       req: ChecklistCreateData;
       res: {
-        201: Checklist;
-      };
-    };
-  };
-  "/api/checklist/{id}/": {
-    get: {
-      req: ChecklistRetrieveData;
-      res: {
-        200: Checklist;
-      };
-    };
-    put: {
-      req: ChecklistUpdateData;
-      res: {
-        200: Checklist;
-      };
-    };
-    patch: {
-      req: ChecklistPartialUpdateData;
-      res: {
-        200: Checklist;
-      };
-    };
-    delete: {
-      req: ChecklistDestroyData;
-      res: {
-        /**
-         * No response body
-         */
-        204: void;
-      };
-    };
-  };
-  "/api/checklist/json_to_string/": {
-    post: {
-      req: ChecklistJsonToStringCreateData;
-      res: {
-        200: Checklist;
-      };
-    };
-  };
-  "/api/counter/increment/": {
-    post: {
-      req: CounterIncrementCreateData;
-      res: {
-        200: Counter;
-      };
-    };
-  };
-  "/api/internal-status/": {
-    get: {
-      req: InternalStatusListData;
-      res: {
-        200: PaginatedInternalStatusList;
-      };
-    };
-    post: {
-      req: InternalStatusCreateData;
-      res: {
-        201: InternalStatus;
-      };
-    };
-  };
-  "/api/internal-status/{id}/": {
-    get: {
-      req: InternalStatusRetrieveData;
-      res: {
-        200: InternalStatus;
-      };
-    };
-    put: {
-      req: InternalStatusUpdateData;
-      res: {
-        200: InternalStatus;
-      };
-    };
-    patch: {
-      req: InternalStatusPartialUpdateData;
-      res: {
-        200: InternalStatus;
-      };
-    };
-    delete: {
-      req: InternalStatusDestroyData;
-      res: {
-        /**
-         * No response body
-         */
-        204: void;
-      };
-    };
-  };
-  "/api/internal-status/set_system_instruction/": {
-    post: {
-      req: InternalStatusSetSystemInstructionCreateData;
-      res: {
-        200: InternalStatus;
-      };
-    };
-  };
-  "/api/rest/rest-check/": {
-    get: {
-      res: {
-        200: Message;
+        200: {
+          response?: string;
+        };
       };
     };
   };

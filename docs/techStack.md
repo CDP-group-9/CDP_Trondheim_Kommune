@@ -36,10 +36,8 @@ Also, includes a Render.com `render.yaml` and a working Django `production.py` s
     -   `axios` for performing asynchronous calls
     -   `cookie` for easy integration with Django using the `csrftoken` cookie
     -   `openapi-ts` for generating TypeScript client API code from the backend OpenAPI schema
-    -   `history` for providing browser history to Connected React Router
 -   Utilities
-    -   `lodash` for general utility functions
-    -   `classnames` for easy working with complex CSS class names on components
+    -   `clsx` and `tailwind-merge` for ergonomically composing CSS class names
     -   `react-refresh` for improving QoL while developing through automatic browser refreshing
 
 ### Backend

@@ -31,15 +31,25 @@ The project will involve:
     - Promotion of responsible data sharing practices that foster innovation while safeguarding individual rights.
     - By making legal information more accessible and actionable, this project will contribute to a more efficient, transparent, and legally sound data ecosystem in Norway
 
-## Project bootstrap [![main](https://github.com/vintasoftware/django-react-boilerplate/actions/workflows/main.yml/badge.svg)](https://github.com/vintasoftware/django-react-boilerplate/actions/workflows/main.yml) [![Known Vulnerabilities](https://snyk.io/test/github/vintasoftware/django-react-boilerplate/badge.svg)](https://snyk.io/test/github/vintasoftware/django-react-boilerplate)
-### Prerequisites to run the application
+### Links to detailed docs
+- [Detailed setup for Development](docs/dev.md)
+- [Detailed commands for dev testing, dependencies, GitHub actions ++](docs/assorted.md)
+- [Details of repository and techstack](docs/techStack.md)
+- [Details of project architecture](docs/diagrams.md)
+
+
+## Prerequisites
+
 If you only want to run the application:
-- Make sure you have Python 3.12 installed
-- Install Django with `pip install django`, to have the `django-admin` command available
+- **`Python 3.12`**: Ensure you have python 3.12+ installed.
+- **Django**: Install Django with `pip install django`, to have the `django-admin` command available
+- **Gemini API key**: if you do not currently have an API key, you can set one up for free at [ai.google.dev](https://ai.google.dev/gemini-api/docs/api-key)
+- Make sure you have `node.js` installed, so you can use `npm`
+
 
 ## Quick installation
 
-This Project is setup using Django and React frameworks. If you're a Developer, follow the instructions [here](docs/dev.md) instead. If you only want to quickly run the project application for the first time, follow the instructions below:
+This Project is setup using Django and React frameworks. For a more detailed installation guide, follow [these instructions](docs/dev.md) instead. If you only want to quickly run the project application for the first time, follow the instructions below:
 
 1. Create a git-untracked `local.py` settings file by copying the `local.py.example` file:
     ```
@@ -51,15 +61,16 @@ This Project is setup using Django and React frameworks. If you're a Developer, 
     backend/.env.example 
     backend/.env
     ```
-3. Ensure you have `docker desktop` installed and running on your computer and "WHATEVERISREQUIREDFORMAKEFILE". 
+3. Ensure you have `docker desktop` installed and running on your computer.
+    - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
+    - If you are on Windows or for some reason do not have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](Makefile)
 
-    (If you don't have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](Makefile))
-
-4. Open the `backend/.env` file you created and <u>uncomment</u> the line 
+4. Open the `backend/.env` file you created and fill in your Gemini API key.
 
     ```
-    DATABASE_URL=postgres://CDP_Trondheim_Kommune:password@db:5432/CDP_Trondheim_Kommune
+    GEMINI_API_KEY=your-key-here
     ```
+
 5. Open a new command line window and go to the project's directory
 	- Run the initial setup:
       ```
@@ -77,10 +88,6 @@ This Project is setup using Django and React frameworks. If you're a Developer, 
     	```
       make docker_up
       ```
-	- Give the AI access to relevant laws regarding personal data:
-    	```
-      make docker_insert_laws
-      ```
 	- Access `http://localhost:8000` on your browser and the project should be running there. If it doesn't, try with IP `127.0.0.1`
 
 	- To stop the project, run:
@@ -89,15 +96,8 @@ This Project is setup using Django and React frameworks. If you're a Developer, 
       ```
   
 
-## Basic usage example
-### TBD
-
-## Links to detailed docs
-Links to: 
-- [Detailed setup for Development](docs/dev.md)
-- [Detailed commands for dev testing, dependencies, GitHub actions ++](docs/assorted.md)
-- [Details of repository and techstack](docs/techStack.md)
-
 ## License and contact info
+### Project bootstrap [![main](https://github.com/vintasoftware/django-react-boilerplate/actions/workflows/main.yml/badge.svg)](https://github.com/vintasoftware/django-react-boilerplate/actions/workflows/main.yml) [![Known Vulnerabilities](https://snyk.io/test/github/vintasoftware/django-react-boilerplate/badge.svg)](https://snyk.io/test/github/vintasoftware/django-react-boilerplate)
+The template for the Django + React set up was done with [django-react-boilerplate](https://github.com/vintasoftware/django-react-boilerplate/)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
