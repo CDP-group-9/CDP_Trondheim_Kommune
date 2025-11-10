@@ -35,7 +35,6 @@ class GeminiAPIClient:
 
         self.timeout = timeout
         self.client = None
-        self.async_client = None
 
         self.standard_model = "gemini-2.5-flash"
         self.system_instructions = "You are a law assistant. Answer the questions based on Norwegian law and as concise as possible, but provide examples. Treat the question as if it comes from an external user, not employed in Trondheim kommune. If given additional context that are laws, refer to them when relevant. No more than 250 words. Answer in Norwegian."
@@ -45,8 +44,6 @@ class GeminiAPIClient:
             self.client = genai.Client(
                 api_key=self.api_key, http_options=types.HttpOptions(timeout=50000)
             )
-        if self.async_client is None:
-            self.async_client = self.client.aio
 
     def send_question_with_laws(
         self,
