@@ -131,6 +131,7 @@ class GeminiAPIClient:
             )
             print("Paragraftekster som ble sendt:\n", rag_context)
         else:
+            rag_context = "Ingen relevante paragrafer ble funnet."
             law_links = []
 
         if context_text and rag_context:

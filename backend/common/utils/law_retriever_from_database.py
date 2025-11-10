@@ -25,6 +25,7 @@ class LawRetriever:
         k_paragraphs: int | None = None,
         law_id: int | None = None,
         skip_law_search: bool = False,
+        distance_threshold: float = 0.27,
     ) -> dict:
         """
         Hovedmetode for å hente relevante lover og/eller paragrafer.
@@ -56,7 +57,9 @@ class LawRetriever:
             law_ids = [law_id]
 
         # Retrieve paragraphs from all relevant laws
-        paragraphs = self._retrieve_paragraphs_from_laws(prompt, law_ids, k_paragraphs)
+        paragraphs = self._retrieve_paragraphs_from_laws(
+            prompt, law_ids, k_paragraphs, distance_threshold
+        )
         result["paragraphs"] = paragraphs
 
         # Combine paragraphs into one text
@@ -81,7 +84,9 @@ class LawRetriever:
             )
             return cur.fetchall()
 
-    def _retrieve_paragraphs_from_laws(self, prompt: str, law_ids: list, k_paragraphs: int):
+    def _retrieve_paragraphs_from_laws(
+        self, prompt: str, law_ids: list, k_paragraphs: int, distance_threshold: float
+    ):
         query_vec = next(iter(self.model.embed([prompt]))).tolist()
         with self.conn.cursor() as cur:
             if law_ids:
@@ -109,6 +114,9 @@ class LawRetriever:
                     (query_vec, k_paragraphs),
                 )
             results = cur.fetchall()
+
+        # Filter by cosine distance threshold
+        results = [r for r in results if r[5] <= distance_threshold]  # r[5] is cosine_distance
 
         # Removes first chapter "lovens formål og virkeområde"
         results = [r for r in results if not re.match(r"^§\s*1\b", str(r[1]))]
