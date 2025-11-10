@@ -12,9 +12,9 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+import { useAppState } from "contexts/AppStateContext";
 import { cn } from "js/lib/utils";
 
-import { useAppState } from "../../contexts/AppStateContext";
 import {
   SidebarTrigger,
   Sidebar,

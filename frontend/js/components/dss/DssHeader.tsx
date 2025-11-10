@@ -1,11 +1,12 @@
 import { forwardRef, useId } from "react";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { useInternalStatus } from "js/hooks/useInternalStatus"; // adjust path if needed
+import { useSidebarSectionLayout } from "js/hooks/useSidebarSectionLayout";
 import { cn } from "js/lib/utils";
 
 import tkLogo from "../../../assets/images/tk-logo-wide.svg";
-import { SidebarHeader, useSidebar } from "../ui/sidebar";
+import { SidebarHeader } from "../ui/sidebar";
 import { Switch } from "../ui/switch";
 
 import { DssDynamicBreadcrumb } from "./DssDynamicBreadcrumb";
@@ -25,23 +26,10 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
     ref,
   ) => {
     const internalStatusSwitchId = useId();
-    const { state, isMobile } = useSidebar();
-    const isCollapsed = collapsedOverride ?? state === "collapsed";
-
-    const sidebarWidthVar = isCollapsed
-      ? "var(--sidebar-width-icon, 4rem)"
-      : "var(--sidebar-width, 16rem)";
-
-    const computedStyle: CSSProperties = {
-      ...(style ?? {}),
-    };
-
-    if (!isMobile) {
-      computedStyle.marginLeft = sidebarWidthVar;
-      computedStyle.width = `calc(100% - ${sidebarWidthVar})`;
-    } else {
-      computedStyle.width = "100%";
-    }
+    const { computedStyle, isCollapsed } = useSidebarSectionLayout({
+      collapsedOverride,
+      style,
+    });
 
     const { isInternal, updateInternalStatus } = useInternalStatus();
 
@@ -79,18 +67,18 @@ export const DssHeader = forwardRef<HTMLDivElement, DssHeaderProps>(
             )}
           </div>
         </div>
-        <div className="border-t border-border px-4 py-2 flex items-center justify-between">
-          <div className="flex items-center h-full">
+        <div className="border-t border-border px-4 py-2 flex flex-row items-center justify-between">
+          <div className="">
             <DssDynamicBreadcrumb className="relative top-[2px]" />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex w-fit items-center gap-2 justify-between">
             <Switch
-              checked={!!isInternal}
+              checked={isInternal ?? false}
               id={internalStatusSwitchId}
               onCheckedChange={handleSwitchChange}
             />
             <label
-              className="text-sm inline-block w-[260px] whitespace-nowrap cursor-pointer"
+              className="text-sm text-right inline-block whitespace-nowrap"
               htmlFor={internalStatusSwitchId}
             >
               {isInternal

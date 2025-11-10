@@ -66,17 +66,16 @@ describe("Home", () => {
     );
 
     const modalUser = userEvent.setup();
-    await screen
-      .findByRole(
+    try {
+      const closeButton = await screen.findByRole(
         "button",
         { name: /ikke ansatt i trondheim kommune/i },
         { timeout: 300 },
-      )
-      // eslint-disable-next-line promise/always-return
-      .then(async (closeButton) => {
-        await modalUser.click(closeButton);
-      })
-      .catch(() => undefined);
+      );
+      await modalUser.click(closeButton);
+    } catch {
+      /* empty comment to make eslint happy */
+    }
 
     return utils;
   };

@@ -17,24 +17,3 @@ class MockResponse(models.Model):
 
     def __str__(self):
         return self.response
-
-
-class Counter(models.Model):
-    value = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f"Counter: {self.value}"
-
-
-class ChecklistResult(models.Model):
-    result = models.TextField()
-
-    def __str__(self):
-        return self.result
-
-
-class InternalStatus(models.Model):
-    is_internal = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.is_internal)

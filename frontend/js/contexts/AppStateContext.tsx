@@ -7,11 +7,10 @@ import React, {
 } from "react";
 
 import { useCookie } from "js/hooks/useCookie";
-
-import { ChecklistService } from "../services/checklistService";
-import type { ChatMessage } from "../types/ChatMessage";
-import type { ChecklistPayload } from "../types/Checklist";
-import { storage, ChatSession, ChecklistSession } from "../utils/storage";
+import { ChecklistService } from "services";
+import type { ChatMessage } from "types/ChatMessage";
+import type { ChecklistPayload } from "types/Checklist";
+import { storage, ChatSession, ChecklistSession } from "utils/storage";
 
 interface AppState {
   // Chat state

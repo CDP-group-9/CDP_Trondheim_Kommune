@@ -29,7 +29,7 @@ export class ChecklistService {
   }
 
   static getInstance(
-    baseUrl = "http://localhost:8000/api/checklist/json_to_string/",
+    baseUrl = "http://localhost:8000/api/checklist/",
   ): ChecklistService {
     if (!ChecklistService.instance) {
       ChecklistService.instance = new ChecklistService(baseUrl);

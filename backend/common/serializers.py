@@ -1,28 +1,12 @@
 from rest_framework import serializers
 
-from .models import ChecklistResult, Counter, InternalStatus, MockResponse
-
-
-class MessageSerializer(serializers.Serializer):
-    message = serializers.CharField()
-
-
-class CounterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Counter
-        fields = ("id", "value")
+from .models import MockResponse
 
 
 class MockResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = MockResponse
         fields = ("id", "response")
-
-
-class ChecklistSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ChecklistResult
-        fields = ("id", "result")
 
 
 class ChatRequestSerializer(serializers.Serializer):
@@ -66,7 +50,19 @@ class ChatResponseSerializer(serializers.Serializer):
     )
 
 
-class InternalStatusSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = InternalStatus
-        fields = ("id", "is_internal")
+# ruff: noqa
+class ChecklistRequestSerializer(serializers.Serializer):
+    selectedOption = serializers.CharField()
+    contextData = serializers.DictField()
+    handlingData = serializers.DictField()
+    legalBasisData = serializers.DictField()
+    involvedPartiesData = serializers.DictField()
+    techData = serializers.DictField()
+    riskConcernData = serializers.DictField()
+
+
+# ruff: noqa: end
+
+
+class ChecklistResponseSerializer(serializers.Serializer):
+    response = serializers.CharField()

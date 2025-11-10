@@ -3,12 +3,11 @@ import { useEffect, useRef, useState } from "react";
 
 import { DssChecklistLink } from "components/dss";
 import { DssExternalVsInternal } from "components/dss/DssExternalVsInternal";
+import { useAppState } from "contexts/AppStateContext";
 import { Button } from "js/components/ui/button";
 import { InputGroup, InputGroupTextarea } from "js/components/ui/input-group";
 import { useChat } from "js/hooks/useChat";
 import { useInternalStatus } from "js/hooks/useInternalStatus";
-
-import { useAppState } from "../contexts/AppStateContext";
 
 import Chat from "./Chat";
 
@@ -124,27 +123,29 @@ const Home = () => {
       )}
       <section className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
         <h1 className="text-4xl font-semibold">ASQ</h1>
-        <p className="text-lg font-semibold">
-          ASQ veileder deg om alt du trenger å vite når du skal motta, dele
-          eller behandle data.
-          <br />
-        </p>
         <p className="text-lg">
-          <br /> Få veiledning om hvordan du følger personvernsprinsippene,
-          GDPR, DPIA eller hva enn du måtte lure på av personvernrelaterte
-          spørsmål. Du kan starte en samtale med ASQ ved å skrive inn spørsmålet
-          ditt i tekstfeltet nedenfor.
+          Få veiledning om hvordan du følger personvernsprinsippene, GDPR, DPIA
+          eller hva enn du måtte lure på av personvernrelaterte spørsmål eller
+          søknader.
         </p>
-        <p className="mt-4">
-          Usikker på hvor du skal begynne?{" "}
-          <a
-            aria-label="Lær det grunnleggende om personvern, estimert lesetid 5 minutter"
-            className="underline"
-            href="/personvern"
-          >
-            Lær det grunnleggende om personvern (5 min)
-          </a>
-        </p>
+        <div className="flex flex-row justify-center gap-4">
+          <p className="mt-4 bg-card px-4 py-2 rounded-md text-md">
+            Usikker på hvor du skal begynne?{" "}
+            <a
+              aria-label="Lær det grunnleggende om personvern"
+              className="underline"
+              href="/personvern"
+            >
+              Lær om personvern
+            </a>
+          </p>
+          <p className="mt-4 bg-card px-4 py-2 rounded-md text-md">
+            Vil du heller gjøre en full personvernvurdering?{" "}
+            <a aria-label="Start personvernsjekkliste" href="/sjekkliste">
+              Start her
+            </a>
+          </p>
+        </div>
       </section>
 
       {errorMsg && (
@@ -192,12 +193,6 @@ const Home = () => {
           Ikke skriv inn sensitive eller identifiserbare personopplysninger.
           Personvernsassistenten kan gi juridisk veiledning, men erstatter ikke
           profesjonell juridisk rådgivning.
-        </p>
-        <p className="text-md mt-4">
-          Vil du heller gjøre en full personvernvurdering?{" "}
-          <a aria-label="Start personvernsjekkliste" href="/sjekkliste">
-            Start her
-          </a>
         </p>
       </div>
     </div>

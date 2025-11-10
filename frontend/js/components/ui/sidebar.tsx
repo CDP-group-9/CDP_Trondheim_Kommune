@@ -5,6 +5,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
 
+import { useIsMobile } from "hooks/useMobile";
 import { Button } from "js/components/ui/button";
 import { Input } from "js/components/ui/input";
 import { Separator } from "js/components/ui/separator";
@@ -22,7 +23,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "js/components/ui/tooltip";
-import { useIsMobile } from "js/hooks/use-mobile";
 import { cn } from "js/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
