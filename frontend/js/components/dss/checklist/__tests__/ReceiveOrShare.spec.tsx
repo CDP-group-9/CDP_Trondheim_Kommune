@@ -121,16 +121,12 @@ describe("ReceiveOrShareData", () => {
   test("applies correct styling to selected receive option", () => {
     renderComponent(undefined, "motta");
 
-    expect(
-      screen.getByLabelText(/Motta\/samle inn data/i),
-    ).toBeChecked();
+    expect(screen.getByLabelText(/Motta\/samle inn data/i)).toBeChecked();
   });
 
   test("applies correct styling to selected share option", () => {
     renderComponent(undefined, "dele");
 
-    expect(
-      screen.getByLabelText(/Dele\/utlevere data/i),
-    ).toBeChecked();
+    expect(screen.getByLabelText(/Dele\/utlevere data/i)).toBeChecked();
   });
 });

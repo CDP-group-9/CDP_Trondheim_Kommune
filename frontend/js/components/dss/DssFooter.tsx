@@ -1,8 +1,7 @@
 import { forwardRef } from "react";
 
-import { cn } from "js/lib/utils";
-
 import { useSidebarSectionLayout } from "js/hooks/useSidebarSectionLayout";
+import { cn } from "js/lib/utils";
 
 type DssFooterProps = React.ComponentPropsWithoutRef<"footer"> & {
   /**

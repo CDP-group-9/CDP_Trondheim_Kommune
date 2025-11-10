@@ -12,7 +12,6 @@ import type { ContextData } from "js/hooks/useChecklist";
 
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
-import { Label } from "@radix-ui/react-label";
 
 type Props = {
   contextData: ContextData;

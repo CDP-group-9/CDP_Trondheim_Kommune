@@ -96,9 +96,7 @@ describe("DssSidebar", () => {
         <DssSidebar />
       </MemoryRouter>,
     );
-    expect(
-      screen.getByLabelText("Gå til ASQ forsiden"),
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Gå til ASQ forsiden")).toBeInTheDocument();
   });
 
   test("renders all menu items", () => {
@@ -153,7 +151,9 @@ describe("DssSidebar", () => {
     );
 
     expect(screen.getByRole("button", { name: /Ny samtale/i })).toBeVisible();
-    expect(screen.getByRole("button", { name: /Om personvern/i })).toBeVisible();
+    expect(
+      screen.getByRole("button", { name: /Om personvern/i }),
+    ).toBeVisible();
     expect(screen.getByRole("button", { name: /Sjekkliste/i })).toBeVisible();
     expect(screen.getByRole("button", { name: /Eksempler/i })).toBeVisible();
   });

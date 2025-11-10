@@ -2,6 +2,7 @@ import { forwardRef, useId } from "react";
 import type { ReactNode } from "react";
 
 import { useInternalStatus } from "js/hooks/useInternalStatus"; // adjust path if needed
+import { useSidebarSectionLayout } from "js/hooks/useSidebarSectionLayout";
 import { cn } from "js/lib/utils";
 
 import tkLogo from "../../../assets/images/tk-logo-wide.svg";
@@ -9,7 +10,6 @@ import { SidebarHeader } from "../ui/sidebar";
 import { Switch } from "../ui/switch";
 
 import { DssDynamicBreadcrumb } from "./DssDynamicBreadcrumb";
-import { useSidebarSectionLayout } from "js/hooks/useSidebarSectionLayout";
 
 type DssHeaderProps = React.ComponentPropsWithoutRef<typeof SidebarHeader> & {
   /**

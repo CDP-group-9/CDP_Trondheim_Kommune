@@ -31,7 +31,6 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-
 function InputGroupTextarea({
   className,
   ...props
@@ -48,7 +47,4 @@ function InputGroupTextarea({
   );
 }
 
-export {
-  InputGroup,
-  InputGroupTextarea,
-};
+export { InputGroup, InputGroupTextarea };

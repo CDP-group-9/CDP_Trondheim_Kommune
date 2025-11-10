@@ -1,10 +1,9 @@
 import { forwardRef } from "react";
 
+import { useSidebarSectionLayout } from "js/hooks/useSidebarSectionLayout";
 import { cn } from "js/lib/utils";
 
 import { SidebarInset } from "../ui/sidebar";
-
-import { useSidebarSectionLayout } from "js/hooks/useSidebarSectionLayout";
 
 type DssMainProps = React.ComponentPropsWithoutRef<typeof SidebarInset> & {
   /**
