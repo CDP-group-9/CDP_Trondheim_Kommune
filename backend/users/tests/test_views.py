@@ -23,7 +23,6 @@ class UserViewSetTest(TestCaseUtils, APITestCase):
         """Test creating a new user"""
         data = {
             "email": "testuser@test.com",
-            "password": "12345678",
         }
 
         response = self.auth_client.post(reverse("user-list"), data=data)
@@ -47,7 +46,6 @@ class UserViewSetTest(TestCaseUtils, APITestCase):
         user = baker.make(User, email="testuser@test.com", _fill_optional=True)
         data = {
             "email": "user@test.com",
-            "password": "87654321",
         }
 
         response = self.auth_client.put(reverse("user-detail", args=[user.id]), data=data)

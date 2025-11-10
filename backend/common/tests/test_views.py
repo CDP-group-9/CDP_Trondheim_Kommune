@@ -180,8 +180,8 @@ class HistorySerializationTest(TestCase):
     def test_json_to_history_with_valid_data(self):
         """Test converting JSON back to Content objects"""
         history_json = [
-            {"role": "user", "parts": [{"text": "Hello"}]},
-            {"role": "model", "parts": [{"text": "Hi"}]},
+            {"type": "user", "message": "Hello"},
+            {"type": "bot", "message": "Hi"},
         ]
 
         result = json_to_history(history_json)
@@ -194,7 +194,7 @@ class HistorySerializationTest(TestCase):
     def test_json_to_history_graceful_fallback(self):
         """Test json_to_history creates Content objects from minimal data"""
         history_json = [
-            {"role": "user", "parts": [{"text": "valid"}]},
+            {"type": "user", "message": "valid"},
         ]
 
         result = json_to_history(history_json)
@@ -211,7 +211,7 @@ class ChatViewSetTest(TestCase):
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_success(self, mock_service):
         """Test successful chat API call"""
-        mock_service.send_chat_message_sync.return_value = (
+        mock_service.send_question_with_laws.return_value = (
             "This is a response",
             [
                 Content(role="user", parts=[{"text": "Hello"}]),
@@ -230,7 +230,7 @@ class ChatViewSetTest(TestCase):
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_with_history(self, mock_service):
         """Test chat API call with conversation history"""
-        mock_service.send_chat_message_sync.return_value = (
+        mock_service.send_question_with_laws.return_value = (
             "Follow-up response",
             [
                 Content(role="user", parts=[{"text": "First message"}]),
@@ -242,8 +242,8 @@ class ChatViewSetTest(TestCase):
         data = {
             "prompt": "Second message",
             "history": [
-                {"role": "user", "parts": [{"text": "First message"}]},
-                {"role": "model", "parts": [{"text": "First response"}]},
+                {"type": "user", "message": "First message"},
+                {"type": "bot", "message": "First response"},
             ],
         }
 
@@ -252,12 +252,12 @@ class ChatViewSetTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("response", response.data)
         self.assertIn("history", response.data)
-        mock_service.send_chat_message_sync.assert_called_once()
+        mock_service.send_question_with_laws.assert_called_once()
 
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_with_context(self, mock_service):
         """Test chat API call with context text"""
-        mock_service.send_chat_message_sync.return_value = (
+        mock_service.send_question_with_laws.return_value = (
             "Response with context",
             [
                 Content(role="user", parts=[{"text": "Question"}]),
@@ -273,13 +273,13 @@ class ChatViewSetTest(TestCase):
         response = self.client.post(self.url, data=data, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        call_kwargs = mock_service.send_chat_message_sync.call_args[1]
+        call_kwargs = mock_service.send_question_with_laws.call_args[1]
         self.assertEqual(call_kwargs["context_text"], "Some relevant context")
 
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_with_system_instructions(self, mock_service):
         """Test chat API call with system instructions"""
-        mock_service.send_chat_message_sync.return_value = (
+        mock_service.send_question_with_laws.return_value = (
             "Response",
             [
                 Content(role="user", parts=[{"text": "Question"}]),
@@ -295,13 +295,13 @@ class ChatViewSetTest(TestCase):
         response = self.client.post(self.url, data=data, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        call_kwargs = mock_service.send_chat_message_sync.call_args[1]
+        call_kwargs = mock_service.send_question_with_laws.call_args[1]
         self.assertEqual(call_kwargs["system_instruction"], "You are a helpful assistant")
 
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_with_custom_model(self, mock_service):
         """Test chat API call with custom model name"""
-        mock_service.send_chat_message_sync.return_value = (
+        mock_service.send_question_with_laws.return_value = (
             "Response",
             [
                 Content(role="user", parts=[{"text": "Question"}]),
@@ -317,13 +317,13 @@ class ChatViewSetTest(TestCase):
         response = self.client.post(self.url, data=data, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        call_kwargs = mock_service.send_chat_message_sync.call_args[1]
+        call_kwargs = mock_service.send_question_with_laws.call_args[1]
         self.assertEqual(call_kwargs["model_name"], "gemini-pro")
 
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_default_model(self, mock_service):
         """Test chat API uses default model when not specified"""
-        mock_service.send_chat_message_sync.return_value = (
+        mock_service.send_question_with_laws.return_value = (
             "Response",
             [
                 Content(role="user", parts=[{"text": "Question"}]),
@@ -335,13 +335,13 @@ class ChatViewSetTest(TestCase):
         response = self.client.post(self.url, data=data, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        call_kwargs = mock_service.send_chat_message_sync.call_args[1]
+        call_kwargs = mock_service.send_question_with_laws.call_args[1]
         self.assertEqual(call_kwargs["model_name"], "gemini-2.5-flash")
 
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_error_value_error(self, mock_service):
         """Test chat API handles ValueError with 500 response"""
-        mock_service.send_chat_message_sync.side_effect = ValueError("Invalid input")
+        mock_service.send_question_with_laws.side_effect = ValueError("Invalid input")
         data = {"prompt": "Question", "history": []}
 
         response = self.client.post(self.url, data=data, format="json")
@@ -352,7 +352,7 @@ class ChatViewSetTest(TestCase):
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_error_type_error(self, mock_service):
         """Test chat API handles TypeError with 500 response"""
-        mock_service.send_chat_message_sync.side_effect = TypeError("Type mismatch")
+        mock_service.send_question_with_laws.side_effect = TypeError("Type mismatch")
         data = {"prompt": "Question", "history": []}
 
         response = self.client.post(self.url, data=data, format="json")
@@ -363,7 +363,7 @@ class ChatViewSetTest(TestCase):
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_error_key_error(self, mock_service):
         """Test chat API handles KeyError with 500 response"""
-        mock_service.send_chat_message_sync.side_effect = KeyError("Missing key")
+        mock_service.send_question_with_laws.side_effect = KeyError("Missing key")
         data = {"prompt": "Question", "history": []}
 
         response = self.client.post(self.url, data=data, format="json")
@@ -374,7 +374,7 @@ class ChatViewSetTest(TestCase):
     @patch("common.views.GEMINI_CHAT_SERVICE")
     def test_chat_empty_prompt(self, mock_service):
         """Test chat API handles empty prompt"""
-        mock_service.send_chat_message_sync.return_value = (
+        mock_service.send_question_with_laws.return_value = (
             "Response",
             [
                 Content(role="user", parts=[{"text": ""}]),
