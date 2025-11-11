@@ -279,9 +279,7 @@ class DatabaseIntegrationTest(TestCase):
         """Test that insert_paragraph_record handles exceptions gracefully"""
         clear_table(self.conn)
 
-        insert_paragraph_record(
-            self.conn, "law-1", "para-1", "§1", "Text", {}, [0.1] * 100
-        )
+        insert_paragraph_record(self.conn, "law-1", "para-1", "§1", "Text", {}, [0.1] * 100)
 
         self.conn.rollback()
 

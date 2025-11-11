@@ -178,6 +178,7 @@ class ExtractSelectedFilesTest(TestCase):
 
             with tarfile.open(tar_path, "w:bz2") as tar:
                 import io
+
                 file_data = io.BytesIO(test_content)
                 tarinfo = tarfile.TarInfo(name="path/to/nl-20180615-038.xml")
                 tarinfo.size = len(test_content)
@@ -203,6 +204,7 @@ class ExtractSelectedFilesTest(TestCase):
 
             with tarfile.open(tar_path, "w:bz2") as tar:
                 import io
+
                 for filename in ["wanted.xml", "unwanted.xml"]:
                     file_data = io.BytesIO(b"content")
                     tarinfo = tarfile.TarInfo(name=filename)

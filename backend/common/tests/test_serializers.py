@@ -148,7 +148,12 @@ class ChecklistRequestSerializerTest(TestCase):
         """Test validation with complete checklist data"""
         data = {
             "selectedOption": "innsamle",
-            "contextData": {"projectSummary": "Test project", "department": "IT", "status": "planning", "purpose": "Testing"},
+            "contextData": {
+                "projectSummary": "Test project",
+                "department": "IT",
+                "status": "planning",
+                "purpose": "Testing",
+            },
             "handlingData": {
                 "purpose": "Data collection",
                 "selectedDataTypes": ["navn", "epost"],

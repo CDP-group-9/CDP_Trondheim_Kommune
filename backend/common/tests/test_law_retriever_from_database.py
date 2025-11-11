@@ -87,9 +87,7 @@ class LawRetrieverRetrieveTest(TestCase):
     def test_retrieve_with_law_id(self, mock_embedding, mock_connect):
         """Test retrieve with specific law_id"""
         mock_cursor = MagicMock()
-        mock_cursor.fetchall.return_value = [
-            ("p1", "§2", "Test paragraph", {}, "law123", 0.15)
-        ]
+        mock_cursor.fetchall.return_value = [("p1", "§2", "Test paragraph", {}, "law123", 0.15)]
         mock_conn = MagicMock()
         mock_conn.cursor.return_value.__enter__.return_value = mock_cursor
         mock_connect.return_value = mock_conn

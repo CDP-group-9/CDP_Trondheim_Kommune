@@ -77,16 +77,12 @@ class GeminiAPIClientSendQuestionTest(TestCase):
         mock_client_class.return_value = mock_client
 
         mock_law_retriever = MagicMock()
-        mock_law_retriever.retrieve.return_value = {
-            "paragraphs": [],
-            "laws": []
-        }
+        mock_law_retriever.retrieve.return_value = {"paragraphs": [], "laws": []}
         mock_law_retriever_class.return_value = mock_law_retriever
 
         client = GeminiAPIClient(api_key="test-key")
         response_text, history = client.send_question_with_laws(
-            prompt="Legal question",
-            current_history=[]
+            prompt="Legal question", current_history=[]
         )
 
         self.assertEqual(response_text, "Response to legal question")
@@ -111,10 +107,7 @@ class GeminiAPIClientSendQuestionTest(TestCase):
         mock_client_class.return_value = mock_client
 
         mock_law_retriever = MagicMock()
-        mock_law_retriever.retrieve.return_value = {
-            "paragraphs": [],
-            "laws": []
-        }
+        mock_law_retriever.retrieve.return_value = {"paragraphs": [], "laws": []}
         mock_law_retriever_class.return_value = mock_law_retriever
 
         client = GeminiAPIClient(api_key="test-key")
@@ -144,17 +137,12 @@ class GeminiAPIClientSendQuestionTest(TestCase):
         mock_client_class.return_value = mock_client
 
         mock_law_retriever = MagicMock()
-        mock_law_retriever.retrieve.return_value = {
-            "paragraphs": [],
-            "laws": []
-        }
+        mock_law_retriever.retrieve.return_value = {"paragraphs": [], "laws": []}
         mock_law_retriever_class.return_value = mock_law_retriever
 
         client = GeminiAPIClient(api_key="test-key")
         client.send_question_with_laws(
-            prompt="Question",
-            current_history=[],
-            model_name="gemini-pro"
+            prompt="Question", current_history=[], model_name="gemini-pro"
         )
 
         call_kwargs = mock_client.chats.create.call_args[1]
@@ -182,22 +170,16 @@ class GeminiAPIClientSendQuestionTest(TestCase):
                     "law_id": "lov19670210001",
                     "paragraph_number": "§ 1",
                     "text": "Test law paragraph",
-                    "cosine_distance": 0.1
+                    "cosine_distance": 0.1,
                 }
             ],
-            "laws": [
-                {
-                    "law_id": "lov19670210001",
-                    "metadata": {"title": "Test Law"}
-                }
-            ]
+            "laws": [{"law_id": "lov19670210001", "metadata": {"title": "Test Law"}}],
         }
         mock_law_retriever_class.return_value = mock_law_retriever
 
         client = GeminiAPIClient(api_key="test-key")
         response_text, _ = client.send_question_with_laws(
-            prompt="Legal question",
-            current_history=[]
+            prompt="Legal question", current_history=[]
         )
 
         # Response should include law links appended to the base response
@@ -205,7 +187,9 @@ class GeminiAPIClientSendQuestionTest(TestCase):
         self.assertIn("Lovdata-lenker", response_text)
         mock_chat.send_message.assert_called_once()
         call_args = mock_chat.send_message.call_args[0][0]
-        self.assertTrue(any("KONTEKST" in str(part.text) for part in call_args if hasattr(part, "text")))
+        self.assertTrue(
+            any("KONTEKST" in str(part.text) for part in call_args if hasattr(part, "text"))
+        )
 
 
 class GeminiChatServiceTest(TestCase):
