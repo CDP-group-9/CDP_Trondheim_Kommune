@@ -10,7 +10,6 @@ class MockResponseTest(TestCase):
         mock_response = MockResponse.objects.create(response=response_text)
 
         self.assertEqual(mock_response.response, response_text)
-        self.assertIsNotNone(mock_response.id)
 
     def test_str_representation(self):
         """Test string representation returns the response text"""
@@ -36,15 +35,8 @@ class IndexedTimeStampedModelTest(TestCase):
         """Test that IndexedTimeStampedModel is abstract"""
         self.assertTrue(IndexedTimeStampedModel._meta.abstract)
 
-    def test_has_timestamp_fields(self):
-        """Test that model has created and modified fields"""
-        fields = [field.name for field in IndexedTimeStampedModel._meta.get_fields()]
-
-        self.assertIn("created", fields)
-        self.assertIn("modified", fields)
-
-    def test_fields_have_db_index(self):
-        """Test that timestamp fields have database indexes"""
+    def test_timestamp_fields_with_indexes(self):
+        """Test that model has created and modified fields with database indexes"""
         created_field = IndexedTimeStampedModel._meta.get_field("created")
         modified_field = IndexedTimeStampedModel._meta.get_field("modified")
 

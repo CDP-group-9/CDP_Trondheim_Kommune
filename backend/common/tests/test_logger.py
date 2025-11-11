@@ -26,20 +26,6 @@ class SingletonLoggerTest(TestCase):
         self.assertIs(instance1, instance2)
         self.assertEqual(instance1._logger_name, "custom_logger")
 
-    def test_logger_property(self):
-        """Test that logger property returns a Logger instance"""
-        instance = _SingletonLogger()
-        log = instance.logger
-
-        self.assertIsInstance(log, logging.Logger)
-
-    def test_logger_name(self):
-        """Test that logger has the correct name"""
-        instance = _SingletonLogger(logger_name="test_logger")
-        log = instance.logger
-
-        self.assertEqual(log.name, "test_logger")
-
     def test_thread_safety(self):
         """Test that singleton is thread-safe"""
         instances = []

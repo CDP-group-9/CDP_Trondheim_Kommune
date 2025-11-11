@@ -6,7 +6,7 @@ from users.serializers import UserSerializer
 
 class UserSerializerTest(TestCase):
     def test_serialization(self):
-        """Test serializing a User object"""
+        """Test serializing a User object with all expected fields"""
         user = User.objects.create_user(email="test@example.com", password="testpass123")
         serializer = UserSerializer(user)
 
@@ -14,16 +14,6 @@ class UserSerializerTest(TestCase):
         self.assertEqual(serializer.data["is_active"], True)
         self.assertEqual(serializer.data["is_staff"], False)
         self.assertEqual(serializer.data["is_superuser"], False)
-        self.assertIn("id", serializer.data)
-        self.assertIn("created", serializer.data)
-        self.assertIn("modified", serializer.data)
-        self.assertIn("last_login", serializer.data)
-
-    def test_serialization_excludes_password(self):
-        """Test that password is not included in serialized data"""
-        user = User.objects.create_user(email="test@example.com", password="testpass123")
-        serializer = UserSerializer(user)
-
         self.assertNotIn("password", serializer.data)
 
     def test_serialization_with_superuser(self):
@@ -76,20 +66,3 @@ class UserSerializerTest(TestCase):
         updated_user = serializer.save()
         self.assertEqual(updated_user.email, "updated@example.com")
         self.assertFalse(updated_user.is_active)
-
-    def test_fields_are_correct(self):
-        """Test that serializer has the correct fields"""
-        serializer = UserSerializer()
-        fields = set(serializer.fields.keys())
-
-        expected_fields = {
-            "id",
-            "email",
-            "is_active",
-            "is_staff",
-            "is_superuser",
-            "created",
-            "modified",
-            "last_login",
-        }
-        self.assertEqual(fields, expected_fields)

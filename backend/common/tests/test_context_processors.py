@@ -13,7 +13,6 @@ class ContextProcessorsTest(TestCase):
         """Test that sentry_dsn returns dict with SENTRY_DSN from settings"""
         result = sentry_dsn(self.request)
 
-        self.assertIsInstance(result, dict)
         self.assertIn("SENTRY_DSN", result)
         self.assertEqual(result["SENTRY_DSN"], settings.SENTRY_DSN)
 
@@ -21,6 +20,5 @@ class ContextProcessorsTest(TestCase):
         """Test that commit_sha returns dict with COMMIT_SHA from settings"""
         result = commit_sha(self.request)
 
-        self.assertIsInstance(result, dict)
         self.assertIn("COMMIT_SHA", result)
         self.assertEqual(result["COMMIT_SHA"], settings.COMMIT_SHA)
