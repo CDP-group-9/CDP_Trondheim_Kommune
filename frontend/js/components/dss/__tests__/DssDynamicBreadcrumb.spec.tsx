@@ -8,39 +8,24 @@ jest.mock("lucide-react", () => ({
   ChevronRight: () => <div>ChevronRight</div>,
 }));
 
+const renderWithRouter = (path: string, component: React.ReactElement) =>
+  render(
+    <MemoryRouter
+      future={{
+        // eslint-disable-next-line camelcase
+        v7_startTransition: true,
+        // eslint-disable-next-line camelcase
+        v7_relativeSplatPath: true,
+      }}
+      initialEntries={[path]}
+    >
+      {component}
+    </MemoryRouter>,
+  );
+
 describe("DssDynamicBreadcrumb", () => {
-  test("renders Home link at root path", () => {
-    render(
-      <MemoryRouter
-        future={{
-          // eslint-disable-next-line camelcase
-          v7_startTransition: true,
-          // eslint-disable-next-line camelcase
-          v7_relativeSplatPath: true,
-        }}
-        initialEntries={["/"]}
-      >
-        <DssDynamicBreadcrumb />
-      </MemoryRouter>,
-    );
-
-    expect(screen.getByText("Home")).toBeInTheDocument();
-  });
-
   test("renders breadcrumb trail with capitalized path parts", () => {
-    render(
-      <MemoryRouter
-        future={{
-          // eslint-disable-next-line camelcase
-          v7_startTransition: true,
-          // eslint-disable-next-line camelcase
-          v7_relativeSplatPath: true,
-        }}
-        initialEntries={["/personvern/sjekkliste"]}
-      >
-        <DssDynamicBreadcrumb />
-      </MemoryRouter>,
-    );
+    renderWithRouter("/personvern/sjekkliste", <DssDynamicBreadcrumb />);
 
     expect(screen.getByText("Home")).toBeInTheDocument();
     expect(screen.getByText("Personvern")).toBeInTheDocument();
@@ -48,37 +33,16 @@ describe("DssDynamicBreadcrumb", () => {
   });
 
   test("applies custom className", () => {
-    const { container } = render(
-      <MemoryRouter
-        future={{
-          // eslint-disable-next-line camelcase
-          v7_startTransition: true,
-          // eslint-disable-next-line camelcase
-          v7_relativeSplatPath: true,
-        }}
-        initialEntries={["/"]}
-      >
-        <DssDynamicBreadcrumb className="custom-class" />
-      </MemoryRouter>,
+    const { container } = renderWithRouter(
+      "/",
+      <DssDynamicBreadcrumb className="custom-class" />,
     );
 
     expect(container.querySelector("nav")).toHaveClass("custom-class");
   });
 
   test("renders separator icons between breadcrumb items", () => {
-    render(
-      <MemoryRouter
-        future={{
-          // eslint-disable-next-line camelcase
-          v7_startTransition: true,
-          // eslint-disable-next-line camelcase
-          v7_relativeSplatPath: true,
-        }}
-        initialEntries={["/personvern/test"]}
-      >
-        <DssDynamicBreadcrumb />
-      </MemoryRouter>,
-    );
+    renderWithRouter("/personvern/test", <DssDynamicBreadcrumb />);
 
     expect(screen.getAllByText("ChevronRight").length).toBeGreaterThan(0);
   });

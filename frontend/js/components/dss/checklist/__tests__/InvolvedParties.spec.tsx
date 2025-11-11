@@ -16,24 +16,17 @@ jest.mock("js/components/ui/select", () => ({
     value?: string;
     onValueChange?: (value: string) => void;
   }) => (
-    <div data-testid="select">
-      <select
-        value={value}
-        onChange={(event) => onValueChange?.(event.target.value)}
-      >
-        {children}
-      </select>
-    </div>
+    <select
+      data-testid="select"
+      value={value}
+      onChange={(event) => onValueChange?.(event.target.value)}
+    >
+      {children}
+    </select>
   ),
-  SelectTrigger: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-  SelectValue: ({ placeholder }: { placeholder?: string }) => (
-    <div>{placeholder}</div>
-  ),
-  SelectContent: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
+  SelectTrigger: ({ children }: { children: React.ReactNode }) => children,
+  SelectValue: ({ placeholder }: { placeholder?: string }) => placeholder,
+  SelectContent: ({ children }: { children: React.ReactNode }) => children,
   SelectItem: ({
     children,
     value,

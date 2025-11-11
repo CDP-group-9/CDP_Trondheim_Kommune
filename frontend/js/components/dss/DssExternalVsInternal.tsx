@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   AlertDialog,
@@ -22,8 +22,6 @@ export function DssExternalVsInternal({
   onSelect?: (isInternal: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const titleId = useId();
-  const descriptionId = useId();
 
   useEffect(() => {
     if (autoOpen) setOpen(true);
@@ -47,20 +45,14 @@ export function DssExternalVsInternal({
           Velg internstatus
         </AlertDialogTrigger>
       )}
-      <AlertDialogContent
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        role="alertdialog"
-      >
+      <AlertDialogContent role="alertdialog">
         <AlertDialogHeader>
-          <AlertDialogTitle id={titleId}>
-            Jobber du i Trondheim kommune?
-          </AlertDialogTitle>
+          <AlertDialogTitle>Jobber du i Trondheim kommune?</AlertDialogTitle>
+          <AlertDialogDescription className="text-base">
+            For å kunne gi best mulig anbefaling må verktøyet vite om du er
+            ansatt i Trondheim kommune eller ikke.
+          </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogDescription className="text-base" id={descriptionId}>
-          For å kunne gi best mulig anbefaling må verktøyet vite om du er ansatt
-          i Trondheim kommune eller ikke.
-        </AlertDialogDescription>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => handleSelect(true)}>
             Ansatt i Trondheim kommune

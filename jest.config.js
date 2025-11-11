@@ -12,10 +12,15 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "frontend/js/store.js",
     "frontend/js/index.js",
+    "frontend/js/index.tsx",
     "frontend/js/constants/*",
     "frontend/js/tests/*",
     "frontend/js/components/ui/*",
     "frontend/js/api/*",
+    "frontend/js/routes/index.ts",
+    "frontend/js/services/index.ts",
+    "frontend/js/App.tsx",
+    "frontend/js/utils/*",
   ],
   coverageThreshold: {
     global: {

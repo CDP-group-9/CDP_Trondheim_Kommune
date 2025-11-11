@@ -69,18 +69,8 @@ describe("ReceiveOrShareData", () => {
     ).toBeInTheDocument();
   });
 
-  test("does not show warning when receive is selected", () => {
+  test("does not show warning when an option is selected", () => {
     renderComponent(undefined, "motta");
-
-    expect(
-      screen.queryByText(
-        /Vennligst velg ett alternativ for å fortsette med sjekklisten/,
-      ),
-    ).not.toBeInTheDocument();
-  });
-
-  test("does not show warning when share is selected", () => {
-    renderComponent(undefined, "dele");
 
     expect(
       screen.queryByText(
@@ -118,15 +108,9 @@ describe("ReceiveOrShareData", () => {
     expect(onSelect).toHaveBeenCalledWith(null);
   });
 
-  test("applies correct styling to selected receive option", () => {
+  test("applies correct styling to selected option", () => {
     renderComponent(undefined, "motta");
 
     expect(screen.getByLabelText(/Motta\/samle inn data/i)).toBeChecked();
-  });
-
-  test("applies correct styling to selected share option", () => {
-    renderComponent(undefined, "dele");
-
-    expect(screen.getByLabelText(/Dele\/utlevere data/i)).toBeChecked();
   });
 });

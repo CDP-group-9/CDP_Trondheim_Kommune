@@ -3,6 +3,9 @@ import { render, fireEvent } from "@testing-library/react";
 import { DssProgressBar } from "components/dss";
 
 describe("DssProgressBar", () => {
+  let addEventListenerSpy: jest.SpyInstance;
+  let removeEventListenerSpy: jest.SpyInstance;
+
   beforeEach(() => {
     window.scrollY = 0;
     Object.defineProperty(window, "innerHeight", {
@@ -15,9 +18,16 @@ describe("DssProgressBar", () => {
       configurable: true,
       value: 2000,
     });
+    addEventListenerSpy = jest.spyOn(window, "addEventListener");
+    removeEventListenerSpy = jest.spyOn(window, "removeEventListener");
   });
 
-  test("does not render when scroll progress is 0", () => {
+  afterEach(() => {
+    addEventListenerSpy.mockRestore();
+    removeEventListenerSpy.mockRestore();
+  });
+
+  test("does not render progress bar initially", () => {
     const { container } = render(<DssProgressBar />);
 
     expect(container.firstChild).toBeNull();
@@ -39,9 +49,6 @@ describe("DssProgressBar", () => {
   });
 
   test("manages scroll event listener lifecycle", () => {
-    const addEventListenerSpy = jest.spyOn(window, "addEventListener");
-    const removeEventListenerSpy = jest.spyOn(window, "removeEventListener");
-
     const { unmount } = render(<DssProgressBar />);
 
     expect(addEventListenerSpy).toHaveBeenCalledWith(
