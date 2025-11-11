@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 from django.test import TestCase, override_settings
 
-from google.genai.types import Content
+from google.genai.types import Content, Part
 
 from common.utils.gemini_client import GEMINI_CHAT_SERVICE, GeminiAPIClient
 
@@ -14,7 +14,7 @@ class GeminiAPIClientInitTest(TestCase):
         client = GeminiAPIClient()
 
         self.assertEqual(client.api_key, "test-api-key")
-        self.assertEqual(client.timeout, 10)
+        self.assertEqual(client.timeout, 300)
 
     def test_init_with_custom_timeout(self):
         """Test initializing client with custom timeout"""
@@ -23,34 +23,31 @@ class GeminiAPIClientInitTest(TestCase):
         self.assertEqual(client.timeout, 30)
 
     @override_settings(GEMINI_API_KEY=None)
-    @patch("common.utils.gemini_client.getattr")
-    def test_init_without_api_key_raises_error(self, mock_getattr):
+    def test_init_without_api_key_raises_error(self):
         """Test that initializing without API key raises ValueError"""
-        mock_getattr.return_value = None
+        with self.assertRaises(ValueError) as context:
+            GeminiAPIClient(api_key=None)
 
-        with self.assertRaises(ValueError):
-            GeminiAPIClient()
+        self.assertIn("GEMINI_API_KEY", str(context.exception))
 
 
 class GeminiAPIClientStartClientTest(TestCase):
     @patch("common.utils.gemini_client.genai.Client")
     def test_start_client_initializes_client(self, mock_client_class):
-        """Test that start_client initializes both sync and async clients"""
+        """Test that start_client initializes the client"""
         mock_client = MagicMock()
-        mock_client.aio = MagicMock()
         mock_client_class.return_value = mock_client
 
         client = GeminiAPIClient(api_key="test-key")
         client.start_client()
 
         self.assertIsNotNone(client.client)
-        self.assertIsNotNone(client.async_client)
+        mock_client_class.assert_called_once()
 
     @patch("common.utils.gemini_client.genai.Client")
     def test_start_client_only_once(self, mock_client_class):
         """Test that start_client only initializes once even when called multiple times"""
         mock_client = MagicMock()
-        mock_client.aio = MagicMock()
         mock_client_class.return_value = mock_client
 
         client = GeminiAPIClient(api_key="test-key")
@@ -60,160 +57,43 @@ class GeminiAPIClientStartClientTest(TestCase):
         mock_client_class.assert_called_once()
 
 
-class GeminiAPIClientConnectionTest(TestCase):
+class GeminiAPIClientSendQuestionTest(TestCase):
+    @patch("common.utils.gemini_client.LawRetriever")
     @patch("common.utils.gemini_client.genai.Client")
-    def test_connection_success(self, mock_client_class):
-        """Test that test_connection returns True on successful connection"""
-        mock_client = MagicMock()
-        mock_client.models.list.return_value = []
-        mock_client.aio = MagicMock()
-        mock_client_class.return_value = mock_client
-
-        client = GeminiAPIClient(api_key="test-key")
-        result = client.test_connection()
-
-        self.assertTrue(result)
-
-
-class GeminiAPIClientSimpleRequestTest(TestCase):
-    @patch("common.utils.gemini_client.genai.Client")
-    def test_simple_request_success(self, mock_client_class):
-        """Test successful simple_request returns generated text"""
+    def test_send_question_with_laws_success(self, mock_client_class, mock_law_retriever_class):
+        """Test send_question_with_laws sends message and returns response with history"""
         mock_response = MagicMock()
-        mock_response.text = "AI works by processing data"
-
-        mock_client = MagicMock()
-        mock_client.models.generate_content.return_value = mock_response
-        mock_client.aio = MagicMock()
-        mock_client_class.return_value = mock_client
-
-        client = GeminiAPIClient(api_key="test-key")
-        result = client.simple_request()
-
-        self.assertEqual(result, "AI works by processing data")
-
-    @patch("common.utils.gemini_client.genai.Client")
-    @patch("common.utils.gemini_client.time.sleep")
-    def test_simple_request_retries_on_failure(self, mock_sleep, mock_client_class):
-        """Test that simple_request retries on failure and raises TimeoutError"""
-        mock_client = MagicMock()
-        mock_client.models.generate_content.side_effect = [
-            Exception("Failure"),
-            Exception("Failure"),
-        ]
-        mock_client.aio = MagicMock()
-        mock_client_class.return_value = mock_client
-
-        client = GeminiAPIClient(api_key="test-key")
-
-        with self.assertRaises(TimeoutError):
-            client.simple_request()
-
-
-class GeminiAPIClientModelManagementTest(TestCase):
-    @patch("common.utils.gemini_client.genai.Client")
-    def test_get_models_list(self, mock_client_class):
-        """Test that get_models_list returns list of model names"""
-        mock_model = MagicMock()
-        mock_model.name = "gemini-pro"
-
-        mock_client = MagicMock()
-        mock_client.models.list.return_value = [mock_model]
-        mock_client.aio = MagicMock()
-        mock_client_class.return_value = mock_client
-
-        client = GeminiAPIClient(api_key="test-key")
-        models = client.get_models_list()
-
-        self.assertIn("gemini-pro", models)
-
-    @patch("common.utils.gemini_client.genai.Client")
-    def test_get_model_details(self, mock_client_class):
-        """Test that get_model_details returns model information"""
-        mock_model = MagicMock()
-        mock_model.name = "gemini-pro"
-        mock_model.description = "A powerful model"
-
-        mock_client = MagicMock()
-        mock_client.models.get.return_value = mock_model
-        mock_client.aio = MagicMock()
-        mock_client_class.return_value = mock_client
-
-        client = GeminiAPIClient(api_key="test-key")
-        details = client.get_model_details("gemini-pro")
-
-        self.assertEqual(details["name"], "gemini-pro")
-
-
-class GeminiAPIClientChatTest(TestCase):
-    @patch("common.utils.gemini_client.genai.Client")
-    def test_quick_chat(self, mock_client_class):
-        """Test quick_chat sends messages and returns history"""
-        mock_response = MagicMock()
-        mock_response.text = "Response"
-
-        mock_chat = MagicMock()
-        mock_chat.send_message.return_value = mock_response
-
-        mock_client = MagicMock()
-        mock_client.chats.create.return_value = mock_chat
-        mock_client.aio = MagicMock()
-        mock_client_class.return_value = mock_client
-
-        client = GeminiAPIClient(api_key="test-key")
-        history = client.quick_chat("gemini-pro", ["Hello"])
-
-        self.assertEqual(len(history), 1)
-        self.assertEqual(history[0][1], "Response")
-
-    @patch("common.utils.gemini_client.genai.Client")
-    def test_start_and_continue_chat(self, mock_client_class):
-        """Test starting new chat and continuing with messages"""
-        mock_response = MagicMock()
-        mock_response.text = "Response"
-
-        mock_chat = MagicMock()
-        mock_chat.send_message.return_value = mock_response
-
-        mock_client = MagicMock()
-        mock_client.chats.create.return_value = mock_chat
-        mock_client.aio = MagicMock()
-        mock_client_class.return_value = mock_client
-
-        client = GeminiAPIClient(api_key="test-key")
-        client.start_new_chat("gemini-pro")
-        response = client.continue_chat("Message")
-
-        self.assertEqual(response, "Response")
-
-
-class GeminiAPIClientSendMessageTest(TestCase):
-    @patch("common.utils.gemini_client.genai.Client")
-    def test_send_chat_message_sync(self, mock_client_class):
-        """Test send_chat_message_sync sends message and returns response with history"""
-        mock_response = MagicMock()
-        mock_response.text = "Response"
+        mock_response.text = "Response to legal question"
 
         mock_chat = MagicMock()
         mock_chat.send_message.return_value = mock_response
         mock_chat.get_history.return_value = [
-            Content(role="user", parts=[{"text": "Hello"}]),
-            Content(role="model", parts=[{"text": "Response"}]),
+            Content(role="user", parts=[Part(text="Legal question")]),
+            Content(role="model", parts=[Part(text="Response to legal question")]),
         ]
 
         mock_client = MagicMock()
         mock_client.chats.create.return_value = mock_chat
-        mock_client.aio = MagicMock()
         mock_client_class.return_value = mock_client
 
+        mock_law_retriever = MagicMock()
+        mock_law_retriever.retrieve.return_value = {"paragraphs": [], "laws": []}
+        mock_law_retriever_class.return_value = mock_law_retriever
+
         client = GeminiAPIClient(api_key="test-key")
-        response_text, history = client.send_chat_message_sync(prompt="Hello", current_history=[])
+        response_text, history = client.send_question_with_laws(
+            prompt="Legal question", current_history=[]
+        )
 
-        self.assertEqual(response_text, "Response")
+        self.assertEqual(response_text, "Response to legal question")
         self.assertEqual(len(history), 2)
+        mock_law_retriever.retrieve.assert_called_once()
 
+    @patch("common.utils.gemini_client.LawRetriever")
     @patch("common.utils.gemini_client.genai.Client")
-    def test_send_with_context_and_system_instruction(self, mock_client_class):
+    def test_send_question_with_context_and_system_instruction(
+        self, mock_client_class, mock_law_retriever_class
+    ):
         """Test sending message with context and system instruction"""
         mock_response = MagicMock()
         mock_response.text = "Response"
@@ -224,11 +104,14 @@ class GeminiAPIClientSendMessageTest(TestCase):
 
         mock_client = MagicMock()
         mock_client.chats.create.return_value = mock_chat
-        mock_client.aio = MagicMock()
         mock_client_class.return_value = mock_client
 
+        mock_law_retriever = MagicMock()
+        mock_law_retriever.retrieve.return_value = {"paragraphs": [], "laws": []}
+        mock_law_retriever_class.return_value = mock_law_retriever
+
         client = GeminiAPIClient(api_key="test-key")
-        client.send_chat_message_sync(
+        client.send_question_with_laws(
             prompt="Question",
             current_history=[],
             context_text="Context",
@@ -237,6 +120,76 @@ class GeminiAPIClientSendMessageTest(TestCase):
 
         call_kwargs = mock_client.chats.create.call_args[1]
         self.assertIn("config", call_kwargs)
+
+    @patch("common.utils.gemini_client.LawRetriever")
+    @patch("common.utils.gemini_client.genai.Client")
+    def test_send_question_with_custom_model(self, mock_client_class, mock_law_retriever_class):
+        """Test sending message with custom model name"""
+        mock_response = MagicMock()
+        mock_response.text = "Response"
+
+        mock_chat = MagicMock()
+        mock_chat.send_message.return_value = mock_response
+        mock_chat.get_history.return_value = []
+
+        mock_client = MagicMock()
+        mock_client.chats.create.return_value = mock_chat
+        mock_client_class.return_value = mock_client
+
+        mock_law_retriever = MagicMock()
+        mock_law_retriever.retrieve.return_value = {"paragraphs": [], "laws": []}
+        mock_law_retriever_class.return_value = mock_law_retriever
+
+        client = GeminiAPIClient(api_key="test-key")
+        client.send_question_with_laws(
+            prompt="Question", current_history=[], model_name="gemini-pro"
+        )
+
+        call_kwargs = mock_client.chats.create.call_args[1]
+        self.assertEqual(call_kwargs["model"], "gemini-pro")
+
+    @patch("common.utils.gemini_client.LawRetriever")
+    @patch("common.utils.gemini_client.genai.Client")
+    def test_send_question_with_law_retrieval(self, mock_client_class, mock_law_retriever_class):
+        """Test that law paragraphs are retrieved and included in context"""
+        mock_response = MagicMock()
+        mock_response.text = "Legal response"
+
+        mock_chat = MagicMock()
+        mock_chat.send_message.return_value = mock_response
+        mock_chat.get_history.return_value = []
+
+        mock_client = MagicMock()
+        mock_client.chats.create.return_value = mock_chat
+        mock_client_class.return_value = mock_client
+
+        mock_law_retriever = MagicMock()
+        mock_law_retriever.retrieve.return_value = {
+            "paragraphs": [
+                {
+                    "law_id": "lov19670210001",
+                    "paragraph_number": "§ 1",
+                    "text": "Test law paragraph",
+                    "cosine_distance": 0.1,
+                }
+            ],
+            "laws": [{"law_id": "lov19670210001", "metadata": {"title": "Test Law"}}],
+        }
+        mock_law_retriever_class.return_value = mock_law_retriever
+
+        client = GeminiAPIClient(api_key="test-key")
+        response_text, _ = client.send_question_with_laws(
+            prompt="Legal question", current_history=[]
+        )
+
+        # Response should include law links appended to the base response
+        self.assertIn("Legal response", response_text)
+        self.assertIn("Lovdata-lenker", response_text)
+        mock_chat.send_message.assert_called_once()
+        call_args = mock_chat.send_message.call_args[0][0]
+        self.assertTrue(
+            any("KONTEKST" in str(part.text) for part in call_args if hasattr(part, "text"))
+        )
 
 
 class GeminiChatServiceTest(TestCase):

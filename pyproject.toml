@@ -160,15 +160,10 @@ omit = [
     "*/virtualenvs/*",
     "*/node_modules/*",
     "*/migrations/*",
-    "*/settings/*",
+    "*/CDP_Trondheim_Kommune/*",
     "*/tests/*",
     "*test*.py",
     "*/__init__.py",
     "manage.py",
-    "*/wsgi.py",
-    "*/asgi.py",
-    "*/apps.py",
-    "*/admin.py",
-    "*/celery.py",
-    "*/celerybeat_schedule.py"
+    "*/apps.py"
 ]

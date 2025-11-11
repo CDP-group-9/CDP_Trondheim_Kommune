@@ -7,7 +7,8 @@ import time
 import psycopg2
 from bs4 import BeautifulSoup
 from fastembed import TextEmbedding
-from law_extractor import fetch_lovdata_laws, standard_format_laws
+
+from common.utils.law_extractor import fetch_lovdata_laws, standard_format_laws
 
 # Configure logging to print to console
 logging.basicConfig(
@@ -16,7 +17,7 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(sys.stdout)],
 )
 
-_model = None 
+_model = None
 
 # Lazy loading only when model is needed
 def get_model():
@@ -26,7 +27,7 @@ def get_model():
     return _model
 
 
-# Database connection 
+# Database connection
 DB_CONFIG = {
     "dbname": "CDP_Trondheim_Kommune",
     "user": "CDP_Trondheim_Kommune",
@@ -256,7 +257,7 @@ def process_laws(input_dir):
                     embedding=paragraph_embedding,
                 )
                 paragraph_count += 1
-                
+
         print(f" Added {paragraph_count} paragraphs from {law_id}")
         os.remove(xml_path)
 
