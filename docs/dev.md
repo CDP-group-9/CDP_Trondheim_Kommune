@@ -51,19 +51,13 @@ In order to use the dev environment, the python dependency manager `poetry` must
 
 ### Poetry environment:
 
-- Run `poetry install` (Possibly `poetry install --with dev`)
-- Then use `poetry run` for single commands, f.ex.
-  ```
-  poetry run python myscript.py
-  poetry run ruff backend/
-  poetry run editorconfig-checker .
-  ```
-- Updating the poetry environment later:
+- From the repository's root folder, run `poetry install`
+- If you need to update the poetry environment later on, run:
   `poetry sync`
 
-- Setup pre-commit
+- If you want to setup the pre-commit:
 
-  - When we want to start using it, _one person_ has to add the dependency in the dev environment:
+  - When you want to start using it, _one person_ has to add the dependency in the dev environment:
     ```
     poetry add --group dev pre-commit
     ```
@@ -98,25 +92,44 @@ For VSCode or other IDE: Install the Extensions for the following;
 ### If you've never ran the application before:
 
 1. Create a git-untracked `local.py` settings file by copying the `local.py.example` file:
+
+   Bash / Git Bash / WSL:
+
+   ```bash
+   cp backend/CDP_Trondheim_Kommune/settings/local.py.example backend/CDP_Trondheim_Kommune/settings/local.py
    ```
-   backend/CDP_Trondheim_Kommune/settings/local.py.example backend/CDP_Trondheim_Kommune/settings/local.py
+
+   Command Prompt:
+
+   ```cmd
+   copy backend\CDP_Trondheim_Kommune\settings\local.py.example backend\CDP_Trondheim_Kommune\settings\local.py
    ```
+
 2. Create a git-untracked `.env` file by copying the `.env.example` file:
+
+   Bash / Git Bash / WSL:
+
+   ```bash
+   cp backend/.env.example backend/.env
    ```
-   backend/.env.example backend/.env.example
-   backend/.env.example backend/.env
+
+   Command Prompt:
+
+   ```cmd
+   copy backend\.env.example backend\.env
    ```
+
 3. Ensure you have `docker desktop` installed and running on your computer:
-    - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
-    - If you are on Windows or for some reason do not have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](Makefile)
 
 4. Open the `backend/.env` file you created and fill in your Gemini API key.
 
-    ```
-    GEMINI_API_KEY=your-key-here
-    ```
+   ```
+   GEMINI_API_KEY=your-key-here
+   ```
 
 5. Open a new command line window and go to the project's directory
+   - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
+   - If you are on Windows or for some reason do not have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](../Makefile)
 
 - Run the initial setup:
   ```
@@ -139,7 +152,7 @@ For VSCode or other IDE: Install the Extensions for the following;
   ```
   make docker_up
   ```
-- To inspect the data inserted you can use the PostgreSQL shell:
+- To inspect the data inserted into the database you can use the PostgreSQL shell:
   ```
   make docker_open_pg_shell
   ```
@@ -169,13 +182,14 @@ For VSCode or other IDE: Install the Extensions for the following;
    ```
    make docker_backend_update_schema
    ```
-    Sync frontend's typed client with the backend, by running:
+
+   Sync frontend's typed client with the backend, by running:
 
    ```
    make docker_frontend_update_api
    ```
 
-5. If `package.json` is changed: Go to root level and re-run:
+4. If `package.json` is changed: Go to root level and re-run:
 
    ```
    npm install
@@ -185,27 +199,28 @@ For VSCode or other IDE: Install the Extensions for the following;
 
 1. Start the stack:
 
-  ```bash
-    make docker_up
-  ```
+    ```bash
+      make docker_up
+    ```
 
 2. View logs as needed:
 
-  ```bash
-    make docker_logs backend
-    make docker_logs frontend
-  ```
+    ```bash
+      make docker_logs backend
+      make docker_logs frontend
+    ```
 
-   - To access the logs for each docker service(either `backend`, `frontend`, etc), run:
+- To access the logs for each docker service(either `backend`, `frontend`, etc), run:
 
-     ```
-     make docker_logs <service name>
-     ```
+    ```
+    make docker_logs <service name>
+    ```
+
 3. Stop docker when done:
 
-  ```
-    make docker_down
-  ```
+    ```
+      make docker_down
+    ```
 
 ## Adding new dependencies
 
@@ -219,7 +234,7 @@ For VSCode or other IDE: Install the Extensions for the following;
      ```
 
      The above command will update your `package.json`, but won't make the change effective inside the container yet
-     
+
    - To add a new **backend dependency**
 
      ```
@@ -233,6 +248,7 @@ For VSCode or other IDE: Install the Extensions for the following;
      The above command will stop and re-build the containers in order to make the new dependencies effective
 
 ## Testing endpoints
+
 In `swagger-ui` you can test the endpoints by clicking the various POST and GET request and click the `try out` button and then `execute` to test each endpoint.
 
 Go to `localhost:8000/api/schema/swagger-ui/#`. Under `test-response`, make sure to select the POST alternative. Select the `Try it out`button and edit the response string. Clicking the `Execute` button adds the new string to the database.
@@ -244,8 +260,8 @@ The system extracts data from XML files downloaded from Lovdata and converts it 
 - **Law embeddings**: Generated from the law title and all paragraphs
 - **Paragraph embeddings**: Generated from individual paragraphs
 
-
 Two tables are created in the PostgreSQL database:
+
 - **Laws table**: Contains law_id, law text, metadata, and embedding vector
 - **Paragraphs table**: Contains paragraph_id, law_id reference (without FK constraint), paragraph number, paragraph text, metadata, and embedding vector
 
@@ -267,6 +283,7 @@ Two tables are created in the PostgreSQL database:
 - **Context Limit**: 400 words maximum for optimal AI performance
 
 ## Updating laws used for LLM context
+
 Pre-processing and embedding the laws only needs to be done by one computer. The embedded laws and paragraphs need to be imported by other computers afterwards. To do so, follow these steps:
 
 ### Pre-processing of laws (one computer):
@@ -276,8 +293,8 @@ Pre-processing and embedding the laws only needs to be done by one computer. The
 2. Run [make docker_insert_laws](../Makefile)
 
 If you want others to recieve your updated list:
-1. Commit and push the change in [db_embeddings.sql](../backend/common/db_init/db_embeddings.sql) to git.
 
+1. Commit and push the change in [db_embeddings.sql](../backend/common/db_init/db_embeddings.sql) to git.
 
 ### Import the pre-processed laws (all other computers):
 
@@ -286,6 +303,7 @@ If you want others to recieve your updated list:
 2. Run [make docker_update_law_database](../Makefile)
 
 3. Now the DB should be updated
+
 ## Testing
 
 ### Frontend:
@@ -309,6 +327,7 @@ If you want others to recieve your updated list:
 - Coverage configuration is in `pyproject.toml` under `tool.coverage.run`
 
 ## Admin users
+
 In order to access the [admin panel](http://localhost:8000/admin/login/?next=/admin/), one must be logged in as an admin user. An admin user can be created with: `docker compose exec backend python manage.py createsuperuser`. After an admin user is created, log in to Djangos Admin interface.
 
 # Conventions
@@ -330,4 +349,5 @@ Generate branch from github issue, remove the first number and replace it with t
 For example the branch for issue 2.1 should be called `2.1-short-descriptive-title`.
 
 ## Naming Conventions and file structure
+
 The naming conventions for this project is documentet in [this document](naming_conventions.md).
