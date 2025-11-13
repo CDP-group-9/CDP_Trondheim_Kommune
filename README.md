@@ -52,18 +52,34 @@ If you only want to run the application:
 This Project is setup using Django and React frameworks. For a more detailed installation guide, follow [these instructions](docs/dev.md) instead. If you only want to quickly run the project application for the first time, follow the instructions below:
 
 1. Create a git-untracked `local.py` settings file by copying the `local.py.example` file:
-    ```
-    backend/CDP_Trondheim_Kommune/settings/local.py.example
-    backend/CDP_Trondheim_Kommune/settings/local.py
-    ```
+
+   Bash / Git Bash / WSL:
+
+   ```bash
+   cp backend/CDP_Trondheim_Kommune/settings/local.py.example backend/CDP_Trondheim_Kommune/settings/local.py
+   ```
+
+   Command Prompt:
+
+   ```cmd
+   copy backend\CDP_Trondheim_Kommune\settings\local.py.example backend\CDP_Trondheim_Kommune\settings\local.py
+   ```
+
 2. Create a git-untracked `.env` file by copying the `.env.example` file:
-    ```
-    backend/.env.example 
-    backend/.env
-    ```
+
+   Bash / Git Bash / WSL:
+
+   ```bash
+   cp backend/.env.example backend/.env
+   ```
+
+   Command Prompt:
+
+   ```cmd
+   copy backend\.env.example backend\.env
+   ```
+
 3. Ensure you have `docker desktop` installed and running on your computer.
-    - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
-    - If you are on Windows or for some reason do not have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](Makefile)
 
 4. Open the `backend/.env` file you created and fill in your Gemini API key.
 
@@ -72,6 +88,9 @@ This Project is setup using Django and React frameworks. For a more detailed ins
     ```
 
 5. Open a new command line window and go to the project's directory
+    - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
+    - If you are on Windows or for some reason do not have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](../Makefile)
+
 	- Run the initial setup:
       ```
       make docker_setup
