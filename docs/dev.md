@@ -4,8 +4,9 @@
 
 ### Prerequisites
 
-- Make sure you have Python 3.12 installed
-- Install Django with `pip install django`, to have the `django-admin` command available
+- **`Python 3.12`**: Ensure you have python 3.12+ installed.
+- **Docker Desktop**: Can be installed at [docker.com](https://www.docker.com/get-started/)
+- **Django**: Install Django with `pip install django`, to have the `django-admin` command available
 - **Gemini API key**: If you do not currently have an API key, you can set one up for free at [ai.google.dev](https://ai.google.dev/gemini-api/docs/api-key)
 - Make sure you have `node.js` installed, so you can use `npm`
 
@@ -36,14 +37,14 @@ In order to use the dev environment, the python dependency manager `poetry` must
     pipx --version
     ```
     - If it is not recognised, you have to add the path as an environment variable
-      - Run `python -m site --user-base` in cmd
-      - This should output something similar to `C:\Users\<YourUser>\AppData\Roaming\Python\Python311`
-      - Press Win + R, type `rundll32.exe sysdm.cpl,EditEnvironmentVariables` into the field and hit Enter.
-      - Under User variables, find/select Path → Edit.
-      - Add a new entry pointing to the folder you found in step 1.
-      - Click "OK" to save
-      - Close and reopen cmd and your IDE to apply the change
-      - Check that it worked by re-running `pipx --version` in cmd
+      1. Run `python -m site --user-base` in cmd
+      2. This should output something similar to `C:\Users\<YourUser>\AppData\Roaming\Python\Python311`
+      3. Press Win + R, type `rundll32.exe sysdm.cpl,EditEnvironmentVariables` into the field and hit Enter.
+      4. Under User variables, find/select Path → Edit.
+      5. Add a new entry pointing to the folder you found in step 1.
+      6. Click "OK" to save
+      7. Close and reopen cmd and your IDE to apply the change
+      8. Check that it worked by re-running `pipx --version` in cmd
   - Then run
     ```
     pipx install poetry
@@ -119,31 +120,22 @@ For VSCode or other IDE: Install the Extensions for the following;
    copy backend\.env.example backend\.env
    ```
 
-3. Ensure you have `docker desktop` installed and running on your computer:
+3. Open the `backend/.env` file you created and fill in your Gemini API key.
 
-4. Open the `backend/.env` file you created and fill in your Gemini API key.
+    ```
+    GEMINI_API_KEY=your-key-here
+    ```
 
-   ```
-   GEMINI_API_KEY=your-key-here
-   ```
+4. Ensure you have `docker desktop` running on your computer.
 
 5. Open a new command line window and go to the project's directory
    - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
-   - If you are on Windows or for some reason do not have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](../Makefile)
+   - If you are on Windows or for some reason do not have what is required to use Make commands such as `make docker_setup`, use the docker commands one by one directly by looking up the make command in [Makefile](../Makefile)
 
 - Run the initial setup:
   ```
   make docker_setup
   ```
-- Create the migrations for `users` app:
-  ```
-  make docker_makemigrations
-  ```
-  If you wish to do migration in other modules, it is recommended to run:
-  ```
-  docker compose run --rm backend python manage.py makemigrations <module_name>
-  ```
-  This is because Django has a well documented problem where it may not correctly identify all the modules needed for migration.
 - Run the migrations:
   ```
   make docker_migrate
@@ -165,8 +157,16 @@ For VSCode or other IDE: Install the Extensions for the following;
 
 ### Every time there are changes
 
-1. Apply DB migrations inside containers:
-
+1. When you create or modify models, or add new apps in the backend, run:
+    ```
+    make docker_makemigrations
+    ```
+- If you wish to migrations in specific modules, run:
+  ```
+  docker compose run --rm backend python manage.py makemigrations <module_name>
+  ```
+- There is a well documented Django problem where it may not correctly identify all the modules needed for migration.
+- Then run the migrations
    ```
    make docker_migrate
    ```

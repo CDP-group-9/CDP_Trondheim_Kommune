@@ -42,6 +42,7 @@ The project will involve:
 
 If you only want to run the application:
 - **`Python 3.12`**: Ensure you have python 3.12+ installed.
+- **Docker Desktop**: Can be installed at [docker.com](https://www.docker.com/get-started/)
 - **Django**: Install Django with `pip install django`, to have the `django-admin` command available
 - **Gemini API key**: if you do not currently have an API key, you can set one up for free at [ai.google.dev](https://ai.google.dev/gemini-api/docs/api-key)
 - Make sure you have `node.js` installed, so you can use `npm`
@@ -49,7 +50,7 @@ If you only want to run the application:
 
 ## Quick installation
 
-This Project is setup using Django and React frameworks. For a more detailed installation guide, follow [these instructions](docs/dev.md) instead. If you only want to quickly run the project application for the first time, follow the instructions below:
+This project is setup using Django and React frameworks. For a more detailed installation guide, follow [these instructions](docs/dev.md) instead. If you only want to quickly run the project application for the first time, follow the instructions below:
 
 1. Create a git-untracked `local.py` settings file by copying the `local.py.example` file:
 
@@ -79,13 +80,14 @@ This Project is setup using Django and React frameworks. For a more detailed ins
    copy backend\.env.example backend\.env
    ```
 
-3. Ensure you have `docker desktop` installed and running on your computer.
 
-4. Open the `backend/.env` file you created and fill in your Gemini API key.
+3. Open the `backend/.env` file you created and fill in your Gemini API key.
 
     ```
     GEMINI_API_KEY=your-key-here
     ```
+
+4. Ensure you have `docker desktop` running on your computer.
 
 5. Open a new command line window and go to the project's directory
     - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
@@ -94,10 +96,6 @@ This Project is setup using Django and React frameworks. For a more detailed ins
 	- Run the initial setup:
       ```
       make docker_setup
-      ```
-	- Create the migrations for `users` app:
-      ```
-      make docker_makemigrations
       ```
 	- Run the migrations:
       ```
