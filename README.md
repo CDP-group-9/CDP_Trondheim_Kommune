@@ -90,8 +90,8 @@ This project is setup using Django and React frameworks. For a more detailed ins
 4. Ensure you have `docker desktop` running on your computer.
 
 5. Open a new command line window and go to the project's directory
-    - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
-    - If you are on Windows or for some reason do not have what is required to use the makefile, use the docker commands directly by looking up the make command in [Makefile](../Makefile)
+   - If you are running the project on Ubuntu/MacOs you can simply use the `make` instructions below.
+   - If you are on Windows or for some reason do not have what is required to use Make commands such as `make docker_setup`, use the docker commands one by one directly by looking up the make command in [Makefile](../Makefile)
 
 	- Run the initial setup:
       ```
