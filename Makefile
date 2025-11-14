@@ -1,19 +1,6 @@
 SHELL := /bin/bash # Use bash syntax
 ARG := $(word 2, $(MAKECMDGOALS) )
 
-clean:
-	@find . -name "*.pyc" -exec rm -rf {} \;
-	@find . -name "__pycache__" -delete
-
-test:
-	poetry run backend/manage.py test backend/ $(ARG) --parallel --keepdb
-
-test_reset:
-	poetry run backend/manage.py test backend/ $(ARG) --parallel
-
-backend_format:
-	black backend
-
 # Commands for Docker version
 docker_setup:
 	docker volume create CDP_Trondheim_Kommune_dbdata
@@ -77,3 +64,16 @@ docker_update_law_database:
 	docker volume rm CDP_Trondheim_Kommune_dbdata
 	docker volume create CDP_Trondheim_Kommune_dbdata
 	docker compose up -d
+
+clean:
+	@find . -name "*.pyc" -exec rm -rf {} \;
+	@find . -name "__pycache__" -delete
+
+test:
+	poetry run backend/manage.py test backend/ $(ARG) --parallel --keepdb
+
+test_reset:
+	poetry run backend/manage.py test backend/ $(ARG) --parallel
+
+backend_format:
+	black backend
