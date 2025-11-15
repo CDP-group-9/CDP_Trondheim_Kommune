@@ -1,4 +1,4 @@
-import logging
+from . import logger
 import re
 
 from django.conf import settings
@@ -10,7 +10,7 @@ from google.genai.types import Content, GenerateContentConfig, Part
 from .law_retriever_from_database import LawRetriever
 
 
-logger = logging.getLogger(__name__)
+logger = logger.getLogger(name="cdp")
 
 
 class GeminiAPIClient:
