@@ -2,9 +2,9 @@ export const PersonalDataAndDataPrivacySection = () => (
   <section className="bg-card border border-border rounded-lg p-6">
     <div className="grid md:grid-cols-2 gap-6">
       <div className="space-y-2">
-        <h3 className="text-xl font-medium mb-4">
+        <h2 className="text-xl font-medium mb-4">
           Hva er en personopplysning?
-        </h3>
+        </h2>
         <p className="text-sm">
           En personopplysning er enhver opplysning som kan knyttes til en
           identifiserbar person – enten direkte eller indirekte. Det kan være
